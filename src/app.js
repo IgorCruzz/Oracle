@@ -1,11 +1,24 @@
-import express from 'express'
-import routes from './routes/index.js'
-import cors from 'cors'
+import express from 'express';
+import cors from 'cors'; 
+import routes from './routes';
+import './data/database'
 
-const app = express()
+class App {
+  constructor() {
+    this.server = express();
 
-app.use(express.json({ limit: '50mb' }))
-app.use(cors)
-app.use('/', routes)
+    this.middlewares();
+    this.routes();
+  }
 
-export default app
+  middlewares() {
+    this.server.use(express.json());
+    this.server.use(cors());
+  }
+
+  routes() {
+    this.server.use(routes);
+  }
+}
+
+export default new App().server;
