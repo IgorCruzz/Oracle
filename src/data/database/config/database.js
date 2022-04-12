@@ -12,5 +12,4 @@ module.exports = {
     charset: 'utf8',
     collate: 'utf8_general_ci',
   },
-  timezone: '-03:00',
 };
