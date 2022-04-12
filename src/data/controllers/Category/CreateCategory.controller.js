@@ -3,8 +3,8 @@ import { CreateCategoryService } from '../../services';
 export class CreateCategoryController {
   async handle(req, res) {
     try {
-      const { name } = req.body;
       const service = new CreateCategoryService();
+      const { name } = req.body;
 
       const response = await service.execute({ name });
 
