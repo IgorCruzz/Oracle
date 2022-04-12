@@ -18,7 +18,7 @@ export class DeleteCategoryService {
     });
 
     return {
-      message: 'Categoria deletada com sucesso!',
+      mensagem: 'Categoria deletada com sucesso!',
     };
   }
 }
