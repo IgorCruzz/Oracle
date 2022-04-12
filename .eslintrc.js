@@ -20,7 +20,8 @@ module.exports = {
     "camelcase": "off",
     "no-unused-vars": ["error", {"argsIgnorePattern":"next"}],
     "import/prefer-default-export": "off",
-    "import/export": "off"
+    "import/export": "off",
+    "no-return-await": "off"
 
   },
 };
