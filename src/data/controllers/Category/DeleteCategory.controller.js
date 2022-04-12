@@ -10,11 +10,11 @@ export class DeleteCategoryController {
 
       if (response.error)
         return res.status(400).json({
-          message: response.error,
+          mensagem: response.error,
         });
 
       return res.status(200).json({
-        message: response.message,
+        mensagem: response.mensagem,
       });
     } catch (err) {
       return res.status(500).json({
