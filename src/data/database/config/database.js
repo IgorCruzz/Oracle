@@ -1,14 +1,15 @@
 require('dotenv/config');
 
 module.exports = {
-  dialect: 'postgres',
-  host: process.env.DB_HOST,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  dialect: 'mysql',
+  host: 'us-cdbr-east-05.cleardb.net',
+  username: 'b34a55bf1f7bb4',
+  password: '17b61181',
+  database: 'heroku_2705c9a53c5221e',
   define: {
     timestamps: true,
     underscored: true,
     underscoredAll: true,
+    freezeTableName: true,
   },
 };
