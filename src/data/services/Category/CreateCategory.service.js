@@ -4,10 +4,17 @@ export class CreateCategoryService {
   async execute({ name }) {
     const repository = new CategoryRepository();
 
+    const verifyCategoryExists = await repository.findCategory({
+      name,
+    });
+
+    if (verifyCategoryExists)
+      return { error: 'Já existe uma categoria com este nome.' };
+
     await repository.createCategory({ name });
 
     return {
-      message: 'Categoria criada com sucesso!',
+      mensagem: 'Categoria criada com sucesso!',
     };
   }
 }
