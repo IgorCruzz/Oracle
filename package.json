@@ -1,6 +1,6 @@
 {
   "name": "gerobras",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -21,7 +21,7 @@
     "sequelize": "^5.21.2",
     "sqlite3": "^5.0.2",
     "tsup-node": "^0.1.0",
-    "yup": "^0.27.0"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "eslint": "^6.6.0",

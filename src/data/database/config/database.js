@@ -7,9 +7,9 @@ module.exports = {
   password: '17b61181',
   database: 'heroku_2705c9a53c5221e',
   define: {
-    timestamps: true,
-    underscored: true,
-    underscoredAll: true,
+    timestamps: false,
     freezeTableName: true,
+    charset: 'utf8',
+    collate: 'utf8_general_ci',
   },
 };
