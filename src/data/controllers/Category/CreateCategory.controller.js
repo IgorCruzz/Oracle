@@ -8,8 +8,13 @@ export class CreateCategoryController {
 
       const response = await service.execute({ name });
 
+      if (response.error)
+        return res.status(400).json({
+          mensagem: response.error,
+        });
+
       return res.status(200).json({
-        message: response.message,
+        mensagem: response.mensagem,
       });
     } catch (err) {
       return res.status(500).json({
