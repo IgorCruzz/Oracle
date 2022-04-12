@@ -1,5 +1,5 @@
 import app from './app';
 
-app.listen(3333, () => {
-  console.log('API running');
+app.listen(4000, () => {
+  console.log('API running...');
 });
