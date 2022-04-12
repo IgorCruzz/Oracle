@@ -12,11 +12,11 @@ export class UpdateCategoryController {
 
       if (response.error)
         return res.status(400).json({
-          mensagem: response.error,
+          error: response.error,
         });
 
       return res.status(200).json({
-        categoria: response.categoria,
+        category: response.category,
       });
     } catch (err) {
       return res.status(500).json({
