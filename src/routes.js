@@ -1,10 +1,8 @@
-import { Router } from 'express'; 
+import { Router } from 'express';
+import { ExampleController } from './data/controllers/Example.controller';
 
 const routes = new Router();
 
-routes.post('/session', (req, res) => {
-  return res.status(200).json({msg: 'bar'})
-});
- 
+routes.post('/example', new ExampleController().handle);
 
 export default routes;
