@@ -17,7 +17,7 @@ export const updateCategoryValidator = async (req, res, next) => {
     return next();
   } catch (e) {
     return res.status(400).json({
-      error: 'Erro na validação',
+      error: 'Validation error',
       messages: e.errors,
     });
   }

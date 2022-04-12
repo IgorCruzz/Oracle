@@ -9,12 +9,12 @@ export class CreateCategoryService {
     });
 
     if (verifyCategoryExists)
-      return { error: 'Já existe uma categoria com este nome.' };
+      return { error: 'A category with this name already exists.' };
 
     await repository.createCategory({ name });
 
     return {
-      mensagem: 'Categoria criada com sucesso!',
+      message: 'Category created succesfully!',
     };
   }
 }

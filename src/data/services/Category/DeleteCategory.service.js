@@ -1,24 +1,22 @@
 import { CategoryRepository } from '../../database/repositories';
 
 export class DeleteCategoryService {
-  async execute({ name }) {
+  async execute({ id }) {
     const repository = new CategoryRepository();
 
-    const verifyCategoryExists = await repository.findCategory({
-      name,
+    const verifyCategoryExists = await repository.findCategoryById({
+      id,
     });
 
     if (!verifyCategoryExists)
-      return { error: 'Não existe uma categoria com este nome.' };
-
-    const { ID_CATEGORIA } = verifyCategoryExists;
+      return { error: 'There is no category with this name.' };
 
     await repository.deleteCategory({
-      id: ID_CATEGORIA,
+      id,
     });
 
     return {
-      mensagem: 'Categoria deletada com sucesso!',
+      message: 'Category deleted successfully!',
     };
   }
 }

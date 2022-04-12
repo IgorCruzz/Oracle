@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 export const deleteCategoryValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
-      name: Yup.string().required(),
+      id: Yup.string().required(),
     });
 
     await Schema.validate(req.params, { abortEarly: false });
@@ -11,7 +11,7 @@ export const deleteCategoryValidator = async (req, res, next) => {
     return next();
   } catch (e) {
     return res.status(400).json({
-      error: 'Erro na validação',
+      error: 'Validation error',
       messages: e.errors,
     });
   }
