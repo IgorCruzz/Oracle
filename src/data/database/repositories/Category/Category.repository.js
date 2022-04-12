@@ -7,6 +7,13 @@ export class CategoryRepository {
     });
   }
 
+  async findCategories({ page, limit }) {
+    return await Categoria.findAll({
+      limit: Number(limit),
+      offset: (Number(page) - 1) * Number(limit),
+    });
+  }
+
   async findCategory({ name }) {
     return await Categoria.findOne({
       where: {
