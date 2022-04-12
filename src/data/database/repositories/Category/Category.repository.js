@@ -3,14 +3,14 @@ import { Categoria } from '../../models';
 export class CategoryRepository {
   async createCategory({ name }) {
     await Categoria.create({
-      NM_CATEGORIA: name,
+      NM_CATEGORIA: name.toLowerCase().trim(),
     });
   }
 
   async findCategory({ name }) {
     return await Categoria.findOne({
       where: {
-        NM_CATEGORIA: name,
+        NM_CATEGORIA: name.toLowerCase().trim(),
       },
       raw: true,
     });
