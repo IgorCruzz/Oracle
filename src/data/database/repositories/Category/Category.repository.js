@@ -6,4 +6,19 @@ export class CategoryRepository {
       NM_CATEGORIA: name,
     });
   }
+
+  async findCategory({ name }) {
+    return await Categoria.findOne({
+      where: {
+        NM_CATEGORIA: name,
+      },
+      raw: true,
+    });
+  }
+
+  async deleteCategory({ id }) {
+    await Categoria.destroy({
+      where: { ID_CATEGORIA: id },
+    });
+  }
 }
