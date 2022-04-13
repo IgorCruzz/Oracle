@@ -9,3 +9,9 @@ export * from './Program/createProgram.validator';
 export * from './Program/deleteProgram.validator';
 export * from './Program/updateProgram.validator';
 export * from './Program/findPrograms.validator';
+
+// REGION
+export * from './Region/createRegion.validator';
+export * from './Region/deleteRegion.validator';
+export * from './Region/findRegion.validator';
+export * from './Region/updateRegion.validator';
