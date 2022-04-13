@@ -15,3 +15,9 @@ export * from './Region/CreateRegion.service';
 export * from './Region/DeleteRegion.service';
 export * from './Region/FindRegion.service';
 export * from './Region/UpdateRegion.service';
+
+// CITY
+export * from './City/CreateCity.service';
+export * from './City/DeleteCity.service';
+export * from './City/FindCities.service';
+export * from './City/UpdateCity.service';

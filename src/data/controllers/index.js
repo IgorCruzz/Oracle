@@ -15,3 +15,9 @@ export * from './Region/CreateRegion.controller';
 export * from './Region/DeleteRegion.controller';
 export * from './Region/FindRegion.controller';
 export * from './Region/UpdateRegion.controller';
+
+// CITY
+export * from './City/CreateCity.controller';
+export * from './City/DeleteCity.controller';
+export * from './City/FindCities.controller';
+export * from './City/UpdateCity.controller';
