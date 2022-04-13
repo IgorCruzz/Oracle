@@ -9,3 +9,9 @@ export * from './Program/CreateProgram.controller';
 export * from './Program/DeleteProgram.controller';
 export * from './Program/FindProgram.controller';
 export * from './Program/UpdateProgram.controller';
+
+// REGION
+export * from './Region/CreateRegion.controller';
+export * from './Region/DeleteRegion.controller';
+export * from './Region/FindRegion.controller';
+export * from './Region/UpdateRegion.controller';
