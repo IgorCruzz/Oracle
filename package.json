@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "sucrase ./src -d ./deploy --transforms imports",
-    "start": "pm2 start src/server.js --name GEROBRAS && pm2 log",
+    "start": "pm2 start deploy/server.js --name GEROBRAS && pm2 log",
     "dev": "nodemon src/server.js",
     "build": "tsup-node src/data/database/config --format esm --outDir dist/data/database/config && tsup-node src/data/database/migrations --format cjs --outDir dist/data/database/migrations && tsup-node src/data/database/models --format cjs --outDir dist/data/database/models",
     "db-create": "yarn sequelize migration:create",
