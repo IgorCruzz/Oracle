@@ -20,7 +20,7 @@ export class UpdateCityController {
       });
     } catch (err) {
       return res.status(500).json({
-        body: err,
+        error: 'Internal Server Error',
       });
     }
   }
