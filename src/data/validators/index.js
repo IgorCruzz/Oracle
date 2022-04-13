@@ -27,3 +27,9 @@ export * from './Jurisdiction/createJurisdiction.validator';
 export * from './Jurisdiction/deleteJurisdiction.validator';
 export * from './Jurisdiction/findJurisdiction.validator';
 export * from './Jurisdiction/updateJurisdiction.validator';
+
+// AGENCY
+export * from './Agency/createAgency.validator';
+export * from './Agency/deleteAgency.validator';
+export * from './Agency/findAgencies.validator';
+export * from './Agency/updateAgency.validator';
