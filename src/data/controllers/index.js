@@ -27,3 +27,9 @@ export * from './Jurisdiction/CreateJurisdiction.controller';
 export * from './Jurisdiction/DeleteJurisdiction.controller';
 export * from './Jurisdiction/FindJurisdictions.controller';
 export * from './Jurisdiction/UpdateJurisdiction.controller';
+
+// AGENCY
+export * from './Agency/CreateAgency.controller';
+export * from './Agency/DeleteAgency.controller';
+export * from './Agency/FindAgencies.controller';
+export * from './Agency/UpdateAgency.controller';
