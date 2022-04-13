@@ -27,3 +27,9 @@ export * from './Jurisdiction/CreateJurisdiction.service';
 export * from './Jurisdiction/DeleteJurisdiction.service';
 export * from './Jurisdiction/FindJurisdictions.service';
 export * from './Jurisdiction/UpdateJurisdiction.service';
+
+// AGENCY
+export * from './Agency/CreateAgency.service';
+export * from './Agency/DeleteAgency.service';
+export * from './Agency/FindAgencies.service';
+export * from './Agency/UpdateAgency.service';
