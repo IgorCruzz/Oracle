@@ -15,3 +15,9 @@ export * from './Region/createRegion.validator';
 export * from './Region/deleteRegion.validator';
 export * from './Region/findRegion.validator';
 export * from './Region/updateRegion.validator';
+
+// CITY
+export * from './City/createCity.validator';
+export * from './City/deleteCity.validator';
+export * from './City/findCity.validator';
+export * from './City/updateCity.validator';
