@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import {
   CreateCityController,
-  FindCityController,
+  FindCitiesController,
   DeleteCityController,
   UpdateCityController,
 } from '../../data/controllers';
@@ -32,6 +32,6 @@ routes.patch(
 );
 
 // Query ?limit &&  ?page
-routes.get('/cities', findCityValidator, new FindCityController().handle);
+routes.get('/cities', findCityValidator, new FindCitiesController().handle);
 
 export default routes;

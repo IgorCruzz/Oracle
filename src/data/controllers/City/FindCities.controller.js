@@ -1,6 +1,6 @@
 import { FindCitiesService } from '../../services';
 
-export class FindCityController {
+export class FindCitiesController {
   async handle(req, res) {
     try {
       const { page, limit, regionId } = req.query;
