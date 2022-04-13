@@ -29,7 +29,7 @@ routes.delete(
 );
 
 // Param :id && Body name
-routes.put(
+routes.patch(
   '/programs/:id',
   updateProgramValidator,
   new UpdateProgramController().handle
