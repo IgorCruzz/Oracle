@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-  FindJurisdictionController,
+  FindJurisdictionsController,
   CreateJurisdictionController,
   UpdateJurisdictionController,
   DeleteJurisdictionontroller,
@@ -39,7 +39,7 @@ routes.patch(
 routes.get(
   '/jurisdictions',
   findJurisdictionsValidator,
-  new FindJurisdictionController().handle
+  new FindJurisdictionsController().handle
 );
 
 export default routes;

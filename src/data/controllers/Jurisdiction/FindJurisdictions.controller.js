@@ -1,6 +1,6 @@
 import { FindJurisdictionsService } from '../../services';
 
-export class FindJurisdictionController {
+export class FindJurisdictionsController {
   async handle(req, res) {
     try {
       const { page, limit } = req.query;

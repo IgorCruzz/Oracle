@@ -25,5 +25,5 @@ export * from './City/UpdateCity.service';
 // JURISDICTION
 export * from './Jurisdiction/CreateJurisdiction.service';
 export * from './Jurisdiction/DeleteJurisdiction.service';
-export * from './Jurisdiction/FindJurisdiction.service';
+export * from './Jurisdiction/FindJurisdictions.service';
 export * from './Jurisdiction/UpdateJurisdiction.service';
