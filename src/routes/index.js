@@ -1,8 +1,9 @@
 import { Router } from 'express';
 
 import Category from './Category/Category.routes';
+import Program from './Program/Program.routes';
 
-const routes = [Category];
+const routes = [Category, Program];
 
 const router = Router();
 
