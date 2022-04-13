@@ -21,3 +21,9 @@ export * from './City/createCity.validator';
 export * from './City/deleteCity.validator';
 export * from './City/findCity.validator';
 export * from './City/updateCity.validator';
+
+// JURISDICTION
+export * from './Jurisdiction/createJurisdiction.validator';
+export * from './Jurisdiction/deleteJurisdiction.validator';
+export * from './Jurisdiction/findJurisdiction.validator';
+export * from './Jurisdiction/updateJurisdiction.validator';

@@ -21,3 +21,9 @@ export * from './City/CreateCity.controller';
 export * from './City/DeleteCity.controller';
 export * from './City/FindCities.controller';
 export * from './City/UpdateCity.controller';
+
+// JURISDICTION
+export * from './Jurisdiction/CreateJurisdiction.controller';
+export * from './Jurisdiction/DeleteJurisdiction.controller';
+export * from './Jurisdiction/FindJurisdictions.controller';
+export * from './Jurisdiction/UpdateJurisdiction.controller';
