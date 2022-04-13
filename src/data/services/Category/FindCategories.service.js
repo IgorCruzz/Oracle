@@ -9,7 +9,7 @@ export class FindCategoriesService {
       page,
     });
 
-    if (!findCategories)
+    if (findCategories.length === 0)
       return { error: 'There are no registered categories.' };
 
     return {

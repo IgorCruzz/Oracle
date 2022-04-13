@@ -11,6 +11,7 @@ export class CategoryRepository {
     return await Category.findAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
+      raw: true,
     });
   }
 
