@@ -9,12 +9,12 @@ export class CreateProgramService {
     });
 
     if (verifyProgramExists)
-      return { error: 'A program with this name already exists.' };
+      return { error: 'Já existe um programa registrado com este nome.' };
 
     await repository.createProgram({ name });
 
     return {
-      message: 'Program created succesfully!',
+      message: 'Programa registrado com sucesso!',
     };
   }
 }

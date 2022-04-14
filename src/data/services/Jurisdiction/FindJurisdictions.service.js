@@ -10,7 +10,7 @@ export class FindJurisdictionsService {
     });
 
     if (findJurisdictions.length === 0)
-      return { error: 'There are no registered jurisdictions.' };
+      return { error: 'Não há esfera registrada.' };
 
     return {
       jurisdictions: findJurisdictions,

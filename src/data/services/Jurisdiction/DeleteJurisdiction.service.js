@@ -9,14 +9,16 @@ export class DeleteJurisdictionService {
     });
 
     if (!verifyJurisdictionExists)
-      return { error: 'There is no jurisdiction with this name.' };
+      return {
+        error: `Não há nenhuma esfera registrada com este ID -> ${id}.`,
+      };
 
     await repository.deleteJurisdiction({
       id,
     });
 
     return {
-      message: 'Jurisdiction deleted successfully!',
+      message: 'Esfera deletada com sucesso!',
     };
   }
 }

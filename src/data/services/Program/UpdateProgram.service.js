@@ -9,7 +9,9 @@ export class UpdateProgramService {
     });
 
     if (!verifyProgramExists)
-      return { error: 'There is no program with this name.' };
+      return {
+        error: `Não há nenhum programa registrado com este ID -> ${id}.`,
+      };
 
     const programUpdated = await repository.updateProgram({
       id,
