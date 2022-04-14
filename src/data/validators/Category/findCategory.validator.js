@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-export const findJurisdictionValidator = async (req, res, next) => {
+export const findCategoryValidator = async (req, res, next) => {
   try {
     const SchemaParam = Yup.object().shape({
       id: Yup.string().required(),

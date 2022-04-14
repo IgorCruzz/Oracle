@@ -1,12 +1,13 @@
 import * as Yup from 'yup';
 
-export const findJurisdictionValidator = async (req, res, next) => {
+export const findJurisdictionsValidator = async (req, res, next) => {
   try {
     const SchemaParam = Yup.object().shape({
-      id: Yup.string().required(),
+      limit: Yup.string().required(),
+      page: Yup.string().required(),
     });
 
-    await SchemaParam.validate(req.params, { abortEarly: false });
+    await SchemaParam.validate(req.query, { abortEarly: false });
 
     return next();
   } catch (e) {

@@ -1,13 +1,12 @@
 import * as Yup from 'yup';
 
-export const findRegionsValidator = async (req, res, next) => {
+export const findRegionValidator = async (req, res, next) => {
   try {
     const SchemaParam = Yup.object().shape({
-      limit: Yup.string().required(),
-      page: Yup.string().required(),
+      id: Yup.string().required(),
     });
 
-    await SchemaParam.validate(req.query, { abortEarly: false });
+    await SchemaParam.validate(req.params, { abortEarly: false });
 
     return next();
   } catch (e) {
