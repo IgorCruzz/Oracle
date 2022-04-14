@@ -9,7 +9,9 @@ export class UpdateAgencyService {
     });
 
     if (!verifyAgencyExists)
-      return { error: 'There is no city with this name.' };
+      return {
+        error: `Não há nenhum orgão registrado com este ID -> ${id}.`,
+      };
 
     const agencyUpdated = await repository.updateAgency({
       id,

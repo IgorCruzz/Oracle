@@ -4,12 +4,14 @@ import {
   CreateAgencyController,
   DeleteAgencyController,
   UpdateAgencyController,
+  FindAgencyController,
 } from '../../data/controllers';
 import {
   findAgenciesValidator,
   createAgencyValidator,
   deleteAgencyValidator,
   updateAgencyValidator,
+  findAgencyValidator,
 } from '../../data/validators';
 
 const routes = Router();
@@ -40,6 +42,13 @@ routes.get(
   '/agencies',
   findAgenciesValidator,
   new FindAgenciesController().handle
+);
+
+// Param :id
+routes.get(
+  '/agency/:id',
+  findAgencyValidator,
+  new FindAgencyController().handle
 );
 
 export default routes;

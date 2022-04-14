@@ -10,18 +10,21 @@ export class CreateCityService {
     });
 
     if (!verifyRegionExists)
-      return { error: 'There is no region with this ID.' };
+      return {
+        error: `Não existe uma região registrada com este ID -> ${regionId}.`,
+      };
+
     const verifyCityExists = await repository.findCity({
       name,
     });
 
     if (verifyCityExists)
-      return { error: 'A city with this name already exists.' };
+      return { error: 'Já foi registrado um município com este nome.' };
 
     await repository.createCity({ name, regionId });
 
     return {
-      message: 'City created succesfully!',
+      message: 'Município registrado com sucesso!',
     };
   }
 }

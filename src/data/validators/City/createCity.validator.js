@@ -3,7 +3,9 @@ import * as Yup from 'yup';
 export const createCityValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
-      name: Yup.string().required(),
+      name: Yup.string()
+        .max(255)
+        .required(),
       regionId: Yup.number().required(),
     });
 

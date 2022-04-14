@@ -4,13 +4,13 @@ export class City extends Model {
   static init(sequelize) {
     super.init(
       {
-        ID_CITY: {
+        id_city: {
           type: DataTypes.INTEGER,
           primaryKey: true,
         },
-        NM_CITY: DataTypes.STRING,
-        DT_CREATED_AT: DataTypes.DATE,
-        DT_UPDATED_AT: DataTypes.DATE,
+        nm_city: DataTypes.STRING,
+        dt_created_at: DataTypes.DATE,
+        dt_updated_at: DataTypes.DATE,
       },
       {
         sequelize,
@@ -21,6 +21,6 @@ export class City extends Model {
   }
 
   static associate(models) {
-    City.belongsTo(models.Region, { foreignKey: 'ID_REGION', as: 'region' });
+    City.belongsTo(models.Region, { foreignKey: 'id_region', as: 'region' });
   }
 }

@@ -3,7 +3,8 @@ import { Program } from '../../models';
 export class ProgramRepository {
   async createProgram({ name }) {
     await Program.create({
-      NM_PROGRAM: name.toLowerCase().trim(),
+      nm_program: name.toLowerCase().trim(),
+      dt_created_at: new Date(Date.now()).toISOString(),
     });
   }
 
@@ -17,7 +18,7 @@ export class ProgramRepository {
   async findProgram({ name }) {
     return await Program.findOne({
       where: {
-        NM_PROGRAM: name.toLowerCase().trim(),
+        nm_program: name.toLowerCase().trim(),
       },
       raw: true,
     });
@@ -26,7 +27,7 @@ export class ProgramRepository {
   async findProgramById({ id }) {
     return await Program.findOne({
       where: {
-        ID_PROGRAM: id,
+        id_program: id,
       },
       raw: true,
     });
@@ -34,19 +35,20 @@ export class ProgramRepository {
 
   async deleteProgram({ id }) {
     await Program.destroy({
-      where: { ID_PROGRAM: id },
+      where: { id_program: id },
     });
   }
 
   async updateProgram({ id, name }) {
     const category = await Program.findOne({
       where: {
-        ID_PROGRAM: id,
+        id_program: id,
       },
     });
 
     return category.update({
-      NM_PROGRAM: name.toLowerCase().trim(),
+      nm_program: name.toLowerCase().trim(),
+      dt_updated_at: new Date(Date.now()).toISOString(),
     });
   }
 }

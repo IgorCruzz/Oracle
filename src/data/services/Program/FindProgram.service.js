@@ -1,19 +1,20 @@
 import { ProgramRepository } from '../../database/repositories';
 
 export class FindProgramService {
-  async execute({ page, limit }) {
+  async execute({ id }) {
     const repository = new ProgramRepository();
 
-    const findPrograms = await repository.findPrograms({
-      limit,
-      page,
+    const findProgram = await repository.findProgramById({
+      id,
     });
 
-    if (findPrograms.length === 0)
-      return { error: 'There are no registered programs.' };
+    if (!findProgram)
+      return {
+        error: `Não há nenhum programa registrado com este ID -> ${id}.`,
+      };
 
     return {
-      programs: findPrograms,
+      program: findProgram,
     };
   }
 }

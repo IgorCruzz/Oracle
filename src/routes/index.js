@@ -13,4 +13,6 @@ const router = Router();
 
 router.get('/ping', (req, res) => res.status(200).json({ data: 'PONG' }));
 
-export const exposeRoutes = routes.map(routerMap => router.use('/', routerMap));
+export const exposeRoutes = routes.map(routerMap =>
+  router.use('/v1/api/ger-obras', routerMap)
+);

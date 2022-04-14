@@ -1,15 +1,17 @@
 import { Router } from 'express';
 import {
   CreateRegionController,
-  FindRegionController,
+  FindRegionsController,
   DeleteRegionController,
   UpdateRegionController,
+  FindRegionController,
 } from '../../data/controllers';
 import {
   createRegionValidator,
   deleteRegionValidator,
   findRegionsValidator,
   updateRegionValidator,
+  findRegionValidator,
 } from '../../data/validators';
 
 const routes = Router();
@@ -36,6 +38,17 @@ routes.patch(
 );
 
 // Query ?limit &&  ?page
-routes.get('/regions', findRegionsValidator, new FindRegionController().handle);
+routes.get(
+  '/regions',
+  findRegionsValidator,
+  new FindRegionsController().handle
+);
+
+// Param :id
+routes.get(
+  '/region/:id',
+  findRegionValidator,
+  new FindRegionController().handle
+);
 
 export default routes;

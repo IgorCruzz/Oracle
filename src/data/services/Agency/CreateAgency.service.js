@@ -15,19 +15,21 @@ export class CreateAgencyService {
     );
 
     if (!verifyJurisdictionExists)
-      return { error: 'There is no jurisdiction with this ID.' };
+      return {
+        error: `Não há nenhuma esfera registrada com este ID -> ${jurisdictionId}.`,
+      };
 
     const verifyAgencyExists = await repository.findAgency({
       name,
     });
 
     if (verifyAgencyExists)
-      return { error: 'A agency with this name already exists.' };
+      return { error: 'Já existe um orgão registrado com este nome.' };
 
     await repository.createAgency({ name, jurisdictionId });
 
     return {
-      message: 'Agency created succesfully!',
+      message: 'Orgão registrado com sucesso!',
     };
   }
 }

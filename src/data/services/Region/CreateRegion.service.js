@@ -9,12 +9,12 @@ export class CreateRegionService {
     });
 
     if (verifyRegionExists)
-      return { error: 'A region with this name already exists.' };
+      return { error: 'Já existe uma região registrada com este nome.' };
 
     await repository.createRegion({ name });
 
     return {
-      message: 'Region created succesfully!',
+      message: 'Região registrada com sucesso!',
     };
   }
 }

@@ -11,7 +11,7 @@ export class FindAgenciesService {
     });
 
     if (findAgencies.length === 0)
-      return { error: 'There are no registered agencies.' };
+      return { error: 'Não há nenhum orgão registrado.' };
 
     return {
       agencies: findAgencies,

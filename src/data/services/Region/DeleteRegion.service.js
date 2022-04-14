@@ -9,14 +9,16 @@ export class DeleteRegionService {
     });
 
     if (!verifyRegionExists)
-      return { error: 'There is no region with this name.' };
+      return {
+        error: `Não existe uma região registrada com este ID -> ${id}.`,
+      };
 
     await repository.deleteRegion({
       id,
     });
 
     return {
-      message: 'Region deleted successfully!',
+      message: 'Região deleteda com sucesso!',
     };
   }
 }

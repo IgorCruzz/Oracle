@@ -3,7 +3,8 @@ import { Category } from '../../models';
 export class CategoryRepository {
   async createCategory({ name }) {
     await Category.create({
-      NM_CATEGORY: name.toLowerCase().trim(),
+      nm_category: name.toLowerCase().trim(),
+      dt_created_at: new Date(Date.now()).toISOString(),
     });
   }
 
@@ -18,7 +19,7 @@ export class CategoryRepository {
   async findCategory({ name }) {
     return await Category.findOne({
       where: {
-        NM_CATEGORY: name.toLowerCase().trim(),
+        nm_category: name.toLowerCase().trim(),
       },
       raw: true,
     });
@@ -27,7 +28,7 @@ export class CategoryRepository {
   async findCategoryById({ id }) {
     return await Category.findOne({
       where: {
-        ID_CATEGORY: id,
+        id_category: id,
       },
       raw: true,
     });
@@ -35,19 +36,20 @@ export class CategoryRepository {
 
   async deleteCategory({ id }) {
     await Category.destroy({
-      where: { ID_CATEGORY: id },
+      where: { id_category: id },
     });
   }
 
   async updateCategory({ id, name }) {
     const category = await Category.findOne({
       where: {
-        ID_CATEGORY: id,
+        id_category: id,
       },
     });
 
     return category.update({
-      NM_CATEGORY: name.toLowerCase().trim(),
+      nm_category: name.toLowerCase().trim(),
+      dt_updated_at: new Date(Date.now()).toISOString(),
     });
   }
 }

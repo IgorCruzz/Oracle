@@ -9,7 +9,9 @@ export class UpdateCityService {
     });
 
     if (!verifyCitiesExists)
-      return { error: 'There is no city with this name.' };
+      return {
+        error: `Não existe um município registrado com este ID -> ${id}.`,
+      };
 
     const cityUpdated = await repository.updateCity({
       id,

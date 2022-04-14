@@ -4,8 +4,10 @@ import {
   CreateJurisdictionController,
   UpdateJurisdictionController,
   DeleteJurisdictionontroller,
+  FindJurisdictionController,
 } from '../../data/controllers';
 import {
+  findJurisdictionValidator,
   findJurisdictionsValidator,
   createJurisdictionValidator,
   deleteJurisdictionValidator,
@@ -40,6 +42,13 @@ routes.get(
   '/jurisdictions',
   findJurisdictionsValidator,
   new FindJurisdictionsController().handle
+);
+
+// Param :id
+routes.get(
+  '/jurisdiction/:id',
+  findJurisdictionValidator,
+  new FindJurisdictionController().handle
 );
 
 export default routes;

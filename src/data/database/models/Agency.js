@@ -4,13 +4,13 @@ export class Agency extends Model {
   static init(sequelize) {
     super.init(
       {
-        ID_AGENCY: {
+        id_agency: {
           type: DataTypes.INTEGER,
           primaryKey: true,
         },
-        NM_AGENCY: DataTypes.STRING,
-        DT_CREATED_AT: DataTypes.DATE,
-        DT_UPDATED_AT: DataTypes.DATE,
+        nm_agency: DataTypes.STRING,
+        dt_created_at: DataTypes.DATE,
+        dt_updated_at: DataTypes.DATE,
       },
       {
         sequelize,
@@ -22,7 +22,7 @@ export class Agency extends Model {
 
   static associate(models) {
     Agency.belongsTo(models.Jurisdiction, {
-      foreignKey: 'ID_JURISDICTION',
+      foreignKey: 'id_jurisdiction',
       as: 'jurisdiction',
     });
   }

@@ -9,14 +9,14 @@ export class DeleteCategoryService {
     });
 
     if (!verifyCategoryExists)
-      return { error: 'There is no category with this name.' };
+      return { error: `Não existe uma categoria com este ID -> ${id}.` };
 
     await repository.deleteCategory({
       id,
     });
 
     return {
-      message: 'Category deleted successfully!',
+      message: 'Categoria deleta com sucesso!',
     };
   }
 }

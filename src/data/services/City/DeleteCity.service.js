@@ -8,14 +8,17 @@ export class DeleteCityService {
       id,
     });
 
-    if (!verifyCityExists) return { error: 'There is no city with this ID.' };
+    if (!verifyCityExists)
+      return {
+        error: `Não existe um município registrado com este ID -> ${id}.`,
+      };
 
     await repository.deleteCity({
       id,
     });
 
     return {
-      message: 'City deleted successfully!',
+      message: 'Município deletado com sucesso!',
     };
   }
 }

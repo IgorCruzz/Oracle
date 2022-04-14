@@ -9,7 +9,7 @@ export class UpdateCategoryService {
     });
 
     if (!verifyCategoryExists)
-      return { error: 'There is no category with this name.' };
+      return { error: `Não existe uma categoria com este ID -> ${id}.` };
 
     const categoryUpdated = await repository.updateCategory({
       id,

@@ -3,8 +3,9 @@ import { City, Region } from '../../models';
 export class CityRepository {
   async createCity({ name, regionId }) {
     await City.create({
-      NM_CITY: name.toLowerCase().trim(),
-      ID_REGION: regionId,
+      nm_city: name.toLowerCase().trim(),
+      id_region: regionId,
+      dt_created_at: new Date(Date.now()).toISOString(),
     });
   }
 
@@ -14,7 +15,7 @@ export class CityRepository {
       offset: (Number(page) - 1) * Number(limit),
       include: [
         regionId
-          ? { model: Region, as: 'region', where: { ID_REGION: regionId } }
+          ? { model: Region, as: 'region', where: { id_region: regionId } }
           : { model: Region, as: 'region' },
       ],
     });
@@ -23,36 +24,44 @@ export class CityRepository {
   async findCity({ name }) {
     return await City.findOne({
       where: {
-        NM_CITY: name.toLowerCase().trim(),
+        nm_city: name.toLowerCase().trim(),
       },
       raw: true,
     });
   }
 
-  async findCityById({ id }) {
-    return await City.findOne({
-      where: {
-        ID_CITY: id,
-      },
-      raw: true,
-    });
+  async findCityById({ id, populate }) {
+    return populate
+      ? await City.findOne({
+          where: {
+            id_city: id,
+          },
+          include: [{ model: Region, as: 'region' }],
+        })
+      : await City.findOne({
+          where: {
+            id_city: id,
+          },
+          raw: true,
+        });
   }
 
   async deleteCity({ id }) {
     await City.destroy({
-      where: { ID_CITY: id },
+      where: { id_city: id },
     });
   }
 
   async updateCity({ id, name }) {
     const category = await City.findOne({
       where: {
-        ID_CITY: id,
+        id_city: id,
       },
     });
 
     return category.update({
-      NM_CITY: name.toLowerCase().trim(),
+      nm_city: name.toLowerCase().trim(),
+      dt_updated_at: new Date(Date.now()).toISOString(),
     });
   }
 }

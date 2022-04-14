@@ -3,11 +3,11 @@ import { FindRegionService } from '../../services';
 export class FindRegionController {
   async handle(req, res) {
     try {
-      const { page, limit } = req.query;
+      const { id } = req.params;
 
       const service = new FindRegionService();
 
-      const response = await service.execute({ page, limit });
+      const response = await service.execute({ id });
 
       if (response.error)
         return res.status(400).json({
@@ -15,7 +15,7 @@ export class FindRegionController {
         });
 
       return res.status(200).json({
-        regions: response.regions,
+        region: response.region,
       });
     } catch (err) {
       return res.status(500).json({

@@ -9,14 +9,16 @@ export class DeleteProgramService {
     });
 
     if (!verifyProgramExists)
-      return { error: 'There is no program with this name.' };
+      return {
+        error: `Não há nenhum programa registrado com este ID -> ${id}.`,
+      };
 
     await repository.deleteProgram({
       id,
     });
 
     return {
-      message: 'Program deleted successfully!',
+      message: 'Programa deletado com sucesso!',
     };
   }
 }

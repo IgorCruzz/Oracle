@@ -3,7 +3,8 @@ import { Region } from '../../models';
 export class RegionRepository {
   async createRegion({ name }) {
     await Region.create({
-      NM_REGION: name.toLowerCase().trim(),
+      nm_region: name.toLowerCase().trim(),
+      dt_created_at: new Date(Date.now()).toISOString(),
     });
   }
 
@@ -17,7 +18,7 @@ export class RegionRepository {
   async findRegion({ name }) {
     return await Region.findOne({
       where: {
-        NM_REGION: name.toLowerCase().trim(),
+        nm_region: name.toLowerCase().trim(),
       },
       raw: true,
     });
@@ -26,7 +27,7 @@ export class RegionRepository {
   async findRegionById({ id }) {
     return await Region.findOne({
       where: {
-        ID_REGION: id,
+        id_region: id,
       },
       raw: true,
     });
@@ -34,19 +35,20 @@ export class RegionRepository {
 
   async deleteRegion({ id }) {
     await Region.destroy({
-      where: { ID_REGION: id },
+      where: { id_region: id },
     });
   }
 
   async updateRegion({ id, name }) {
     const category = await Region.findOne({
       where: {
-        ID_REGION: id,
+        id_region: id,
       },
     });
 
     return category.update({
-      NM_REGION: name.toLowerCase().trim(),
+      nm_region: name.toLowerCase().trim(),
+      dt_updated_at: new Date(Date.now()).toISOString(),
     });
   }
 }

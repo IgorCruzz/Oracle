@@ -9,14 +9,16 @@ export class DeleteAgencyService {
     });
 
     if (!verifyAgencyExists)
-      return { error: 'There is no agency with this ID.' };
+      return {
+        error: `Não há nenhum orgão registrado com este ID -> ${id}.`,
+      };
 
     await repository.deleteAgency({
       id,
     });
 
     return {
-      message: 'Agency deleted successfully!',
+      message: 'Orgão deletado com sucesso!',
     };
   }
 }

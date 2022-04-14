@@ -9,7 +9,9 @@ export class UpdateRegionService {
     });
 
     if (!verifyRegionExists)
-      return { error: 'There is no region with this name.' };
+      return {
+        error: `Não existe uma região registrada com este ID -> ${id}.`,
+      };
 
     const programUpdated = await repository.updateRegion({
       id,

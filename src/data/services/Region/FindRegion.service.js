@@ -1,19 +1,20 @@
 import { RegionRepository } from '../../database/repositories';
 
 export class FindRegionService {
-  async execute({ page, limit }) {
+  async execute({ id }) {
     const repository = new RegionRepository();
 
-    const findRegions = await repository.findRegions({
-      limit,
-      page,
+    const findRegion = await repository.findRegionById({
+      id,
     });
 
-    if (findRegions.length === 0)
-      return { error: 'There are no registered regions.' };
+    if (!findRegion)
+      return {
+        error: `Não existe uma região registrada com este ID -> ${id}.`,
+      };
 
     return {
-      regions: findRegions,
+      region: findRegion,
     };
   }
 }

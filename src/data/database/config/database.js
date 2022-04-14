@@ -12,4 +12,13 @@ module.exports = {
     charset: 'utf8',
     collate: 'utf8_general_ci',
   },
+  timezone: '-03:00',
+  dialectOptions: {
+    typeCast(field, next) {
+      if (field.type === 'DATETIME') {
+        return field.string();
+      }
+      return next();
+    },
+  },
 };
