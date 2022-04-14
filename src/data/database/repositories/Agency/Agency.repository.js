@@ -6,6 +6,7 @@ export class AgencyRepository {
       nm_agency: name.toLowerCase().trim(),
       id_jurisdiction: jurisdictionId,
       dt_created_at: new Date(Date.now()).toISOString(),
+      dt_updated_at: new Date(Date.now()).toISOString(),
     });
   }
 

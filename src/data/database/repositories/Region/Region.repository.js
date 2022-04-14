@@ -5,6 +5,7 @@ export class RegionRepository {
     await Region.create({
       nm_region: name.toLowerCase().trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
+      dt_updated_at: new Date(Date.now()).toISOString(),
     });
   }
 

@@ -6,6 +6,7 @@ export class CityRepository {
       nm_city: name.toLowerCase().trim(),
       id_region: regionId,
       dt_created_at: new Date(Date.now()).toISOString(),
+      dt_updated_at: new Date(Date.now()).toISOString(),
     });
   }
 
