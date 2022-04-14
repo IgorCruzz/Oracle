@@ -1,11 +1,11 @@
-import { FindProgramService } from '../../services';
+import { FindAgencyService } from '../../services';
 
-export class FindProgramController {
+export class FindAgencyController {
   async handle(req, res) {
     try {
       const { id } = req.params;
 
-      const service = new FindProgramService();
+      const service = new FindAgencyService();
 
       const response = await service.execute({ id });
 
@@ -15,7 +15,7 @@ export class FindProgramController {
         });
 
       return res.status(200).json({
-        program: response.program,
+        agency: response.agency,
       });
     } catch (err) {
       return res.status(500).json({
