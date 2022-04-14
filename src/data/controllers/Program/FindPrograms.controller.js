@@ -1,13 +1,13 @@
-import { FindRegionService } from '../../services';
+import { FindProgramsService } from '../../services';
 
-export class FindRegionController {
+export class FindProgramsController {
   async handle(req, res) {
     try {
-      const { id } = req.params;
+      const { page, limit } = req.query;
 
-      const service = new FindRegionService();
+      const service = new FindProgramsService();
 
-      const response = await service.execute({ id });
+      const response = await service.execute({ page, limit });
 
       if (response.error)
         return res.status(400).json({
@@ -15,7 +15,7 @@ export class FindRegionController {
         });
 
       return res.status(200).json({
-        region: response.region,
+        programs: response.programs,
       });
     } catch (err) {
       return res.status(500).json({
