@@ -3,8 +3,9 @@ import { Agency, Jurisdiction } from '../../models';
 export class AgencyRepository {
   async createAgency({ name, jurisdictionId }) {
     await Agency.create({
-      NM_AGENCY: name.toLowerCase().trim(),
-      ID_JURISDICTION: jurisdictionId,
+      nm_agency: name.toLowerCase().trim(),
+      id_jurisdiction: jurisdictionId,
+      dt_created_at: new Date(Date.now()).toISOString(),
     });
   }
 
@@ -17,7 +18,7 @@ export class AgencyRepository {
           ? {
               model: Jurisdiction,
               as: 'jurisdiction',
-              where: { ID_JURISDICTION: jurisdictionId },
+              where: { id_jurisdiction: jurisdictionId },
             }
           : { model: Jurisdiction, as: 'jurisdiction' },
       ],
@@ -27,7 +28,7 @@ export class AgencyRepository {
   async findAgency({ name }) {
     return await Agency.findOne({
       where: {
-        NM_AGENCY: name.toLowerCase().trim(),
+        nm_agency: name.toLowerCase().trim(),
       },
       raw: true,
     });
@@ -36,7 +37,7 @@ export class AgencyRepository {
   async findAgencyById({ id }) {
     return await Agency.findOne({
       where: {
-        ID_AGENCY: id,
+        id_agency: id,
       },
       raw: true,
     });
@@ -44,19 +45,20 @@ export class AgencyRepository {
 
   async deleteAgency({ id }) {
     await Agency.destroy({
-      where: { ID_AGENCY: id },
+      where: { id_agency: id },
     });
   }
 
   async updateAgency({ id, name }) {
     const category = await Agency.findOne({
       where: {
-        ID_AGENCY: id,
+        id_agency: id,
       },
     });
 
     return category.update({
-      NM_AGENCY: name.toLowerCase().trim(),
+      nm_agency: name.toLowerCase().trim(),
+      dt_updated_at: new Date(Date.now()).toISOString(),
     });
   }
 }

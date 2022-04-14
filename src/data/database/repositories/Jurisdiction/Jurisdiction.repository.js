@@ -3,7 +3,8 @@ import { Jurisdiction } from '../../models';
 export class JurisdictionRepository {
   async createJurisdiction({ name }) {
     await Jurisdiction.create({
-      NM_JURISDICTION: name.toLowerCase().trim(),
+      nm_jurisdiction: name.toLowerCase().trim(),
+      dt_created_at: new Date(Date.now()).toISOString(),
     });
   }
 
@@ -18,7 +19,7 @@ export class JurisdictionRepository {
   async findJurisdiction({ name }) {
     return await Jurisdiction.findOne({
       where: {
-        NM_JURISDICTION: name.toLowerCase().trim(),
+        nm_jurisdiction: name.toLowerCase().trim(),
       },
       raw: true,
     });
@@ -27,7 +28,7 @@ export class JurisdictionRepository {
   async findJurisdictionById({ id }) {
     return await Jurisdiction.findOne({
       where: {
-        ID_JURISDICTION: id,
+        id_jurisdiction: id,
       },
       raw: true,
     });
@@ -35,19 +36,20 @@ export class JurisdictionRepository {
 
   async deleteJurisdiction({ id }) {
     await Jurisdiction.destroy({
-      where: { ID_JURISDICTION: id },
+      where: { id_jurisdiction: id },
     });
   }
 
   async updateJurisdiction({ id, name }) {
     const category = await Jurisdiction.findOne({
       where: {
-        ID_JURISDICTION: id,
+        id_jurisdiction: id,
       },
     });
 
     return category.update({
-      NM_JURISDICTION: name.toLowerCase().trim(),
+      nm_jurisdiction: name.toLowerCase().trim(),
+      dt_updated_at: new Date(Date.now()).toISOString(),
     });
   }
 }
