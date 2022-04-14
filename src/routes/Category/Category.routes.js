@@ -4,12 +4,14 @@ import {
   CreateCategoryController,
   UpdateCategoryController,
   FindCategoriesController,
+  FindCategoryController,
 } from '../../data/controllers';
 import {
   createCategoryValidator,
   deleteCategoryValidator,
   updateCategoryValidator,
   findCategoriesValidator,
+  findCategoryValidator,
 } from '../../data/validators';
 
 const routes = Router();
@@ -40,6 +42,13 @@ routes.get(
   '/categories',
   findCategoriesValidator,
   new FindCategoriesController().handle
+);
+
+// Param :id
+routes.get(
+  '/category/:id',
+  findCategoryValidator,
+  new FindCategoryController().handle
 );
 
 export default routes;

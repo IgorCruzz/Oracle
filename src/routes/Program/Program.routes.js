@@ -2,14 +2,16 @@ import { Router } from 'express';
 import {
   CreateProgramController,
   DeleteProgramController,
-  FindProgramController,
+  FindProgramsController,
   UpdateProgramController,
+  FindProgramController,
 } from '../../data/controllers';
 import {
   createProgramValidator,
   findProgramsValidator,
   updateProgramValidator,
   deleteProgramValidator,
+  findProgramValidator,
 } from '../../data/validators';
 
 const routes = Router();
@@ -39,6 +41,13 @@ routes.patch(
 routes.get(
   '/programs',
   findProgramsValidator,
+  new FindProgramsController().handle
+);
+
+// Param :id
+routes.get(
+  '/program/:id',
+  findProgramValidator,
   new FindProgramController().handle
 );
 

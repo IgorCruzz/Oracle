@@ -4,12 +4,14 @@ import {
   FindCitiesController,
   DeleteCityController,
   UpdateCityController,
+  FindCityController,
 } from '../../data/controllers';
 import {
   findCityValidator,
   createCityValidator,
   deleteCityValidator,
   updateCityValidator,
+  findCitiesValidator,
 } from '../../data/validators';
 
 const routes = Router();
@@ -32,6 +34,8 @@ routes.patch(
 );
 
 // Query ?limit &&  ?page
-routes.get('/cities', findCityValidator, new FindCitiesController().handle);
+routes.get('/cities', findCitiesValidator, new FindCitiesController().handle);
+
+routes.get('/city/:id', findCityValidator, new FindCityController().handle);
 
 export default routes;
