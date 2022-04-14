@@ -30,13 +30,20 @@ export class CityRepository {
     });
   }
 
-  async findCityById({ id }) {
-    return await City.findOne({
-      where: {
-        id_city: id,
-      },
-      raw: true,
-    });
+  async findCityById({ id, populate }) {
+    return populate
+      ? await City.findOne({
+          where: {
+            id_city: id,
+          },
+          include: [{ model: Region, as: 'region' }],
+        })
+      : await City.findOne({
+          where: {
+            id_city: id,
+          },
+          raw: true,
+        });
   }
 
   async deleteCity({ id }) {

@@ -34,7 +34,16 @@ export class AgencyRepository {
     });
   }
 
-  async findAgencyById({ id }) {
+  async findAgencyById({ id, populate }) {
+    if (populate) {
+      return await Agency.findOne({
+        where: {
+          id_agency: id,
+        },
+        include: [{ model: Jurisdiction, as: 'jurisdiction' }],
+      });
+    }
+
     return await Agency.findOne({
       where: {
         id_agency: id,
