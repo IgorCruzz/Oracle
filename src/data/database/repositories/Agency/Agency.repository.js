@@ -10,6 +10,18 @@ export class AgencyRepository {
     });
   }
 
+  async verifyJurisdiction({ jurisdictionId }) {
+    return await Agency.findAll({
+      include: [
+        {
+          model: Jurisdiction,
+          as: 'jurisdiction',
+          where: { id_jurisdiction: jurisdictionId },
+        },
+      ],
+    });
+  }
+
   async findAgencies({ page, limit, jurisdictionId }) {
     return await Agency.findAll({
       limit: Number(limit),

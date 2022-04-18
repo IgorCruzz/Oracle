@@ -10,6 +10,14 @@ export class CityRepository {
     });
   }
 
+  async verifyRegion({ regionId }) {
+    return await City.findAll({
+      include: [
+        { model: Region, as: 'region', where: { id_region: regionId } },
+      ],
+    });
+  }
+
   async findCites({ page, limit, regionId }) {
     return await City.findAll({
       limit: Number(limit),
