@@ -7,6 +7,7 @@ export class Program extends Model {
         id_program: {
           type: DataTypes.INTEGER,
           primaryKey: true,
+          autoIncrement: true,
         },
         nm_program: DataTypes.STRING,
         dt_created_at: DataTypes.DATE,

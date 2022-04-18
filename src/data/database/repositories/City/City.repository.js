@@ -2,7 +2,7 @@ import { City, Region } from '../../models';
 
 export class CityRepository {
   async createCity({ name, regionId }) {
-    await City.create({
+    return await City.create({
       nm_city: name.toLowerCase().trim(),
       id_region: regionId,
       dt_created_at: new Date(Date.now()).toISOString(),

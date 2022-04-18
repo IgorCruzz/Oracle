@@ -11,10 +11,11 @@ export class CreateProgramService {
     if (verifyProgramExists)
       return { error: 'Já existe um programa registrado com este nome.' };
 
-    await repository.createProgram({ name });
+    const program = await repository.createProgram({ name });
 
     return {
       message: 'Programa registrado com sucesso!',
+      program,
     };
   }
 }

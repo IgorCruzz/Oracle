@@ -13,6 +13,13 @@ export class UpdateProgramService {
         error: `Não há nenhum programa registrado com este ID -> ${id}.`,
       };
 
+    const verifyProgramName = await repository.findProgram({
+      name,
+    });
+
+    if (verifyProgramName)
+      return { error: 'Já existe um programa registrado com este nome.' };
+
     const programUpdated = await repository.updateProgram({
       id,
       name,
@@ -20,6 +27,7 @@ export class UpdateProgramService {
 
     return {
       program: programUpdated,
+      message: 'Programa atualizado com sucesso!',
     };
   }
 }

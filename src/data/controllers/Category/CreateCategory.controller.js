@@ -15,6 +15,7 @@ export class CreateCategoryController {
 
       return res.status(200).json({
         message: response.message,
+        category: response.category,
       });
     } catch (err) {
       return res.status(500).json({

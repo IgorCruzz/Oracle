@@ -2,7 +2,7 @@ import { Program } from '../../models';
 
 export class ProgramRepository {
   async createProgram({ name }) {
-    await Program.create({
+    return await Program.create({
       nm_program: name.toLowerCase().trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
@@ -47,14 +47,14 @@ export class ProgramRepository {
       },
     });
 
-    await program.update({
+    const programUpdate = await program.update({
       nm_program: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
     return await Program.findOne({
       where: {
-        nm_program: program.dataValues.nm_program,
+        nm_program: programUpdate.dataValues.nm_program,
       },
       raw: true,
     });

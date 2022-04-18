@@ -26,10 +26,11 @@ export class CreateAgencyService {
     if (verifyAgencyExists)
       return { error: 'Já existe um orgão registrado com este nome.' };
 
-    await repository.createAgency({ name, jurisdictionId });
+    const agency = await repository.createAgency({ name, jurisdictionId });
 
     return {
       message: 'Orgão registrado com sucesso!',
+      agency,
     };
   }
 }

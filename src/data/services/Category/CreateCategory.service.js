@@ -11,10 +11,11 @@ export class CreateCategoryService {
     if (verifyCategoryExists)
       return { error: 'Já existe uma categoria registrada com este nome.' };
 
-    await repository.createCategory({ name });
+    const category = await repository.createCategory({ name });
 
     return {
       message: 'Categoria registrada com sucesso!',
+      category: category.dataValues,
     };
   }
 }

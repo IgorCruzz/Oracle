@@ -7,6 +7,7 @@ export class Region extends Model {
         id_region: {
           type: DataTypes.INTEGER,
           primaryKey: true,
+          autoIncrement: true,
         },
         nm_region: DataTypes.STRING,
         dt_created_at: DataTypes.DATE,

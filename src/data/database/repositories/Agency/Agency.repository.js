@@ -2,7 +2,7 @@ import { Agency, Jurisdiction } from '../../models';
 
 export class AgencyRepository {
   async createAgency({ name, jurisdictionId }) {
-    await Agency.create({
+    return await Agency.create({
       nm_agency: name.toLowerCase().trim(),
       id_jurisdiction: jurisdictionId,
       dt_created_at: new Date(Date.now()).toISOString(),

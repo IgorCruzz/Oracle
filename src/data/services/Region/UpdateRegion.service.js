@@ -13,6 +13,13 @@ export class UpdateRegionService {
         error: `Não existe uma região registrada com este ID -> ${id}.`,
       };
 
+    const verifyRegionName = await repository.findRegion({
+      name,
+    });
+
+    if (verifyRegionName)
+      return { error: 'Já existe uma região registrada com este nome.' };
+
     const programUpdated = await repository.updateRegion({
       id,
       name,
@@ -20,6 +27,7 @@ export class UpdateRegionService {
 
     return {
       region: programUpdated,
+      message: 'Região atualizada com sucesso!',
     };
   }
 }

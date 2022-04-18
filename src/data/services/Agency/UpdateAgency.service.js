@@ -13,12 +13,20 @@ export class UpdateAgencyService {
         error: `Não há nenhum orgão registrado com este ID -> ${id}.`,
       };
 
+    const verifyAgencyName = await repository.findAgency({
+      name,
+    });
+
+    if (verifyAgencyName)
+      return { error: 'Já existe um orgão registrado com este nome.' };
+
     const agencyUpdated = await repository.updateAgency({
       id,
       name,
     });
 
     return {
+      message: 'Orgão atualizado com sucesso!',
       agency: agencyUpdated,
     };
   }

@@ -17,6 +17,7 @@ export class UpdateCityController {
 
       return res.status(200).json({
         city: response.city,
+        message: response.message,
       });
     } catch (err) {
       return res.status(500).json({

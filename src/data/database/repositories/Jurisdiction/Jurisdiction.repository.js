@@ -2,7 +2,7 @@ import { Jurisdiction } from '../../models';
 
 export class JurisdictionRepository {
   async createJurisdiction({ name }) {
-    await Jurisdiction.create({
+    return await Jurisdiction.create({
       nm_jurisdiction: name.toLowerCase().trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),

@@ -16,6 +16,7 @@ export class CreateAgencyController {
 
       return res.status(200).json({
         message: response.message,
+        agency: response.agency,
       });
     } catch (err) {
       return res.status(500).json({

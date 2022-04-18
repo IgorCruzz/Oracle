@@ -18,6 +18,7 @@ export class UpdateJurisdictionController {
 
       return res.status(200).json({
         jurisdiction: response.jurisdiction,
+        message: response.message,
       });
     } catch (err) {
       return res.status(500).json({

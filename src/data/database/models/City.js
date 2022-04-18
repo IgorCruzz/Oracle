@@ -7,6 +7,7 @@ export class City extends Model {
         id_city: {
           type: DataTypes.INTEGER,
           primaryKey: true,
+          autoIncrement: true,
         },
         nm_city: DataTypes.STRING,
         dt_created_at: DataTypes.DATE,

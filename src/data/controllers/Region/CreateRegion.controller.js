@@ -15,6 +15,7 @@ export class CreateRegionController {
 
       return res.status(200).json({
         message: response.message,
+        region: response.region,
       });
     } catch (err) {
       return res.status(500).json({

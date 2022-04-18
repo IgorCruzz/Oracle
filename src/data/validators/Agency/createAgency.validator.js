@@ -7,8 +7,8 @@ export const createAgencyValidator = async (req, res, next) => {
         .max(255, 'O campo nome precisa ter no máximo 255 caracteres')
         .required('O campo nome é obrigatório'),
       jurisdictionId: Yup.number()
-        .required('O campo esfera é obrigatório')
-        .typeError('O campo esfera é obrigatório'),
+        .required('Esfera inválida')
+        .typeError('Esfera inválida'),
     });
 
     await Schema.validate(req.body, { abortEarly: false });

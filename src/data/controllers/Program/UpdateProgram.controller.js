@@ -17,6 +17,7 @@ export class UpdateProgramController {
 
       return res.status(200).json({
         program: response.program,
+        message: response.message,
       });
     } catch (err) {
       return res.status(500).json({

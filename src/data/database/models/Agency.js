@@ -7,6 +7,7 @@ export class Agency extends Model {
         id_agency: {
           type: DataTypes.INTEGER,
           primaryKey: true,
+          autoIncrement: true,
         },
         nm_agency: DataTypes.STRING,
         dt_created_at: DataTypes.DATE,

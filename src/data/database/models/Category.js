@@ -7,6 +7,7 @@ export class Category extends Model {
         id_category: {
           type: DataTypes.INTEGER,
           primaryKey: true,
+          autoIncrement: true,
         },
         nm_category: DataTypes.STRING,
         dt_created_at: DataTypes.DATE,

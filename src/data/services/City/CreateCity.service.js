@@ -21,10 +21,11 @@ export class CreateCityService {
     if (verifyCityExists)
       return { error: 'Já foi registrado um município com este nome.' };
 
-    await repository.createCity({ name, regionId });
+    const city = await repository.createCity({ name, regionId });
 
     return {
       message: 'Município registrado com sucesso!',
+      city,
     };
   }
 }

@@ -11,12 +11,20 @@ export class UpdateCategoryService {
     if (!verifyCategoryExists)
       return { error: `Não existe uma categoria com este ID -> ${id}.` };
 
+    const verifyCategoryName = await repository.findCategory({
+      name,
+    });
+
+    if (verifyCategoryName)
+      return { error: 'Já existe uma categoria registrada com este nome.' };
+
     const categoryUpdated = await repository.updateCategory({
       id,
       name,
     });
 
     return {
+      message: 'Categoria atualizada com sucesso!',
       category: categoryUpdated,
     };
   }

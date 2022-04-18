@@ -15,6 +15,7 @@ export class CreateProgramController {
 
       return res.status(200).json({
         message: response.message,
+        program: response.program,
       });
     } catch (err) {
       return res.status(500).json({

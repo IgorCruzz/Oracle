@@ -7,6 +7,7 @@ export class Jurisdiction extends Model {
         id_jurisdiction: {
           type: DataTypes.INTEGER,
           primaryKey: true,
+          autoIncrement: true,
         },
         nm_jurisdiction: DataTypes.STRING,
         dt_created_at: DataTypes.DATE,

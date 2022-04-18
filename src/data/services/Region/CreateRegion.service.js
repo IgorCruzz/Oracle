@@ -11,10 +11,11 @@ export class CreateRegionService {
     if (verifyRegionExists)
       return { error: 'Já existe uma região registrada com este nome.' };
 
-    await repository.createRegion({ name });
+    const region = await repository.createRegion({ name });
 
     return {
       message: 'Região registrada com sucesso!',
+      region,
     };
   }
 }

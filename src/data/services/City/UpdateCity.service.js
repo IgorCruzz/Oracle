@@ -13,12 +13,20 @@ export class UpdateCityService {
         error: `Não existe um município registrado com este ID -> ${id}.`,
       };
 
+    const verifyCityName = await repository.findCity({
+      name,
+    });
+
+    if (verifyCityName)
+      return { error: 'Já foi registrado um município com este nome.' };
+
     const cityUpdated = await repository.updateCity({
       id,
       name,
     });
 
     return {
+      message: 'Município atualizado com sucesso!',
       city: cityUpdated,
     };
   }
