@@ -7,11 +7,13 @@ export const updateAgencyValidator = async (req, res, next) => {
     });
 
     const SchemaBody = Yup.object().shape({
-      name: Yup.string().max(
-        255,
-        'O tamanho máximo permitido para o campo nome é 255'
-      ),
-      id: Yup.string(),
+      name: Yup.string()
+        .min(1, 'O campo nome precisa ter entre 1 a 255 caracteres')
+        .max(255, 'O tamanho máximo permitido para o campo nome é 255'),
+      jurisdictionId: Yup.number()
+        .positive('O campo deve ser positivo.')
+        .integer('O campo deve ser um número inteiro.')
+        .typeError('O campo Região precisa ser númerico'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });

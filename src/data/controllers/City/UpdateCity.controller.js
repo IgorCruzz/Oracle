@@ -6,9 +6,9 @@ export class UpdateCityController {
       const service = new UpdateCityService();
 
       const { id } = req.params;
-      const { name, region } = req.body;
+      const { name, regionId } = req.body;
 
-      const response = await service.execute({ name, id, region });
+      const response = await service.execute({ name, id, regionId });
 
       if (response.error)
         return res.status(400).json({

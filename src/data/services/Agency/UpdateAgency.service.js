@@ -84,6 +84,17 @@ export class UpdateAgencyService {
     if (verifyAgencyName)
       return { error: 'Já existe um orgão registrado com este nome.' };
 
+    const verifyJurisdictionExists = await jurisdictionRepository.findJurisdictionById(
+      {
+        id: jurisdictionId,
+      }
+    );
+
+    if (!verifyJurisdictionExists)
+      return {
+        error: `Não existe uma esfera com este ID -> ${jurisdictionId}`,
+      };
+
     const agencyUpdated = await repository.updateAgency({
       id,
       name,
