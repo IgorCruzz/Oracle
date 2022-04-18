@@ -7,7 +7,9 @@ export const updateProgramValidator = async (req, res, next) => {
     });
 
     const SchemaBody = Yup.object().shape({
-      name: Yup.string().required(),
+      name: Yup.string()
+        .max(255, 'O nome precisa ter no máximo 255 caracteres')
+        .required(),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });
