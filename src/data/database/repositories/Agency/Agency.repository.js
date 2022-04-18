@@ -2,11 +2,17 @@ import { Agency, Jurisdiction } from '../../models';
 
 export class AgencyRepository {
   async createAgency({ name, jurisdictionId }) {
-    return await Agency.create({
+    const createdAgency = await Agency.create({
       nm_agency: name.toLowerCase().trim(),
       id_jurisdiction: jurisdictionId,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await Agency.findOne({
+      where: {
+        nm_agency: createdAgency.dataValues.nm_agency,
+      },
     });
   }
 

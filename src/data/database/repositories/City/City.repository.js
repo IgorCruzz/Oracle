@@ -2,11 +2,17 @@ import { City, Region } from '../../models';
 
 export class CityRepository {
   async createCity({ name, regionId }) {
-    return await City.create({
+    const createdCity = await City.create({
       nm_city: name.toLowerCase().trim(),
       id_region: regionId,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await City.findOne({
+      where: {
+        nm_city: createdCity.dataValues.nm_city,
+      },
     });
   }
 

@@ -2,10 +2,16 @@ import { Category } from '../../models';
 
 export class CategoryRepository {
   async createCategory({ name }) {
-    return await Category.create({
+    const createdCategory = await Category.create({
       nm_category: name.toLowerCase().trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await Category.findOne({
+      where: {
+        nm_category: createdCategory.dataValues.nm_category,
+      },
     });
   }
 

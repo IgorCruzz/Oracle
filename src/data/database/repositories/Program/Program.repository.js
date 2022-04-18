@@ -2,10 +2,14 @@ import { Program } from '../../models';
 
 export class ProgramRepository {
   async createProgram({ name }) {
-    return await Program.create({
+    const createdProgram = await Program.create({
       nm_program: name.toLowerCase().trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await Program.findOne({
+      where: { nm_program: createdProgram.dataValues.nm_program },
     });
   }
 

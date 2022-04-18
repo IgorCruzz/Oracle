@@ -2,10 +2,16 @@ import { Jurisdiction } from '../../models';
 
 export class JurisdictionRepository {
   async createJurisdiction({ name }) {
-    return await Jurisdiction.create({
+    const createdJurisdiction = await Jurisdiction.create({
       nm_jurisdiction: name.toLowerCase().trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await Jurisdiction.findOne({
+      where: {
+        nm_jurisdiction: createdJurisdiction.dataValues.nm_jurisdiction,
+      },
     });
   }
 

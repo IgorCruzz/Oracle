@@ -2,10 +2,16 @@ import { Region } from '../../models';
 
 export class RegionRepository {
   async createRegion({ name }) {
-    return await Region.create({
+    const createdRegion = await Region.create({
       nm_region: name.toLowerCase().trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await Region.findOne({
+      where: {
+        nm_region: createdRegion.dataValues.nm_region,
+      },
     });
   }
 
