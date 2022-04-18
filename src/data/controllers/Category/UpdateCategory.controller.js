@@ -19,6 +19,7 @@ export class UpdateCategoryController {
         category: response.category,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Internal Server Error',
       });

@@ -42,15 +42,22 @@ export class JurisdictionRepository {
   }
 
   async updateJurisdiction({ id, name }) {
-    const category = await Jurisdiction.findOne({
+    const jurisdiction = await Jurisdiction.findOne({
       where: {
         id_jurisdiction: id,
       },
     });
 
-    return category.update({
+    jurisdiction.update({
       nm_jurisdiction: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await jurisdiction.findOne({
+      where: {
+        nm_jurisdiction: jurisdiction.dataValues.nm_jurisdiction,
+      },
+      raw: true,
     });
   }
 }

@@ -47,9 +47,16 @@ export class RegionRepository {
       },
     });
 
-    return region.update({
+    region.update({
       nm_region: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await Region.findOne({
+      where: {
+        nm_region: region.dataValues.nm_region,
+      },
+      raw: true,
     });
   }
 }

@@ -54,15 +54,22 @@ export class CityRepository {
   }
 
   async updateCity({ id, name }) {
-    const category = await City.findOne({
+    const city = await City.findOne({
       where: {
         id_city: id,
       },
     });
 
-    return category.update({
+    city.update({
       nm_city: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await City.findOne({
+      where: {
+        nm_city: city.dataValues.nm_city,
+      },
+      raw: true,
     });
   }
 }

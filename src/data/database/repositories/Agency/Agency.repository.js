@@ -60,15 +60,22 @@ export class AgencyRepository {
   }
 
   async updateAgency({ id, name }) {
-    const category = await Agency.findOne({
+    const agency = await Agency.findOne({
       where: {
         id_agency: id,
       },
     });
 
-    return category.update({
+    agency.update({
       nm_agency: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await Agency.findOne({
+      where: {
+        nm_agency: agency.dataValues.nm_agency,
+      },
+      raw: true,
     });
   }
 }

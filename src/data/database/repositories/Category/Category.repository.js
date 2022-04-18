@@ -48,9 +48,16 @@ export class CategoryRepository {
       },
     });
 
-    return category.update({
+    category.update({
       nm_category: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await Category.findOne({
+      where: {
+        nm_category: category.dataValues.nm_category,
+      },
+      raw: true,
     });
   }
 }

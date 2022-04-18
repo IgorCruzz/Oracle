@@ -41,15 +41,22 @@ export class ProgramRepository {
   }
 
   async updateProgram({ id, name }) {
-    const category = await Program.findOne({
+    const program = await Program.findOne({
       where: {
         id_program: id,
       },
     });
 
-    return category.update({
+    program.update({
       nm_program: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await Program.findOne({
+      where: {
+        nm_program: program.dataValues.nm_program,
+      },
+      raw: true,
     });
   }
 }
