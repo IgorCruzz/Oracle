@@ -47,7 +47,7 @@ export class ProgramRepository {
       },
     });
 
-    program.update({
+    await program.update({
       nm_program: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

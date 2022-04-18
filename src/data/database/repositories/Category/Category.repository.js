@@ -48,7 +48,7 @@ export class CategoryRepository {
       },
     });
 
-    category.update({
+    await category.update({
       nm_category: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

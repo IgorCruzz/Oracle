@@ -66,7 +66,7 @@ export class AgencyRepository {
       },
     });
 
-    agency.update({
+    await agency.update({
       nm_agency: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

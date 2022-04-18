@@ -60,7 +60,7 @@ export class CityRepository {
       },
     });
 
-    city.update({
+    await city.update({
       nm_city: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

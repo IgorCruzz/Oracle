@@ -48,7 +48,7 @@ export class JurisdictionRepository {
       },
     });
 
-    jurisdiction.update({
+    await jurisdiction.update({
       nm_jurisdiction: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

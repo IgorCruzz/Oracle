@@ -47,7 +47,7 @@ export class RegionRepository {
       },
     });
 
-    region.update({
+    await region.update({
       nm_region: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
