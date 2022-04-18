@@ -1,36 +1,66 @@
 import { CityRepository, RegionRepository } from '../../database/repositories';
 
 export class UpdateCityService {
-  async execute({ name, id, region }) {
+  async execute({ name, id, regionId }) {
     const repository = new CityRepository();
     const regionRepository = new RegionRepository();
 
-    if (region) {
-      const { regionName, regionId } = region;
-
-      const verifyRelation = await repository.verifyRelation({
-        regionId,
+    if (name && !regionId) {
+      const verifyCitiesExists = await repository.findCityById({
         id,
       });
 
-      if (verifyRelation.length === 0) {
+      if (!verifyCitiesExists)
         return {
-          error:
-            'A região solicitada não existe ou não possui relação com o Município!',
+          error: `Não existe um município registrado com este ID -> ${id}.`,
         };
-      }
 
-      const verifyJurisdictionName = await regionRepository.findRegion({
-        name: regionName,
+      const verifyCityName = await repository.findCity({
+        name,
       });
 
-      if (verifyJurisdictionName)
-        return { error: 'Já existe uma esfera com este nome registrado.' };
+      if (verifyCityName)
+        return { error: 'Já foi registrado um município com este nome.' };
 
-      await regionRepository.updateRegion({
+      const cityUpdated = await repository.updateCity({
+        id,
+        name,
+      });
+
+      return {
+        message: 'Município atualizado com sucesso!',
+        city: cityUpdated,
+      };
+    }
+
+    if (regionId && !name) {
+      const verifyCitiesExists = await repository.findCityById({
+        id,
+      });
+
+      if (!verifyCitiesExists)
+        return {
+          error: `Não existe um município registrado com este ID -> ${id}.`,
+        };
+
+      const verifyRegionExists = await regionRepository.findRegionById({
         id: regionId,
-        name: regionName,
       });
+
+      if (!verifyRegionExists)
+        return {
+          error: `Não existe uma região com este ID -> ${regionId}`,
+        };
+
+      const cityUpdated = await repository.updateCity({
+        id,
+        regionId,
+      });
+
+      return {
+        message: 'Município atualizado com sucesso!',
+        city: cityUpdated,
+      };
     }
 
     const verifyCitiesExists = await repository.findCityById({
@@ -48,6 +78,15 @@ export class UpdateCityService {
 
     if (verifyCityName)
       return { error: 'Já foi registrado um município com este nome.' };
+
+    const verifyRegionExists = await regionRepository.findRegionById({
+      id: regionId,
+    });
+
+    if (!verifyRegionExists)
+      return {
+        error: `Não existe uma região com este ID -> ${regionId}`,
+      };
 
     const cityUpdated = await repository.updateCity({
       id,

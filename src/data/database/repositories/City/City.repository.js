@@ -80,15 +80,54 @@ export class CityRepository {
     });
   }
 
-  async updateCity({ id, name }) {
+  async updateCity({ id, name, regionId }) {
     const city = await City.findOne({
       where: {
         id_city: id,
       },
     });
 
+    if (name && !regionId) {
+      await city.update({
+        nm_city: name.toLowerCase().trim(),
+        dt_updated_at: new Date(Date.now()).toISOString(),
+      });
+
+      return await City.findOne({
+        where: {
+          nm_city: city.dataValues.nm_city,
+        },
+        include: [
+          {
+            model: Region,
+            as: 'region',
+          },
+        ],
+      });
+    }
+
+    if (regionId && !name) {
+      await city.update({
+        id_region: regionId,
+        dt_updated_at: new Date(Date.now()).toISOString(),
+      });
+
+      return await City.findOne({
+        where: {
+          nm_city: city.dataValues.nm_city,
+        },
+        include: [
+          {
+            model: Region,
+            as: 'region',
+          },
+        ],
+      });
+    }
+
     await city.update({
       nm_city: name.toLowerCase().trim(),
+      id_region: regionId,
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
