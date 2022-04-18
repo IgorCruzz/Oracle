@@ -4,9 +4,9 @@ export const createCityValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
       name: Yup.string()
-        .max(255, 'O nome precisa ter no máximo 255 caracteres')
-        .required(),
-      regionId: Yup.number().required(),
+        .max(255, 'O campo name precisa ter no máximo 255 caracteres')
+        .required('O campo name é obrigatório'),
+      regionId: Yup.number().required('O campo regionId é obrigatório'),
     });
 
     await Schema.validate(req.body, { abortEarly: false });

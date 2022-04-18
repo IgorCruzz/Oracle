@@ -4,9 +4,11 @@ export const createAgencyValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
       name: Yup.string()
-        .max(255, 'O nome precisa ter no máximo 255 caracteres')
-        .required(),
-      jurisdictionId: Yup.number().required(),
+        .max(255, 'O campo name precisa ter no máximo 255 caracteres')
+        .required('O campo name é obrigatório'),
+      jurisdictionId: Yup.number().required(
+        'O campo jurisdictionId é obrigatório'
+      ),
     });
 
     await Schema.validate(req.body, { abortEarly: false });

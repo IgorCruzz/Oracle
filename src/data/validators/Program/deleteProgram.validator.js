@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 export const deleteProgramValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
-      id: Yup.string().required(),
+      id: Yup.string().required('O campo id é obrigatório'),
     });
 
     await Schema.validate(req.params, { abortEarly: false });

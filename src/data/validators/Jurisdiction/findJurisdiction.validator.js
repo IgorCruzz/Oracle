@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 export const findJurisdictionValidator = async (req, res, next) => {
   try {
     const SchemaParam = Yup.object().shape({
-      id: Yup.string().required(),
+      id: Yup.string().required('O campo id é obrigatório'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });

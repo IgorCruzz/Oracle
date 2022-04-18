@@ -41,13 +41,13 @@ export class RegionRepository {
   }
 
   async updateRegion({ id, name }) {
-    const category = await Region.findOne({
+    const region = await Region.findOne({
       where: {
         id_region: id,
       },
     });
 
-    return category.update({
+    return region.update({
       nm_region: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

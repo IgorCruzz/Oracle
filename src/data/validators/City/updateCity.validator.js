@@ -3,13 +3,13 @@ import * as Yup from 'yup';
 export const updateCityValidator = async (req, res, next) => {
   try {
     const SchemaParam = Yup.object().shape({
-      id: Yup.string().required(),
+      id: Yup.string().required('O campo id é obrigatório'),
     });
 
     const SchemaBody = Yup.object().shape({
       name: Yup.string()
-        .max(255, 'O nome precisa ter no máximo 255 caracteres')
-        .required(),
+        .max(255, 'O campo name precisa ter no máximo 255 caracteres')
+        .required('O campo name é obrigatório'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });
