@@ -3,7 +3,6 @@ import { UpdateJurisdictionService } from '../../services';
 export class UpdateJurisdictionController {
   async handle(req, res) {
     try {
-      console.log(req);
       const service = new UpdateJurisdictionService();
 
       const { id } = req.params;
