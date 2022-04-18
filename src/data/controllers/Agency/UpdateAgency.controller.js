@@ -6,9 +6,9 @@ export class UpdateAgencyController {
       const service = new UpdateAgencyService();
 
       const { id } = req.params;
-      const { name, jurisdiction } = req.body;
+      const { name, jurisdictionId } = req.body;
 
-      const response = await service.execute({ name, id, jurisdiction });
+      const response = await service.execute({ name, id, jurisdictionId });
 
       if (response.error)
         return res.status(400).json({

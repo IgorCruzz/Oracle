@@ -90,16 +90,55 @@ export class AgencyRepository {
     });
   }
 
-  async updateAgency({ id, name }) {
+  async updateAgency({ id, name, jurisdictionId }) {
     const agency = await Agency.findOne({
       where: {
         id_agency: id,
       },
     });
 
+    if (jurisdictionId && !name) {
+      await agency.update({
+        id_jurisdiction: jurisdictionId,
+        dt_updated_at: new Date(Date.now()).toISOString(),
+      });
+
+      return await Agency.findOne({
+        where: {
+          nm_agency: agency.dataValues.nm_agency,
+        },
+        include: [
+          {
+            model: Jurisdiction,
+            as: 'jurisdiction',
+          },
+        ],
+      });
+    }
+
+    if (name && !jurisdictionId) {
+      await agency.update({
+        nm_agency: name.toLowerCase().trim(),
+        dt_updated_at: new Date(Date.now()).toISOString(),
+      });
+
+      return await Agency.findOne({
+        where: {
+          nm_agency: agency.dataValues.nm_agency,
+        },
+        include: [
+          {
+            model: Jurisdiction,
+            as: 'jurisdiction',
+          },
+        ],
+      });
+    }
+
     await agency.update({
       nm_agency: name.toLowerCase().trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
+      id_jurisdiction: jurisdictionId,
     });
 
     return await Agency.findOne({

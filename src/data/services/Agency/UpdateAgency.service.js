@@ -4,38 +4,68 @@ import {
 } from '../../database/repositories';
 
 export class UpdateAgencyService {
-  async execute({ name, id, jurisdiction }) {
+  async execute({ name, id, jurisdictionId }) {
     const repository = new AgencyRepository();
     const jurisdictionRepository = new JurisdictionRepository();
 
-    if (jurisdiction) {
-      const { jurisdictionName, jurisdictionId } = jurisdiction;
-
-      const verifyRelation = await repository.verifyRelation({
-        jurisdictionId,
+    if (name && !jurisdictionId) {
+      const verifyAgencyExists = await repository.findAgencyById({
         id,
       });
 
-      if (verifyRelation.length === 0) {
+      if (!verifyAgencyExists)
         return {
-          error:
-            'A esfera solicitada não existe ou não possui relação com o Orgão!',
+          error: `Não há nenhum orgão registrado com este ID -> ${id}.`,
         };
-      }
 
-      const verifyJurisdictionName = await jurisdictionRepository.findJurisdiction(
+      const verifyAgencyName = await repository.findAgency({
+        name,
+      });
+
+      if (verifyAgencyName)
+        return { error: 'Já existe um orgão registrado com este nome.' };
+
+      const agencyUpdated = await repository.updateAgency({
+        id,
+        name,
+      });
+
+      return {
+        message: 'Orgão atualizado com sucesso!',
+        agency: agencyUpdated,
+      };
+    }
+
+    if (jurisdictionId && !name) {
+      const verifyAgencyExists = await repository.findAgencyById({
+        id,
+      });
+
+      if (!verifyAgencyExists)
+        return {
+          error: `Não há nenhum orgão registrado com este ID -> ${id}.`,
+        };
+
+      const verifyJurisdictionExists = await jurisdictionRepository.findJurisdictionById(
         {
-          name: jurisdictionName,
+          id: jurisdictionId,
         }
       );
 
-      if (verifyJurisdictionName)
-        return { error: 'Já existe uma esfera com este nome registrado.' };
+      if (!verifyJurisdictionExists)
+        return {
+          error: `Não existe uma esfera com este ID -> ${jurisdictionId}`,
+        };
 
-      await jurisdictionRepository.updateJurisdiction({
-        id: jurisdictionId,
-        name: jurisdictionName,
+      const agencyUpdated = await repository.updateAgency({
+        id,
+        jurisdictionId,
       });
+
+      return {
+        message: 'Orgão atualizado com sucesso!',
+        agency: agencyUpdated,
+      };
     }
 
     const verifyAgencyExists = await repository.findAgencyById({
@@ -57,6 +87,7 @@ export class UpdateAgencyService {
     const agencyUpdated = await repository.updateAgency({
       id,
       name,
+      jurisdictionId,
     });
 
     return {
