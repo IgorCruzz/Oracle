@@ -10,6 +10,19 @@ export class AgencyRepository {
     });
   }
 
+  async verifyRelation({ jurisdictionId, id }) {
+    return await Agency.findAll({
+      where: { id_agency: id },
+      include: [
+        {
+          model: Jurisdiction,
+          as: 'jurisdiction',
+          where: { id_jurisdiction: jurisdictionId },
+        },
+      ],
+    });
+  }
+
   async verifyJurisdiction({ jurisdictionId }) {
     return await Agency.findAll({
       include: [
@@ -87,7 +100,12 @@ export class AgencyRepository {
       where: {
         nm_agency: agency.dataValues.nm_agency,
       },
-      raw: true,
+      include: [
+        {
+          model: Jurisdiction,
+          as: 'jurisdiction',
+        },
+      ],
     });
   }
 }

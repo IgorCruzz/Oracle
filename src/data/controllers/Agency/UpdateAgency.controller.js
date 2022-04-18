@@ -6,9 +6,9 @@ export class UpdateAgencyController {
       const service = new UpdateAgencyService();
 
       const { id } = req.params;
-      const { name } = req.body;
+      const { name, jurisdiction } = req.body;
 
-      const response = await service.execute({ name, id });
+      const response = await service.execute({ name, id, jurisdiction });
 
       if (response.error)
         return res.status(400).json({
@@ -20,6 +20,7 @@ export class UpdateAgencyController {
         message: response.message,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Internal Server Error',
       });
