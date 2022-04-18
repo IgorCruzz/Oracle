@@ -18,7 +18,7 @@ export class DeleteProgramService {
     });
 
     return {
-      message: 'Programa deletado com sucesso!',
+      message: 'Programa excluído com sucesso!',
     };
   }
 }

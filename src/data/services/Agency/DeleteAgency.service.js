@@ -18,7 +18,7 @@ export class DeleteAgencyService {
     });
 
     return {
-      message: 'Orgão deletado com sucesso!',
+      message: 'Orgão excluído com sucesso!',
     };
   }
 }

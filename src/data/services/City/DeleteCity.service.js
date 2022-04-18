@@ -18,7 +18,7 @@ export class DeleteCityService {
     });
 
     return {
-      message: 'Município deletado com sucesso!',
+      message: 'Município excluído com sucesso!',
     };
   }
 }

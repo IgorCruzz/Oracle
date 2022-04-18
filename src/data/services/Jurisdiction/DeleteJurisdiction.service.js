@@ -18,7 +18,7 @@ export class DeleteJurisdictionService {
     });
 
     return {
-      message: 'Esfera deletada com sucesso!',
+      message: 'Esfera excluída com sucesso!',
     };
   }
 }

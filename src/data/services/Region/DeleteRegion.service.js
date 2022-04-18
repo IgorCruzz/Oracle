@@ -18,7 +18,7 @@ export class DeleteRegionService {
     });
 
     return {
-      message: 'Região deleteda com sucesso!',
+      message: 'Região excluída com sucesso!',
     };
   }
 }
