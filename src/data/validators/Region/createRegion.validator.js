@@ -4,7 +4,7 @@ export const createRegionValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
       name: Yup.string()
-        .max(255, 'O campo nome precisa ter no máximo 255 caracteres')
+        .max(255, 'O tamanho máximo permitido para o campo nome é 255')
         .required('O campo nome é obrigatório'),
     });
 
