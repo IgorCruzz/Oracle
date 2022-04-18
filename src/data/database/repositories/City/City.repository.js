@@ -10,6 +10,19 @@ export class CityRepository {
     });
   }
 
+  async verifyRelation({ regionId, id }) {
+    return await City.findAll({
+      where: { id_city: id },
+      include: [
+        {
+          model: Region,
+          as: 'region',
+          where: { id_region: regionId },
+        },
+      ],
+    });
+  }
+
   async verifyRegion({ regionId }) {
     return await City.findAll({
       include: [
@@ -77,7 +90,12 @@ export class CityRepository {
       where: {
         nm_city: city.dataValues.nm_city,
       },
-      raw: true,
+      include: [
+        {
+          model: Region,
+          as: 'region',
+        },
+      ],
     });
   }
 }

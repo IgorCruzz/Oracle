@@ -1,8 +1,37 @@
-import { CityRepository } from '../../database/repositories';
+import { CityRepository, RegionRepository } from '../../database/repositories';
 
 export class UpdateCityService {
-  async execute({ name, id }) {
+  async execute({ name, id, region }) {
     const repository = new CityRepository();
+    const regionRepository = new RegionRepository();
+
+    if (region) {
+      const { regionName, regionId } = region;
+
+      const verifyRelation = await repository.verifyRelation({
+        regionId,
+        id,
+      });
+
+      if (verifyRelation.length === 0) {
+        return {
+          error:
+            'A região solicitada não existe ou não possui relação com o Município!',
+        };
+      }
+
+      const verifyJurisdictionName = await regionRepository.findRegion({
+        name: regionName,
+      });
+
+      if (verifyJurisdictionName)
+        return { error: 'Já existe uma esfera com este nome registrado.' };
+
+      await regionRepository.updateRegion({
+        id: regionId,
+        name: regionName,
+      });
+    }
 
     const verifyCitiesExists = await repository.findCityById({
       id,
