@@ -11,7 +11,7 @@ export const findJurisdictionValidator = async (req, res, next) => {
     return next();
   } catch (e) {
     return res.status(400).json({
-      error: 'Validation error',
+      error: 'Erro na validação',
       messages: e.errors,
     });
   }

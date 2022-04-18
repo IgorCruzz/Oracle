@@ -8,8 +8,8 @@ export const updateJurisdictionValidator = async (req, res, next) => {
 
     const SchemaBody = Yup.object().shape({
       name: Yup.string()
-        .max(255, 'O campo name precisa ter no máximo 255 caracteres')
-        .required('O campo name é obrigatório'),
+        .max(255, 'O campo nome precisa ter no máximo 255 caracteres')
+        .required('O campo nome é obrigatório'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });
@@ -19,7 +19,7 @@ export const updateJurisdictionValidator = async (req, res, next) => {
     return next();
   } catch (e) {
     return res.status(400).json({
-      error: 'Validation error',
+      error: 'Erro na validação',
       messages: e.errors,
     });
   }
