@@ -53,7 +53,7 @@ export class JurisdictionRepository {
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
-    return await jurisdiction.findOne({
+    return await Jurisdiction.findOne({
       where: {
         nm_jurisdiction: jurisdiction.dataValues.nm_jurisdiction,
       },
