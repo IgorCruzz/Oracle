@@ -16,7 +16,7 @@ export class RegionRepository {
   }
 
   async findRegions({ page, limit }) {
-    return await Region.findAll({
+    return await Region.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
     });

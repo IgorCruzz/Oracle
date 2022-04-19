@@ -14,8 +14,13 @@ export class FindRegionsController {
           error: response.error,
         });
 
+      const { count, rows } = response.regions;
+
       return res.status(200).json({
-        regions: response.regions,
+        count,
+        page,
+        limit,
+        regions: rows,
       });
     } catch (err) {
       return res.status(500).json({
