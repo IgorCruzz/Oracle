@@ -42,7 +42,7 @@ export class AgencyRepository {
   }
 
   async findAgencies({ page, limit, jurisdictionId }) {
-    return await Agency.findAll({
+    return await Agency.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
       include: [

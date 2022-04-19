@@ -14,8 +14,15 @@ export class FindAgenciesController {
           error: response.error,
         });
 
+      const { count, rows } = response.agencies;
+
+      console.log(response.agencies);
+
       return res.status(200).json({
-        agencies: response.agencies,
+        count,
+        page,
+        limit,
+        agencies: rows,
       });
     } catch (err) {
       return res.status(500).json({
