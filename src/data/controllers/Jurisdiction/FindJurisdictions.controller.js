@@ -14,8 +14,13 @@ export class FindJurisdictionsController {
           error: response.error,
         });
 
+      const { count, rows } = response.jurisdictions;
+
       return res.status(200).json({
-        jurisdictions: response.jurisdictions,
+        count,
+        page,
+        limit,
+        jurisdictions: rows,
       });
     } catch (err) {
       return res.status(500).json({
