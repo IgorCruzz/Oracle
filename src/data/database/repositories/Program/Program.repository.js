@@ -14,7 +14,7 @@ export class ProgramRepository {
   }
 
   async findPrograms({ page, limit }) {
-    return await Program.findAll({
+    return await Program.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
     });

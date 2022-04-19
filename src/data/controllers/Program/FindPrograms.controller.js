@@ -14,8 +14,13 @@ export class FindProgramsController {
           error: response.error,
         });
 
+      const { count, rows } = response.programs;
+
       return res.status(200).json({
-        programs: response.programs,
+        count,
+        page,
+        limit,
+        programs: rows,
       });
     } catch (err) {
       return res.status(500).json({
