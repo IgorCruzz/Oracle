@@ -38,7 +38,7 @@ export class CityRepository {
   }
 
   async findCites({ page, limit, regionId }) {
-    return await City.findAll({
+    return await City.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
       include: [

@@ -14,8 +14,13 @@ export class FindCitiesController {
           error: response.error,
         });
 
+      const { count, rows } = response.cities;
+
       return res.status(200).json({
-        cities: response.cities,
+        count,
+        page,
+        limit,
+        cities: rows,
       });
     } catch (err) {
       return res.status(500).json({
