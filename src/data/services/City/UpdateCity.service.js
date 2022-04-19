@@ -91,6 +91,7 @@ export class UpdateCityService {
     const cityUpdated = await repository.updateCity({
       id,
       name,
+      regionId,
     });
 
     return {

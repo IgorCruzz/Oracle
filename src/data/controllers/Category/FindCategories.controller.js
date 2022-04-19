@@ -14,8 +14,13 @@ export class FindCategoriesController {
           error: response.error,
         });
 
+      const { count, rows } = response.categories;
+
       return res.status(200).json({
-        categories: response.categories,
+        count,
+        page,
+        limit,
+        categories: rows,
       });
     } catch (err) {
       return res.status(500).json({
