@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   CreateProjectController,
   DeleteProjectController,
+  FindProjectController,
 } from '../../data/controllers';
 import {} from '../../data/validators';
 
@@ -33,11 +34,10 @@ routes.delete(
 //   new FindAgenciesController().handle
 // );
 
-// // Param :id
-// routes.get(
-//   '/agency/:id',
-//   findAgencyValidator,
-//   new FindAgencyController().handle
-// );
+routes.get(
+  '/project/:id_project',
+  // findAgencyValidator,
+  new FindProjectController().handle
+);
 
 export default routes;
