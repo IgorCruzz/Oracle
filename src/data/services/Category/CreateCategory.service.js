@@ -13,8 +13,6 @@ export class CreateCategoryService {
 
     const category = await repository.createCategory({ name });
 
-    console.log(category);
-
     return {
       message: 'Categoria registrada com sucesso!',
       category: category.dataValues,
