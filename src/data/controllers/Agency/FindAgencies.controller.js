@@ -21,8 +21,6 @@ export class FindAgenciesController {
 
       const { count, rows } = response.agencies;
 
-      console.log(response.agencies);
-
       return res.status(200).json({
         count,
         page,
