@@ -1,21 +1,21 @@
-import { AgencyRepository } from '../../database/repositories';
+import { ProjectRepository } from '../../database/repositories';
 
 export class FindProjectService {
-  async execute({ id }) {
-    const repository = new AgencyRepository();
+  async execute({ id_project }) {
+    const repository = new ProjectRepository();
 
-    const findAgency = await repository.findAgencyById({
-      id,
+    const findProject = await repository.findProjectById({
+      id_project,
       populate: true,
     });
 
-    if (!findAgency)
+    if (!findProject)
       return {
-        error: `Não há nenhum orgão registrado com este ID -> ${id}.`,
+        error: `Não há nenhum Projecto registrado com este ID -> ${id_project}.`,
       };
 
     return {
-      agency: findAgency,
+      project: findProject,
     };
   }
 }
