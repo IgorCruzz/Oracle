@@ -4,3 +4,4 @@ export * from './Region';
 export * from './City';
 export * from './Jurisdiction';
 export * from './Agency';
+export * from './Project';
