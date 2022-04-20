@@ -39,3 +39,7 @@ export * from './Agency/DeleteAgency.controller';
 export * from './Agency/FindAgencies.controller';
 export * from './Agency/UpdateAgency.controller';
 export * from './Agency/FindAgency.controller';
+
+// PROJECT
+export * from './Project/CreateProject.controller';
+export * from './Project/DeleteProject.controller';
