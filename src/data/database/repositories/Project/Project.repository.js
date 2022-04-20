@@ -25,6 +25,12 @@ export class ProjectRepository {
       where: {
         nm_project: createdProject.dataValues.nm_project,
       },
+      include: [
+        { model: City, as: 'city' },
+        { model: Category, as: 'category' },
+        { model: Program, as: 'program' },
+        { model: Agency, as: 'agency' },
+      ],
     });
   }
 
