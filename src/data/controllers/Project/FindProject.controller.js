@@ -1,13 +1,13 @@
-import { FindAgencyService } from '../../services';
+import { FindProjectService } from '../../services';
 
 export class FindProjectController {
   async handle(req, res) {
     try {
-      const { id } = req.params;
+      const { id_project } = req.params;
 
-      const service = new FindAgencyService();
+      const service = new FindProjectService();
 
-      const response = await service.execute({ id });
+      const response = await service.execute({ id_project });
 
       if (response.error)
         return res.status(400).json({
@@ -15,7 +15,7 @@ export class FindProjectController {
         });
 
       return res.status(200).json({
-        agency: response.agency,
+        project: response.project,
       });
     } catch (err) {
       return res.status(500).json({
