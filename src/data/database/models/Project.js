@@ -19,7 +19,6 @@ export class Project extends Model {
         cd_complexity: DataTypes.TINYINT(4),
         qt_m2: DataTypes.DECIMAL(20, 2),
         ds_official_document: DataTypes.STRING(1000),
-        dt_official_document: DataTypes.DATE,
         nm_official_document_applicant: DataTypes.STRING(255),
       },
       {
