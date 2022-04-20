@@ -39,3 +39,10 @@ export * from './Agency/DeleteAgency.service';
 export * from './Agency/FindAgencies.service';
 export * from './Agency/UpdateAgency.service';
 export * from './Agency/FindAgency.service';
+
+// PROJECT
+export * from './Project/CreateProject.service';
+export * from './Project/DeleteProject.service';
+export * from './Project/FindProject.service';
+export * from './Project/FindProjects.service';
+export * from './Project/UpdateProject.service';
