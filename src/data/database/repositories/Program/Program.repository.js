@@ -19,7 +19,7 @@ export class ProgramRepository {
       ? await Program.findAndCountAll({
           where: {
             nm_program: {
-              [Op.like]: `%${search}%`,
+              [Op.like]: `%${search.trim()}%`,
             },
           },
           limit: Number(limit),

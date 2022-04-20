@@ -21,9 +21,10 @@ export class CategoryRepository {
       ? await Category.findAndCountAll({
           where: {
             nm_category: {
-              [Op.like]: `%${search}%`,
+              [Op.like]: `%${search.trim()}%`,
             },
           },
+
           limit: Number(limit),
           offset: (Number(page) - 1) * Number(limit),
           raw: true,

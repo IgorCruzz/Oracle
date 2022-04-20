@@ -21,7 +21,7 @@ export class RegionRepository {
       ? await Region.findAndCountAll({
           where: {
             nm_region: {
-              [Op.like]: `%${search}%`,
+              [Op.like]: `%${search.trim()}%`,
             },
           },
           limit: Number(limit),

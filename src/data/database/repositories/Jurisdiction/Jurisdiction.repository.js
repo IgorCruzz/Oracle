@@ -21,7 +21,7 @@ export class JurisdictionRepository {
       ? await Jurisdiction.findAndCountAll({
           where: {
             nm_jurisdiction: {
-              [Op.like]: `%${search}%`,
+              [Op.like]: `%${search.trim()}%`,
             },
           },
           limit: Number(limit),

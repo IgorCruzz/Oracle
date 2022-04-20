@@ -47,7 +47,7 @@ export class AgencyRepository {
       ? await Agency.findAndCountAll({
           where: {
             nm_agency: {
-              [Op.like]: `%${search}%`,
+              [Op.like]: `%${search.trim()}%`,
             },
           },
           limit: Number(limit),

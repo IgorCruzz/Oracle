@@ -43,7 +43,7 @@ export class CityRepository {
       ? await City.findAndCountAll({
           where: {
             nm_city: {
-              [Op.like]: `%${search}%`,
+              [Op.like]: `%${search.trim()}%`,
             },
           },
           limit: Number(limit),
