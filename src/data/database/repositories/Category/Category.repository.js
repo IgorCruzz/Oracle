@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { Category } from '../../models';
 
 export class CategoryRepository {
@@ -15,12 +16,23 @@ export class CategoryRepository {
     });
   }
 
-  async findCategories({ page, limit }) {
-    return await Category.findAndCountAll({
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
-      raw: true,
-    });
+  async findCategories({ page, limit, search }) {
+    return search
+      ? await Category.findAndCountAll({
+          where: {
+            nm_category: {
+              [Op.like]: `%${search}%`,
+            },
+          },
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+          raw: true,
+        })
+      : await Category.findAndCountAll({
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+          raw: true,
+        });
   }
 
   async findCategory({ name }) {

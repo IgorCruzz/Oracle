@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { City, Region } from '../../models';
 
 export class CityRepository {
@@ -37,16 +38,31 @@ export class CityRepository {
     });
   }
 
-  async findCites({ page, limit, regionId }) {
-    return await City.findAndCountAll({
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
-      include: [
-        regionId
-          ? { model: Region, as: 'region', where: { id_region: regionId } }
-          : { model: Region, as: 'region' },
-      ],
-    });
+  async findCites({ page, limit, regionId, search }) {
+    return search
+      ? await City.findAndCountAll({
+          where: {
+            nm_city: {
+              [Op.like]: `%${search}%`,
+            },
+          },
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+          include: [
+            regionId
+              ? { model: Region, as: 'region', where: { id_region: regionId } }
+              : { model: Region, as: 'region' },
+          ],
+        })
+      : await City.findAndCountAll({
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+          include: [
+            regionId
+              ? { model: Region, as: 'region', where: { id_region: regionId } }
+              : { model: Region, as: 'region' },
+          ],
+        });
   }
 
   async findCity({ name }) {

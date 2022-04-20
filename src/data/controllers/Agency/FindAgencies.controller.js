@@ -3,11 +3,16 @@ import { FindAgenciesService } from '../../services';
 export class FindAgenciesController {
   async handle(req, res) {
     try {
-      const { page, limit, jurisdictionId } = req.query;
+      const { page, limit, jurisdictionId, search } = req.query;
 
       const service = new FindAgenciesService();
 
-      const response = await service.execute({ page, limit, jurisdictionId });
+      const response = await service.execute({
+        page,
+        limit,
+        jurisdictionId,
+        search,
+      });
 
       if (response.error)
         return res.status(400).json({

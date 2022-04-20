@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { Program } from '../../models';
 
 export class ProgramRepository {
@@ -13,11 +14,21 @@ export class ProgramRepository {
     });
   }
 
-  async findPrograms({ page, limit }) {
-    return await Program.findAndCountAll({
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
-    });
+  async findPrograms({ page, limit, search }) {
+    return search
+      ? await Program.findAndCountAll({
+          where: {
+            nm_program: {
+              [Op.like]: `%${search}%`,
+            },
+          },
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+        })
+      : await Program.findAndCountAll({
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+        });
   }
 
   async findProgram({ name }) {

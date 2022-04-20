@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { Region } from '../../models';
 
 export class RegionRepository {
@@ -15,11 +16,21 @@ export class RegionRepository {
     });
   }
 
-  async findRegions({ page, limit }) {
-    return await Region.findAndCountAll({
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
-    });
+  async findRegions({ page, limit, search }) {
+    return search
+      ? await Region.findAndCountAll({
+          where: {
+            nm_region: {
+              [Op.like]: `%${search}%`,
+            },
+          },
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+        })
+      : await Region.findAndCountAll({
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+        });
   }
 
   async findRegion({ name }) {

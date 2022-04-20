@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { Jurisdiction } from '../../models';
 
 export class JurisdictionRepository {
@@ -15,12 +16,23 @@ export class JurisdictionRepository {
     });
   }
 
-  async findJurisdictions({ page, limit }) {
-    return await Jurisdiction.findAndCountAll({
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
-      raw: true,
-    });
+  async findJurisdictions({ page, limit, search }) {
+    return search
+      ? await Jurisdiction.findAndCountAll({
+          where: {
+            nm_jurisdiction: {
+              [Op.like]: `%${search}%`,
+            },
+          },
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+          raw: true,
+        })
+      : await Jurisdiction.findAndCountAll({
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+          raw: true,
+        });
   }
 
   async findJurisdiction({ name }) {

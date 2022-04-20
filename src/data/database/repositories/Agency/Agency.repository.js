@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { Agency, Jurisdiction } from '../../models';
 
 export class AgencyRepository {
@@ -41,20 +42,39 @@ export class AgencyRepository {
     });
   }
 
-  async findAgencies({ page, limit, jurisdictionId }) {
-    return await Agency.findAndCountAll({
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
-      include: [
-        jurisdictionId
-          ? {
-              model: Jurisdiction,
-              as: 'jurisdiction',
-              where: { id_jurisdiction: jurisdictionId },
-            }
-          : { model: Jurisdiction, as: 'jurisdiction' },
-      ],
-    });
+  async findAgencies({ page, limit, jurisdictionId, search }) {
+    return search
+      ? await Agency.findAndCountAll({
+          where: {
+            nm_agency: {
+              [Op.like]: `%${search}%`,
+            },
+          },
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+          include: [
+            jurisdictionId
+              ? {
+                  model: Jurisdiction,
+                  as: 'jurisdiction',
+                  where: { id_jurisdiction: jurisdictionId },
+                }
+              : { model: Jurisdiction, as: 'jurisdiction' },
+          ],
+        })
+      : await Agency.findAndCountAll({
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+          include: [
+            jurisdictionId
+              ? {
+                  model: Jurisdiction,
+                  as: 'jurisdiction',
+                  where: { id_jurisdiction: jurisdictionId },
+                }
+              : { model: Jurisdiction, as: 'jurisdiction' },
+          ],
+        });
   }
 
   async findAgency({ name }) {

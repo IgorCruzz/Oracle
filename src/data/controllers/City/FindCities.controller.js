@@ -3,11 +3,11 @@ import { FindCitiesService } from '../../services';
 export class FindCitiesController {
   async handle(req, res) {
     try {
-      const { page, limit, regionId } = req.query;
+      const { page, limit, regionId, search } = req.query;
 
       const service = new FindCitiesService();
 
-      const response = await service.execute({ page, limit, regionId });
+      const response = await service.execute({ page, limit, regionId, search });
 
       if (response.error)
         return res.status(400).json({
