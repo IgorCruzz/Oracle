@@ -38,7 +38,7 @@ export class JurisdictionRepository {
   async findJurisdiction({ name }) {
     return await Jurisdiction.findOne({
       where: {
-        nm_jurisdiction:  name.trim(),
+        nm_jurisdiction: name.trim(),
       },
       raw: true,
     });
@@ -67,7 +67,7 @@ export class JurisdictionRepository {
     });
 
     await jurisdiction.update({
-      nm_jurisdiction:  name.trim(),
+      nm_jurisdiction: name.trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 

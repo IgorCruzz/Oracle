@@ -68,7 +68,7 @@ export class CityRepository {
   async findCity({ name }) {
     return await City.findOne({
       where: {
-        nm_city:  name.trim(),
+        nm_city: name.trim(),
       },
       raw: true,
     });
@@ -105,7 +105,7 @@ export class CityRepository {
 
     if (name && !regionId) {
       await city.update({
-        nm_city:  name.trim(),
+        nm_city: name.trim(),
         dt_updated_at: new Date(Date.now()).toISOString(),
       });
 
@@ -142,7 +142,7 @@ export class CityRepository {
     }
 
     await city.update({
-      nm_city:  name.trim(),
+      nm_city: name.trim(),
       id_region: regionId,
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

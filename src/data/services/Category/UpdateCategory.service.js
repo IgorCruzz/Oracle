@@ -15,7 +15,7 @@ export class UpdateCategoryService {
       name,
     });
 
-    if (verifyCategoryName)
+    if (verifyCategoryName.id_category !== Number(id))
       return { error: 'Já existe uma categoria registrada com este nome.' };
 
     const categoryUpdated = await repository.updateCategory({

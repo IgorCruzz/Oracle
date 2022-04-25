@@ -22,7 +22,7 @@ export class UpdateAgencyService {
         name,
       });
 
-      if (verifyAgencyName)
+      if (verifyAgencyName.id_agency !== Number(id))
         return { error: 'Já existe um orgão registrado com este nome.' };
 
       const agencyUpdated = await repository.updateAgency({
@@ -81,7 +81,7 @@ export class UpdateAgencyService {
       name,
     });
 
-    if (verifyAgencyName)
+    if (verifyAgencyName.id_agency !== Number(id))
       return { error: 'Já existe um orgão registrado com este nome.' };
 
     const verifyJurisdictionExists = await jurisdictionRepository.findJurisdictionById(

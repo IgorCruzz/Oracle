@@ -19,7 +19,7 @@ export class UpdateCityService {
         name,
       });
 
-      if (verifyCityName)
+      if (verifyCityName.id_city !== Number(id))
         return { error: 'Já foi registrado um município com este nome.' };
 
       const cityUpdated = await repository.updateCity({
@@ -76,7 +76,7 @@ export class UpdateCityService {
       name,
     });
 
-    if (verifyCityName)
+    if (verifyCityName.id_city !== Number(id))
       return { error: 'Já foi registrado um município com este nome.' };
 
     const verifyRegionExists = await regionRepository.findRegionById({
