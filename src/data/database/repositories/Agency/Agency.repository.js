@@ -4,7 +4,7 @@ import { Agency, Jurisdiction } from '../../models';
 export class AgencyRepository {
   async createAgency({ name, jurisdictionId }) {
     const createdAgency = await Agency.create({
-      nm_agency: name.toLowerCase().trim(),
+      nm_agency: name.trim(),
       id_jurisdiction: jurisdictionId,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
@@ -80,7 +80,7 @@ export class AgencyRepository {
   async findAgency({ name }) {
     return await Agency.findOne({
       where: {
-        nm_agency: name.toLowerCase().trim(),
+        nm_agency: name.trim(),
       },
       raw: true,
     });
@@ -138,7 +138,7 @@ export class AgencyRepository {
 
     if (name && !jurisdictionId) {
       await agency.update({
-        nm_agency: name.toLowerCase().trim(),
+        nm_agency: name.trim(),
         dt_updated_at: new Date(Date.now()).toISOString(),
       });
 
@@ -156,7 +156,7 @@ export class AgencyRepository {
     }
 
     await agency.update({
-      nm_agency: name.toLowerCase().trim(),
+      nm_agency: name.trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
       id_jurisdiction: jurisdictionId,
     });

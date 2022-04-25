@@ -4,7 +4,7 @@ import { Jurisdiction } from '../../models';
 export class JurisdictionRepository {
   async createJurisdiction({ name }) {
     const createdJurisdiction = await Jurisdiction.create({
-      nm_jurisdiction: name.toLowerCase().trim(),
+      nm_jurisdiction: name.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -38,7 +38,7 @@ export class JurisdictionRepository {
   async findJurisdiction({ name }) {
     return await Jurisdiction.findOne({
       where: {
-        nm_jurisdiction: name.toLowerCase().trim(),
+        nm_jurisdiction:  name.trim(),
       },
       raw: true,
     });
@@ -67,7 +67,7 @@ export class JurisdictionRepository {
     });
 
     await jurisdiction.update({
-      nm_jurisdiction: name.toLowerCase().trim(),
+      nm_jurisdiction:  name.trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 

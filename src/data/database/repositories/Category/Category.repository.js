@@ -4,7 +4,7 @@ import { Category } from '../../models';
 export class CategoryRepository {
   async createCategory({ name }) {
     const createdCategory = await Category.create({
-      nm_category: name.toLowerCase().trim(),
+      nm_category: name.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -39,7 +39,7 @@ export class CategoryRepository {
   async findCategory({ name }) {
     return await Category.findOne({
       where: {
-        nm_category: name.toLowerCase().trim(),
+        nm_category: name.trim(),
       },
       raw: true,
     });
@@ -68,7 +68,7 @@ export class CategoryRepository {
     });
 
     await category.update({
-      nm_category: name.toLowerCase().trim(),
+      nm_category: name.trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 

@@ -4,7 +4,7 @@ import { City, Region } from '../../models';
 export class CityRepository {
   async createCity({ name, regionId }) {
     const createdCity = await City.create({
-      nm_city: name.toLowerCase().trim(),
+      nm_city: name.trim(),
       id_region: regionId,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
@@ -68,7 +68,7 @@ export class CityRepository {
   async findCity({ name }) {
     return await City.findOne({
       where: {
-        nm_city: name.toLowerCase().trim(),
+        nm_city:  name.trim(),
       },
       raw: true,
     });
@@ -105,7 +105,7 @@ export class CityRepository {
 
     if (name && !regionId) {
       await city.update({
-        nm_city: name.toLowerCase().trim(),
+        nm_city:  name.trim(),
         dt_updated_at: new Date(Date.now()).toISOString(),
       });
 
@@ -142,7 +142,7 @@ export class CityRepository {
     }
 
     await city.update({
-      nm_city: name.toLowerCase().trim(),
+      nm_city:  name.trim(),
       id_region: regionId,
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

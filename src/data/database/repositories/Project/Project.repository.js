@@ -11,7 +11,7 @@ export class ProjectRepository {
 
     const createdProject = await Project.create({
       ...data,
-      nm_project: nm_project.toLowerCase().trim(),
+      nm_project: nm_project.trim(),
       ds_official_document: ds_official_document.toLowerCase().trim(),
       nm_official_document_applicant: nm_official_document_applicant
         .toLowerCase()
@@ -160,7 +160,7 @@ export class ProjectRepository {
 
   //   if (name && !jurisdictionId) {
   //     await agency.update({
-  //       nm_agency: name.toLowerCase().trim(),
+  //       nm_agency:  name.trim(),
   //       dt_updated_at: new Date(Date.now()).toISOString(),
   //     });
 
@@ -178,7 +178,7 @@ export class ProjectRepository {
   //   }
 
   //   await agency.update({
-  //     nm_agency: name.toLowerCase().trim(),
+  //     nm_agency:  name.trim(),
   //     dt_updated_at: new Date(Date.now()).toISOString(),
   //     id_jurisdiction: jurisdictionId,
   //   });

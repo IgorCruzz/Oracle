@@ -4,7 +4,7 @@ import { Region } from '../../models';
 export class RegionRepository {
   async createRegion({ name }) {
     const createdRegion = await Region.create({
-      nm_region: name.toLowerCase().trim(),
+      nm_region: name.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -36,7 +36,7 @@ export class RegionRepository {
   async findRegion({ name }) {
     return await Region.findOne({
       where: {
-        nm_region: name.toLowerCase().trim(),
+        nm_region:  name.trim(),
       },
       raw: true,
     });
@@ -65,7 +65,7 @@ export class RegionRepository {
     });
 
     await region.update({
-      nm_region: name.toLowerCase().trim(),
+      nm_region:  name.trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
