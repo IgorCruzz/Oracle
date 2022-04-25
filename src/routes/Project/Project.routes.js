@@ -3,6 +3,7 @@ import {
   CreateProjectController,
   DeleteProjectController,
   FindProjectController,
+  FindProjectsController,
 } from '../../data/controllers';
 import {} from '../../data/validators';
 
@@ -27,12 +28,11 @@ routes.delete(
 //   new UpdateAgencyController().handle
 // );
 
-// // Query ?limit &&  ?page
-// routes.get(
-//   '/agencies',
-//   findAgenciesValidator,
-//   new FindAgenciesController().handle
-// );
+routes.get(
+  '/projects',
+  // findAgenciesValidator,
+  new FindProjectsController().handle
+);
 
 routes.get(
   '/project/:id_project',

@@ -1,4 +1,4 @@
-// import { Op } from 'sequelize';
+import { Op } from 'sequelize';
 import { Project, City, Category, Agency, Program } from '../../models';
 
 export class ProjectRepository {
@@ -59,40 +59,90 @@ export class ProjectRepository {
   //   });
   // }
 
-  // async findAgencies({ page, limit, jurisdictionId, search }) {
-  //   return search
-  //     ? await Agency.findAndCountAll({
-  //         where: {
-  //           nm_agency: {
-  //             [Op.like]: `%${search.trim()}%`,
-  //           },
-  //         },
-  //         limit: Number(limit),
-  //         offset: (Number(page) - 1) * Number(limit),
-  //         include: [
-  //           jurisdictionId
-  //             ? {
-  //                 model: Jurisdiction,
-  //                 as: 'jurisdiction',
-  //                 where: { id_jurisdiction: jurisdictionId },
-  //               }
-  //             : { model: Jurisdiction, as: 'jurisdiction' },
-  //         ],
-  //       })
-  //     : await Agency.findAndCountAll({
-  //         limit: Number(limit),
-  //         offset: (Number(page) - 1) * Number(limit),
-  //         include: [
-  //           jurisdictionId
-  //             ? {
-  //                 model: Jurisdiction,
-  //                 as: 'jurisdiction',
-  //                 where: { id_jurisdiction: jurisdictionId },
-  //               }
-  //             : { model: Jurisdiction, as: 'jurisdiction' },
-  //         ],
-  //       });
-  // }
+  async findProjects({
+    page,
+    limit,
+    id_city,
+    id_category,
+    id_program,
+    id_agency,
+    search,
+  }) {
+    return search
+      ? await Project.findAndCountAll({
+          where: {
+            nm_program: {
+              [Op.like]: `%${search.trim()}%`,
+            },
+          },
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+          include: [
+            id_city
+              ? {
+                  model: City,
+                  as: 'city',
+                  where: { id_city },
+                }
+              : { model: City, as: 'city' },
+            id_category
+              ? {
+                  model: Category,
+                  as: 'category',
+                  where: { id_category },
+                }
+              : { model: Category, as: 'category' },
+            id_program
+              ? {
+                  model: Program,
+                  as: 'program',
+                  where: { id_program },
+                }
+              : { model: Program, as: 'program' },
+            id_agency
+              ? {
+                  model: Agency,
+                  as: 'agency',
+                  where: { id_agency },
+                }
+              : { model: Agency, as: 'agency' },
+          ],
+        })
+      : await Project.findAndCountAll({
+          limit: Number(limit),
+          offset: (Number(page) - 1) * Number(limit),
+          include: [
+            id_city
+              ? {
+                  model: City,
+                  as: 'city',
+                  where: { id_city },
+                }
+              : { model: City, as: 'city' },
+            id_category
+              ? {
+                  model: Category,
+                  as: 'category',
+                  where: { id_category },
+                }
+              : { model: Category, as: 'category' },
+            id_program
+              ? {
+                  model: Program,
+                  as: 'program',
+                  where: { id_program },
+                }
+              : { model: Program, as: 'program' },
+            id_agency
+              ? {
+                  model: Agency,
+                  as: 'agency',
+                  where: { id_agency },
+                }
+              : { model: Agency, as: 'agency' },
+          ],
+        });
+  }
 
   async findProject({ nm_project }) {
     return await Project.findOne({

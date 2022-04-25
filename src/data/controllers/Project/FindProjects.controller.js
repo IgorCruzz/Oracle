@@ -1,16 +1,27 @@
-import { FindAgenciesService } from '../../services';
+import { FindProjectsService } from '../../services';
 
 export class FindProjectsController {
   async handle(req, res) {
     try {
-      const { page, limit, jurisdictionId, search } = req.query;
+      const {
+        page,
+        limit,
+        id_city,
+        id_category,
+        id_program,
+        id_agency,
+        search,
+      } = req.query;
 
-      const service = new FindAgenciesService();
+      const service = new FindProjectsService();
 
       const response = await service.execute({
         page,
         limit,
-        jurisdictionId,
+        id_city,
+        id_category,
+        id_program,
+        id_agency,
         search,
       });
 
@@ -19,17 +30,16 @@ export class FindProjectsController {
           error: response.error,
         });
 
-      const { count, rows } = response.agencies;
-
-      console.log(response.agencies);
+      const { count, rows } = response.projects;
 
       return res.status(200).json({
         count,
         page,
         limit,
-        agencies: rows,
+        projects: rows,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Internal Server Error',
       });

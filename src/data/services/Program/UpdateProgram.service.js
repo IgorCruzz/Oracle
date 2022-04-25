@@ -17,7 +17,7 @@ export class UpdateProgramService {
       name,
     });
 
-    if (verifyProgramName.id_program !== Number(id))
+    if (verifyProgramName && verifyProgramName.id_program !== Number(id))
       return { error: 'Já existe um programa registrado com este nome.' };
 
     const programUpdated = await repository.updateProgram({

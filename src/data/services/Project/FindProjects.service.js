@@ -1,21 +1,32 @@
-import { AgencyRepository } from '../../database/repositories';
+import { ProjectRepository } from '../../database/repositories';
 
 export class FindProjectsService {
-  async execute({ page, limit, jurisdictionId, search }) {
-    const repository = new AgencyRepository();
+  async execute({
+    page,
+    limit,
+    id_city,
+    id_category,
+    id_program,
+    id_agency,
+    search,
+  }) {
+    const repository = new ProjectRepository();
 
-    const findAgencies = await repository.findAgencies({
-      limit,
+    const findProjects = await repository.findProjects({
       page,
-      jurisdictionId,
+      limit,
+      id_city,
+      id_category,
+      id_program,
+      id_agency,
       search,
     });
 
-    if (findAgencies.length === 0)
-      return { error: 'Não há nenhum orgão registrado.' };
+    if (findProjects.length === 0)
+      return { error: 'Não há nenhum projeto registrado.' };
 
     return {
-      agencies: findAgencies,
+      projects: findProjects,
     };
   }
 }

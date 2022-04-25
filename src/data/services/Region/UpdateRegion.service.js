@@ -17,7 +17,7 @@ export class UpdateRegionService {
       name,
     });
 
-    if (verifyRegionName.id_region !== Number(id))
+    if (verifyRegionName && verifyRegionName.id_region !== Number(id))
       return { error: 'Já existe uma região registrada com este nome.' };
 
     const programUpdated = await repository.updateRegion({

@@ -17,7 +17,10 @@ export class UpdateJurisdictionService {
       name,
     });
 
-    if (verifyJurisdictionName.id_jurisdiction !== Number(id))
+    if (
+      verifyJurisdictionName &&
+      verifyJurisdictionName.id_jurisdiction !== Number(id)
+    )
       return { error: 'Já existe uma esfera com este nome registrado.' };
 
     const jurisdictionUpdated = await repository.updateJurisdiction({
