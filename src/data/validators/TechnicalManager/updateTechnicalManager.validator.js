@@ -17,8 +17,8 @@ export const updateTechnicalManagerValidator = async (req, res, next) => {
       ),
       nu_rrt_art: Yup.number().typeError('Localização de Canteiro inválido'),
       tp_responsability: Yup.mixed().oneOf(
-        ['Obra', 'Supervisão'],
-        'Valores permitidos no campo tipo de responsabilidade: Obra, Supervisão'
+        ['1', '2'],
+        'Valores permitidos no campo tipo de responsabilidade:  1 = Obra, 2 = Supervisão'
       ),
       id_project: Yup.number().typeError('Localização de Canteiro inválido'),
     });

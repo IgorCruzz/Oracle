@@ -14,8 +14,8 @@ export const createTechnicalManagerValidator = async (req, res, next) => {
         .required('O campo ART é obrigatório'),
       tp_responsability: Yup.mixed()
         .oneOf(
-          ['Obra', 'Supervisão'],
-          'Valores permitidos no campo tipo de responsabilidade: Obra, Supervisão'
+          ['1', '2'],
+          'Valores permitidos no campo tipo de responsabilidade:  1 = Obra, 2 = Supervisão'
         )
         .required('O campo tipo de responsabilidade'),
       id_project: Yup.number()
