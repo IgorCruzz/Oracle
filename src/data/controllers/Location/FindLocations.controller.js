@@ -3,7 +3,7 @@ import { FindLocationsService } from '../../services';
 export class FindLocationsController {
   async handle(req, res) {
     try {
-      const { page, limit, id_project, search } = req.query;
+      const { page, limit, id_project } = req.query;
 
       const service = new FindLocationsService();
 
@@ -11,7 +11,6 @@ export class FindLocationsController {
         page,
         limit,
         id_project,
-        search,
       });
 
       if (response.error)
@@ -29,7 +28,7 @@ export class FindLocationsController {
       });
     } catch (err) {
       return res.status(500).json({
-        error: 'Internal Server Error',
+        error: 'Ocorreu um problema interno',
       });
     }
   }

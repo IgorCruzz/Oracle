@@ -41,7 +41,7 @@ export class FindProjectsController {
     } catch (err) {
       console.log(err);
       return res.status(500).json({
-        error: 'Internal Server Error',
+        error: 'Ocorreu um problema interno',
       });
     }
   }

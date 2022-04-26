@@ -44,39 +44,20 @@ export class LocationRepository {
     });
   }
 
-  async findLocations({ page, limit, id_project, search }) {
-    return search
-      ? await Location.findAndCountAll({
-          where: {
-            nm_agency: {
-              [Op.like]: `%${search.trim()}%`,
-            },
-          },
-          limit: Number(limit),
-          offset: (Number(page) - 1) * Number(limit),
-          include: [
-            id_project
-              ? {
-                  model: Project,
-                  as: 'project',
-                  where: { id_project },
-                }
-              : { model: Project, as: 'project' },
-          ],
-        })
-      : await Location.findAndCountAll({
-          limit: Number(limit),
-          offset: (Number(page) - 1) * Number(limit),
-          include: [
-            id_project
-              ? {
-                  model: Project,
-                  as: 'project',
-                  where: { id_project },
-                }
-              : { model: Project, as: 'project' },
-          ],
-        });
+  async findLocations({ page, limit, id_project }) {
+    return await Location.findAndCountAll({
+      limit: Number(limit),
+      offset: (Number(page) - 1) * Number(limit),
+      include: [
+        id_project
+          ? {
+              model: Project,
+              as: 'project',
+              where: { id_project },
+            }
+          : { model: Project, as: 'project' },
+      ],
+    });
   }
 
   async findLocation(data) {

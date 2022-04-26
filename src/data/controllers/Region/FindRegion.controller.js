@@ -19,7 +19,7 @@ export class FindRegionController {
       });
     } catch (err) {
       return res.status(500).json({
-        error: 'Internal Server Error',
+        error: 'Ocorreu um problema interno',
       });
     }
   }
