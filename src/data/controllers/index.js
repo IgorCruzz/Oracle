@@ -53,3 +53,10 @@ export * from './Location/DeleteLocation.controller';
 export * from './Location/FindLocation.controller';
 export * from './Location/FindLocations.controller';
 export * from './Location/UpdateLocation.controller';
+
+// POLYGON AREA
+export * from './PolygonArea/CreatePolygonArea.controller';
+export * from './PolygonArea/DeletePolygonArea.controller';
+export * from './PolygonArea/FindPolygonArea.controller';
+export * from './PolygonArea/FindPolygonAreas.controller';
+export * from './PolygonArea/UpdatePolygonArea.controller';
