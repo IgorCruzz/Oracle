@@ -55,30 +55,53 @@ export class ProjectRepository {
     });
   }
 
-  // async verifyRelation({ jurisdictionId, id }) {
-  //   return await Agency.findAll({
-  //     where: { id_agency: id },
-  //     include: [
-  //       {
-  //         model: Jurisdiction,
-  //         as: 'jurisdiction',
-  //         where: { id_jurisdiction: jurisdictionId },
-  //       },
-  //     ],
-  //   });
-  // }
+  async verifyRelationAgency({ id_agency }) {
+    return await Project.findAll({
+      include: [
+        {
+          model: Agency,
+          as: 'agency',
+          where: { id_agency },
+        },
+      ],
+    });
+  }
 
-  // async verifyJurisdiction({ jurisdictionId }) {
-  //   return await Agency.findAll({
-  //     include: [
-  //       {
-  //         model: Jurisdiction,
-  //         as: 'jurisdiction',
-  //         where: { id_jurisdiction: jurisdictionId },
-  //       },
-  //     ],
-  //   });
-  // }
+  async verifyRelationProgram({ id_program }) {
+    return await Project.findAll({
+      include: [
+        {
+          model: Program,
+          as: 'program',
+          where: { id_program },
+        },
+      ],
+    });
+  }
+
+  async verifyRelationCity({ id_city }) {
+    return await Project.findAll({
+      include: [
+        {
+          model: City,
+          as: 'city',
+          where: { id_city },
+        },
+      ],
+    });
+  }
+
+  async verifyRelationCategory({ id_category }) {
+    return await Project.findAll({
+      include: [
+        {
+          model: Category,
+          as: 'category',
+          where: { id_category },
+        },
+      ],
+    });
+  }
 
   async findProjects({
     page,
