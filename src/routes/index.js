@@ -8,6 +8,7 @@ import Jurisdiction from './Jurisdiction/Jurisdiction.routes';
 import Agency from './Agency/Agency.routes';
 import Project from './Project/Project.routes';
 import Location from './Location/Location.routes';
+import PolygonArea from './PolygonArea/PolygonArea.routes';
 
 const routes = [
   Category,
@@ -18,6 +19,7 @@ const routes = [
   Agency,
   Project,
   Location,
+  PolygonArea,
 ];
 
 const router = Router();
