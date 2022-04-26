@@ -17,6 +17,7 @@ export class CreatePolygonAreaController {
         polygonArea: response.polygonArea,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });

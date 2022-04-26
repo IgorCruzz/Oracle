@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { Polygon_area, Location } from '../../models';
 
 export class PolygonAreaRepository {
@@ -37,10 +38,16 @@ export class PolygonAreaRepository {
     });
   }
 
-  async findPolygonArea({ id_polygon_area }) {
+  async findPolygonArea(data) {
+    const { id_location, nu_latidude_vertice, nu_longitude_vertice } = data;
+
     return await Polygon_area.findOne({
       where: {
-        id_polygon_area,
+        [Op.and]: {
+          id_location,
+          nu_latidude_vertice,
+          nu_longitude_vertice,
+        },
       },
       raw: true,
     });
