@@ -11,35 +11,45 @@ export const updateProjectValidator = async (req, res, next) => {
         255,
         'O tamanho máximo permitido para o campo nome do projeto é 255'
       ),
-      tx_description: Yup.string().max(
-        1000,
-        'O tamanho máximo permitido para o campo nome do projeto é 1000'
-      ),
-      vl_estimated: Yup.number().typeError(
-        'O campo valor estimado precisa ser númerico'
-      ),
-      vl_bid: Yup.number().typeError(
-        'O campo valor licitado precisa ser númerico'
-      ),
-      vl_contract: Yup.number().typeError(
-        'O campo valor de contrato precisa ser númerico'
-      ),
-      cd_sei: Yup.string().max(
-        25,
-        'O tamanho máximo permitido para o campo nome do projeto é 25'
-      ),
+      tx_description: Yup.string()
+        .max(
+          1000,
+          'O tamanho máximo permitido para o campo nome do projeto é 1000'
+        )
+        .nullable(),
+      vl_estimated: Yup.number()
+        .nullable()
+        .typeError('O campo valor estimado precisa ser númerico'),
+      vl_bid: Yup.number()
+        .nullable()
+        .typeError('O campo valor licitado precisa ser númerico'),
+      vl_contract: Yup.number()
+        .nullable()
+        .typeError('O campo valor de contrato precisa ser númerico'),
+      cd_sei: Yup.string()
+        .nullable()
+        .max(
+          25,
+          'O tamanho máximo permitido para o campo nome do projeto é 25'
+        ),
       cd_priority: Yup.number(),
-      cd_complexity: Yup.number(),
-      qt_m2: Yup.number().typeError('O campo m² precisa ser númerico'),
-      ds_official_document: Yup.string().max(
-        1000,
-        'O tamanho máximo permitido para o campo descrição do documento é 1000'
-      ),
-      nm_official_document_applicant: Yup.string().max(
-        255,
-        'O tamanho máximo permitido para o campo nome do documento é 255'
-      ),
-      dt_official_document: Yup.string(),
+      cd_complexity: Yup.number().nullable(),
+      qt_m2: Yup.number()
+        .nullable()
+        .typeError('O campo m² precisa ser númerico'),
+      ds_official_document: Yup.string()
+        .max(
+          1000,
+          'O tamanho máximo permitido para o campo descrição do documento é 1000'
+        )
+        .nullable(),
+      nm_official_document_applicant: Yup.string()
+        .max(
+          255,
+          'O tamanho máximo permitido para o campo nome do documento é 255'
+        )
+        .nullable(),
+      dt_official_document: Yup.string().nullable(),
       id_city: Yup.number().typeError('Município inválido'),
       id_category: Yup.number().typeError('Categoria inválida'),
       id_program: Yup.number().typeError('Programa inválida'),
