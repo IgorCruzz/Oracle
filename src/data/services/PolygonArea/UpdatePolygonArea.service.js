@@ -9,6 +9,7 @@ export class UpdatePolygonAreaService {
 
     const repository = new PolygonAreaRepository();
     const locationRepository = new LocationRepository();
+    let locationExists;
 
     const verifyPolygonAreaExists = await repository.findPolygonAreaById({
       id_polygon_area,
@@ -20,7 +21,7 @@ export class UpdatePolygonAreaService {
       };
 
     if (id_location) {
-      const locationExists = await locationRepository.findLocationById({
+      locationExists = await locationRepository.findLocationById({
         id_location,
       });
 
@@ -29,6 +30,14 @@ export class UpdatePolygonAreaService {
           error: `Não há nenhuma Localização de Canteiros registrado com este ID -> ${id_location}.`,
         };
       }
+    }
+
+    const polygonAreaExists = await repository.findPolygonArea(data);
+
+    if (polygonAreaExists) {
+      return {
+        error: `Já existe um Polígono de Área registrado com estes dados para a Localização de Canteiro com o ID -> ${locationExists.id_location} `,
+      };
     }
 
     const polygonAreaUpdated = await repository.updatePolygonArea(
