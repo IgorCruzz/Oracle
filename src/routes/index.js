@@ -7,8 +7,18 @@ import City from './City/City.routes';
 import Jurisdiction from './Jurisdiction/Jurisdiction.routes';
 import Agency from './Agency/Agency.routes';
 import Project from './Project/Project.routes';
+import Location from './Location/Location.routes';
 
-const routes = [Category, Program, Region, City, Jurisdiction, Agency, Project];
+const routes = [
+  Category,
+  Program,
+  Region,
+  City,
+  Jurisdiction,
+  Agency,
+  Project,
+  Location,
+];
 
 const router = Router();
 
