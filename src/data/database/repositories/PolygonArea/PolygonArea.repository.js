@@ -15,6 +15,12 @@ export class PolygonAreaRepository {
     });
   }
 
+  async verifyLocation({ id_location }) {
+    return await Polygon_area.findAll({
+      include: [{ model: Location, as: 'location', where: { id_location } }],
+    });
+  }
+
   async findPolygonAreas({ page, limit, id_location }) {
     return await Polygon_area.findAndCountAll({
       limit: Number(limit),

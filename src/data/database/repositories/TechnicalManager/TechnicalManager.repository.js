@@ -17,6 +17,18 @@ export class TechnicalManagerRepository {
     });
   }
 
+  async verifyProject({ id_project }) {
+    return await Project.findAll({
+      include: [
+        {
+          model: Project,
+          as: 'project',
+          where: { id_project },
+        },
+      ],
+    });
+  }
+
   async findTechnicalManagers({ page, limit, id_project }) {
     return await Technical_manager.findAndCountAll({
       limit: Number(limit),
