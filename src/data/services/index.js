@@ -62,8 +62,8 @@ export * from './PolygonArea/FindPolygonAreas.service';
 export * from './PolygonArea/UpdatePolygonArea.service';
 
 // TECHNICAL MANAGER
-export * from './TechinalManager/CreateTechinalManager.service';
-export * from './TechinalManager/DeleteTechinalManager.service';
-export * from './TechinalManager/FindTechinalManager.service';
-export * from './TechinalManager/FindTechinalManagers.service';
-export * from './TechinalManager/UpdateTechinalManager.service';
+export * from './TechnicalManager/CreateTechnicalManager.service';
+export * from './TechnicalManager/DeleteTechnicalManager.service';
+export * from './TechnicalManager/FindTechinalManagers.service';
+export * from './TechnicalManager/FindTechnicalManager.service';
+export * from './TechnicalManager/UpdateTechnicalManager.service';

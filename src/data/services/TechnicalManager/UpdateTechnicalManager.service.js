@@ -3,7 +3,7 @@ import {
   ProjectRepository,
 } from '../../database/repositories';
 
-export class UpdateTechinalManagerService {
+export class UpdateTechnicalManagerService {
   async execute(id_technical_manager, data) {
     const { id_project } = data;
 

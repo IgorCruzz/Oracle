@@ -1,11 +1,11 @@
-import { FindTechinalManagersService } from '../../services';
+import { FindTechnicalManagersService } from '../../services';
 
-export class FindTechinalManagersController {
+export class FindTechnicalManagersController {
   async handle(req, res) {
     try {
       const { page, limit, id_project } = req.query;
 
-      const service = new FindTechinalManagersService();
+      const service = new FindTechnicalManagersService();
 
       const response = await service.execute({
         page,

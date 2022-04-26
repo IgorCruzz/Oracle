@@ -1,13 +1,11 @@
-import { UpdateTechinalManagerService } from '../../services';
+import { CreateTechnicalManagerService } from '../../services';
 
-export class UpdateTechinalManagerController {
+export class CreateTechnicalManagerController {
   async handle(req, res) {
     try {
-      const service = new UpdateTechinalManagerService();
+      const service = new CreateTechnicalManagerService();
 
-      const { id_technical_manager } = req.params;
-
-      const response = await service.execute(id_technical_manager, req.body);
+      const response = await service.execute(req.body);
 
       if (response.error)
         return res.status(400).json({
@@ -15,8 +13,8 @@ export class UpdateTechinalManagerController {
         });
 
       return res.status(200).json({
-        technicalManager: response.technicalManager,
         message: response.message,
+        technicalManager: response.technicalManager,
       });
     } catch (err) {
       return res.status(500).json({

@@ -1,6 +1,6 @@
 import { TechnicalManagerRepository } from '../../database/repositories';
 
-export class FindTechinalManagerService {
+export class FindTechnicalManagerService {
   async execute({ id_technical_manager }) {
     const repository = new TechnicalManagerRepository();
 

@@ -1,11 +1,10 @@
-import { FindTechinalManagerService } from '../../services';
+import { DeleteTechnicalManagerService } from '../../services';
 
-export class FindTechinalManagerController {
+export class DeleteTechnicalManagerController {
   async handle(req, res) {
     try {
+      const service = new DeleteTechnicalManagerService();
       const { id_technical_manager } = req.params;
-
-      const service = new FindTechinalManagerService();
 
       const response = await service.execute({ id_technical_manager });
 
@@ -15,7 +14,7 @@ export class FindTechinalManagerController {
         });
 
       return res.status(200).json({
-        technicalManager: response.technicalManager,
+        message: response.message,
       });
     } catch (err) {
       return res.status(500).json({
