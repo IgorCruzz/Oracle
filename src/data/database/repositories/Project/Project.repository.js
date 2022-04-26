@@ -16,15 +16,19 @@ export class ProjectRepository {
 
     const parse = new Date(parsedDate);
 
-    if (
-      parse.toString() === 'Invalid Date' ||
-      dateDocument[2].length < 4 ||
-      dateDocument[2].length > 4 ||
-      dateDocument[1].length < 2 ||
-      dateDocument[1].length > 2 ||
-      dateDocument[0].length < 2 ||
-      dateDocument[0].length > 2
-    ) {
+    if (dateDocument[1]) {
+      if (
+        parse.toString() === 'Invalid Date' ||
+        dateDocument[2].length < 4 ||
+        dateDocument[2].length > 4 ||
+        dateDocument[1].length < 2 ||
+        dateDocument[1].length > 2 ||
+        dateDocument[0].length < 2 ||
+        dateDocument[0].length > 2
+      ) {
+        return { error: 'Insira a data do documento no formato 00/00/0000' };
+      }
+    } else {
       return { error: 'Insira a data do documento no formato 00/00/0000' };
     }
 
@@ -88,7 +92,7 @@ export class ProjectRepository {
     return search
       ? await Project.findAndCountAll({
           where: {
-            nm_program: {
+            nm_project: {
               [Op.like]: `%${search.trim()}%`,
             },
           },

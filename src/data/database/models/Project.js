@@ -10,17 +10,27 @@ export class Project extends Model {
           primaryKey: true,
           autoIncrement: true,
         },
-        nm_project: DataTypes.STRING(255),
-        tx_description: DataTypes.STRING(1000),
+        nm_project: {
+          type: DataTypes.STRING(255),
+        },
+        tx_description: {
+          type: DataTypes.STRING(1000),
+        },
         vl_estimated: DataTypes.DECIMAL(20, 2),
         vl_bid: DataTypes.DECIMAL(20, 2),
         vl_contract: DataTypes.DECIMAL(20, 2),
-        cd_sei: DataTypes.STRING(25),
+        cd_sei: {
+          type: DataTypes.STRING(25),
+        },
         cd_priority: DataTypes.TINYINT(4),
         cd_complexity: DataTypes.TINYINT(4),
         qt_m2: DataTypes.DECIMAL(20, 2),
-        ds_official_document: DataTypes.STRING(1000),
-        nm_official_document_applicant: DataTypes.STRING(255),
+        ds_official_document: {
+          type: DataTypes.STRING(1000),
+        },
+        nm_official_document_applicant: {
+          type: DataTypes.STRING(255),
+        },
         dt_official_document: {
           type: DataTypes.DATEONLY,
           get() {
