@@ -53,3 +53,10 @@ export * from './Location/deleteLocation.validator';
 export * from './Location/findLocation.validator';
 export * from './Location/findLocations.validator';
 export * from './Location/updateLocation.validator';
+
+// POLYGON AREA
+export * from './PolygonArea/createPolygonArea.validator';
+export * from './PolygonArea/deletePolygonArea.validator';
+export * from './PolygonArea/findPolygonArea.validator';
+export * from './PolygonArea/findPolygonAreas.validator';
+export * from './PolygonArea/updatePolygonArea.validator';
