@@ -11,6 +11,7 @@ export class Polygon_area extends Model {
         },
         nu_latidude_vertice: DataTypes.CHAR(20),
         nu_longitude_vertice: DataTypes.CHAR(20),
+        dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
       },
       {

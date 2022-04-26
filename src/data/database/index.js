@@ -11,6 +11,7 @@ import {
   Project,
   Location,
   Polygon_area,
+  Technical_manager,
 } from './models';
 
 const models = [
@@ -23,6 +24,7 @@ const models = [
   Project,
   Location,
   Polygon_area,
+  Technical_manager,
 ];
 
 class Database {
