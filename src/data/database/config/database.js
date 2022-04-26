@@ -20,5 +20,6 @@ module.exports = {
       }
       return next();
     },
+    decimalNumbers: true,
   },
 };
