@@ -53,3 +53,10 @@ export * from './Location/DeleteLocation.service';
 export * from './Location/FindLocation.service';
 export * from './Location/FindLocations.service';
 export * from './Location/UpdateLocation.service';
+
+// POLYGON AREA
+export * from './PolygonArea/CreatePolygonArea.service';
+export * from './PolygonArea/DeletePolygonArea.service';
+export * from './PolygonArea/FindPolygonArea.service';
+export * from './PolygonArea/FindPolygonAreas.service';
+export * from './PolygonArea/UpdatePolygonArea.service';
