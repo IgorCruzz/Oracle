@@ -6,3 +6,4 @@ export * from './Jurisdiction';
 export * from './Agency';
 export * from './Project';
 export * from './Location';
+export * from './Polygon_area';
