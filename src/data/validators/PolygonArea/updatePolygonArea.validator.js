@@ -7,15 +7,15 @@ export const updatePolygonAreaValidator = async (req, res, next) => {
     });
 
     const SchemaBody = Yup.object().shape({
-      nu_latidude_vertice: Yup.string().length(
-        20,
-        'O tamanho permitido para o campo latitude é 20'
-      ),
-      nu_longitude_vertice: Yup.string().length(
-        20,
-        'O tamanho permitido para o campo latitude é 20'
-      ),
-      id_location: Yup.number().typeError('Localização de Canteiro inválido'),
+      nu_latidude_vertice: Yup.string()
+        .length(20, 'O tamanho permitido para o campo latitude é 20')
+        .required('O campo vertice de latitude é obrigatório'),
+      nu_longitude_vertice: Yup.string()
+        .length(20, 'O tamanho permitido para o campo latitude é 20')
+        .required('O campo vertice de longitude é obrigatório'),
+      id_location: Yup.number()
+        .required('Localização de Canteiro inválido')
+        .typeError('Localização de Canteiro inválido'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });

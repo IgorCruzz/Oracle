@@ -7,29 +7,27 @@ export const updateLocationValidator = async (req, res, next) => {
     });
 
     const SchemaBody = Yup.object().shape({
-      ds_address: Yup.string().max(
-        255,
-        'O tamanho máximo permitido para o campo endereço é 255'
-      ),
-      nu_address: Yup.string().max(
-        20,
-        'O tamanho máximo permitido para o campo nome é 20'
-      ),
-      ds_district: Yup.string().max(
-        255,
-        'O tamanho máximo permitido para o campo bairro é 255'
-      ),
-      nu_postal_code: Yup.string().length(
-        10,
-        'O tamanho permitido para o campo cep é 10'
-      ),
+      ds_address: Yup.string()
+        .max(255, 'O tamanho máximo permitido para o campo endereço é 255')
+        .required('O campo endereço é obrigatório'),
+      nu_address: Yup.string()
+        .max(20, 'O tamanho máximo permitido para o campo nome é 20')
+        .required('O campo número de endereço é obrigatório'),
+      ds_district: Yup.string()
+        .max(255, 'O tamanho máximo permitido para o campo bairro é 255')
+        .required('O campo bairro é obrigatório'),
+      nu_postal_code: Yup.string()
+        .length(10, 'O tamanho permitido para o campo cep é 10')
+        .required('O campo cep é obrigatório'),
       nu_latitude: Yup.string()
         .length(20, 'O tamanho permitido para o campo latitude é 20')
         .nullable(),
       nu_longitude: Yup.string()
         .length(20, 'O tamanho permitido para o campo longitude é 20')
         .nullable(),
-      id_project: Yup.number().typeError('Projeto inválido'),
+      id_project: Yup.number()
+        .required('Projeto inválido')
+        .typeError('Projeto inválido'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });
