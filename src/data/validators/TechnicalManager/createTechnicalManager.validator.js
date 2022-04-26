@@ -9,15 +9,15 @@ export const createTechnicalManagerValidator = async (req, res, next) => {
       nu_crea: Yup.string()
         .length(20, 'O tamanho permitido para o campo latitude é 20')
         .required('O campo número CREA é obrigatório'),
-      nu_rrt_art: Yup.number()
-        .required('Localização de Canteiro inválido')
-        .typeError('Localização de Canteiro inválido'),
+      nu_rrt_art: Yup.string()
+        .length(20, 'O tamanho permitido para o campo ART é 20')
+        .required('O campo ART é obrigatório'),
       tp_responsability: Yup.mixed()
         .oneOf(['Obra', 'Supervisão'])
         .required('O campo tipo de responsabilidade'),
       id_project: Yup.number()
-        .required('Localização de Canteiro inválido')
-        .typeError('Localização de Canteiro inválido'),
+        .required('Projeto inválido')
+        .typeError('Projeto inválido'),
     });
 
     await Schema.validate(req.body, { abortEarly: false });
