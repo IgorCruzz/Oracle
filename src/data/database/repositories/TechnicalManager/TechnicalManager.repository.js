@@ -12,7 +12,7 @@ export class TechnicalManagerRepository {
 
     return await Technical_manager.findOne({
       where: {
-        id_polygon_area: createdAgency.dataValues.id_polygon_area,
+        id_technical_manager: createdAgency.dataValues.id_technical_manager,
       },
     });
   }
@@ -42,6 +42,15 @@ export class TechnicalManagerRepository {
             }
           : { model: Project, as: 'project' },
       ],
+    });
+  }
+
+  async verifyCREA({ nu_crea }) {
+    return await Technical_manager.findOne({
+      where: {
+        nu_crea,
+      },
+      raw: true,
     });
   }
 
