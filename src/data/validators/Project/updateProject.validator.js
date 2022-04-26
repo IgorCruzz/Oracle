@@ -7,13 +7,53 @@ export const updateProjectValidator = async (req, res, next) => {
     });
 
     const SchemaBody = Yup.object().shape({
-      name: Yup.string()
-        .min(1, 'O campo nome precisa ter entre 1 a 255 caracteres')
-        .max(255, 'O tamanho máximo permitido para o campo nome é 255'),
-      jurisdictionId: Yup.number()
-        .positive('O campo deve ser positivo.')
-        .integer('O campo deve ser um número inteiro.')
-        .typeError('O campo Região precisa ser númerico'),
+      nm_project: Yup.string().max(
+        255,
+        'O tamanho máximo permitido para o campo nome do projeto é 255'
+      ),
+      tx_description: Yup.string().max(
+        1000,
+        'O tamanho máximo permitido para o campo nome do projeto é 1000'
+      ),
+      vl_estimated: Yup.number()
+        .test('is-decimal', 'invalid decimal', value =>
+          `${value}`.match(/^\d*\.?\d*$/)
+        )
+        .typeError('O campo valor estimado precisa ser númerico'),
+      vl_bid: Yup.number()
+        .test('is-decimal', 'invalid decimal', value =>
+          `${value}`.match(/^\d*\.?\d*$/)
+        )
+        .typeError('O campo valor licitado precisa ser númerico'),
+      vl_contract: Yup.number()
+        .test('is-decimal', 'invalid decimal', value =>
+          `${value}`.match(/^\d*\.?\d*$/)
+        )
+        .typeError('O campo valor de contrato precisa ser númerico'),
+      cd_sei: Yup.string().max(
+        25,
+        'O tamanho máximo permitido para o campo nome do projeto é 25'
+      ),
+      cd_priority: Yup.number(),
+      cd_complexity: Yup.number(),
+      qt_m2: Yup.number()
+        .test('is-decimal', 'invalid decimal', value =>
+          `${value}`.match(/^\d*\.?\d*$/)
+        )
+        .typeError('O campo m² precisa ser númerico'),
+      ds_official_document: Yup.string().max(
+        1000,
+        'O tamanho máximo permitido para o campo descrição do documento é 1000'
+      ),
+      nm_official_document_applicant: Yup.string().max(
+        255,
+        'O tamanho máximo permitido para o campo nome do documento é 255'
+      ),
+      dt_official_document: Yup.string(),
+      id_city: Yup.number().typeError('Município inválido'),
+      id_category: Yup.number().typeError('Categoria inválida'),
+      id_program: Yup.number().typeError('Programa inválida'),
+      id_agency: Yup.number().typeError('Orgão inválido'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });
