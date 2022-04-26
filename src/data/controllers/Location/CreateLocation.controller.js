@@ -17,7 +17,6 @@ export class CreateLocationController {
         location: response.location,
       });
     } catch (err) {
-      console.log(err);
       return res.status(500).json({
         error: 'Internal Server Error',
       });
