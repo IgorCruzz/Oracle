@@ -5,7 +5,7 @@ import {
 
 export class UpdateTechnicalManagerService {
   async execute(id_technical_manager, data) {
-    const { id_project } = data;
+    const { id_project, nu_crea } = data;
 
     const repository = new TechnicalManagerRepository();
     const projectRepository = new ProjectRepository();
@@ -29,6 +29,20 @@ export class UpdateTechnicalManagerService {
       if (!projectExists) {
         return {
           error: `Não há nenhum Projeto registrado com este ID -> ${id_project}.`,
+        };
+      }
+    }
+    if (nu_crea) {
+      const verifyCrea = await repository.verifyCREA({
+        nu_crea,
+      });
+
+      if (
+        verifyCrea &&
+        verifyCrea.id_technical_manager !== Number(id_technical_manager)
+      ) {
+        return {
+          error: `Já existe um Técnico responsável com o CREA ${nu_crea}`,
         };
       }
     }

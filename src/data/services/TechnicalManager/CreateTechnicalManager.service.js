@@ -5,12 +5,12 @@ import {
 
 export class CreateTechnicalManagerService {
   async execute(data) {
-    const { id_project } = data;
+    const { id_project, nu_crea } = data;
 
     const repository = new TechnicalManagerRepository();
     const projectRepository = new ProjectRepository();
 
-    const verifyProjectExists = await projectRepository.findLocationById({
+    const verifyProjectExists = await projectRepository.findProjectById({
       id_project,
     });
 
@@ -18,6 +18,16 @@ export class CreateTechnicalManagerService {
       return {
         error: `Não há nenhum Projeto de Canteiro registrada com este ID -> ${id_project}.`,
       };
+
+    const verifyCrea = await repository.verifyCREA({
+      nu_crea,
+    });
+
+    if (verifyCrea) {
+      return {
+        error: `Já existe um Técnico responsável com o CREA ${nu_crea}`,
+      };
+    }
 
     const technicalManager = await repository.createTechnicalManager(data);
 
