@@ -46,3 +46,10 @@ export * from './Project/deleteProject.validator';
 export * from './Project/findProject.validator';
 export * from './Project/findProjects.validator';
 export * from './Project/updateProject.validator';
+
+// LOCATION
+export * from './Location/createLocation.validator';
+export * from './Location/deleteLocation.validator';
+export * from './Location/findLocation.validator';
+export * from './Location/findLocations.validator';
+export * from './Location/updateLocation.validator';
