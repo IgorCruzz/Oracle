@@ -39,3 +39,10 @@ export * from './Agency/deleteAgency.validator';
 export * from './Agency/findAgencies.validator';
 export * from './Agency/updateAgency.validator';
 export * from './Agency/findAgency.validator';
+
+// PROJECT
+export * from './Project/createProject.validator';
+export * from './Project/deleteProject.validator';
+export * from './Project/findProject.validator';
+export * from './Project/findProjects.validator';
+export * from './Project/updateProject.validator';
