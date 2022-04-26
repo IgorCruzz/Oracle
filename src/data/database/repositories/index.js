@@ -7,3 +7,4 @@ export * from './Agency/Agency.repository';
 export * from './Project/Project.repository';
 export * from './Location/Location.repository';
 export * from './PolygonArea/PolygonArea.repository';
+export * from './TechnicalManager/TechnicalManager.repository';
