@@ -5,19 +5,24 @@ import {
   FindProjectController,
   FindProjectsController,
 } from '../../data/controllers';
-import {} from '../../data/validators';
+import {
+  findProjectValidator,
+  createProjectValidator,
+  deleteProjectValidator,
+  findProjectsValidator,
+} from '../../data/validators';
 
 const routes = Router();
 
 routes.post(
   '/projects',
-  // createAgencyValidator,
+  createProjectValidator,
   new CreateProjectController().handle
 );
 
 routes.delete(
   '/projects/:id_project',
-  // deleteAgencyValidator,
+  deleteProjectValidator,
   new DeleteProjectController().handle
 );
 
@@ -30,13 +35,13 @@ routes.delete(
 
 routes.get(
   '/projects',
-  // findAgenciesValidator,
+  findProjectsValidator,
   new FindProjectsController().handle
 );
 
 routes.get(
   '/project/:id_project',
-  // findAgencyValidator,
+  findProjectValidator,
   new FindProjectController().handle
 );
 
