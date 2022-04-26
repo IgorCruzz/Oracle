@@ -13,6 +13,7 @@ export class Technical_manager extends Model {
         nu_crea: DataTypes.CHAR(20),
         nu_rrt_art: DataTypes.CHAR(20),
         tp_responsability: DataTypes.TINYINT,
+        dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
       },
       {
