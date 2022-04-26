@@ -66,6 +66,10 @@ export class CreateProjectService {
 
     const project = await repository.createProject(data);
 
+    if (project.error) {
+      return { error: project.error };
+    }
+
     return {
       message: 'Projeto adicionado com sucesso!',
       project,
