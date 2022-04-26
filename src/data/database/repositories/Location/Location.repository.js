@@ -32,30 +32,17 @@ export class LocationRepository {
     });
   }
 
-  // async verifyRelation({ jurisdictionId, id }) {
-  //   return await Agency.findAll({
-  //     where: { id_agency: id },
-  //     include: [
-  //       {
-  //         model: Jurisdiction,
-  //         as: 'jurisdiction',
-  //         where: { id_jurisdiction: jurisdictionId },
-  //       },
-  //     ],
-  //   });
-  // }
-
-  // async verifyJurisdiction({ jurisdictionId }) {
-  //   return await Agency.findAll({
-  //     include: [
-  //       {
-  //         model: Jurisdiction,
-  //         as: 'jurisdiction',
-  //         where: { id_jurisdiction: jurisdictionId },
-  //       },
-  //     ],
-  //   });
-  // }
+  async verifyProject({ id_project }) {
+    return await Location.findAll({
+      include: [
+        {
+          model: Project,
+          as: 'project',
+          where: { id_project },
+        },
+      ],
+    });
+  }
 
   async findLocations({ page, limit, id_project, search }) {
     return search

@@ -19,16 +19,17 @@ export const updateLocationValidator = async (req, res, next) => {
         255,
         'O tamanho máximo permitido para o campo bairro é 255'
       ),
-      nu_postal_code: Yup.string()
-        .max(10, 'O tamanho permitido para o campo cep é 10')
-        .max(10, 'O tamanho permitido para o campo cep é 10'),
+      nu_postal_code: Yup.string().length(
+        10,
+        'O tamanho permitido para o campo cep é 10'
+      ),
       nu_latitude: Yup.string()
-        .max(20, 'O tamanho permitido para o campo latitude é 20')
-        .max(20, 'O tamanho permitido para o campo latitude é 20'),
+        .length(20, 'O tamanho permitido para o campo latitude é 20')
+        .nullable(),
       nu_longitude: Yup.string()
-        .max(20, 'O tamanho permitido para o campo nu_longitude é 20')
-        .max(20, 'O tamanho permitido para o campo nu_longitude é 20'),
-      id_project: Yup.number().required('Projeto inválido'),
+        .length(20, 'O tamanho permitido para o campo longitude é 20')
+        .nullable(),
+      id_project: Yup.number().typeError('Projeto inválido'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });
