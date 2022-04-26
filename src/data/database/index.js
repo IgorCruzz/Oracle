@@ -9,9 +9,19 @@ import {
   Jurisdiction,
   Agency,
   Project,
+  Location,
 } from './models';
 
-const models = [Category, Program, Region, City, Jurisdiction, Agency, Project];
+const models = [
+  Category,
+  Program,
+  Region,
+  City,
+  Jurisdiction,
+  Agency,
+  Project,
+  Location,
+];
 
 class Database {
   constructor() {

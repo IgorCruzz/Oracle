@@ -5,3 +5,4 @@ export * from './City';
 export * from './Jurisdiction';
 export * from './Agency';
 export * from './Project';
+export * from './Location';
