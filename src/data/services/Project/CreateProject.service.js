@@ -61,7 +61,7 @@ export class CreateProjectService {
     });
 
     if (projectExists) {
-      return { error: 'Já existe um programa com este nome.' };
+      return { error: 'Já existe um Projeto com este nome.' };
     }
 
     const project = await repository.createProject(data);
