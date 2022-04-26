@@ -5,3 +5,4 @@ export * from './City/City.repository';
 export * from './Jurisdiction/Jurisdiction.repository';
 export * from './Agency/Agency.repository';
 export * from './Project/Project.repository';
+export * from './Location/Location.repository';

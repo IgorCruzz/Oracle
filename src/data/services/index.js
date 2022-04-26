@@ -46,3 +46,10 @@ export * from './Project/DeleteProject.service';
 export * from './Project/FindProject.service';
 export * from './Project/FindProjects.service';
 export * from './Project/UpdateProject.service';
+
+// PROJECT
+export * from './Location/CreateLocation.service';
+export * from './Location/DeleteLocation.service';
+export * from './Location/FindLocation.service';
+export * from './Location/FindLocations.service';
+export * from './Location/UpdateLocation.service';
