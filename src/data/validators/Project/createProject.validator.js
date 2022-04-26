@@ -17,19 +17,22 @@ export const createProjectValidator = async (req, res, next) => {
         .required('O campo nome de descrição é obrigatório'),
       vl_estimated: Yup.number()
         .required('O campo valor estimado é obrigatório')
-        .test('is-decimal', 'invalid decimal', value =>
+        .positive('O valor estimado precisa ser positivo')
+        .test('is-decimal', 'Número decimal inválido', value =>
           `${value}`.match(/^\d*\.?\d*$/)
         )
         .typeError('O campo valor estimado precisa ser númerico'),
       vl_bid: Yup.number()
         .required('O campo valor licitado é obrigatório')
-        .test('is-decimal', 'invalid decimal', value =>
+        .positive('O valor licitado precisa ser positivo')
+        .test('is-decimal', 'Número decimal inválido', value =>
           `${value}`.match(/^\d*\.?\d*$/)
         )
         .typeError('O campo valor licitado precisa ser númerico'),
       vl_contract: Yup.number()
         .required('O campo valor de contrato é obrigatório')
-        .test('is-decimal', 'invalid decimal', value =>
+        .positive('O valor de contrato precisa ser positivo')
+        .test('is-decimal', 'Número decimal inválido', value =>
           `${value}`.match(/^\d*\.?\d*$/)
         )
         .typeError('O campo valor de contrato precisa ser númerico'),
