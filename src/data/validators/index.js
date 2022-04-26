@@ -60,3 +60,10 @@ export * from './PolygonArea/deletePolygonArea.validator';
 export * from './PolygonArea/findPolygonArea.validator';
 export * from './PolygonArea/findPolygonAreas.validator';
 export * from './PolygonArea/updatePolygonArea.validator';
+
+// TECHNICAL MANAGER
+export * from './TechnicalManager/createTechnicalManager.validator';
+export * from './TechnicalManager/deleteTechnicalManager.validator';
+export * from './TechnicalManager/findTechnicalManager.validator';
+export * from './TechnicalManager/findTechnicalManagers.validator';
+export * from './TechnicalManager/updateTechnicalManager.validator';
