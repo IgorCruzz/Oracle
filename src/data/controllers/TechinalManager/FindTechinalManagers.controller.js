@@ -18,13 +18,13 @@ export class FindTechinalManagersController {
           error: response.error,
         });
 
-      const { count, rows } = response.techinalManagers;
+      const { count, rows } = response.technicalManagers;
 
       return res.status(200).json({
         count,
         page,
         limit,
-        techinalManagers: rows,
+        technicalManagers: rows,
       });
     } catch (err) {
       return res.status(500).json({

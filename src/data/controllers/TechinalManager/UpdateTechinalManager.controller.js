@@ -15,7 +15,7 @@ export class UpdateTechinalManagerController {
         });
 
       return res.status(200).json({
-        techinalManager: response.techinalManager,
+        technicalManager: response.technicalManager,
         message: response.message,
       });
     } catch (err) {

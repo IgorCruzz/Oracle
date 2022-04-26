@@ -60,3 +60,10 @@ export * from './PolygonArea/DeletePolygonArea.service';
 export * from './PolygonArea/FindPolygonArea.service';
 export * from './PolygonArea/FindPolygonAreas.service';
 export * from './PolygonArea/UpdatePolygonArea.service';
+
+// TECHNICAL MANAGER
+export * from './TechinalManager/CreateTechinalManager.service';
+export * from './TechinalManager/DeleteTechinalManager.service';
+export * from './TechinalManager/FindTechinalManager.service';
+export * from './TechinalManager/FindTechinalManagers.service';
+export * from './TechinalManager/UpdateTechinalManager.service';

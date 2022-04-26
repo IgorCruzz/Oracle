@@ -15,7 +15,7 @@ export class FindTechinalManagerController {
         });
 
       return res.status(200).json({
-        techinalManager: response.techinalManager,
+        technicalManager: response.technicalManager,
       });
     } catch (err) {
       return res.status(500).json({
