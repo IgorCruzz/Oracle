@@ -46,3 +46,10 @@ export * from './Project/DeleteProject.controller';
 export * from './Project/FindProject.controller';
 export * from './Project/FindProjects.controller';
 export * from './Project/UpdateProject.controller';
+
+// LOCATION
+export * from './Location/CreateLocation.controller';
+export * from './Location/DeleteLocation.controller';
+export * from './Location/FindLocation.controller';
+export * from './Location/FindLocations.controller';
+export * from './Location/UpdateLocation.controller';
