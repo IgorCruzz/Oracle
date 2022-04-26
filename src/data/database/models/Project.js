@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import moment from 'moment';
 
 export class Project extends Model {
   static init(sequelize) {
@@ -20,6 +21,14 @@ export class Project extends Model {
         qt_m2: DataTypes.DECIMAL(20, 2),
         ds_official_document: DataTypes.STRING(1000),
         nm_official_document_applicant: DataTypes.STRING(255),
+        dt_official_document: {
+          type: DataTypes.DATEONLY,
+          get() {
+            return moment
+              .utc(this.getDataValue('dt_official_document'))
+              .format('YYYY-MM-DD');
+          },
+        },
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
       },
