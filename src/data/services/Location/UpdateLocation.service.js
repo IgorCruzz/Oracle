@@ -22,6 +22,27 @@ export class UpdateLocationService {
       }
     }
 
+    const verifyLocationId = await repository.findLocationById({
+      id_location,
+    });
+
+    if (!verifyLocationId) {
+      return {
+        error: `Não há nenhuma Localização de Canteiro registrada com este ID -> ${id_location}.`,
+      };
+    }
+
+    const verifyLocationExists = await repository.findLocation(data);
+
+    if (
+      verifyLocationExists &&
+      verifyLocationExists.id_location !== Number(id_location)
+    ) {
+      return {
+        error: 'Já existe uma Localização de Canteiro com este endereço.',
+      };
+    }
+
     const LocationUpdated = await repository.updateLocation(id_location, data);
 
     return {

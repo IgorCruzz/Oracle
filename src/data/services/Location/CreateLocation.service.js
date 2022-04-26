@@ -19,6 +19,14 @@ export class CreateLocationService {
         error: `Não há nenhum projeto registrado com este ID -> ${id_project}.`,
       };
 
+    const verifyLocationExists = await repository.findLocation(data);
+
+    if (verifyLocationExists) {
+      return {
+        error: 'Já existe uma Localização de Canteiro com este endereço.',
+      };
+    }
+
     const location = await repository.createLocation(data);
 
     return {

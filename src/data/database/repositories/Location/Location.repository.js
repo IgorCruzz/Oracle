@@ -18,8 +18,8 @@ export class LocationRepository {
       nu_address: nu_address.trim(),
       ds_district: ds_district.trim(),
       nu_postal_code: nu_postal_code.trim(),
-      nu_latitude: nu_latitude.trim(),
-      nu_longitude: nu_longitude.trim(),
+      nu_latitude: nu_latitude && nu_latitude.trim(),
+      nu_longitude: nu_longitude && nu_longitude.trim(),
       id_project,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
@@ -92,10 +92,16 @@ export class LocationRepository {
         });
   }
 
-  async findLocation({ name }) {
+  async findLocation(data) {
+    const { ds_address, nu_address, ds_district } = data;
+
     return await Location.findOne({
       where: {
-        ds_address: name.trim(),
+        [Op.and]: {
+          ds_address: ds_address.trim(),
+          nu_address: nu_address.trim(),
+          ds_district: ds_district.trim(),
+        },
       },
       raw: true,
     });
