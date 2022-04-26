@@ -4,12 +4,14 @@ import {
   DeleteProjectController,
   FindProjectController,
   FindProjectsController,
+  UpdateProjectController,
 } from '../../data/controllers';
 import {
   findProjectValidator,
   createProjectValidator,
   deleteProjectValidator,
   findProjectsValidator,
+  updateProjectValidator,
 } from '../../data/validators';
 
 const routes = Router();
@@ -26,12 +28,11 @@ routes.delete(
   new DeleteProjectController().handle
 );
 
-// // Param :id && Body name
-// routes.patch(
-//   '/agencies/:id',
-//   updateAgencyValidator,
-//   new UpdateAgencyController().handle
-// );
+routes.patch(
+  '/projects/:id_project',
+  updateProjectValidator,
+  new UpdateProjectController().handle
+);
 
 routes.get(
   '/projects',

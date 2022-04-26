@@ -1,14 +1,13 @@
-import { UpdateAgencyService } from '../../services';
+import { UpdateProjectService } from '../../services';
 
 export class UpdateProjectController {
   async handle(req, res) {
     try {
-      const service = new UpdateAgencyService();
+      const service = new UpdateProjectService();
 
-      const { id } = req.params;
-      const { name, jurisdictionId } = req.body;
+      const { id_project } = req.params;
 
-      const response = await service.execute({ name, id, jurisdictionId });
+      const response = await service.execute(id_project, req.body);
 
       if (response.error)
         return res.status(400).json({
@@ -16,7 +15,7 @@ export class UpdateProjectController {
         });
 
       return res.status(200).json({
-        agency: response.agency,
+        project: response.project,
         message: response.message,
       });
     } catch (err) {

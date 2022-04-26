@@ -15,32 +15,22 @@ export const updateProjectValidator = async (req, res, next) => {
         1000,
         'O tamanho máximo permitido para o campo nome do projeto é 1000'
       ),
-      vl_estimated: Yup.number()
-        .test('is-decimal', 'invalid decimal', value =>
-          `${value}`.match(/^\d*\.?\d*$/)
-        )
-        .typeError('O campo valor estimado precisa ser númerico'),
-      vl_bid: Yup.number()
-        .test('is-decimal', 'invalid decimal', value =>
-          `${value}`.match(/^\d*\.?\d*$/)
-        )
-        .typeError('O campo valor licitado precisa ser númerico'),
-      vl_contract: Yup.number()
-        .test('is-decimal', 'invalid decimal', value =>
-          `${value}`.match(/^\d*\.?\d*$/)
-        )
-        .typeError('O campo valor de contrato precisa ser númerico'),
+      vl_estimated: Yup.number().typeError(
+        'O campo valor estimado precisa ser númerico'
+      ),
+      vl_bid: Yup.number().typeError(
+        'O campo valor licitado precisa ser númerico'
+      ),
+      vl_contract: Yup.number().typeError(
+        'O campo valor de contrato precisa ser númerico'
+      ),
       cd_sei: Yup.string().max(
         25,
         'O tamanho máximo permitido para o campo nome do projeto é 25'
       ),
       cd_priority: Yup.number(),
       cd_complexity: Yup.number(),
-      qt_m2: Yup.number()
-        .test('is-decimal', 'invalid decimal', value =>
-          `${value}`.match(/^\d*\.?\d*$/)
-        )
-        .typeError('O campo m² precisa ser númerico'),
+      qt_m2: Yup.number().typeError('O campo m² precisa ser númerico'),
       ds_official_document: Yup.string().max(
         1000,
         'O tamanho máximo permitido para o campo descrição do documento é 1000'

@@ -199,67 +199,72 @@ export class ProjectRepository {
     });
   }
 
-  // async updateAgency({ id, name, jurisdictionId }) {
-  //   const agency = await Agency.findOne({
-  //     where: {
-  //       id_agency: id,
-  //     },
-  //   });
+  async updateProject(id_project, data) {
+    if (data.dt_official_document) {
+      const dateDocument = data.dt_official_document.split('/');
 
-  //   if (jurisdictionId && !name) {
-  //     await agency.update({
-  //       id_jurisdiction: jurisdictionId,
-  //       dt_updated_at: new Date(Date.now()).toISOString(),
-  //     });
+      const parsedDate = `${dateDocument[2]}-${dateDocument[1]}-${dateDocument[0]}`;
 
-  //     return await Agency.findOne({
-  //       where: {
-  //         nm_agency: agency.dataValues.nm_agency,
-  //       },
-  //       include: [
-  //         {
-  //           model: Jurisdiction,
-  //           as: 'jurisdiction',
-  //         },
-  //       ],
-  //     });
-  //   }
+      const parse = new Date(parsedDate);
 
-  //   if (name && !jurisdictionId) {
-  //     await agency.update({
-  //       nm_agency:  name.trim(),
-  //       dt_updated_at: new Date(Date.now()).toISOString(),
-  //     });
+      if (
+        parse.toString() === 'Invalid Date' ||
+        dateDocument[2].length < 4 ||
+        dateDocument[2].length > 4 ||
+        dateDocument[1].length < 2 ||
+        dateDocument[1].length > 2 ||
+        dateDocument[0].length < 2 ||
+        dateDocument[0].length > 2
+      ) {
+        return { error: 'Insira a data do documento no formato 00/00/0000' };
+      }
 
-  //     return await Agency.findOne({
-  //       where: {
-  //         nm_agency: agency.dataValues.nm_agency,
-  //       },
-  //       include: [
-  //         {
-  //           model: Jurisdiction,
-  //           as: 'jurisdiction',
-  //         },
-  //       ],
-  //     });
-  //   }
+      const project = await Project.findOne({
+        where: {
+          id_project,
+        },
+      });
 
-  //   await agency.update({
-  //     nm_agency:  name.trim(),
-  //     dt_updated_at: new Date(Date.now()).toISOString(),
-  //     id_jurisdiction: jurisdictionId,
-  //   });
+      await project.update({
+        ...data,
+        dt_official_document: parsedDate,
+        dt_updated_at: new Date(Date.now()).toISOString(),
+      });
 
-  //   return await Agency.findOne({
-  //     where: {
-  //       nm_agency: agency.dataValues.nm_agency,
-  //     },
-  //     include: [
-  //       {
-  //         model: Jurisdiction,
-  //         as: 'jurisdiction',
-  //       },
-  //     ],
-  //   });
-  // }
+      return await Project.findOne({
+        where: {
+          nm_project: project.dataValues.nm_project,
+        },
+        include: [
+          { model: City, as: 'city' },
+          { model: Category, as: 'category' },
+          { model: Program, as: 'program' },
+          { model: Agency, as: 'agency' },
+        ],
+      });
+    }
+
+    const project = await Project.findOne({
+      where: {
+        id_project,
+      },
+    });
+
+    await project.update({
+      ...data,
+      dt_updated_at: new Date(Date.now()).toISOString(),
+    });
+
+    return await Project.findOne({
+      where: {
+        nm_project: project.dataValues.nm_project,
+      },
+      include: [
+        { model: City, as: 'city' },
+        { model: Category, as: 'category' },
+        { model: Program, as: 'program' },
+        { model: Agency, as: 'agency' },
+      ],
+    });
+  }
 }
