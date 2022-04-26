@@ -23,10 +23,12 @@ export class ProgramRepository {
             },
           },
           limit: Number(limit),
+          order: [['nm_program', 'ASC']],
           offset: (Number(page) - 1) * Number(limit),
         })
       : await Program.findAndCountAll({
           limit: Number(limit),
+          order: [['nm_program', 'ASC']],
           offset: (Number(page) - 1) * Number(limit),
         });
   }

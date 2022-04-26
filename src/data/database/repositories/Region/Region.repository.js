@@ -25,10 +25,12 @@ export class RegionRepository {
             },
           },
           limit: Number(limit),
+          order: [['nm_region', 'ASC']],
           offset: (Number(page) - 1) * Number(limit),
         })
       : await Region.findAndCountAll({
           limit: Number(limit),
+          order: [['nm_region', 'ASC']],
           offset: (Number(page) - 1) * Number(limit),
         });
   }
@@ -36,7 +38,7 @@ export class RegionRepository {
   async findRegion({ name }) {
     return await Region.findOne({
       where: {
-        nm_region:  name.trim(),
+        nm_region: name.trim(),
       },
       raw: true,
     });
@@ -65,7 +67,7 @@ export class RegionRepository {
     });
 
     await region.update({
-      nm_region:  name.trim(),
+      nm_region: name.trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 

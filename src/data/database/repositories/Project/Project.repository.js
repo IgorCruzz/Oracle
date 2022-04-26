@@ -120,6 +120,7 @@ export class ProjectRepository {
             },
           },
           limit: Number(limit),
+          order: [['nm_project', 'ASC']],
           offset: (Number(page) - 1) * Number(limit),
           include: [
             id_city
@@ -155,6 +156,7 @@ export class ProjectRepository {
       : await Project.findAndCountAll({
           limit: Number(limit),
           offset: (Number(page) - 1) * Number(limit),
+          order: [['nm_project', 'ASC']],
           include: [
             id_city
               ? {

@@ -47,6 +47,7 @@ export class CityRepository {
             },
           },
           limit: Number(limit),
+          order: [['nm_city', 'ASC']],
           offset: (Number(page) - 1) * Number(limit),
           include: [
             regionId
@@ -57,6 +58,7 @@ export class CityRepository {
       : await City.findAndCountAll({
           limit: Number(limit),
           offset: (Number(page) - 1) * Number(limit),
+          order: [['nm_city', 'ASC']],
           include: [
             regionId
               ? { model: Region, as: 'region', where: { id_region: regionId } }

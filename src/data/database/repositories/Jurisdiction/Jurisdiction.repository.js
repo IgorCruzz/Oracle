@@ -25,11 +25,13 @@ export class JurisdictionRepository {
             },
           },
           limit: Number(limit),
+          order: [['nm_jurisdiction', 'ASC']],
           offset: (Number(page) - 1) * Number(limit),
           raw: true,
         })
       : await Jurisdiction.findAndCountAll({
           limit: Number(limit),
+          order: [['nm_jurisdiction', 'ASC']],
           offset: (Number(page) - 1) * Number(limit),
           raw: true,
         });

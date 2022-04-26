@@ -24,13 +24,14 @@ export class CategoryRepository {
               [Op.like]: `%${search.trim()}%`,
             },
           },
-
+          order: [['nm_category', 'ASC']],
           limit: Number(limit),
           offset: (Number(page) - 1) * Number(limit),
           raw: true,
         })
       : await Category.findAndCountAll({
           limit: Number(limit),
+          order: [['nm_category', 'ASC']],
           offset: (Number(page) - 1) * Number(limit),
           raw: true,
         });
