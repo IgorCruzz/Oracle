@@ -1,9 +1,9 @@
-import { CreateAgencyService } from '../../services';
+import { CreateLocationService } from '../../services';
 
 export class CreateLocationController {
   async handle(req, res) {
     try {
-      const service = new CreateAgencyService();
+      const service = new CreateLocationService();
 
       const response = await service.execute(req.body);
 
@@ -17,6 +17,7 @@ export class CreateLocationController {
         location: response.location,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Internal Server Error',
       });

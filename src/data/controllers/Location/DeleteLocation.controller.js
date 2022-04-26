@@ -1,9 +1,9 @@
-import { DeleteAgencyService } from '../../services';
+import { DeleteLocationService } from '../../services';
 
 export class DeleteLocationController {
   async handle(req, res) {
     try {
-      const service = new DeleteAgencyService();
+      const service = new DeleteLocationService();
       const { id_location } = req.params;
 
       const response = await service.execute({ id_location });

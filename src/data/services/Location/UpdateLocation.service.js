@@ -22,7 +22,7 @@ export class UpdateLocationService {
       }
     }
 
-    const LocationUpdated = await repository.updateProject(id_location, data);
+    const LocationUpdated = await repository.updateLocation(id_location, data);
 
     return {
       message: 'Localização de Canteiro atualizada com sucesso!',

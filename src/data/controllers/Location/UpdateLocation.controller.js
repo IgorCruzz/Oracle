@@ -1,9 +1,9 @@
-import { UpdateAgencyService } from '../../services';
+import { UpdateLocationService } from '../../services';
 
 export class UpdateLocationController {
   async handle(req, res) {
     try {
-      const service = new UpdateAgencyService();
+      const service = new UpdateLocationService();
 
       const { id_location } = req.params;
 
@@ -19,6 +19,7 @@ export class UpdateLocationController {
         message: response.message,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Internal Server Error',
       });

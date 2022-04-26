@@ -1,11 +1,11 @@
-import { FindAgenciesService } from '../../services';
+import { FindLocationsService } from '../../services';
 
 export class FindLocationsController {
   async handle(req, res) {
     try {
       const { page, limit, id_project, search } = req.query;
 
-      const service = new FindAgenciesService();
+      const service = new FindLocationsService();
 
       const response = await service.execute({
         page,

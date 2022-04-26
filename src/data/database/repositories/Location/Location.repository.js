@@ -10,6 +10,7 @@ export class LocationRepository {
       nu_postal_code,
       nu_latitude,
       nu_longitude,
+      id_project,
     } = data;
 
     const createdLocation = await Location.create({
@@ -19,7 +20,8 @@ export class LocationRepository {
       nu_postal_code: nu_postal_code.trim(),
       nu_latitude: nu_latitude.trim(),
       nu_longitude: nu_longitude.trim(),
-      dt_created_at: new Date(Date.ow()).toISOString(),
+      id_project,
+      dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
