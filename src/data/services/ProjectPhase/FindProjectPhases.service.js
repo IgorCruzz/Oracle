@@ -1,6 +1,6 @@
 import { ProjectPhaseRepository } from '../../database/repositories';
 
-export class FindProjectPhaseService {
+export class FindProjectPhasesService {
   async execute({ page, limit, id_project }) {
     const repository = new ProjectPhaseRepository();
 

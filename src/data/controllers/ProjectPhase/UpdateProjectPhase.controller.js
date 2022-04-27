@@ -1,9 +1,9 @@
-import { UpdateAgencyService } from '../../services';
+import { UpdateProjectPhaseService } from '../../services';
 
 export class UpdateProjectPhaseController {
   async handle(req, res) {
     try {
-      const service = new UpdateAgencyService();
+      const service = new UpdateProjectPhaseService();
 
       const { id_project_phase } = req.params;
 

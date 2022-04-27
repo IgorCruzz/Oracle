@@ -1,9 +1,9 @@
-import { DeleteAgencyService } from '../../services';
+import { DeleteProjectPhaseService } from '../../services';
 
 export class DeleteProjectPhaseController {
   async handle(req, res) {
     try {
-      const service = new DeleteAgencyService();
+      const service = new DeleteProjectPhaseService();
       const { id_project_phase } = req.params;
 
       const response = await service.execute({ id_project_phase });

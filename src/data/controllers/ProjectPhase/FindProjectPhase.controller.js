@@ -1,11 +1,11 @@
-import { FindAgencyService } from '../../services';
+import { FindProjectPhaseService } from '../../services';
 
 export class FindProjectPhaseController {
   async handle(req, res) {
     try {
       const { id_project_phase } = req.params;
 
-      const service = new FindAgencyService();
+      const service = new FindProjectPhaseService();
 
       const response = await service.execute({ id_project_phase });
 

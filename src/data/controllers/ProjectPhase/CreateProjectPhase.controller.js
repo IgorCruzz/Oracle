@@ -1,9 +1,9 @@
-import { CreateAgencyService } from '../../services';
+import { CreateProjectPhaseService } from '../../services';
 
 export class CreateProjectPhaseController {
   async handle(req, res) {
     try {
-      const service = new CreateAgencyService();
+      const service = new CreateProjectPhaseService();
 
       const response = await service.execute(req.body);
 
