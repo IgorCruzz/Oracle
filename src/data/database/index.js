@@ -14,6 +14,7 @@ import {
   Technical_manager,
   Project_phase,
   Role,
+  Product,
 } from './models';
 
 const models = [
@@ -29,6 +30,7 @@ const models = [
   Technical_manager,
   Project_phase,
   Role,
+  Product,
 ];
 
 class Database {
