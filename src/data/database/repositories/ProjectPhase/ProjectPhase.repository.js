@@ -8,6 +8,8 @@ export class ProjectPhaseRepository {
       dt_planned_end,
       nm_project_phase,
       nu_order,
+      id_project,
+      vl_phase,
     } = data;
 
     const dtPlannedStart = verifyDate(dt_planned_start);
@@ -26,7 +28,9 @@ export class ProjectPhaseRepository {
       dt_planned_start: dtPlannedStart,
       dt_planned_end: dtPlannedEnd,
       nm_project_phase: nm_project_phase.trim(),
-      nu_order: nu_order.trim(),
+      nu_order,
+      id_project,
+      vl_phase,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -118,7 +122,7 @@ export class ProjectPhaseRepository {
       dt_planned_start: dtPlannedStart,
       dt_planned_end: dtPlannedEnd,
       nm_project_phase: nm_project_phase.trim(),
-      nu_order: nu_order.trim(),
+      nu_order,
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 

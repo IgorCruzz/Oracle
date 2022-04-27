@@ -4,8 +4,8 @@ export const createProjectPhaseValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
       nu_order: Yup.number()
-        .positive('O valor estimado precisa ser positivo')
-        .typeError('O campo valor estimado precisa ser númerico'),
+        .positive('O número de ordem precisa ser positivo')
+        .typeError('O campo número de ordem precisa ser númerico'),
       nm_project_phase: Yup.string()
         .max(
           255,

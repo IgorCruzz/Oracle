@@ -29,7 +29,7 @@ export class CreateProjectPhaseService {
       };
     }
 
-    const projectPhase = await repository.createTechnicalManager(data);
+    const projectPhase = await repository.createProjectPhase(data);
 
     if (projectPhase.error) {
       return { error: projectPhase.error };
