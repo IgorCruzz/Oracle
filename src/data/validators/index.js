@@ -74,3 +74,9 @@ export * from './ProjectPhase/deleteProjectPhase.validator';
 export * from './ProjectPhase/findProjectPhase.validator';
 export * from './ProjectPhase/findProjectPhases.validator';
 export * from './ProjectPhase/updateProjectPhase.validator';
+
+// ROLE
+export * from './Role/createRole.validator';
+export * from './Role/deleteRole.validator';
+export * from './Role/findRole.validator';
+export * from './Role/updateRole.validator';
