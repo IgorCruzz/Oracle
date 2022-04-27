@@ -9,7 +9,7 @@ export class FindRoleService {
     });
 
     if (!findRole)
-      return { error: `Não existe uma categoria com este ID -> ${id_role}.` };
+      return { error: `Não existe uma função com este ID -> ${id_role}.` };
 
     return {
       role: findRole,
