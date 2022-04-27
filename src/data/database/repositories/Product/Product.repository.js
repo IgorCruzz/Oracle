@@ -116,7 +116,7 @@ export class ProductRepository {
     });
   }
 
-  async updateProject(id_project, data) {
+  async updateProduct(id_project, data) {
     const product = await Product.findOne({
       where: {
         id_project,

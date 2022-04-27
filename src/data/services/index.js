@@ -81,3 +81,10 @@ export * from './Role/DeleteRole.service';
 export * from './Role/FindRole.service';
 export * from './Role/FindRoles.service';
 export * from './Role/UpdateRole.service';
+
+// PRODUCT
+export * from './Product/CreateProduct.service';
+export * from './Product/DeleteProduct.service';
+export * from './Product/FindProduct.service';
+export * from './Product/FindProducts.service';
+export * from './Product/UpdateProduct.service';

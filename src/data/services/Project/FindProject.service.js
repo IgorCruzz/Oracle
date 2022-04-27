@@ -11,7 +11,7 @@ export class FindProjectService {
 
     if (!findProject)
       return {
-        error: `Não há nenhum Projecto registrado com este ID -> ${id_project}.`,
+        error: `Não há nenhum Projeto registrado com este ID -> ${id_project}.`,
       };
 
     return {
