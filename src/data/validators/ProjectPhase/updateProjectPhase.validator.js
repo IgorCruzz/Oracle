@@ -1,0 +1,44 @@
+import * as Yup from 'yup';
+
+export const updateProjectPhaseValidator = async (req, res, next) => {
+  try {
+    const SchemaParam = Yup.object().shape({
+      id_project_phase: Yup.string().required('O campo id é obrigatório'),
+    });
+
+    const SchemaBody = Yup.object().shape({
+      nu_order: Yup.number()
+        .positive('O valor estimado precisa ser positivo')
+        .typeError('O campo valor estimado precisa ser númerico'),
+      nm_project_phase: Yup.string()
+        .max(
+          255,
+          'O tamanho máximo permitido para o campo nome do projeto é 255'
+        )
+        .required('O campo nome do projeto é obrigatório')
+        .typeError('Campo nome do projeto precisar ser em texto'),
+      dt_planned_start: Yup.string().nullable(),
+      dt_planned_end: Yup.string().nullable(),
+      vl_phase: Yup.number()
+        .nullable()
+        .test('is-decimal', 'O valor precisa ser positivo', value =>
+          `${value}`.match(/^\d*\.?\d*$/)
+        )
+        .typeError('O campo valor precisa ser númerico'),
+      id_project: Yup.number()
+        .required('Projeto inválido')
+        .typeError('Projeto inválido'),
+    });
+
+    await SchemaParam.validate(req.params, { abortEarly: false });
+
+    await SchemaBody.validate(req.body, { abortEarly: false });
+
+    return next();
+  } catch (e) {
+    return res.status(400).json({
+      error: 'Erro na validação',
+      messages: e.errors,
+    });
+  }
+};

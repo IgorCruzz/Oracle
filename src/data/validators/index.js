@@ -67,3 +67,10 @@ export * from './TechnicalManager/deleteTechnicalManager.validator';
 export * from './TechnicalManager/findTechnicalManager.validator';
 export * from './TechnicalManager/findTechnicalManagers.validator';
 export * from './TechnicalManager/updateTechnicalManager.validator';
+
+// PROJECT PHASE
+export * from './ProjectPhase/createProjectPhase.validator';
+export * from './ProjectPhase/deleteProjectPhase.validator';
+export * from './ProjectPhase/findProjectPhase.validator';
+export * from './ProjectPhase/findProjectPhases.validator';
+export * from './ProjectPhase/updateProjectPhase.validator';

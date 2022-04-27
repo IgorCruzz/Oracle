@@ -1,13 +1,13 @@
 import {
-  TechnicalManagerRepository,
+  ProjectPhaseRepository,
   ProjectRepository,
 } from '../../database/repositories';
 
 export class CreateProjectPhaseService {
   async execute(data) {
-    const { id_project, id_technical_manager } = data;
+    const { id_project, nm_project_phase } = data;
 
-    const repository = new TechnicalManagerRepository();
+    const repository = new ProjectPhaseRepository();
     const projectRepository = new ProjectRepository();
 
     const verifyProjectExists = await projectRepository.findProjectById({
@@ -19,8 +19,8 @@ export class CreateProjectPhaseService {
         error: `Não há nenhum Projeto registrado com este ID -> ${id_project}.`,
       };
 
-    const verifyName = await repository.findTechnicalManager({
-      id_technical_manager,
+    const verifyName = await repository.findProjectPhase({
+      nm_project_phase,
     });
 
     if (verifyName) {
