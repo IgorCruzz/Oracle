@@ -9,3 +9,4 @@ export * from './Location';
 export * from './Polygon_area';
 export * from './Technical_manager';
 export * from './Project_phase';
+export * from './Role';
