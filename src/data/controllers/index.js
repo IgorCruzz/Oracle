@@ -67,3 +67,10 @@ export * from './TechnicalManager/DeleteTechnicalManager.controller';
 export * from './TechnicalManager/FindTechnicalManager.controller';
 export * from './TechnicalManager/FindTechnicalManagers.controller';
 export * from './TechnicalManager/UpdateTechnicalManager.controller';
+
+// PROJECT PHASE
+export * from './ProjectPhase/CreateProjectPhase.controller';
+export * from './ProjectPhase/DeleteProjectPhase.controller';
+export * from './ProjectPhase/FindProjectPhase.controller';
+export * from './ProjectPhase/FindProjectPhases.controller';
+export * from './ProjectPhase/UpdateProjectPhase.controller';
