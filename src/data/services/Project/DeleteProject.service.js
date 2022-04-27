@@ -2,6 +2,7 @@ import {
   ProjectRepository,
   LocationRepository,
   TechnicalManagerRepository,
+  ProjectPhaseRepository,
 } from '../../database/repositories';
 
 export class DeleteProjectService {
@@ -9,6 +10,7 @@ export class DeleteProjectService {
     const repository = new ProjectRepository();
     const locationRepository = new LocationRepository();
     const technicalManagerRepository = new TechnicalManagerRepository();
+    const projectPhaseRepository = new ProjectPhaseRepository();
 
     const verifyAgencyExists = await repository.findProjectById({
       id_project,
@@ -27,6 +29,17 @@ export class DeleteProjectService {
       return {
         error:
           'Não foi possível excluir o Projeto pois existem Localização de Canteiros associadas.',
+      };
+    }
+
+    const verifyFkProjectPhase = await projectPhaseRepository.verifyProject({
+      id_project,
+    });
+
+    if (verifyFkProjectPhase.length > 0) {
+      return {
+        error:
+          'Não foi possível excluir o Projeto pois existem Fases de projetos associadas.',
       };
     }
 

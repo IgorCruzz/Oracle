@@ -29,6 +29,18 @@ export class ProjectPhaseRepository {
     });
   }
 
+  async verifyProject({ id_project }) {
+    return await Project_phase.findAll({
+      include: [
+        {
+          model: Project,
+          as: 'project',
+          where: { id_project },
+        },
+      ],
+    });
+  }
+
   async findProjectPhases({ page, limit, id_project }) {
     return await Project_phase.findAndCountAll({
       limit: Number(limit),

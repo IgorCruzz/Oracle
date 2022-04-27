@@ -16,7 +16,7 @@ export class CreateTechnicalManagerService {
 
     if (!verifyProjectExists)
       return {
-        error: `Não há nenhum Projeto de Canteiro registrada com este ID -> ${id_project}.`,
+        error: `Não há nenhum Projeto registrado com este ID -> ${id_project}.`,
       };
 
     const verifyCrea = await repository.verifyCREA({
