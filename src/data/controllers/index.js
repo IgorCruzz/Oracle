@@ -74,3 +74,10 @@ export * from './ProjectPhase/DeleteProjectPhase.controller';
 export * from './ProjectPhase/FindProjectPhase.controller';
 export * from './ProjectPhase/FindProjectPhases.controller';
 export * from './ProjectPhase/UpdateProjectPhase.controller';
+
+// ROLE
+export * from './Role/CreateRole.controller';
+export * from './Role/DeleteRole.controller';
+export * from './Role/FindRole.controller';
+export * from './Role/FindRoles.controller';
+export * from './Role/UpdateRole.controller';
