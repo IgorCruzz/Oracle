@@ -12,11 +12,11 @@ export class DeleteProjectService {
     const technicalManagerRepository = new TechnicalManagerRepository();
     const projectPhaseRepository = new ProjectPhaseRepository();
 
-    const verifyAgencyExists = await repository.findProjectById({
+    const verifyProjectExists = await repository.findProjectById({
       id_project,
     });
 
-    if (!verifyAgencyExists)
+    if (!verifyProjectExists)
       return {
         error: `Não há nenhum projeto registrado com este ID -> ${id_project}.`,
       };

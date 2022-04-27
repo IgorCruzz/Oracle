@@ -42,7 +42,7 @@ export class CreateProjectService {
 
     if (!programExists) {
       return {
-        error: `Não há nenhum Program registrado com este ID -> ${id_program}.`,
+        error: `Não há nenhum Programa registrado com este ID -> ${id_program}.`,
       };
     }
 

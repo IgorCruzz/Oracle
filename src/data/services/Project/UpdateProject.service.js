@@ -22,7 +22,7 @@ export class UpdateProjectService {
 
     if (!verifyProjectExists)
       return {
-        error: `Não há nenhum programa registrado com este ID -> ${id_project}.`,
+        error: `Não há nenhum projeto registrado com este ID -> ${id_project}.`,
       };
 
     if (id_city) {
@@ -56,7 +56,7 @@ export class UpdateProjectService {
 
       if (!programExists) {
         return {
-          error: `Não há nenhum Program registrado com este ID -> ${id_program}.`,
+          error: `Não há nenhum Programa registrado com este ID -> ${id_program}.`,
         };
       }
     }
@@ -82,7 +82,7 @@ export class UpdateProjectService {
         verifyProjectName &&
         verifyProjectName.id_project !== Number(id_project)
       )
-        return { error: 'Já existe um programa registrado com este nome.' };
+        return { error: 'Já existe um projeto registrado com este nome.' };
     }
 
     const projectUpdated = await repository.updateProject(id_project, data);
