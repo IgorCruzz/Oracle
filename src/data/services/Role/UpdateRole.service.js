@@ -20,7 +20,7 @@ export class UpdateRoleService {
     if (verifyRoleName && verifyRoleName.id_role !== Number(id_role))
       return { error: 'Já existe uma função registrada com este nome.' };
 
-    const roleUpdated = await repository.updateCategory(id_role, data);
+    const roleUpdated = await repository.updateRole(id_role, data);
 
     return {
       message: 'Função atualizada com sucesso!',

@@ -12,10 +12,8 @@ export class FindRolesController {
           error: response.error,
         });
 
-      const { rows } = response.roles;
-
       return res.status(200).json({
-        roles: rows,
+        roles: response.roles,
       });
     } catch (err) {
       return res.status(500).json({

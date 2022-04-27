@@ -18,7 +18,7 @@ export class RoleRepository {
   }
 
   async findRoles() {
-    return await Role.findAndCountAll({
+    return await Role.findAll({
       order: [['nm_role', 'ASC']],
       raw: true,
     });

@@ -4,9 +4,8 @@ export class CreateRoleController {
   async handle(req, res) {
     try {
       const service = new CreateRoleService();
-      const { name } = req.body;
 
-      const response = await service.execute({ name });
+      const response = await service.execute(req.body);
 
       if (response.error)
         return res.status(400).json({
