@@ -1,28 +1,15 @@
 import { Project_phase, Project } from '../../models';
-import { verifyDate } from '../../../../utils/verifyDate';
 
 export class ProjectPhaseRepository {
   async createProjectPhase(data) {
     const {
-      dt_planned_start,
-      dt_planned_end,
+      dtPlannedStart,
+      dtPlannedEnd,
       nm_project_phase,
       nu_order,
       id_project,
       vl_phase,
     } = data;
-
-    const dtPlannedStart = verifyDate(dt_planned_start);
-
-    if (dtPlannedStart.error) {
-      return { error: dtPlannedStart.error };
-    }
-
-    const dtPlannedEnd = verifyDate(dt_planned_end);
-
-    if (dtPlannedEnd.error) {
-      return { error: dtPlannedEnd.error };
-    }
 
     const createdProjectPhase = await Project_phase.create({
       dt_planned_start: dtPlannedStart,
@@ -93,30 +80,13 @@ export class ProjectPhaseRepository {
   }
 
   async updateTechnicalManagerArea(id_project_phase, data) {
-    const {
-      dt_planned_start,
-      dt_planned_end,
-      nm_project_phase,
-      nu_order,
-    } = data;
+    const { dtPlannedEnd, dtPlannedStart, nm_project_phase, nu_order } = data;
 
     const ProjectPhase = await Project_phase.findOne({
       where: {
         id_project_phase,
       },
     });
-
-    const dtPlannedStart = verifyDate(dt_planned_start);
-
-    if (dtPlannedStart.error) {
-      return { error: dtPlannedStart.error };
-    }
-
-    const dtPlannedEnd = verifyDate(dt_planned_end);
-
-    if (dtPlannedEnd.error) {
-      return { error: dtPlannedEnd.error };
-    }
 
     await ProjectPhase.update({
       dt_planned_start: dtPlannedStart,

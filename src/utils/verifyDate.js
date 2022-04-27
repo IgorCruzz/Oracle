@@ -15,10 +15,10 @@ export const verifyDate = date => {
       dateDocument[0].length < 2 ||
       dateDocument[0].length > 2
     ) {
-      return { error: 'Insira a data do documento no formato 00/00/0000' };
+      return { error: 'Insira a data no formato 00/00/0000' };
     }
   } else {
-    return { error: 'Insira a data do documento no formato 00/00/0000' };
+    return { error: 'Insira a data no formato 00/00/0000' };
   }
 
   return parsedDate;
