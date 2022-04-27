@@ -74,3 +74,10 @@ export * from './ProjectPhase/DeleteProjectPhase.service';
 export * from './ProjectPhase/FindProjectPhase.service';
 export * from './ProjectPhase/FindProjectPhases.service';
 export * from './ProjectPhase/UpdateProjectPhase.service';
+
+// ROLE
+export * from './Role/CreateRole.service';
+export * from './Role/DeleteRole.service';
+export * from './Role/FindRole.service';
+export * from './Role/FindRoles.service';
+export * from './Role/UpdateRole.service';
