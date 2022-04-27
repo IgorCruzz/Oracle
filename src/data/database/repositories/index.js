@@ -10,3 +10,4 @@ export * from './PolygonArea/PolygonArea.repository';
 export * from './TechnicalManager/TechnicalManager.repository';
 export * from './ProjectPhase/ProjectPhase.repository';
 export * from './Role/Role.repository';
+export * from './Product/Product.repository';

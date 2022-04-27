@@ -30,7 +30,7 @@ export class Product extends Model {
   static associate(models) {
     Product.belongsTo(models.Project_phase, {
       foreignKey: 'id_project_phase',
-      as: 'city',
+      as: 'project_phase',
     });
     Product.belongsTo(models.Role, {
       foreignKey: 'id_suggested_role',
