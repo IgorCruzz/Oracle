@@ -8,7 +8,8 @@ export class ProductRepository {
     const createdProduct = await Product.create({
       ...data,
       nm_product: nm_product.trim(),
-      ds_note_required_action: ds_note_required_action.trim(),
+      ds_note_required_action:
+        ds_note_required_action && ds_note_required_action.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -129,7 +130,8 @@ export class ProductRepository {
     await product.update({
       ...data,
       nm_product: nm_product.trim(),
-      ds_note_required_action: ds_note_required_action.trim(),
+      ds_note_required_action:
+        ds_note_required_action && ds_note_required_action.trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
