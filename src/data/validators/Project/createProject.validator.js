@@ -36,7 +36,7 @@ export const createProjectValidator = async (req, res, next) => {
         .nullable(),
       cd_priority: Yup.mixed()
         .oneOf([1, 2, 3], 'Prioridade inválida')
-        .required('O campo código de prioridade é obrigatório'),
+        .required('O campo Prioridade é obrigatório'),
       cd_complexity: Yup.mixed()
         .oneOf([1, 2, 3, null], 'Complexidade inválida')
         .nullable(),
