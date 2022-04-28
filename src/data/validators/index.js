@@ -87,3 +87,10 @@ export * from './Product/deleteProduct.validator';
 export * from './Product/findProduct.validator';
 export * from './Product/findProducts.validator';
 export * from './Product/updateProduct.validator';
+
+// DOCUMENT
+export * from './Document/createDocument.validator';
+export * from './Document/deleteDocument.validator';
+export * from './Document/findDocument.validator';
+export * from './Document/findDocuments.validator';
+export * from './Document/updateDocument.validator';
