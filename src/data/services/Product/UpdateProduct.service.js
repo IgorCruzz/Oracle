@@ -21,14 +21,16 @@ export class UpdateProductService {
         error: `Não há nenhum produto registrado com este ID -> ${id_product}.`,
       };
 
-    const roleExists = await roleRepository.findRoleById({
-      id_role: id_suggested_role,
-    });
+    if (id_suggested_role) {
+      const roleExists = await roleRepository.findRoleById({
+        id_role: id_suggested_role,
+      });
 
-    if (!roleExists) {
-      return {
-        error: `Não há nenhuma Função registrada com este ID -> ${id_suggested_role}.`,
-      };
+      if (!roleExists) {
+        return {
+          error: `Não há nenhuma Função registrada com este ID -> ${id_suggested_role}.`,
+        };
+      }
     }
 
     const ProjectPhaseExists = await projectPhaseRepository.findProjectPhaseById(
