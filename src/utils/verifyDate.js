@@ -1,5 +1,5 @@
-export const verifyDate = date => {
-  const dateDocument = date.split('/');
+export const verifyDate = ({ value, msg }) => {
+  const dateDocument = value.split('/');
 
   const parsedDate = `${dateDocument[2]}-${dateDocument[1]}-${dateDocument[0]}`;
 
@@ -15,10 +15,10 @@ export const verifyDate = date => {
       dateDocument[0].length < 2 ||
       dateDocument[0].length > 2
     ) {
-      return { error: 'Insira a data no formato 00/00/0000' };
+      return { error: msg };
     }
   } else {
-    return { error: 'Insira a data no formato 00/00/0000' };
+    return { error: msg };
   }
 
   return parsedDate;

@@ -16,13 +16,19 @@ export class CreateProjectPhaseService {
     const repository = new ProjectPhaseRepository();
     const projectRepository = new ProjectRepository();
 
-    const dtPlannedStart = verifyDate(dt_planned_start);
+    const dtPlannedStart = verifyDate({
+      msg: 'Data de ínicio planejado inválida. Utilize o formato dd/mm/yyyy',
+      value: dt_planned_start,
+    });
 
     if (dtPlannedStart.error) {
       return { error: dtPlannedStart.error };
     }
 
-    const dtPlannedEnd = verifyDate(dt_planned_end);
+    const dtPlannedEnd = verifyDate({
+      value: dt_planned_end,
+      msg: 'Data de término planejado inválida. Utilize o formato dd/mm/yyyy',
+    });
 
     if (dtPlannedEnd.error) {
       return { error: dtPlannedEnd.error };

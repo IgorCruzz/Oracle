@@ -5,16 +5,32 @@ import {
   ProgramRepository,
   CategoryRepository,
 } from '../../database/repositories';
+import { verifyDate } from '../../../utils/verifyDate';
 
 export class UpdateProjectService {
   async execute(id_project, data) {
-    const { id_city, id_category, id_program, id_agency } = data;
+    const {
+      id_city,
+      id_category,
+      id_program,
+      id_agency,
+      dt_official_document,
+    } = data;
 
     const repository = new ProjectRepository();
     const cityRepository = new CityRepository();
     const categoryRepository = new CategoryRepository();
     const programRepository = new ProgramRepository();
     const agencyRepository = new AgencyRepository();
+
+    const dtOfficial = verifyDate({
+      value: dt_official_document,
+      msg: 'Data do ofício inválida. Utilize o formato dd/mm/yyyy',
+    });
+
+    if (dtOfficial.error) {
+      return { error: dtOfficial.error };
+    }
 
     const verifyProjectExists = await repository.findProjectById({
       id_project,
@@ -85,7 +101,10 @@ export class UpdateProjectService {
         return { error: 'Já existe um projeto registrado com este nome.' };
     }
 
-    const projectUpdated = await repository.updateProject(id_project, data);
+    const projectUpdated = await repository.updateProject(id_project, {
+      ...data,
+      dtOfficial,
+    });
 
     if (projectUpdated.error) {
       return { error: projectUpdated.error };

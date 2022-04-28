@@ -7,37 +7,15 @@ export class ProjectRepository {
       nm_project,
       ds_official_document,
       nm_official_document_applicant,
-      dt_official_document,
+      dtOfficial,
     } = data;
-
-    const dateDocument = dt_official_document.split('/');
-
-    const parsedDate = `${dateDocument[2]}-${dateDocument[1]}-${dateDocument[0]}`;
-
-    const parse = new Date(parsedDate);
-
-    if (dateDocument[1]) {
-      if (
-        parse.toString() === 'Invalid Date' ||
-        dateDocument[2].length < 4 ||
-        dateDocument[2].length > 4 ||
-        dateDocument[1].length < 2 ||
-        dateDocument[1].length > 2 ||
-        dateDocument[0].length < 2 ||
-        dateDocument[0].length > 2
-      ) {
-        return { error: 'Insira a data do documento no formato 00/00/0000' };
-      }
-    } else {
-      return { error: 'Insira a data do documento no formato 00/00/0000' };
-    }
 
     const createdProject = await Project.create({
       ...data,
       nm_project: nm_project.trim(),
       ds_official_document: ds_official_document.trim(),
       nm_official_document_applicant: nm_official_document_applicant.trim(),
-      dt_official_document: parsedDate,
+      dt_official_document: dtOfficial,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -229,49 +207,7 @@ export class ProjectRepository {
   }
 
   async updateProject(id_project, data) {
-    if (data.dt_official_document) {
-      const dateDocument = data.dt_official_document.split('/');
-
-      const parsedDate = `${dateDocument[2]}-${dateDocument[1]}-${dateDocument[0]}`;
-
-      const parse = new Date(parsedDate);
-
-      if (
-        parse.toString() === 'Invalid Date' ||
-        dateDocument[2].length < 4 ||
-        dateDocument[2].length > 4 ||
-        dateDocument[1].length < 2 ||
-        dateDocument[1].length > 2 ||
-        dateDocument[0].length < 2 ||
-        dateDocument[0].length > 2
-      ) {
-        return { error: 'Insira a data do documento no formato 00/00/0000' };
-      }
-
-      const project = await Project.findOne({
-        where: {
-          id_project,
-        },
-      });
-
-      await project.update({
-        ...data,
-        dt_official_document: parsedDate,
-        dt_updated_at: new Date(Date.now()).toISOString(),
-      });
-
-      return await Project.findOne({
-        where: {
-          nm_project: project.dataValues.nm_project,
-        },
-        include: [
-          { model: City, as: 'city' },
-          { model: Category, as: 'category' },
-          { model: Program, as: 'program' },
-          { model: Agency, as: 'agency' },
-        ],
-      });
-    }
+    const { dtOfficial } = data;
 
     const project = await Project.findOne({
       where: {
@@ -281,6 +217,7 @@ export class ProjectRepository {
 
     await project.update({
       ...data,
+      dt_official_document: dtOfficial,
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 

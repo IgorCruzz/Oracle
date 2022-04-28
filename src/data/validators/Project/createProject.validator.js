@@ -35,16 +35,10 @@ export const createProjectValidator = async (req, res, next) => {
         .max(25, 'O tamanho máximo permitido para o campo nome do projeto é 25')
         .nullable(),
       cd_priority: Yup.mixed()
-        .oneOf(
-          ['1', '2', '3'],
-          'Valores permitidos no campo tipo de código de prioridade:  1 = Baixa, 2 = Média, 3 = Alta'
-        )
+        .oneOf([1, 2, 3], 'Prioridade inválida')
         .required('O campo código de prioridade é obrigatório'),
       cd_complexity: Yup.mixed()
-        .oneOf(
-          ['1', '2', '3', null],
-          'Valores permitidos no campo tipo de código de complexidade:  1 = Baixa, 2 = Média, 3 = Alta'
-        )
+        .oneOf([1, 2, 3, null], 'Complexidade inválida')
         .nullable(),
       qt_m2: Yup.number()
         .nullable()
