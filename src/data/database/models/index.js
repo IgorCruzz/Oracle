@@ -11,3 +11,4 @@ export * from './Technical_manager';
 export * from './Project_phase';
 export * from './Role';
 export * from './Product';
+export * from './Document';
