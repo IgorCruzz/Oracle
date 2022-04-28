@@ -30,8 +30,8 @@ export class ProductRepository {
       include: [
         {
           model: Role,
-          as: 'id_suggested_role',
-          where: { id_suggested_role },
+          as: 'suggested_role',
+          where: { id_role: id_suggested_role },
         },
       ],
     });
@@ -42,7 +42,7 @@ export class ProductRepository {
       include: [
         {
           model: Project_phase,
-          as: 'id_project_phase',
+          as: 'project_phase',
           where: { id_project_phase },
         },
       ],
@@ -78,7 +78,7 @@ export class ProductRepository {
               ? {
                   model: Role,
                   as: 'suggested_role',
-                  where: { id_suggested_role },
+                  where: { id_role: id_suggested_role },
                 }
               : { model: Role, as: 'suggested_role' },
           ],
@@ -99,7 +99,7 @@ export class ProductRepository {
               ? {
                   model: Role,
                   as: 'suggested_role',
-                  where: { id_suggested_role },
+                  where: { id_role: id_suggested_role },
                 }
               : { model: Role, as: 'suggested_role' },
           ],
