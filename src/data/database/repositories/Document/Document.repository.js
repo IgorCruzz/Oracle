@@ -55,6 +55,18 @@ export class DocumentRepository {
         });
   }
 
+  async verifyRelationProduct({ id_product }) {
+    return await Document.findAll({
+      include: [
+        {
+          model: Product,
+          as: 'product',
+          where: { id_product },
+        },
+      ],
+    });
+  }
+
   async findDocument({ ds_document }) {
     return await Document.findOne({
       where: {

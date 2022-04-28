@@ -1,5 +1,5 @@
 export const verifyDate = ({ value, msg }) => {
-  const dateDocument = value.split('/');
+  const dateDocument = value.trim().split('/');
 
   const parsedDate = `${dateDocument[2]}-${dateDocument[1]}-${dateDocument[0]}`;
 

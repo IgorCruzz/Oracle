@@ -20,8 +20,10 @@ export const updateDocumentValidator = async (req, res, next) => {
           1000,
           'O tamanho máximo permitido para o campo nome do arquivo é 1000'
         )
-        .required('O campo nome do arquivo é obrigatório')
-        .typeError('O preenchimento da nome do arquivo é obrigatório'),
+        .nullable(),
+      id_product: Yup.number()
+        .required('Produto inválido')
+        .typeError('Produto inválido'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });
