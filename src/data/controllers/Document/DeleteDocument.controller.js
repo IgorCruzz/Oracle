@@ -1,9 +1,9 @@
-import { CreateDocumentService } from '../../services';
+import { DeleteDocumentService } from '../../services';
 
 export class DeleteDocumentController {
   async handle(req, res) {
     try {
-      const service = new CreateDocumentService();
+      const service = new DeleteDocumentService();
       const { id_document } = req.params;
 
       const response = await service.execute({ id_document });

@@ -1,9 +1,9 @@
-import { UpdateCategoryService } from '../../services';
+import { UpdateDocumentService } from '../../services';
 
 export class UpdateDocumentController {
   async handle(req, res) {
     try {
-      const service = new UpdateCategoryService();
+      const service = new UpdateDocumentService();
 
       const { id_document } = req.params;
 
@@ -15,8 +15,8 @@ export class UpdateDocumentController {
         });
 
       return res.status(200).json({
-        category: response.category,
         message: response.message,
+        document: response.document,
       });
     } catch (err) {
       return res.status(500).json({

@@ -1,11 +1,11 @@
-import { FindCategoryService } from '../../services';
+import { FindDocumentService } from '../../services';
 
 export class FindDocumentController {
   async handle(req, res) {
     try {
       const { id_document } = req.params;
 
-      const service = new FindCategoryService();
+      const service = new FindDocumentService();
 
       const response = await service.execute({ id_document });
 

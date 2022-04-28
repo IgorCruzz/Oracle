@@ -6,6 +6,7 @@ export class FindDocumentService {
 
     const findDocument = await repository.findDocumentById({
       id_document,
+      populate: true,
     });
 
     if (!findDocument)

@@ -31,26 +31,35 @@ export class DocumentRepository {
           order: [['ds_document', 'ASC']],
           limit: Number(limit),
           offset: (Number(page) - 1) * Number(limit),
-          raw: true,
+
           include: [
-            {
-              model: Product,
-              as: 'product',
-              where: { id_product },
-            },
+            id_product
+              ? {
+                  model: Product,
+                  as: 'product',
+                  where: { id_product },
+                }
+              : {
+                  model: Product,
+                  as: 'product',
+                },
           ],
         })
       : await Document.findAndCountAll({
           limit: Number(limit),
           order: [['ds_document', 'ASC']],
           offset: (Number(page) - 1) * Number(limit),
-          raw: true,
           include: [
-            {
-              model: Product,
-              as: 'product',
-              where: { id_product },
-            },
+            id_product
+              ? {
+                  model: Product,
+                  as: 'product',
+                  where: { id_product },
+                }
+              : {
+                  model: Product,
+                  as: 'product',
+                },
           ],
         });
   }
@@ -76,7 +85,16 @@ export class DocumentRepository {
     });
   }
 
-  async findDocumentById({ id_document }) {
+  async findDocumentById({ id_document, populate }) {
+    if (populate) {
+      return await Document.findOne({
+        where: {
+          id_document,
+        },
+        include: [{ model: Product, as: 'product' }],
+      });
+    }
+
     return await Document.findOne({
       where: {
         id_document,
@@ -112,7 +130,7 @@ export class DocumentRepository {
       where: {
         ds_document: document.dataValues.ds_document,
       },
-      raw: true,
+      include: [{ model: Product, as: 'product' }],
     });
   }
 }
