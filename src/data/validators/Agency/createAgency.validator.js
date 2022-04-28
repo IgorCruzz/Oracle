@@ -5,7 +5,8 @@ export const createAgencyValidator = async (req, res, next) => {
     const Schema = Yup.object().shape({
       name: Yup.string()
         .max(255, 'O tamanho máximo permitido para o campo nome é 255')
-        .required('O campo nome é obrigatório'),
+        .required('O campo nome é obrigatório')
+        .typeError('O preenchimento do nome é obrigatório'),
       jurisdictionId: Yup.number()
         .required('Esfera inválida')
         .typeError('Esfera inválida'),

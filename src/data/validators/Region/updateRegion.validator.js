@@ -9,7 +9,8 @@ export const updateRegionValidator = async (req, res, next) => {
     const SchemaBody = Yup.object().shape({
       name: Yup.string()
         .max(255, 'O tamanho máximo permitido para o campo nome é 255')
-        .required('O campo nome é obrigatório'),
+        .required('O campo nome é obrigatório')
+        .typeError('O preenchimento do nome é obrigatório'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });

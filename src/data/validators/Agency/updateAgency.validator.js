@@ -9,7 +9,8 @@ export const updateAgencyValidator = async (req, res, next) => {
     const SchemaBody = Yup.object().shape({
       name: Yup.string()
         .min(1, 'O campo nome precisa ter entre 1 a 255 caracteres')
-        .max(255, 'O tamanho máximo permitido para o campo nome é 255'),
+        .max(255, 'O tamanho máximo permitido para o campo nome é 255')
+        .typeError('O preenchimento do nome é obrigatório'),
       jurisdictionId: Yup.number()
         .positive('O campo deve ser positivo.')
         .integer('O campo deve ser um número inteiro.')
