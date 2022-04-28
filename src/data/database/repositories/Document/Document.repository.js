@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { Document } from '../../models';
+import { Document, Product } from '../../models';
 
 export class DocumentRepository {
   async createDocument(data) {
@@ -20,31 +20,45 @@ export class DocumentRepository {
     });
   }
 
-  async findDocuments({ page, limit, search }) {
+  async findDocuments({ page, limit, search, id_product }) {
     return search
       ? await Document.findAndCountAll({
           where: {
-            nm_category: {
+            ds_document: {
               [Op.like]: `%${search.trim()}%`,
             },
           },
-          order: [['nm_category', 'ASC']],
+          order: [['ds_document', 'ASC']],
           limit: Number(limit),
           offset: (Number(page) - 1) * Number(limit),
           raw: true,
+          include: [
+            {
+              model: Product,
+              as: 'product',
+              where: { id_product },
+            },
+          ],
         })
       : await Document.findAndCountAll({
           limit: Number(limit),
-          order: [['nm_category', 'ASC']],
+          order: [['ds_document', 'ASC']],
           offset: (Number(page) - 1) * Number(limit),
           raw: true,
+          include: [
+            {
+              model: Product,
+              as: 'product',
+              where: { id_product },
+            },
+          ],
         });
   }
 
   async findDocument({ ds_document }) {
     return await Document.findOne({
       where: {
-        nm_category: ds_document.trim(),
+        ds_document: ds_document.trim(),
       },
       raw: true,
     });
@@ -59,27 +73,32 @@ export class DocumentRepository {
     });
   }
 
-  async deleteDocument({ id }) {
+  async deleteDocument({ id_document }) {
     await Document.destroy({
-      where: { id_category: id },
+      where: { id_document },
     });
   }
 
-  async updateDocument({ id, name }) {
-    const category = await Document.findOne({
+  async updateDocument(id_document, data) {
+    const { ds_document, nm_file } = data;
+
+    const document = await Document.findOne({
       where: {
-        id_category: id,
+        id_document,
       },
     });
 
-    await category.update({
-      nm_category: name.trim(),
+    await document.update({
+      ...data,
+      ds_document: ds_document.trim(),
+      nm_file: nm_file && nm_file.trim(),
+      dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
     return await Document.findOne({
       where: {
-        nm_category: category.dataValues.nm_category,
+        ds_document: document.dataValues.ds_document,
       },
       raw: true,
     });
