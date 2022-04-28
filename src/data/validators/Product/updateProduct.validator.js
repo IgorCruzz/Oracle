@@ -41,7 +41,6 @@ export const updateProductValidator = async (req, res, next) => {
           1000,
           'O tamanho máximo permitido para o campo justificativa da indicação da ação é 1000'
         )
-        .required('O campo justificativa da indicação da ação é obrigatório')
         .typeError(
           'O preenchimento da justificativa da indicação da ação é obrigatório'
         ),
