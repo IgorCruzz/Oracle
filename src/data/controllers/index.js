@@ -81,3 +81,10 @@ export * from './Role/DeleteRole.controller';
 export * from './Role/FindRole.controller';
 export * from './Role/FindRoles.controller';
 export * from './Role/UpdateRole.controller';
+
+// PRODUCT
+export * from './Product/CreateProduct.controller';
+export * from './Product/DeleteProduct.controller';
+export * from './Product/FindProduct.controller';
+export * from './Product/FindProducts.controller';
+export * from './Product/UpdateProduct.controller';

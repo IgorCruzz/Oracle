@@ -1,0 +1,43 @@
+import { FindProductsService } from '../../services';
+
+export class FindProductsController {
+  async handle(req, res) {
+    try {
+      const {
+        page,
+        limit,
+        id_project_phase,
+        id_suggested_role,
+        search,
+      } = req.query;
+
+      const service = new FindProductsService();
+
+      const response = await service.execute({
+        page,
+        limit,
+        id_project_phase,
+        id_suggested_role,
+        search,
+      });
+
+      if (response.error)
+        return res.status(400).json({
+          error: response.error,
+        });
+
+      const { count, rows } = response.product;
+
+      return res.status(200).json({
+        count,
+        page,
+        limit,
+        product: rows,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        error: 'Ocorreu um problema interno',
+      });
+    }
+  }
+}
