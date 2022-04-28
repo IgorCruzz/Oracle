@@ -10,11 +10,11 @@ export const createTechnicalManagerValidator = async (req, res, next) => {
           'O preenchimento do nome do técnico responsável é obrigatório'
         ),
       nu_crea: Yup.string()
-        .length(20, 'O tamanho permitido para o campo latitude é 20')
+        .max(20, 'O tamanho máximo permitido para o campo latitude é 20')
         .required('O campo número CREA é obrigatório')
         .typeError('O preenchimento do número CREA é obrigatório'),
       nu_rrt_art: Yup.string()
-        .length(20, 'O tamanho permitido para o campo ART é 20')
+        .max(20, 'O tamanho máximo permitido para o campo ART é 20')
         .required('O campo ART é obrigatório')
         .typeError('O preenchimento do ART é obrigatório'),
       tp_responsability: Yup.mixed()

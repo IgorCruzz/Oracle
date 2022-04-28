@@ -19,14 +19,14 @@ export const createLocationValidator = async (req, res, next) => {
         .required('O campo bairro é obrigatório')
         .typeError('O preenchimento do bairro é obrigatório'),
       nu_postal_code: Yup.string()
-        .length(10, 'O tamanho permitido para o campo cep é 10')
+        .max(10, 'O tamanho máximo permitido para o campo CEP é 10')
         .required('O campo cep é obrigatório')
         .typeError('O preenchimento do cep é obrigatório'),
       nu_latitude: Yup.string()
-        .length(20, 'O tamanho permitido para o campo latitude é 20')
+        .max(10, 'O tamanho máximo permitido para o campo latitude é 10')
         .nullable(),
       nu_longitude: Yup.string()
-        .length(20, 'O tamanho permitido para o campo longitude é 20')
+        .max(10, 'O tamanho máximo permitido para o campo longitude é 10')
         .nullable(),
       id_project: Yup.number()
         .required('Projeto inválido')
