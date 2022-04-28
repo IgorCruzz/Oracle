@@ -12,6 +12,7 @@ import PolygonArea from './PolygonArea/PolygonArea.routes';
 import TechnicalManager from './TechnicalManager/TechnicalManager.routes';
 import ProjectPhase from './ProjectPhase/ProjectPhase.routes';
 import Role from './Role/Role.routes';
+import Product from './Product/Product.routes';
 
 const routes = [
   Category,
@@ -26,6 +27,7 @@ const routes = [
   TechnicalManager,
   ProjectPhase,
   Role,
+  Product,
 ];
 
 const router = Router();
