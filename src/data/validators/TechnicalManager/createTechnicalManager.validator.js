@@ -4,13 +4,16 @@ export const createTechnicalManagerValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
       nm_technical_manager: Yup.string()
-        .max(255, 'O tamanho máximo permitido para o campo nome é 255')
+        .max(
+          255,
+          'O tamanho máximo permitido para o campo nome do técnico responsável é 255'
+        )
         .required('O campo nome do técnico responsável é obrigatório')
         .typeError(
           'O preenchimento do nome do técnico responsável é obrigatório'
         ),
       nu_crea: Yup.string()
-        .max(20, 'O tamanho máximo permitido para o campo latitude é 20')
+        .max(20, 'O tamanho máximo permitido para o campo número CREA é 20')
         .required('O campo número CREA é obrigatório')
         .typeError('O preenchimento do número CREA é obrigatório'),
       nu_rrt_art: Yup.string()
