@@ -25,6 +25,30 @@ export class ProductRepository {
     });
   }
 
+  async verifyRole({ id_suggested_role }) {
+    return await Product.findAll({
+      include: [
+        {
+          model: Role,
+          as: 'id_suggested_role',
+          where: { id_suggested_role },
+        },
+      ],
+    });
+  }
+
+  async verifyProjectPhase({ id_project_phase }) {
+    return await Product.findAll({
+      include: [
+        {
+          model: Project_phase,
+          as: 'id_project_phase',
+          where: { id_project_phase },
+        },
+      ],
+    });
+  }
+
   async findProducts({
     page,
     limit,
