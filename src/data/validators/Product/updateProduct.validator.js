@@ -43,11 +43,14 @@ export const updateProductValidator = async (req, res, next) => {
         )
         .typeError(
           'O preenchimento da justificativa da indicação da ação é obrigatório'
-        ),
+        )
+        .nullable(),
       id_project_phase: Yup.number()
         .required('Fase de projeto inválida')
         .typeError('Fase de projeto inválida'),
-      id_suggested_role: Yup.number().typeError('Função inválida'),
+      id_suggested_role: Yup.number()
+        .nullable()
+        .typeError('Função inválida'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });
