@@ -80,3 +80,10 @@ export * from './Role/createRole.validator';
 export * from './Role/deleteRole.validator';
 export * from './Role/findRole.validator';
 export * from './Role/updateRole.validator';
+
+// PRODUCT
+export * from './Product/createProduct.validator';
+export * from './Product/deleteProduct.validator';
+export * from './Product/findProduct.validator';
+export * from './Product/findProducts.validator';
+export * from './Product/updateProduct.validator';
