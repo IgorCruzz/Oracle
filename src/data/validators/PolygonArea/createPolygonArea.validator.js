@@ -6,11 +6,11 @@ export const createPolygonAreaValidator = async (req, res, next) => {
       nu_latidude_vertice: Yup.string()
         .length(20, 'O tamanho permitido para o campo latitude é 20')
         .required('O campo vertice de latitude é obrigatório')
-        .typeError('Campo  vertice de latitude precisa ser em texto'),
+        .typeError('O preenchimento da vertice de latitude é obrigatório'),
       nu_longitude_vertice: Yup.string()
         .length(20, 'O tamanho permitido para o campo latitude é 20')
         .required('O campo vertice de longitude é obrigatório')
-        .typeError('Campo vertice de longitude precisa ser em texto'),
+        .typeError('O preenchimento da vertice de longitude é obrigatório'),
       id_location: Yup.number()
         .required('Localização de Canteiro inválido')
         .typeError('Localização de Canteiro inválido'),

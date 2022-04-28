@@ -15,8 +15,8 @@ export const updateProjectPhaseValidator = async (req, res, next) => {
           255,
           'O tamanho máximo permitido para o campo nome do projeto é 255'
         )
-        .required('O campo nome do projeto é obrigatório')
-        .typeError('Campo nome do projeto precisar ser em texto'),
+        .required('O campo nome do nome da fase de projeto é obrigatório')
+        .typeError('O preenchimento do nome da fase de projeto é obrigatório'),
       dt_planned_start: Yup.string().nullable(),
       dt_planned_end: Yup.string().nullable(),
       vl_phase: Yup.number()

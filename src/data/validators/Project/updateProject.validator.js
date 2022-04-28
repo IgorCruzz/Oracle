@@ -13,7 +13,7 @@ export const updateProjectValidator = async (req, res, next) => {
           'O tamanho máximo permitido para o campo nome do projeto é 255'
         )
         .required('O campo nome do projeto é obrigatório')
-        .typeError('Campo nome do projeto precisa ser em texto'),
+        .typeError('O preenchimento do projeto é obrigatório'),
       tx_description: Yup.string()
         .max(
           1000,
