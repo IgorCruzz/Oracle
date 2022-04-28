@@ -6,13 +6,13 @@ import {
 
 export class UpdateProductService {
   async execute(id_product, data) {
-    const { id_role, id_project_phase, nm_product } = data;
+    const { id_suggested_role, id_project_phase, nm_product } = data;
 
     const repository = new ProductRepository();
     const roleRepository = new RoleRepository();
     const projectPhaseRepository = new ProjectPhaseRepository();
 
-    const verifyProjectExists = await repository.findProjectById({
+    const verifyProjectExists = await repository.findProductById({
       id_product,
     });
 
@@ -22,12 +22,12 @@ export class UpdateProductService {
       };
 
     const roleExists = await roleRepository.findRoleById({
-      id_role,
+      id_role: id_suggested_role,
     });
 
     if (!roleExists) {
       return {
-        error: `Não há nenhuma Função registrada com este ID -> ${id_role}.`,
+        error: `Não há nenhuma Função registrada com este ID -> ${id_suggested_role}.`,
       };
     }
 

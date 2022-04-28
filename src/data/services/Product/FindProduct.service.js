@@ -4,7 +4,7 @@ export class FindProductService {
   async execute({ id_product }) {
     const repository = new ProductRepository();
 
-    const findProduct = await repository.findProjectById({
+    const findProduct = await repository.findProductById({
       id_product,
       populate: true,
     });

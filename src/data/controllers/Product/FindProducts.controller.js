@@ -26,13 +26,13 @@ export class FindProductsController {
           error: response.error,
         });
 
-      const { count, rows } = response.product;
+      const { count, rows } = response.products;
 
       return res.status(200).json({
         count,
         page,
         limit,
-        product: rows,
+        products: rows,
       });
     } catch (err) {
       return res.status(500).json({

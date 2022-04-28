@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 export const updateProductValidator = async (req, res, next) => {
   try {
     const SchemaParam = Yup.object().shape({
-      id_project: Yup.string().required('O campo id é obrigatório'),
+      id_product: Yup.string().required('O campo id é obrigatório'),
     });
 
     const SchemaBody = Yup.object().shape({

@@ -3,18 +3,19 @@ import { Product, Role, Project_phase } from '../../models';
 
 export class ProductRepository {
   async createProduct(data) {
-    const { nm_product } = data;
+    const { nm_product, ds_note_required_action } = data;
 
-    const createdProject = await Product.create({
+    const createdProduct = await Product.create({
       ...data,
       nm_product: nm_product.trim(),
+      ds_note_required_action: ds_note_required_action.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
     return await Product.findOne({
       where: {
-        nm_project: createdProject.dataValues.nm_project,
+        nm_product: createdProduct.dataValues.nm_product,
       },
       include: [
         { model: Role, as: 'suggested_role' },
@@ -116,15 +117,19 @@ export class ProductRepository {
     });
   }
 
-  async updateProduct(id_project, data) {
+  async updateProduct(id_product, data) {
+    const { nm_product, ds_note_required_action } = data;
+
     const product = await Product.findOne({
       where: {
-        id_project,
+        id_product,
       },
     });
 
     await product.update({
       ...data,
+      nm_product: nm_product.trim(),
+      ds_note_required_action: ds_note_required_action.trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
