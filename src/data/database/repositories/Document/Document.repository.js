@@ -3,15 +3,19 @@ import { Document } from '../../models';
 
 export class DocumentRepository {
   async createDocument(data) {
-    const createdCategory = await Document.create({
+    const { ds_document, nm_file } = data;
+
+    const createdDocument = await Document.create({
       ...data,
+      ds_document: ds_document.trim(),
+      nm_file: nm_file && nm_file.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
     return await Document.findOne({
       where: {
-        nm_category: createdCategory.dataValues.nm_category,
+        id_document: createdDocument.dataValues.id_document,
       },
     });
   }
@@ -37,19 +41,19 @@ export class DocumentRepository {
         });
   }
 
-  async findDocument({ name }) {
+  async findDocument({ ds_document }) {
     return await Document.findOne({
       where: {
-        nm_category: name.trim(),
+        nm_category: ds_document.trim(),
       },
       raw: true,
     });
   }
 
-  async findDocumentById({ id }) {
+  async findDocumentById({ id_document }) {
     return await Document.findOne({
       where: {
-        id_category: id,
+        id_document,
       },
       raw: true,
     });

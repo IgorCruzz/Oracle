@@ -88,3 +88,10 @@ export * from './Product/DeleteProduct.controller';
 export * from './Product/FindProduct.controller';
 export * from './Product/FindProducts.controller';
 export * from './Product/UpdateProduct.controller';
+
+// DOCUMENT
+export * from './Document/CreateDocument.controller';
+export * from './Document/DeleteDocument.controller';
+export * from './Document/FindDocument.controller';
+export * from './Document/FindDocuments.controller';
+export * from './Document/UpdateDocument.controller';

@@ -88,3 +88,10 @@ export * from './Product/DeleteProduct.service';
 export * from './Product/FindProduct.service';
 export * from './Product/FindProducts.service';
 export * from './Product/UpdateProduct.service';
+
+// DOCUMENT
+export * from './Document/CreateDocument.service';
+export * from './Document/DeleteDocument.service';
+export * from './Document/FindDocument.service';
+export * from './Document/FindDocuments.service';
+export * from './Document/UpdateDocument.service';

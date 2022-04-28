@@ -3,7 +3,7 @@ import { FindTechnicalManagersService } from '../../services';
 export class FindTechnicalManagersController {
   async handle(req, res) {
     try {
-      const { page, limit, id_project } = req.query;
+      const { page, limit, id_project, name, crea, responsability } = req.query;
 
       const service = new FindTechnicalManagersService();
 
@@ -11,6 +11,9 @@ export class FindTechnicalManagersController {
         page,
         limit,
         id_project,
+        name,
+        crea,
+        responsability,
       });
 
       if (response.error)
@@ -27,6 +30,7 @@ export class FindTechnicalManagersController {
         technicalManagers: rows,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });

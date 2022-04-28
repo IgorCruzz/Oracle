@@ -1,3 +1,4 @@
+// import { Op } from 'sequelize';
 import { Technical_manager, Project } from '../../models';
 
 export class TechnicalManagerRepository {
@@ -31,6 +32,7 @@ export class TechnicalManagerRepository {
 
   async findTechnicalManagers({ page, limit, id_project }) {
     return await Technical_manager.findAndCountAll({
+      order: [['nm_technical_manager', 'ASC']],
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
       include: [
@@ -42,6 +44,15 @@ export class TechnicalManagerRepository {
             }
           : { model: Project, as: 'project' },
       ],
+    });
+  }
+
+  async verifyName({ nm_technical_manager }) {
+    return await Technical_manager.findOne({
+      where: {
+        nm_technical_manager,
+      },
+      raw: true,
     });
   }
 
