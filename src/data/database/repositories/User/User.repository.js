@@ -126,4 +126,16 @@ export class UserRepository {
       ],
     });
   }
+
+  async verifyPassword({ ds_email_login, password }) {
+    const user = await User.findOne({
+      where: {
+        ds_email_login: ds_email_login.trim(),
+      },
+    });
+
+    const verify = await user.checkPassword(password);
+
+    return verify;
+  }
 }

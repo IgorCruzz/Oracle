@@ -15,6 +15,7 @@ import Role from './Role/Role.routes';
 import Product from './Product/Product.routes';
 import Document from './Document/Document.routes';
 import User from './User/User.routes';
+import Login from './Login/Login.routes';
 
 const routes = [
   Category,
@@ -32,6 +33,7 @@ const routes = [
   Product,
   Document,
   User,
+  Login,
 ];
 
 const router = Router();

@@ -101,3 +101,6 @@ export * from './User/deleteUser.validator';
 export * from './User/findUser.validator';
 export * from './User/findUsers.validator';
 export * from './User/updateUser.validator';
+
+// LOGIN
+export * from './Login/Login.validator';
