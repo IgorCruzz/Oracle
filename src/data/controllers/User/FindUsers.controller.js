@@ -3,9 +3,11 @@ import { FindUsersService } from '../../services';
 export class FindUsersController {
   async handle(req, res) {
     try {
+      const { page, limit } = req.query;
+
       const service = new FindUsersService();
 
-      const response = await service.execute();
+      const response = await service.execute({ page, limit });
 
       if (response.error)
         return res.status(400).json({
