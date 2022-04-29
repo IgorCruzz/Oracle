@@ -14,6 +14,7 @@ import ProjectPhase from './ProjectPhase/ProjectPhase.routes';
 import Role from './Role/Role.routes';
 import Product from './Product/Product.routes';
 import Document from './Document/Document.routes';
+import User from './User/User.routes';
 
 const routes = [
   Category,
@@ -30,6 +31,7 @@ const routes = [
   Role,
   Product,
   Document,
+  User,
 ];
 
 const router = Router();
