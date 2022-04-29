@@ -3,6 +3,8 @@ import { ValidationError } from '../../../utils/validationError';
 
 export const updateProjectPhaseValidator = async (req, res, next) => {
   try {
+    const { nu_order } = req.body;
+
     const SchemaParam = Yup.object().shape({
       id_project_phase: Yup.string().required('O campo id é obrigatório'),
     });
@@ -10,7 +12,12 @@ export const updateProjectPhaseValidator = async (req, res, next) => {
     const SchemaBody = Yup.object().shape({
       nu_order: Yup.number()
         .positive('O número de ordem precisa ser positivo')
-        .typeError('O campo número de ordem precisa ser númerico'),
+        .required('O campo número de ordem é obrigatório')
+        .typeError(
+          nu_order === null
+            ? 'O campo número de ordem é obrigatório'
+            : 'O campo número de ordem precisa ser númerico'
+        ),
       nm_project_phase: Yup.string()
         .max(
           255,
