@@ -56,10 +56,11 @@ export const updateProjectValidator = async (req, res, next) => {
         .nullable(),
       qt_m2: Yup.number()
         .nullable()
+        .positive('A área (m2) do projeto precisa ser um valor positivo')
         .test(
           'is-decimal',
-          'A área (m2) do projeto precisa ser um valor positivo',
-          value => `${value}`.match(/^\d*\.?\d*$/) || value
+          null,
+          value => `${value}`.match(/^\d*\.?\d*$/) || value === null
         )
         .typeError('O campo m² precisa ser númerico'),
       ds_official_document: Yup.string()

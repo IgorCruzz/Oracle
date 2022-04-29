@@ -20,7 +20,7 @@ export const createProjectPhaseValidator = async (req, res, next) => {
         .nullable()
         .test(
           'is-decimal',
-          'O valor precisa ser positivo',
+          null,
           value => `${value}`.match(/^\d*\.?\d*$/) || value === null
         )
         .typeError('O campo valor precisa ser númerico'),
