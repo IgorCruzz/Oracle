@@ -34,7 +34,10 @@ export class UpdatePolygonAreaService {
 
     const polygonAreaExists = await repository.findPolygonArea(data);
 
-    if (polygonAreaExists) {
+    if (
+      polygonAreaExists &&
+      polygonAreaExists.id_polygon_area !== Number(id_polygon_area)
+    ) {
       return {
         error: `Já existe um Polígono de Área registrado com estes dados para a Localização de Canteiro com o ID -> ${locationExists.id_location} `,
       };
