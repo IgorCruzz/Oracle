@@ -1,4 +1,4 @@
-// import { Op } from 'sequelize';
+import { Op } from 'sequelize';
 import { Technical_manager, Project } from '../../models';
 
 export class TechnicalManagerRepository {
@@ -30,8 +30,36 @@ export class TechnicalManagerRepository {
     });
   }
 
-  async findTechnicalManagers({ page, limit, id_project }) {
+  async findTechnicalManagers({
+    page,
+    limit,
+    id_project,
+    name,
+    crea,
+    responsability,
+  }) {
+    let searchQuery;
+
+    if (name || crea || responsability) {
+      searchQuery = {
+        ...(name && {
+          nm_technical_manager: { [Op.like]: `%${name.trim()}%` },
+        }),
+        ...(crea && { nu_crea: { [Op.like]: `%${crea.trim()}%` } }),
+        ...(responsability && {
+          tp_responsability: { [Op.like]: `%${responsability.trim()}%` },
+        }),
+      };
+    } else {
+      searchQuery = null;
+    }
+
     return await Technical_manager.findAndCountAll({
+      where: searchQuery
+        ? {
+            [Op.and]: searchQuery,
+          }
+        : {},
       order: [['nm_technical_manager', 'ASC']],
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
