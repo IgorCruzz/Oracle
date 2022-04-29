@@ -95,3 +95,10 @@ export * from './Document/DeleteDocument.controller';
 export * from './Document/FindDocument.controller';
 export * from './Document/FindDocuments.controller';
 export * from './Document/UpdateDocument.controller';
+
+// USER
+export * from './User/CreateUser.controller';
+export * from './User/DeleteUser.controller';
+export * from './User/FindUser.controller';
+export * from './User/FindUsers.controller';
+export * from './User/UpdateUser.controller';
