@@ -1,4 +1,6 @@
 import * as Yup from 'yup';
+import { ValidationError } from '../../../utils/validationError';
+
 
 export const createLocationValidator = async (req, res, next) => {
   try {
@@ -37,9 +39,6 @@ export const createLocationValidator = async (req, res, next) => {
 
     return next();
   } catch (e) {
-    return res.status(400).json({
-      error: 'Erro na validação',
-      messages: e.errors,
-    });
+   return ValidationError(e, res);
   }
 };
