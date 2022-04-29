@@ -22,6 +22,7 @@ export const updateProjectPhaseValidator = async (req, res, next) => {
       dt_planned_end: Yup.string().nullable(),
       vl_phase: Yup.number()
         .nullable()
+        .positive('O campo valor precisa positivo')
         .test(
           'is-decimal',
           null,
