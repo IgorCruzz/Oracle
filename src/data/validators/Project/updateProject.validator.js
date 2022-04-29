@@ -82,8 +82,8 @@ export const updateProjectValidator = async (req, res, next) => {
         .required('Categoria inválida')
         .typeError('Categoria inválida'),
       id_program: Yup.number()
-        .required('Programa inválida')
-        .typeError('Programa inválida'),
+        .required('Programa inválido')
+        .typeError('Programa inválido'),
       id_agency: Yup.number()
         .required('Orgão inválido')
         .typeError('Orgão inválido'),
