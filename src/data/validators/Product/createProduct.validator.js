@@ -16,17 +16,19 @@ export const createProductValidator = async (req, res, next) => {
         .typeError('O preenchimento do nome do produto é obrigatório'),
       qt_minimum_hours: Yup.number()
         .required('O campo quantidade mínima de horas é obrigatório')
-        .positive('O valor quantidade mínima de horas precisa ser positivo')
+        .positive('O valor da quantidade mínima de horas precisa ser positivo')
         .test('is-decimal', null, value => `${value}`.match(/^\d*\.?\d*$/))
         .typeError('O campo quantidade mínima de horas precisa ser númerico'),
       qt_maximum_hours: Yup.number()
         .required('O campo quantidade máxima de horas é obrigatório')
-        .positive('O valor quantidade máxima de horas precisa ser positivo')
+        .positive('O valor da quantidade máxima de horas precisa ser positivo')
         .test('is-decimal', null, value => `${value}`.match(/^\d*\.?\d*$/))
         .typeError('O campo quantidade máxima de horas precisa ser númerico'),
       qt_probable_hours: Yup.number()
         .required('O campo quantidade provável de horas é obrigatório')
-        .positive('O valor quantidade provável de horas precisa ser positivo')
+        .positive(
+          'O valor da quantidade provável de horas precisa ser positivo'
+        )
         .test('is-decimal', null, value => `${value}`.match(/^\d*\.?\d*$/))
         .typeError('O campo quantidade provável de horas precisa ser númerico'),
       tp_required_action: Yup.mixed()
@@ -36,9 +38,6 @@ export const createProductValidator = async (req, res, next) => {
         .max(
           1000,
           'O tamanho máximo permitido para o campo justificativa da indicação da ação é 1000'
-        )
-        .typeError(
-          'O preenchimento da justificativa da indicação da ação é obrigatório'
         )
         .nullable(),
       id_project_phase: Yup.number()

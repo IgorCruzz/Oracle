@@ -11,10 +11,7 @@ export const createProjectValidator = async (req, res, next) => {
         .required('O campo nome do projeto é obrigatório')
         .typeError('O preenchimento do nome do projeto é obrigatório'),
       tx_description: Yup.string()
-        .max(
-          1000,
-          'O tamanho máximo permitido para o campo nome do projeto é 1000'
-        )
+        .max(1000, 'O tamanho máximo permitido para o campo descrição é 1000')
         .nullable(),
       vl_estimated: Yup.number()
         .nullable()
@@ -32,7 +29,7 @@ export const createProjectValidator = async (req, res, next) => {
         .test('is-decimal', null, value => `${value}`.match(/^\d*\.?\d*$/))
         .typeError('O campo valor de contrato precisa ser númerico'),
       cd_sei: Yup.string()
-        .max(25, 'O tamanho máximo permitido para o campo nome do projeto é 25')
+        .max(25, 'O tamanho máximo permitido para o campo código SEI é 25')
         .nullable(),
       cd_priority: Yup.mixed()
         .oneOf([1, 2, 3], 'Prioridade inválida')
