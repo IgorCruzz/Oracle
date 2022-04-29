@@ -5,7 +5,7 @@ export default async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.status(401).json({ error: 'Insira o token' });
+    return res.status(401).json({ error: 'Insira o token para prosseguir.' });
   }
 
   const [, token] = authorization.split(' ');
@@ -18,6 +18,6 @@ export default async (req, res, next) => {
     req.userId = decoded.id;
     next();
   } catch (err) {
-    return res.status(401).json({ error: 'token invalido' });
+    return res.status(401).json({ error: 'Token inválido.' });
   }
 };
