@@ -12,7 +12,7 @@ export class UpdateCityService {
 
       if (!verifyCitiesExists)
         return {
-          error: `Não existe um município registrado com este ID -> ${id}.`,
+          error: `Não existe um Município registrado com este ID -> ${id}.`,
         };
 
       const verifyCityName = await repository.findCity({
@@ -20,7 +20,7 @@ export class UpdateCityService {
       });
 
       if (verifyCityName && verifyCityName.id_city !== Number(id))
-        return { error: 'Já foi registrado um município com este nome.' };
+        return { error: 'Já foi registrado um Município com este nome.' };
 
       const cityUpdated = await repository.updateCity({
         id,
@@ -40,7 +40,7 @@ export class UpdateCityService {
 
       if (!verifyCitiesExists)
         return {
-          error: `Não existe um município registrado com este ID -> ${id}.`,
+          error: `Não existe um Município registrado com este ID -> ${id}.`,
         };
 
       const verifyRegionExists = await regionRepository.findRegionById({
@@ -49,7 +49,7 @@ export class UpdateCityService {
 
       if (!verifyRegionExists)
         return {
-          error: `Não existe uma região com este ID -> ${regionId}`,
+          error: `Não existe uma Região com este ID -> ${regionId}`,
         };
 
       const cityUpdated = await repository.updateCity({
@@ -69,7 +69,7 @@ export class UpdateCityService {
 
     if (!verifyCitiesExists)
       return {
-        error: `Não existe um município registrado com este ID -> ${id}.`,
+        error: `Não existe um Município registrado com este ID -> ${id}.`,
       };
 
     const verifyCityName = await repository.findCity({
@@ -77,7 +77,7 @@ export class UpdateCityService {
     });
 
     if (verifyCityName && verifyCityName.id_city !== Number(id))
-      return { error: 'Já foi registrado um município com este nome.' };
+      return { error: 'Já foi registrado um Município com este nome.' };
 
     const verifyRegionExists = await regionRepository.findRegionById({
       id: regionId,
@@ -85,7 +85,7 @@ export class UpdateCityService {
 
     if (!verifyRegionExists)
       return {
-        error: `Não existe uma região com este ID -> ${regionId}`,
+        error: `Não existe uma Região com este ID -> ${regionId}`,
       };
 
     const cityUpdated = await repository.updateCity({

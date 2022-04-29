@@ -60,7 +60,7 @@ export class CreateProjectPhaseService {
     });
 
     return {
-      message: 'Fase de projeto registrado com sucesso!',
+      message: 'Fase de Projeto registrada com sucesso!',
       projectPhase,
     };
   }

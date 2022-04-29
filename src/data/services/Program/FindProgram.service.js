@@ -10,7 +10,7 @@ export class FindProgramService {
 
     if (!findProgram)
       return {
-        error: `Não há nenhum programa registrado com este ID -> ${id}.`,
+        error: `Não há nenhum Programa registrado com este ID -> ${id}.`,
       };
 
     return {

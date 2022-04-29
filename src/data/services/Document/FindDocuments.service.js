@@ -11,7 +11,7 @@ export class FindDocumentsService {
     });
 
     if (findDocuments.length === 0)
-      return { error: 'Não há nenhum documento registrado.' };
+      return { error: 'Não há nenhum Documento registrado.' };
 
     return {
       documents: findDocuments,

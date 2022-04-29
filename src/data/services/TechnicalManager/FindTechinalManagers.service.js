@@ -14,7 +14,7 @@ export class FindTechnicalManagersService {
     });
 
     if (findTechnicalManagers.length === 0)
-      return { error: 'Não há nenhum Polígono de Área registrado.' };
+      return { error: 'Não há nenhum Técnico responsável registrado.' };
 
     return {
       technicalManagers: findTechnicalManagers,

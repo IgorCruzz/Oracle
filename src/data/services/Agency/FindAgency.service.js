@@ -11,7 +11,7 @@ export class FindAgencyService {
 
     if (!findAgency)
       return {
-        error: `Não há nenhum orgão registrado com este ID -> ${id}.`,
+        error: `Não há nenhum Orgão registrado com este ID -> ${id}.`,
       };
 
     return {

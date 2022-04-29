@@ -11,7 +11,7 @@ export class FindCityService {
 
     if (!findCity)
       return {
-        error: `Não existe um município registrado com este ID -> ${id}.`,
+        error: `Não existe um Município registrado com este ID -> ${id}.`,
       };
 
     return {

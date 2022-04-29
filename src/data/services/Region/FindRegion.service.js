@@ -10,7 +10,7 @@ export class FindRegionService {
 
     if (!findRegion)
       return {
-        error: `Não existe uma região registrada com este ID -> ${id}.`,
+        error: `Não existe uma Região registrada com este ID -> ${id}.`,
       };
 
     return {

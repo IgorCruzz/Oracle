@@ -11,7 +11,7 @@ export class FindRegionsService {
     });
 
     if (findRegions.length === 0)
-      return { error: 'Não há regiões registradas.' };
+      return { error: 'Não há Regiões registradas.' };
 
     return {
       regions: findRegions,

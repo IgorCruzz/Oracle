@@ -18,7 +18,7 @@ export class UpdateProductService {
 
     if (!verifyProjectExists)
       return {
-        error: `Não há nenhum produto registrado com este ID -> ${id_product}.`,
+        error: `Não há nenhum Produto registrado com este ID -> ${id_product}.`,
       };
 
     if (id_suggested_role) {
@@ -53,7 +53,7 @@ export class UpdateProductService {
       verifyProductName &&
       verifyProductName.id_product !== Number(id_product)
     )
-      return { error: 'Já existe um produto registrado com este nome.' };
+      return { error: 'Já existe um Produto registrado com este nome.' };
 
     const productUpdated = await repository.updateProduct(id_product, data);
 

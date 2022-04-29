@@ -14,7 +14,7 @@ export class DeleteJurisdictionService {
 
     if (!verifyJurisdictionExists)
       return {
-        error: `Não há nenhuma esfera registrada com este ID -> ${id}.`,
+        error: `Não há nenhuma Esfera registrada com este ID -> ${id}.`,
       };
 
     const verifyFk = await agencyRepository.verifyJurisdiction({

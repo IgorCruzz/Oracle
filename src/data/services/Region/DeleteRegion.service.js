@@ -11,7 +11,7 @@ export class DeleteRegionService {
 
     if (!verifyRegionExists)
       return {
-        error: `Não existe uma região registrada com este ID -> ${id}.`,
+        error: `Não existe uma Região registrada com este ID -> ${id}.`,
       };
 
     const verifyFk = await cityRepository.verifyRegion({ regionId: id });

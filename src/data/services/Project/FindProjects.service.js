@@ -23,7 +23,7 @@ export class FindProjectsService {
     });
 
     if (findProjects.length === 0)
-      return { error: 'Não há nenhum projeto registrado.' };
+      return { error: 'Não há nenhum Projeto registrado.' };
 
     return {
       projects: findProjects,

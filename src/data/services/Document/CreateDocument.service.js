@@ -17,7 +17,7 @@ export class CreateDocumentService {
 
     if (!verifyProductExists)
       return {
-        error: `Não há nenhum produto registrada com este ID -> ${id_product}.`,
+        error: `Não há nenhum Produto registrado com este ID -> ${id_product}.`,
       };
 
     if (dt_upload) {
@@ -36,7 +36,7 @@ export class CreateDocumentService {
     });
 
     if (verifyDocumentExists)
-      return { error: 'Já existe uma documento registrado com este nome.' };
+      return { error: 'Já existe uma Documento registrado com este nome.' };
 
     const document = await repository.createDocument(data);
 

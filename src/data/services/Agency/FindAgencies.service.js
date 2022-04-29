@@ -12,7 +12,7 @@ export class FindAgenciesService {
     });
 
     if (findAgencies.length === 0)
-      return { error: 'Não há nenhum orgão registrado.' };
+      return { error: 'Não há nenhum Orgão registrado.' };
 
     return {
       agencies: findAgencies,

@@ -12,7 +12,7 @@ export class FindCitiesService {
     });
 
     if (findCities.length === 0)
-      return { error: 'Não há municípios registrados.' };
+      return { error: 'Não há Municípios registrados.' };
 
     return {
       cities: findCities,

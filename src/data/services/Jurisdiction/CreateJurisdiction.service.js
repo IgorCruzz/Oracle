@@ -9,7 +9,7 @@ export class CreateJurisdictionService {
     });
 
     if (verifyJurisdictionExists)
-      return { error: 'Já existe uma esfera com este nome registrado.' };
+      return { error: 'Já existe uma Esfera com este nome registrado.' };
 
     const jurisdiction = await repository.createJurisdiction({ name });
 

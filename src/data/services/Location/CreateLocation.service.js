@@ -16,7 +16,7 @@ export class CreateLocationService {
 
     if (!verifyProjectExists)
       return {
-        error: `Não há nenhum projeto registrado com este ID -> ${id_project}.`,
+        error: `Não há nenhum Projeto registrado com este ID -> ${id_project}.`,
       };
 
     const verifyLocationExists = await repository.findLocation(data);

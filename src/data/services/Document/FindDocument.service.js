@@ -11,7 +11,7 @@ export class FindDocumentService {
 
     if (!findDocument)
       return {
-        error: `Não existe um documento com este ID -> ${id_document}.`,
+        error: `Não existe um Documento com este ID -> ${id_document}.`,
       };
 
     return {

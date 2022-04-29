@@ -11,14 +11,14 @@ export class UpdateRoleService {
     });
 
     if (!verifyRoleExists)
-      return { error: `Não existe uma função com este ID -> ${id_role}.` };
+      return { error: `Não existe uma Função com este ID -> ${id_role}.` };
 
     const verifyRoleName = await repository.findRole({
       nm_role,
     });
 
     if (verifyRoleName && verifyRoleName.id_role !== Number(id_role))
-      return { error: 'Já existe uma função registrada com este nome.' };
+      return { error: 'Já existe uma Função registrada com este nome.' };
 
     const roleUpdated = await repository.updateRole(id_role, data);
 

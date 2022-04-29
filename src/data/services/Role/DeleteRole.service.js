@@ -10,7 +10,7 @@ export class DeleteRoleService {
     });
 
     if (!verifyRoleExists)
-      return { error: `Não existe uma função com este ID -> ${id_role}.` };
+      return { error: `Não existe uma Função com este ID -> ${id_role}.` };
 
     const verifyFk = await productRepository.verifyRole({
       id_suggested_role: id_role,

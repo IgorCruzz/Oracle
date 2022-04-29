@@ -10,7 +10,7 @@ export class UpdateJurisdictionService {
 
     if (!verifyJurisdictionExists)
       return {
-        error: `Não há nenhuma esfera registrada com este ID -> ${id}.`,
+        error: `Não há nenhuma Esfera registrada com este ID -> ${id}.`,
       };
 
     const verifyJurisdictionName = await repository.findJurisdiction({
@@ -21,7 +21,7 @@ export class UpdateJurisdictionService {
       verifyJurisdictionName &&
       verifyJurisdictionName.id_jurisdiction !== Number(id)
     )
-      return { error: 'Já existe uma esfera com este nome registrado.' };
+      return { error: 'Já existe uma Esfera com este nome registrado.' };
 
     const jurisdictionUpdated = await repository.updateJurisdiction({
       id,

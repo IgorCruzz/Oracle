@@ -15,7 +15,7 @@ export class UpdateDocumentService {
 
     if (!verifyDocumentExists)
       return {
-        error: `Não existe um documento com este ID -> ${id_document}.`,
+        error: `Não existe um Documento com este ID -> ${id_document}.`,
       };
 
     const productRepository = new ProductRepository();
@@ -26,7 +26,7 @@ export class UpdateDocumentService {
 
     if (!verifyProductExists)
       return {
-        error: `Não há nenhum produto registrada com este ID -> ${id_product}.`,
+        error: `Não há nenhum Produto registrado com este ID -> ${id_product}.`,
       };
 
     const verifyDocumentDescription = await repository.findDocument({
@@ -37,7 +37,7 @@ export class UpdateDocumentService {
       verifyDocumentDescription &&
       verifyDocumentDescription.id_document !== Number(id_document)
     )
-      return { error: 'Já existe um documento registrado com este nome.' };
+      return { error: 'Já existe um Documento registrado com este nome.' };
 
     const documentUpdated = await repository.updateDocument(id_document, data);
 

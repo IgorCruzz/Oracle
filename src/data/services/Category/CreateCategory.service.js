@@ -9,7 +9,7 @@ export class CreateCategoryService {
     });
 
     if (verifyCategoryExists)
-      return { error: 'Já existe uma categoria registrada com este nome.' };
+      return { error: 'Já existe uma Categoria registrada com este nome.' };
 
     const category = await repository.createCategory({ name });
 

@@ -11,7 +11,7 @@ export class CreateCityService {
 
     if (!verifyRegionExists)
       return {
-        error: `Não existe uma região registrada com este ID -> ${regionId}.`,
+        error: `Não existe uma Região registrada com este ID -> ${regionId}.`,
       };
 
     const verifyCityExists = await repository.findCity({
@@ -19,7 +19,7 @@ export class CreateCityService {
     });
 
     if (verifyCityExists)
-      return { error: 'Já foi registrado um município com este nome.' };
+      return { error: 'Já foi registrado um Município com este nome.' };
 
     const city = await repository.createCity({ name, regionId });
 

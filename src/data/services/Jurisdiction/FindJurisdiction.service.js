@@ -10,7 +10,7 @@ export class FindJurisdictionService {
 
     if (!findJurisdiction)
       return {
-        error: `Não existe uma esfera registrada com este ID -> ${id}.`,
+        error: `Não existe uma Esfera registrada com este ID -> ${id}.`,
       };
 
     return {

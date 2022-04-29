@@ -14,7 +14,7 @@ export class DeleteProductService {
 
     if (!verifyProductExists)
       return {
-        error: `Não há nenhum produto registrado com este ID -> ${id_product}.`,
+        error: `Não há nenhum Produto registrado com este ID -> ${id_product}.`,
       };
 
     const verifyFk = await documentRepository.verifyRelationProduct({

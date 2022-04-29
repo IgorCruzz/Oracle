@@ -11,7 +11,7 @@ export class CreateRoleService {
     });
 
     if (verifyRoleExists)
-      return { error: 'Já existe uma função registrada com este nome.' };
+      return { error: 'Já existe uma Função registrada com este nome.' };
 
     const role = await repository.createRole(data);
 

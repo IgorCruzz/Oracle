@@ -11,7 +11,7 @@ export class FindProgramsService {
     });
 
     if (findPrograms.length === 0)
-      return { error: 'Não há nenhum programa registrado' };
+      return { error: 'Não há nenhum Programa registrado' };
 
     return {
       programs: findPrograms,

@@ -7,7 +7,7 @@ export class FindRolesService {
     const findRoles = await repository.findRoles();
 
     if (findRoles.length === 0)
-      return { error: 'Não há nenhuma função registrada.' };
+      return { error: 'Não há nenhuma Função registrada.' };
 
     return {
       roles: findRoles,

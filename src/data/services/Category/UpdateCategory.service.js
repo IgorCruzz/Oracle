@@ -9,14 +9,14 @@ export class UpdateCategoryService {
     });
 
     if (!verifyCategoryExists)
-      return { error: `Não existe uma categoria com este ID -> ${id}.` };
+      return { error: `Não existe uma Categoria com este ID -> ${id}.` };
 
     const verifyCategoryName = await repository.findCategory({
       name,
     });
 
     if (verifyCategoryName && verifyCategoryName.id_category !== Number(id))
-      return { error: 'Já existe uma categoria registrada com este nome.' };
+      return { error: 'Já existe uma Categoria registrada com este nome.' };
 
     const categoryUpdated = await repository.updateCategory({
       id,

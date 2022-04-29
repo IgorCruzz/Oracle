@@ -13,7 +13,7 @@ export class DeleteCategoryService {
     });
 
     if (!verifyCategoryExists)
-      return { error: `Não existe uma categoria com este ID -> ${id}.` };
+      return { error: `Não existe uma Categoria com este ID -> ${id}.` };
 
     const verifyFk = await projectRepository.verifyRelationCategory({
       id_category: id,

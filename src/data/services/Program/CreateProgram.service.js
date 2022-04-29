@@ -9,7 +9,7 @@ export class CreateProgramService {
     });
 
     if (verifyProgramExists)
-      return { error: 'Já existe um programa registrado com este nome.' };
+      return { error: 'Já existe um Programa registrado com este nome.' };
 
     const program = await repository.createProgram({ name });
 

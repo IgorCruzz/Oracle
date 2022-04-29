@@ -13,7 +13,7 @@ export class FindProductsService {
     });
 
     if (findProducts.length === 0)
-      return { error: 'Não há nenhum produto registrado.' };
+      return { error: 'Não há nenhum Produto registrado.' };
 
     return {
       products: findProducts,

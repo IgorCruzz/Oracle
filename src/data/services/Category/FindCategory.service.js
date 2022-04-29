@@ -9,7 +9,7 @@ export class FindCategoryService {
     });
 
     if (!findCategory)
-      return { error: `Não existe uma categoria com este ID -> ${id}.` };
+      return { error: `Não existe uma Categoria com este ID -> ${id}.` };
 
     return {
       category: findCategory,
