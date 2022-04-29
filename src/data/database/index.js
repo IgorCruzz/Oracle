@@ -16,6 +16,7 @@ import {
   Role,
   Product,
   Document,
+  User,
 } from './models';
 
 const models = [
@@ -33,6 +34,7 @@ const models = [
   Role,
   Product,
   Document,
+  User,
 ];
 
 class Database {
