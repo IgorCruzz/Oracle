@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import { ValidationError } from '../../../utils/validationError';
 
-
 export const createLocationValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
@@ -39,6 +38,6 @@ export const createLocationValidator = async (req, res, next) => {
 
     return next();
   } catch (e) {
-   return ValidationError(e, res);
+    return ValidationError(e, res);
   }
 };
