@@ -10,12 +10,15 @@ export const updateUserValidator = async (req, res, next) => {
     const SchemaBody = Yup.object().shape({
       ds_email_login: Yup.string()
         .email('Insira um e-mail válido')
-        .max(100, 'O tamanho máximo permitido para o campo senha é 100')
-        .required('O campo senha é obrigatório')
-        .typeError('O preenchimento da senha é obrigatório'),
+        .max(100, 'O tamanho máximo permitido para o campo e-mail é 100')
+        .required('O campo e-mail é obrigatório')
+        .typeError('O preenchimento do e-mail é obrigatório'),
       password: Yup.string()
-        .max(100, 'O tamanho máximo permitido para o campo senha é 100')
         .required('O campo senha é obrigatório')
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+          'A senha deve conter pelo menos 8 Caracteres, 1 letra em máisculo, 1 letra em minúsculo,1 número e 1 destes caracteres especias @ $ ! % * ? &'
+        )
         .typeError('O preenchimento da senha é obrigatório'),
       nm_user: Yup.string()
         .max(255, 'O tamanho máximo permitido para o campo nome é 255')
