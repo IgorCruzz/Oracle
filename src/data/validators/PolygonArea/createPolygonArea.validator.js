@@ -15,7 +15,7 @@ export const createPolygonAreaValidator = async (req, res, next) => {
           20,
           'O tamanho máximo permitido para o campo vertice de longitude é 20'
         )
-        .required('O campo vertice de longitude é obrigatório')
+        .nullable()
         .typeError('O preenchimento da vertice de longitude é obrigatório'),
       id_location: Yup.number()
         .required('Localização de Canteiro inválido')
