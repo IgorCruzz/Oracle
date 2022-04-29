@@ -95,3 +95,10 @@ export * from './Document/DeleteDocument.service';
 export * from './Document/FindDocument.service';
 export * from './Document/FindDocuments.service';
 export * from './Document/UpdateDocument.service';
+
+// USER
+export * from './User/CreateUser.service';
+export * from './User/DeleteUser.service';
+export * from './User/FindUser.service';
+export * from './User/FindUsers.service';
+export * from './User/UpdateUser.service';
