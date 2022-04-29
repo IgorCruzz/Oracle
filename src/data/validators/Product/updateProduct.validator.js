@@ -3,6 +3,8 @@ import { ValidationError } from '../../../utils/validationError';
 
 export const updateProductValidator = async (req, res, next) => {
   try {
+    const { qt_minimum_hours, qt_maximum_hours, qt_probable_hours } = req.body;
+
     const SchemaParam = Yup.object().shape({
       id_product: Yup.string().required('O campo id é obrigatório'),
     });
@@ -23,19 +25,31 @@ export const updateProductValidator = async (req, res, next) => {
         .required('O campo quantidade mínima de horas é obrigatório')
         .positive('O valor da quantidade mínima de horas precisa ser positivo')
         .test('is-decimal', null, value => `${value}`.match(/^\d*\.?\d*$/))
-        .typeError('O campo quantidade mínima de horas precisa ser númerico'),
+        .typeError(
+          qt_minimum_hours === null
+            ? 'O campo quantidade mínima de horas é obrigatório'
+            : 'O campo quantidade mínima de horas precisa ser númerico'
+        ),
       qt_maximum_hours: Yup.number()
         .required('O campo quantidade máxima de horas é obrigatório')
         .positive('O valor da quantidade máxima de horas precisa ser positivo')
         .test('is-decimal', null, value => `${value}`.match(/^\d*\.?\d*$/))
-        .typeError('O campo quantidade máxima de horas precisa ser númerico'),
+        .typeError(
+          qt_maximum_hours === null
+            ? 'O campo quantidade máxima de horas é obrigatório'
+            : 'O campo quantidade máxima de horas precisa ser númerico'
+        ),
       qt_probable_hours: Yup.number()
         .required('O campo quantidade provável de horas é obrigatório')
         .positive(
           'O valor da quantidade provável de horas precisa ser positivo'
         )
         .test('is-decimal', null, value => `${value}`.match(/^\d*\.?\d*$/))
-        .typeError('O campo quantidade provável de horas precisa ser númerico'),
+        .typeError(
+          qt_probable_hours === null
+            ? 'O campo quantidade provável de horas é obrigatório'
+            : 'O campo quantidade provável de horas precisa ser númerico'
+        ),
       tp_required_action: Yup.mixed()
         .oneOf([1, 2, 3], 'Ação inválida')
         .required('O campo Ação é obrigatório'),
