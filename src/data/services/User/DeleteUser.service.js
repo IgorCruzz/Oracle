@@ -8,7 +8,7 @@ export class DeleteUserService {
       id_user,
     });
 
-    if (verifyUserIdExists) {
+    if (!verifyUserIdExists) {
       return { error: `Não existe um usuário com este ID -> ${id_user}.` };
     }
 
