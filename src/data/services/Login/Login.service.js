@@ -27,7 +27,7 @@ export class LoginService {
         { id: verifyEmailExists.id },
         'f04af61b3f332afa0ceec786a42cd365',
         {
-          expiresIn: '24h',
+          expiresIn: '72h',
         }
       ),
     };
