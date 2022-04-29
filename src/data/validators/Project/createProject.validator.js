@@ -17,17 +17,29 @@ export const createProjectValidator = async (req, res, next) => {
       vl_estimated: Yup.number()
         .nullable()
         .positive('O valor estimado precisa ser positivo')
-        .test('is-decimal', null, value => `${value}`.match(/^\d*\.?\d*$/))
+        .test(
+          'is-decimal',
+          null,
+          value => `${value}`.match(/^\d*\.?\d*$/) || value === null
+        )
         .typeError('O campo valor estimado precisa ser númerico'),
       vl_bid: Yup.number()
         .nullable()
         .positive('O valor licitado precisa ser positivo')
-        .test('is-decimal', null, value => `${value}`.match(/^\d*\.?\d*$/))
+        .test(
+          'is-decimal',
+          null,
+          value => `${value}`.match(/^\d*\.?\d*$/) || value === null
+        )
         .typeError('O campo valor licitado precisa ser númerico'),
       vl_contract: Yup.number()
         .nullable()
         .positive('O valor de contrato precisa ser positivo')
-        .test('is-decimal', null, value => `${value}`.match(/^\d*\.?\d*$/))
+        .test(
+          'is-decimal',
+          null,
+          value => `${value}`.match(/^\d*\.?\d*$/) || value === null
+        )
         .typeError('O campo valor de contrato precisa ser númerico'),
       cd_sei: Yup.string()
         .max(25, 'O tamanho máximo permitido para o campo código SEI é 25')
@@ -43,7 +55,7 @@ export const createProjectValidator = async (req, res, next) => {
         .test(
           'is-decimal',
           'A área (m2) do projeto precisa ser um valor positivo',
-          value => `${value}`.match(/^\d*\.?\d*$/)
+          value => `${value}`.match(/^\d*\.?\d*$/) || value
         )
         .typeError('O campo m² precisa ser númerico'),
       ds_official_document: Yup.string()
