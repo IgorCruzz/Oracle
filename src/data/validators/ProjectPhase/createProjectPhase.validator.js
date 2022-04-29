@@ -18,8 +18,10 @@ export const createProjectPhaseValidator = async (req, res, next) => {
       dt_planned_end: Yup.string().nullable(),
       vl_phase: Yup.number()
         .nullable()
-        .test('is-decimal', 'O valor precisa ser positivo', value =>
-          `${value}`.match(/^\d*\.?\d*$/)
+        .test(
+          'is-decimal',
+          'O valor precisa ser positivo',
+          value => `${value}`.match(/^\d*\.?\d*$/) || value === null
         )
         .typeError('O campo valor precisa ser númerico'),
       id_project: Yup.number()
