@@ -17,12 +17,7 @@ import authenticator from '../../data/authenticator/jwt.authenticator';
 
 const routes = Router();
 
-routes.post(
-  '/users',
-  authenticator,
-  createUserValidator,
-  new CreateUserController().handle
-);
+routes.post('/users', createUserValidator, new CreateUserController().handle);
 
 routes.delete(
   '/users/:id_user',
