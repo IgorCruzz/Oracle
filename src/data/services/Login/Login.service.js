@@ -24,7 +24,11 @@ export class LoginService {
     return {
       message: 'Login realizado com sucesso!',
       access_token: jwt.sign(
-        { id: verifyEmailExists.id_user },
+        {
+          user: {
+            id: verifyEmailExists.id_user,
+          },
+        },
         'f04af61b3f332afa0ceec786a42cd365',
         {
           expiresIn: '72h',
