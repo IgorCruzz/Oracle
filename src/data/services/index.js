@@ -46,6 +46,7 @@ export * from './Project/DeleteProject.service';
 export * from './Project/FindProject.service';
 export * from './Project/FindProjects.service';
 export * from './Project/UpdateProject.service';
+export * from './Project/CreateCopyProject.service';
 
 // LOCATION
 export * from './Location/CreateLocation.service';

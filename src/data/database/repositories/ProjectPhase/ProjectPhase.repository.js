@@ -1,6 +1,22 @@
 import { Project_phase, Project } from '../../models';
 
 export class ProjectPhaseRepository {
+  async createManyProjectPhases(data) {
+    const { id_project } = data;
+
+    const createdProjectPhase = await Project_phase.bulkCreate(data);
+
+    // if (createdProjectPhase) {
+    //   return await Project_phase.findOne({
+    //     where: {
+    //       id_project,
+    //     },
+    //   });
+    // }
+
+    return false;
+  }
+
   async createProjectPhase(data) {
     const {
       dtPlannedStart,
@@ -42,19 +58,29 @@ export class ProjectPhaseRepository {
   }
 
   async findProjectPhases({ page, limit, id_project }) {
-    return await Project_phase.findAndCountAll({
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
+    if (limit && page) {
+      return await Project_phase.findAndCountAll({
+        limit: Number(limit),
+        offset: (Number(page) - 1) * Number(limit),
+        order: [['nm_project_phase', 'ASC']],
+        include: [
+          id_project
+            ? {
+                model: Project,
+                as: 'project',
+                where: { id_project },
+              }
+            : { model: Project, as: 'project', where: { id_project } },
+        ],
+      });
+    }
+
+    return await Project_phase.findAll({
+      where: {
+        id_project,
+      },
       order: [['nm_project_phase', 'ASC']],
-      include: [
-        id_project
-          ? {
-              model: Project,
-              as: 'project',
-              where: { id_project },
-            }
-          : { model: Project, as: 'project' },
-      ],
+      raw: true,
     });
   }
 

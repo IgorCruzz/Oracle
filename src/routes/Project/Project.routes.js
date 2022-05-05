@@ -5,6 +5,7 @@ import {
   FindProjectController,
   FindProjectsController,
   UpdateProjectController,
+  CreateCopyProjectController,
 } from '../../data/controllers';
 import {
   findProjectValidator,
@@ -16,6 +17,12 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 
 const routes = Router();
+
+routes.post(
+  '/projectCopy/:id_project',
+  authenticator,
+  new CreateCopyProjectController().handle
+);
 
 routes.post(
   '/projects',

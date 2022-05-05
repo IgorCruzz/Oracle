@@ -2,6 +2,10 @@ import { Op } from 'sequelize';
 import { Document, Product } from '../../models';
 
 export class DocumentRepository {
+  async createManyDocuments(data) {
+    await Document.bulkCreate(data);
+  }
+
   async createDocument(data) {
     const { ds_document, nm_file } = data;
 
@@ -17,6 +21,15 @@ export class DocumentRepository {
       where: {
         id_document: createdDocument.dataValues.id_document,
       },
+    });
+  }
+
+  async findDocumentByIdProduct({ id_product }) {
+    return await Document.findAll({
+      where: {
+        id_product,
+      },
+      raw: true,
     });
   }
 

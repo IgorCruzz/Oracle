@@ -2,6 +2,22 @@ import { Op } from 'sequelize';
 import { Product, Role, Project_phase } from '../../models';
 
 export class ProductRepository {
+  async createManyProducts(data) {
+    const createdProducts = await Product.bulkCreate(data);
+
+    console.log(createdProducts);
+
+    // if (createdProjectPhase) {
+    //   return await Project_phase.findOne({
+    //     where: {
+    //       id_project,
+    //     },
+    //   });
+    // }
+
+    return false;
+  }
+
   async createProduct(data) {
     const { nm_product, ds_note_required_action } = data;
 
@@ -34,6 +50,15 @@ export class ProductRepository {
           where: { id_role: id_suggested_role },
         },
       ],
+    });
+  }
+
+  async getTest({ id_project_phase }) {
+    return await Product.findOne({
+      where: {
+        id_project_phase,
+      },
+      raw: true,
     });
   }
 
