@@ -10,6 +10,7 @@ export class FindProjectsController {
         id_category,
         id_program,
         id_agency,
+        cd_sei,
         search,
       } = req.query;
 
@@ -22,6 +23,7 @@ export class FindProjectsController {
         id_category,
         id_program,
         id_agency,
+        cd_sei,
         search,
       });
 

@@ -8,6 +8,7 @@ export class FindProjectsService {
     id_category,
     id_program,
     id_agency,
+    cd_sei,
     search,
   }) {
     const repository = new ProjectRepository();
@@ -19,6 +20,7 @@ export class FindProjectsService {
       id_category,
       id_program,
       id_agency,
+      cd_sei,
       search,
     });
 

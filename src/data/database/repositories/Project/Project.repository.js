@@ -88,84 +88,62 @@ export class ProjectRepository {
     id_category,
     id_program,
     id_agency,
+    cd_sei,
     search,
   }) {
-    return search
-      ? await Project.findAndCountAll({
-          where: {
-            nm_project: {
-              [Op.like]: `%${search.trim()}%`,
-            },
-          },
-          limit: Number(limit),
-          order: [['nm_project', 'ASC']],
-          offset: (Number(page) - 1) * Number(limit),
-          include: [
-            id_city
-              ? {
-                  model: City,
-                  as: 'city',
-                  where: { id_city },
-                }
-              : { model: City, as: 'city' },
-            id_category
-              ? {
-                  model: Category,
-                  as: 'category',
-                  where: { id_category },
-                }
-              : { model: Category, as: 'category' },
-            id_program
-              ? {
-                  model: Program,
-                  as: 'program',
-                  where: { id_program },
-                }
-              : { model: Program, as: 'program' },
-            id_agency
-              ? {
-                  model: Agency,
-                  as: 'agency',
-                  where: { id_agency },
-                }
-              : { model: Agency, as: 'agency' },
-          ],
-        })
-      : await Project.findAndCountAll({
-          limit: Number(limit),
-          offset: (Number(page) - 1) * Number(limit),
-          order: [['nm_project', 'ASC']],
-          include: [
-            id_city
-              ? {
-                  model: City,
-                  as: 'city',
-                  where: { id_city },
-                }
-              : { model: City, as: 'city' },
-            id_category
-              ? {
-                  model: Category,
-                  as: 'category',
-                  where: { id_category },
-                }
-              : { model: Category, as: 'category' },
-            id_program
-              ? {
-                  model: Program,
-                  as: 'program',
-                  where: { id_program },
-                }
-              : { model: Program, as: 'program' },
-            id_agency
-              ? {
-                  model: Agency,
-                  as: 'agency',
-                  where: { id_agency },
-                }
-              : { model: Agency, as: 'agency' },
-          ],
-        });
+    let searchQuery;
+
+    if (cd_sei || search) {
+      searchQuery = {
+        ...(cd_sei && {
+          cd_sei: { [Op.like]: `%${cd_sei.trim()}%` },
+        }),
+        ...(search && { nm_project: { [Op.like]: `%${search.trim()}%` } }),
+      };
+    } else {
+      searchQuery = null;
+    }
+
+    return await Project.findAndCountAll({
+      where: searchQuery
+        ? {
+            [Op.and]: searchQuery,
+          }
+        : {},
+      limit: Number(limit),
+      offset: (Number(page) - 1) * Number(limit),
+      order: [['nm_project', 'ASC']],
+      include: [
+        id_city
+          ? {
+              model: City,
+              as: 'city',
+              where: { id_city },
+            }
+          : { model: City, as: 'city' },
+        id_category
+          ? {
+              model: Category,
+              as: 'category',
+              where: { id_category },
+            }
+          : { model: Category, as: 'category' },
+        id_program
+          ? {
+              model: Program,
+              as: 'program',
+              where: { id_program },
+            }
+          : { model: Program, as: 'program' },
+        id_agency
+          ? {
+              model: Agency,
+              as: 'agency',
+              where: { id_agency },
+            }
+          : { model: Agency, as: 'agency' },
+      ],
+    });
   }
 
   async findProject({ nm_project }) {
