@@ -2,19 +2,9 @@ import { Project_phase, Project } from '../../models';
 
 export class ProjectPhaseRepository {
   async createManyProjectPhases(data) {
-    const { id_project } = data;
+    const projectPhase = await Project_phase.bulkCreate(data);
 
-    const createdProjectPhase = await Project_phase.bulkCreate(data);
-
-    // if (createdProjectPhase) {
-    //   return await Project_phase.findOne({
-    //     where: {
-    //       id_project,
-    //     },
-    //   });
-    // }
-
-    return false;
+    return projectPhase.map(values => values.dataValues);
   }
 
   async createProjectPhase(data) {

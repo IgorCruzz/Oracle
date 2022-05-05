@@ -3,19 +3,7 @@ import { Product, Role, Project_phase } from '../../models';
 
 export class ProductRepository {
   async createManyProducts(data) {
-    const createdProducts = await Product.bulkCreate(data);
-
-    console.log(createdProducts);
-
-    // if (createdProjectPhase) {
-    //   return await Project_phase.findOne({
-    //     where: {
-    //       id_project,
-    //     },
-    //   });
-    // }
-
-    return false;
+    await Product.bulkCreate(data);
   }
 
   async createProduct(data) {
@@ -54,7 +42,7 @@ export class ProductRepository {
   }
 
   async getTest({ id_project_phase }) {
-    return await Product.findOne({
+    return await Product.findAll({
       where: {
         id_project_phase,
       },
