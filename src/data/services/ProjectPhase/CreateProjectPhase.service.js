@@ -16,22 +16,29 @@ export class CreateProjectPhaseService {
     const repository = new ProjectPhaseRepository();
     const projectRepository = new ProjectRepository();
 
-    const dtPlannedStart = verifyDate({
-      msg: 'Data de ínicio planejado inválida. Utilize o formato dd/mm/yyyy',
-      value: dt_planned_start,
-    });
+    let dtPlannedStart;
+    let dtPlannedEnd;
 
-    if (dtPlannedStart.error) {
-      return { error: dtPlannedStart.error };
+    if (dt_planned_start) {
+      dtPlannedStart = verifyDate({
+        msg: 'Data de ínicio planejado inválida. Utilize o formato dd/mm/yyyy',
+        value: dt_planned_start,
+      });
+
+      if (dtPlannedStart.error) {
+        return { error: dtPlannedStart.error };
+      }
     }
 
-    const dtPlannedEnd = verifyDate({
-      value: dt_planned_end,
-      msg: 'Data de término planejado inválida. Utilize o formato dd/mm/yyyy',
-    });
+    if (dt_planned_end) {
+      dtPlannedEnd = verifyDate({
+        value: dt_planned_end,
+        msg: 'Data de término planejado inválida. Utilize o formato dd/mm/yyyy',
+      });
 
-    if (dtPlannedEnd.error) {
-      return { error: dtPlannedEnd.error };
+      if (dtPlannedEnd.error) {
+        return { error: dtPlannedEnd.error };
+      }
     }
 
     const verifyProjectExists = await projectRepository.findProjectById({
@@ -43,8 +50,9 @@ export class CreateProjectPhaseService {
         error: `Não há nenhum Projeto registrado com este ID -> ${id_project}.`,
       };
 
-    const verifyName = await repository.findProjectPhase({
+    const verifyName = await repository.findProjectPhaseName({
       nm_project_phase,
+      id_project,
     });
 
     if (verifyName) {

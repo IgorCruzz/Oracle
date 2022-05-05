@@ -89,6 +89,15 @@ export class DocumentRepository {
     });
   }
 
+  async findDocumentName({ ds_document, id_product }) {
+    return await Document.findOne({
+      where: {
+        ds_document: ds_document.trim(),
+        id_product,
+      },
+    });
+  }
+
   async findDocument({ ds_document }) {
     return await Document.findOne({
       where: {

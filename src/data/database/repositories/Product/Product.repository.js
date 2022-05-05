@@ -131,6 +131,24 @@ export class ProductRepository {
         });
   }
 
+  async findProductByProductPhase({ nm_product, id_project_phase }) {
+    return await Product.findOne({
+      where: {
+        nm_product: nm_product.trim(),
+        id_project_phase,
+      },
+    });
+  }
+
+  async findProductByName({ nm_product, id_project_phase }) {
+    return await Product.findOne({
+      where: {
+        nm_product: nm_product.trim(),
+        id_project_phase,
+      },
+    });
+  }
+
   async findProduct({ nm_product }) {
     return await Product.findOne({
       where: {

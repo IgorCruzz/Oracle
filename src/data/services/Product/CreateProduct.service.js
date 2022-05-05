@@ -36,8 +36,9 @@ export class CreateProductService {
       };
     }
 
-    const productExists = await repository.findProduct({
+    const productExists = await repository.findProductByName({
       nm_product,
+      id_project_phase,
     });
 
     if (productExists) {

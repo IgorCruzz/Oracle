@@ -84,6 +84,16 @@ export class ProjectPhaseRepository {
     });
   }
 
+  async findProjectPhaseName({ nm_project_phase, id_project }) {
+    return await Project_phase.findOne({
+      where: {
+        nm_project_phase: nm_project_phase.trim(),
+        id_project,
+      },
+      raw: true,
+    });
+  }
+
   async findProjectPhase({ nm_project_phase }) {
     return await Project_phase.findOne({
       where: {

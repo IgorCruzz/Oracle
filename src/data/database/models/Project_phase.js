@@ -15,17 +15,25 @@ export class Project_phase extends Model {
         dt_planned_start: {
           type: DataTypes.DATEONLY,
           get() {
-            return moment
-              .utc(this.getDataValue('dt_planned_start'))
-              .format('YYYY-MM-DD');
+            const value = this.getDataValue('dt_planned_start');
+
+            return value === null
+              ? null
+              : moment
+                  .utc(this.getDataValue('dt_planned_start'))
+                  .format('YYYY-MM-DD');
           },
         },
         dt_planned_end: {
           type: DataTypes.DATEONLY,
           get() {
-            return moment
-              .utc(this.getDataValue('dt_planned_end'))
-              .format('YYYY-MM-DD');
+            const value = this.getDataValue('dt_planned_end');
+
+            return value === null
+              ? null
+              : moment
+                  .utc(this.getDataValue('dt_planned_end'))
+                  .format('YYYY-MM-DD');
           },
         },
         vl_phase: DataTypes.DECIMAL(20, 2),

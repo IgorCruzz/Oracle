@@ -31,8 +31,9 @@ export class CreateDocumentService {
       }
     }
 
-    const verifyDocumentExists = await repository.findDocument({
+    const verifyDocumentExists = await repository.findDocumentName({
       ds_document,
+      id_product,
     });
 
     if (verifyDocumentExists)
