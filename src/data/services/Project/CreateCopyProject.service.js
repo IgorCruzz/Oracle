@@ -140,7 +140,7 @@ export class CreateCopyProjectService {
 
     return {
       message: 'Projeto adicionado com sucesso!',
-      project: '',
+      project,
     };
   }
 }
