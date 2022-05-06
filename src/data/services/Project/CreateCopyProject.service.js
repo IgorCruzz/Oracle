@@ -128,8 +128,8 @@ export class CreateCopyProjectService {
 
       return {
         ds_document: value.ds_document,
-        dt_upload: value.dt_upload,
-        nm_file: value.nm_file,
+        dt_upload: null,
+        nm_file: null,
         dt_created_at: new Date(Date.now()).toISOString(),
         dt_updated_at: new Date(Date.now()).toISOString(),
         id_product: getId.id_product,
