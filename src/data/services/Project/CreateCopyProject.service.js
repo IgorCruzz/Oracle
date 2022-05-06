@@ -70,23 +70,23 @@ export class CreateCopyProjectService {
     const productsReplaceValue = [];
 
     getProducts.map(a =>
-      a.map(teste => {
+      a.map(product => {
         const copy = result.find(
-          res => res.id_project_phase === teste.id_project_phase
+          res => res.id_project_phase === product.id_project_phase
         );
 
         productsReplaceValue.push({
-          nu_order: teste.nu_order,
-          nm_product: teste.nm_product,
-          qt_minimum_hours: teste.qt_maximum_hours,
-          qt_maximum_hours: teste.qt_maximum_hours,
-          qt_probable_hours: teste.qt_probable_hours,
+          nu_order: product.nu_order,
+          nm_product: product.nm_product,
+          qt_minimum_hours: product.qt_maximum_hours,
+          qt_maximum_hours: product.qt_maximum_hours,
+          qt_probable_hours: product.qt_probable_hours,
           tp_required_action: 0,
           ds_note_required_action: null,
           dt_created_at: new Date(Date.now()).toISOString(),
           dt_updated_at: new Date(Date.now()).toISOString(),
           id_project_phase: copy.id_project_phase_copy,
-          id_suggested_role: teste.id_suggested_role,
+          id_suggested_role: product.id_suggested_role,
         });
       })
     );
@@ -96,43 +96,43 @@ export class CreateCopyProjectService {
     );
     const getDocumentsReplace = [];
 
-    getProducts.map(async a => {
-      a.map(res => {
+    getProducts.map(async product => {
+      product.map(res => {
         getDocumentsReplace.push(res);
       });
     });
 
     const getDocuments = await Promise.all(
-      getDocumentsReplace.map(async a => {
+      getDocumentsReplace.map(async document => {
         return await documentRepository.findDocumentByIdProduct({
-          id_product: a.id_product,
+          id_product: document.id_product,
         });
       })
     );
 
     const documentsLoaded = [];
 
-    getDocuments.map(a => {
-      a.map(lol => {
+    getDocuments.map(value => {
+      value.map(document => {
         documentsLoaded.push({
-          ...lol.dataValues,
-          product: lol.dataValues.product.dataValues,
+          ...document.dataValues,
+          product: document.dataValues.product.dataValues,
         });
       });
     });
 
-    const documentsParsed = documentsLoaded.map(cap => {
-      const koko = productsCreated.find(
-        lost => lost.nm_product === cap.product.nm_product
+    const documentsParsed = documentsLoaded.map(value => {
+      const getId = productsCreated.find(
+        product => product.nm_product === value.product.nm_product
       );
 
       return {
-        ds_document: cap.ds_document,
-        dt_upload: cap.dt_upload,
-        nm_file: cap.nm_file,
+        ds_document: value.ds_document,
+        dt_upload: value.dt_upload,
+        nm_file: value.nm_file,
         dt_created_at: new Date(Date.now()).toISOString(),
         dt_updated_at: new Date(Date.now()).toISOString(),
-        id_product: koko.id_product,
+        id_product: getId.id_product,
       };
     });
 
