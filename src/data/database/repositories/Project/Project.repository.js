@@ -1,5 +1,13 @@
 import { Op } from 'sequelize';
-import { Project, City, Category, Agency, Program } from '../../models';
+import {
+  Project,
+  City,
+  Category,
+  Agency,
+  Program,
+  Region,
+  Jurisdiction,
+} from '../../models';
 
 export class ProjectRepository {
   async createProject(data) {
@@ -162,10 +170,23 @@ export class ProjectRepository {
           id_project,
         },
         include: [
-          { model: City, as: 'city' },
+          {
+            model: City,
+            as: 'city',
+            include: [
+              {
+                model: Region,
+                as: 'region',
+              },
+            ],
+          },
           { model: Category, as: 'category' },
           { model: Program, as: 'program' },
-          { model: Agency, as: 'agency' },
+          {
+            model: Agency,
+            as: 'agency',
+            include: [{ model: Jurisdiction, as: 'jurisdiction' }],
+          },
         ],
       });
     }
