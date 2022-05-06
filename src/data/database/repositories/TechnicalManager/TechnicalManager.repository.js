@@ -19,7 +19,7 @@ export class TechnicalManagerRepository {
   }
 
   async verifyProject({ id_project }) {
-    return await Project.findAll({
+    return await Technical_manager.findAll({
       include: [
         {
           model: Project,
