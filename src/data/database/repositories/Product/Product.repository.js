@@ -3,7 +3,9 @@ import { Product, Role, Project_phase } from '../../models';
 
 export class ProductRepository {
   async createManyProducts(data) {
-    await Product.bulkCreate(data);
+    const product = await Product.bulkCreate(data);
+
+    return product.map(values => values.dataValues);
   }
 
   async createProduct(data) {

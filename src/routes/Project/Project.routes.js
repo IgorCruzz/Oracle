@@ -20,7 +20,7 @@ const routes = Router();
 
 routes.post(
   '/projectCopy/:id_project',
-  authenticator,
+  createProjectValidator,
   new CreateCopyProjectController().handle
 );
 

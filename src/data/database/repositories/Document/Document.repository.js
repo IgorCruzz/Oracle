@@ -29,7 +29,7 @@ export class DocumentRepository {
       where: {
         id_product,
       },
-      raw: true,
+      include: [{ model: Product, as: 'product' }],
     });
   }
 

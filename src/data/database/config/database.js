@@ -2,10 +2,10 @@ require('dotenv/config');
 
 module.exports = {
   dialect: 'mysql',
-  host: 'us-cdbr-east-05.cleardb.net',
-  username: 'b34a55bf1f7bb4',
-  password: '17b61181',
-  database: 'heroku_2705c9a53c5221e',
+  host: 'x8autxobia7sgh74.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+  username: 'ivdb488dfbm55d25',
+  password: 'tsyzrnhplclwe3dz',
+  database: 'n6gecc4s901uxvz7',
   define: {
     timestamps: false,
     freezeTableName: true,
