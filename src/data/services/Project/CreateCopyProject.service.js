@@ -2,6 +2,7 @@ import { CreateProjectService } from './CreateProject.service';
 import { ProjectPhaseRepository } from '../../database/repositories/ProjectPhase/ProjectPhase.repository';
 import { ProductRepository } from '../../database/repositories/Product/Product.repository';
 import { DocumentRepository } from '../../database/repositories/Document/Document.repository';
+import { ProjectRepository } from '../../database/repositories/Project/Project.repository';
 
 export class CreateCopyProjectService {
   async execute(id_project, data) {
@@ -9,6 +10,17 @@ export class CreateCopyProjectService {
     const projectPhaseRepository = new ProjectPhaseRepository();
     const productRepository = new ProductRepository();
     const documentRepository = new DocumentRepository();
+    const projectRepository = new ProjectRepository();
+
+    const checkProjectId = await projectRepository.findProjectById({
+      id_project,
+    });
+
+    if (!checkProjectId) {
+      return {
+        error: `Não existe um projeto com este ID -> ${id_project}`,
+      };
+    }
 
     const response = await projectService.execute(data);
 
