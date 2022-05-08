@@ -24,7 +24,7 @@ export class ProjectRepository {
       ds_official_document: ds_official_document && ds_official_document.trim(),
       nm_official_document_applicant:
         nm_official_document_applicant && nm_official_document_applicant.trim(),
-      dt_official_document: dtOfficial,
+      dt_official_document: dtOfficial || null,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -226,7 +226,7 @@ export class ProjectRepository {
       ds_official_document: ds_official_document && ds_official_document.trim(),
       nm_official_document_applicant:
         nm_official_document_applicant && nm_official_document_applicant.trim(),
-      dt_official_document: dtOfficial,
+      dt_official_document: dtOfficial || null,
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 

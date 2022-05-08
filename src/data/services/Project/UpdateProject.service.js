@@ -25,16 +25,21 @@ export class UpdateProjectService {
 
     let dtOfficial;
 
-    if (dt_official_document) {
-      dtOfficial = verifyDate({
-        value: dt_official_document,
-        msg: 'Data do ofício inválida. Utilize o formato dd/mm/yyyy',
-      });
+    if (dt_official_document !== null) {
+      dtOfficial =
+        dt_official_document === null
+          ? null
+          : verifyDate({
+              value: dt_official_document,
+              msg: 'Data do ofício inválida. Utilize o formato dd/mm/yyyy',
+            });
 
       if (dtOfficial.error) {
         return { error: dtOfficial.error };
       }
     }
+
+    console.log(dtOfficial);
 
     const verifyProjectExists = await repository.findProjectById({
       id_project,
