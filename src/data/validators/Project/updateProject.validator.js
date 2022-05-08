@@ -53,7 +53,7 @@ export const updateProjectValidator = async (req, res, next) => {
         .required('O campo Prioridade é obrigatório'),
       cd_complexity: Yup.mixed()
         .oneOf([1, 2, 3, null], 'Complexidade inválida')
-        .nullable(),
+        .required('O campo Complexidade é obrigatório'),
       qt_m2: Yup.number()
         .nullable()
         .positive('A área (m2) do projeto precisa ser um valor positivo')

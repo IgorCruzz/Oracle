@@ -23,13 +23,17 @@ export class UpdateProjectService {
     const programRepository = new ProgramRepository();
     const agencyRepository = new AgencyRepository();
 
-    const dtOfficial = verifyDate({
-      value: dt_official_document,
-      msg: 'Data do ofício inválida. Utilize o formato dd/mm/yyyy',
-    });
+    let dtOfficial;
 
-    if (dtOfficial.error) {
-      return { error: dtOfficial.error };
+    if (dt_official_document) {
+      dtOfficial = verifyDate({
+        value: dt_official_document,
+        msg: 'Data do ofício inválida. Utilize o formato dd/mm/yyyy',
+      });
+
+      if (dtOfficial.error) {
+        return { error: dtOfficial.error };
+      }
     }
 
     const verifyProjectExists = await repository.findProjectById({

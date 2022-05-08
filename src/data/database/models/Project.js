@@ -34,9 +34,13 @@ export class Project extends Model {
         dt_official_document: {
           type: DataTypes.DATEONLY,
           get() {
-            return moment
-              .utc(this.getDataValue('dt_official_document'))
-              .format('YYYY-MM-DD');
+            const value = this.getDataValue('dt_official_document');
+
+            return value === null
+              ? null
+              : moment
+                  .utc(this.getDataValue('dt_official_document'))
+                  .format('YYYY-MM-DD');
           },
         },
         dt_created_at: DataTypes.DATE,

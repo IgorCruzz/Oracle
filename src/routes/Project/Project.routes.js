@@ -26,7 +26,7 @@ routes.post(
 
 routes.post(
   '/projects',
-  authenticator,
+  // authenticator,
   createProjectValidator,
   new CreateProjectController().handle
 );
