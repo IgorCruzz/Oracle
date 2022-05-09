@@ -40,7 +40,7 @@ routes.delete(
 
 routes.patch(
   '/projects/:id_project',
-  authenticator,
+   authenticator,
   updateProjectValidator,
   new UpdateProjectController().handle
 );

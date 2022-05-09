@@ -21,9 +21,10 @@ export class ProjectRepository {
     const createdProject = await Project.create({
       ...data,
       nm_project: nm_project.trim(),
-      ds_official_document: ds_official_document.trim(),
-      nm_official_document_applicant: nm_official_document_applicant.trim(),
-      dt_official_document: dtOfficial,
+      ds_official_document: ds_official_document && ds_official_document.trim(),
+      nm_official_document_applicant:
+        nm_official_document_applicant && nm_official_document_applicant.trim(),
+      dt_official_document: dtOfficial || null,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -206,7 +207,12 @@ export class ProjectRepository {
   }
 
   async updateProject(id_project, data) {
-    const { dtOfficial } = data;
+    const {
+      dtOfficial,
+      nm_project,
+      ds_official_document,
+      nm_official_document_applicant,
+    } = data;
 
     const project = await Project.findOne({
       where: {
@@ -216,7 +222,11 @@ export class ProjectRepository {
 
     await project.update({
       ...data,
-      dt_official_document: dtOfficial,
+      nm_project: nm_project.trim(),
+      ds_official_document: ds_official_document && ds_official_document.trim(),
+      nm_official_document_applicant:
+        nm_official_document_applicant && nm_official_document_applicant.trim(),
+      dt_official_document: dtOfficial || null,
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 

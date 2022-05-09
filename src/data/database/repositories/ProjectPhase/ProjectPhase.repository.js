@@ -18,8 +18,8 @@ export class ProjectPhaseRepository {
     } = data;
 
     const createdProjectPhase = await Project_phase.create({
-      dt_planned_start: dtPlannedStart,
-      dt_planned_end: dtPlannedEnd,
+      dt_planned_start: dtPlannedStart || null,
+      dt_planned_end: dtPlannedEnd || null,
       nm_project_phase: nm_project_phase.trim(),
       nu_order,
       id_project,
@@ -127,8 +127,8 @@ export class ProjectPhaseRepository {
     });
 
     await ProjectPhase.update({
-      dt_planned_start: dtPlannedStart,
-      dt_planned_end: dtPlannedEnd,
+      dt_planned_start: dtPlannedStart || null,
+      dt_planned_end: dtPlannedEnd || null,
       nm_project_phase: nm_project_phase.trim(),
       nu_order,
       dt_updated_at: new Date(Date.now()).toISOString(),
