@@ -13,3 +13,4 @@ export * from './Role/Role.repository';
 export * from './Product/Product.repository';
 export * from './Document/Document.repository';
 export * from './User/User.repository';
+export * from './PasswordRecovery/PasswordRecovery.repository';

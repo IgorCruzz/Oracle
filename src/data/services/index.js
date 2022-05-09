@@ -106,3 +106,6 @@ export * from './User/UpdateUser.service';
 
 // LOGIN
 export * from './Login/Login.service';
+
+// RECOVERY PASSWORD
+export * from './PasswordRecovery/PasswordRecovery.service';

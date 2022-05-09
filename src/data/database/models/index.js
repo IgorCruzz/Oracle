@@ -13,3 +13,4 @@ export * from './Role';
 export * from './Product';
 export * from './Document';
 export * from './User';
+export * from './Password_recovery';

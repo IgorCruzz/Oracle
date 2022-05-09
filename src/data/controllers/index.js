@@ -106,3 +106,6 @@ export * from './User/UpdateUser.controller';
 
 // LOGIN
 export * from './Login/Login.controller';
+
+// RECOVERY PASSWORD
+export * from './PasswordRecovery/PasswordRecovery.controller';

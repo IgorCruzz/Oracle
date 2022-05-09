@@ -104,3 +104,6 @@ export * from './User/updateUser.validator';
 
 // LOGIN
 export * from './Login/Login.validator';
+
+// RECOVERY PASSWORD
+export * from './RecoveryPassword/RecoveryPassword.validator';
