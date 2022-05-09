@@ -26,7 +26,7 @@ routes.post(
 
 routes.post(
   '/projects',
-  // authenticator,
+  authenticator,
   createProjectValidator,
   new CreateProjectController().handle
 );
@@ -40,7 +40,7 @@ routes.delete(
 
 routes.patch(
   '/projects/:id_project',
-  // authenticator,
+   authenticator,
   updateProjectValidator,
   new UpdateProjectController().handle
 );
