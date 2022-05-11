@@ -16,6 +16,10 @@ export const updateDocumentValidator = async (req, res, next) => {
         .required('O campo descrição do documento é obrigatório')
         .typeError('O preenchimento da descrição do documento é obrigatório'),
       dt_upload: Yup.string().nullable(),
+      nu_document_sei: Yup.number()
+        .positive('O valor número do documento SEI precisa ser positivo')
+        .nullable()
+        .typeError('O campo número do documento SEI precisa ser númerico'),
       nm_file: Yup.string()
         .max(
           1000,

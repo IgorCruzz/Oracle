@@ -13,6 +13,7 @@ export class Document extends Model {
         ds_document: {
           type: DataTypes.STRING(255),
         },
+        nu_document_sei: DataTypes.INTEGER,
         dt_upload: {
           type: DataTypes.DATEONLY,
           get() {

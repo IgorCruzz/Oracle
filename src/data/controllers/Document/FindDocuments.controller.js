@@ -3,11 +3,15 @@ import { FindDocumentsService } from '../../services';
 export class FindDocumentsController {
   async handle(req, res) {
     try {
-      const { page, limit, search } = req.query;
+      const { page, limit, id_product } = req.query;
 
       const service = new FindDocumentsService();
 
-      const response = await service.execute({ page, limit, search });
+      const response = await service.execute({
+        page,
+        limit,
+        id_product,
+      });
 
       if (response.error)
         return res.status(400).json({

@@ -1,13 +1,13 @@
 import { DocumentRepository } from '../../database/repositories';
 
 export class FindDocumentsService {
-  async execute({ page, limit, search }) {
+  async execute({ page, limit, id_product }) {
     const repository = new DocumentRepository();
 
     const findDocuments = await repository.findDocuments({
       limit,
       page,
-      search,
+      id_product,
     });
 
     if (findDocuments.length === 0)

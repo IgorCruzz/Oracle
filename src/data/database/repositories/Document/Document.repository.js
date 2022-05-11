@@ -1,4 +1,3 @@
-import { Op } from 'sequelize';
 import { Document, Product } from '../../models';
 
 export class DocumentRepository {
@@ -33,48 +32,24 @@ export class DocumentRepository {
     });
   }
 
-  async findDocuments({ page, limit, search, id_product }) {
-    return search
-      ? await Document.findAndCountAll({
-          where: {
-            ds_document: {
-              [Op.like]: `%${search.trim()}%`,
+  async findDocuments({ page, limit, id_product }) {
+    return await Document.findAndCountAll({
+      limit: Number(limit),
+      order: [['ds_document', 'ASC']],
+      offset: (Number(page) - 1) * Number(limit),
+      include: [
+        id_product
+          ? {
+              model: Product,
+              as: 'product',
+              where: { id_product },
+            }
+          : {
+              model: Product,
+              as: 'product',
             },
-          },
-          order: [['ds_document', 'ASC']],
-          limit: Number(limit),
-          offset: (Number(page) - 1) * Number(limit),
-
-          include: [
-            id_product
-              ? {
-                  model: Product,
-                  as: 'product',
-                  where: { id_product },
-                }
-              : {
-                  model: Product,
-                  as: 'product',
-                },
-          ],
-        })
-      : await Document.findAndCountAll({
-          limit: Number(limit),
-          order: [['ds_document', 'ASC']],
-          offset: (Number(page) - 1) * Number(limit),
-          include: [
-            id_product
-              ? {
-                  model: Product,
-                  as: 'product',
-                  where: { id_product },
-                }
-              : {
-                  model: Product,
-                  as: 'product',
-                },
-          ],
-        });
+      ],
+    });
   }
 
   async verifyRelationProduct({ id_product }) {
