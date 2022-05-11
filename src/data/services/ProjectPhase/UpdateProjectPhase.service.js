@@ -19,18 +19,18 @@ export class UpdateProjectPhaseService {
     let dtPlannedStart;
     let dtPlannedEnd;
 
-    if (dtPlannedStart) {
+    if (dt_planned_start) {
       dtPlannedStart = verifyDate({
         msg: 'Data de ínicio planejado inválida. Utilize o formato dd/mm/yyyy',
         value: dt_planned_start,
       });
 
-      if (dtPlannedStart.error) {
+      if (dt_planned_start.error) {
         return { error: dtPlannedStart.error };
       }
     }
 
-    if (dtPlannedEnd) {
+    if (dt_planned_end) {
       dtPlannedEnd = verifyDate({
         value: dt_planned_end,
         msg: 'Data de término planejado inválida. Utilize o formato dd/mm/yyyy',

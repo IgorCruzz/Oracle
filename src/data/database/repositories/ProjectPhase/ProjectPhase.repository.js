@@ -120,6 +120,11 @@ export class ProjectPhaseRepository {
   async updateTechnicalManagerArea(id_project_phase, data) {
     const { dtPlannedEnd, dtPlannedStart, nm_project_phase, nu_order } = data;
 
+    console.log({
+      dtPlannedEnd,
+      dtPlannedStart,
+    });
+
     const ProjectPhase = await Project_phase.findOne({
       where: {
         id_project_phase,
