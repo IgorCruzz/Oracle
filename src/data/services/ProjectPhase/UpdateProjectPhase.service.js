@@ -1,3 +1,4 @@
+import { compareDesc } from 'date-fns';
 import {
   ProjectPhaseRepository,
   ProjectRepository,
@@ -71,6 +72,19 @@ export class UpdateProjectPhaseService {
       return {
         error: `Já existe uma Fase de projeto com este nome.`,
       };
+    }
+
+    if (dtPlannedStart && dtPlannedEnd) {
+      const compareDate = compareDesc(
+        new Date(dtPlannedStart),
+        new Date(dtPlannedEnd)
+      );
+
+      if (compareDate === -1) {
+        return {
+          error: 'A data de Fim planejado precisa ser posterior a de Ínicio',
+        };
+      }
     }
 
     const projectPhaseUpdated = await repository.updateTechnicalManagerArea(

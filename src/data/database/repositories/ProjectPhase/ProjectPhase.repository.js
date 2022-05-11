@@ -12,16 +12,21 @@ export class ProjectPhaseRepository {
       dtPlannedStart,
       dtPlannedEnd,
       nm_project_phase,
-      nu_order,
       id_project,
       vl_phase,
     } = data;
+
+    const findProject = await Project_phase.findAndCountAll({
+      where: {
+        id_project,
+      },
+    });
 
     const createdProjectPhase = await Project_phase.create({
       dt_planned_start: dtPlannedStart || null,
       dt_planned_end: dtPlannedEnd || null,
       nm_project_phase: nm_project_phase.trim(),
-      nu_order,
+      nu_order: findProject.count + 1,
       id_project,
       vl_phase,
       dt_created_at: new Date(Date.now()).toISOString(),
@@ -52,7 +57,7 @@ export class ProjectPhaseRepository {
       return await Project_phase.findAndCountAll({
         limit: Number(limit),
         offset: (Number(page) - 1) * Number(limit),
-        order: [['nm_project_phase', 'ASC']],
+        order: [['nu_order', 'ASC']],
         include: [
           id_project
             ? {
@@ -69,7 +74,7 @@ export class ProjectPhaseRepository {
       where: {
         id_project,
       },
-      order: [['nm_project_phase', 'ASC']],
+      order: [['nu_order', 'ASC']],
       raw: true,
     });
   }
@@ -119,11 +124,6 @@ export class ProjectPhaseRepository {
 
   async updateTechnicalManagerArea(id_project_phase, data) {
     const { dtPlannedEnd, dtPlannedStart, nm_project_phase, nu_order } = data;
-
-    console.log({
-      dtPlannedEnd,
-      dtPlannedStart,
-    });
 
     const ProjectPhase = await Project_phase.findOne({
       where: {
