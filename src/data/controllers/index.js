@@ -109,3 +109,6 @@ export * from './Login/Login.controller';
 
 // RECOVERY PASSWORD
 export * from './PasswordRecovery/PasswordRecovery.controller';
+
+// PRODUCT HISTORY
+export * from './ProductHistory/CreateProductHistory.controller';

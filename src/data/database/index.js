@@ -18,6 +18,7 @@ import {
   Document,
   User,
   Password_recovery,
+  Product_history,
 } from './models';
 
 const models = [
@@ -37,6 +38,7 @@ const models = [
   Document,
   User,
   Password_recovery,
+  Product_history,
 ];
 
 class Database {
