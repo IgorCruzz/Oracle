@@ -109,6 +109,3 @@ export * from './Login/Login.service';
 
 // RECOVERY PASSWORD
 export * from './PasswordRecovery/PasswordRecovery.service';
-
-// PRODUCT HISTORY
-export * from './ProductHistory/CreateProductHistory.service';

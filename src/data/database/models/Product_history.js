@@ -28,17 +28,17 @@ export class Product_history extends Model {
       foreignKey: 'id_product',
       as: 'product',
     });
-    Product_history.belongsTo(models.Allocation_period, {
-      foreignKey: 'id_allocation_period',
-      as: 'allocation',
-    });
-    Product_history.belongsTo(models.Professional, {
-      foreignKey: 'id_professional',
-      as: 'professional',
-    });
-    Product_history.belongsTo(models.Analyst_user, {
-      foreignKey: 'id_analyst_user',
-      as: 'user',
-    });
+    // Product_history.belongsTo(models.Allocation_period, {
+    //   foreignKey: 'id_allocation_period',
+    //   as: 'allocation',
+    // });
+    // Product_history.belongsTo(models.Professional, {
+    //   foreignKey: 'id_professional',
+    //   as: 'professional',
+    // });
+    // Product_history.belongsTo(models.Analyst_user, {
+    //   foreignKey: 'id_analyst_user',
+    //   as: 'user',
+    // });
   }
 }

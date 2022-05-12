@@ -17,6 +17,7 @@ export class CreateProductController {
         product: response.product,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });

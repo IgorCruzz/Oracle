@@ -17,7 +17,6 @@ import Document from './Document/Document.routes';
 import User from './User/User.routes';
 import Login from './Login/Login.routes';
 import RecoverPassword from './RecoverPassword/RecoverPassword.routes';
-import ProductHistory from './ProductHistory/ProductHistory.routes';
 
 const routes = [
   Category,
@@ -37,7 +36,6 @@ const routes = [
   User,
   Login,
   RecoverPassword,
-  ProductHistory,
 ];
 
 const router = Router();

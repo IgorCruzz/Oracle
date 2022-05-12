@@ -41,6 +41,8 @@ const models = [
   Product_history,
 ];
 
+export const sequelize = new Sequelize(databaseConfig);
+
 class Database {
   constructor() {
     this.init();
