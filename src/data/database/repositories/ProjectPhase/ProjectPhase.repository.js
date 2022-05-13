@@ -16,17 +16,37 @@ export class ProjectPhaseRepository {
       vl_phase,
     } = data;
 
-    const findProject = await Project_phase.findAndCountAll({
+    const findProject = await Project_phase.findAll({
       where: {
         id_project,
       },
     });
 
+    const count = await Project_phase.findAndCountAll({
+      where: {
+        id_project,
+      },
+    });
+
+    let maior;
+
+    if (count.count > 0) {
+      const orderA = findProject.map(a => a.dataValues.nu_order);
+
+      maior = orderA.sort((a, b) => {
+        return b - a;
+      });
+
+      maior = maior[0] + 1;
+    } else {
+      maior = 1;
+    }
+
     const createdProjectPhase = await Project_phase.create({
       dt_planned_start: dtPlannedStart || null,
       dt_planned_end: dtPlannedEnd || null,
       nm_project_phase: nm_project_phase.trim(),
-      nu_order: findProject.count + 1,
+      nu_order: maior,
       id_project,
       vl_phase,
       dt_created_at: new Date(Date.now()).toISOString(),
