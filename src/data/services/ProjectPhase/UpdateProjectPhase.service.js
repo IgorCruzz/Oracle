@@ -12,6 +12,7 @@ export class UpdateProjectPhaseService {
       nm_project_phase,
       dt_planned_start,
       dt_planned_end,
+      change,
     } = data;
 
     const repository = new ProjectPhaseRepository();
@@ -66,22 +67,24 @@ export class UpdateProjectPhaseService {
       id_project,
     });
 
-    if (verifyName) {
-      return {
-        error: `Já existe uma Fase de projeto com este nome`,
-      };
-    }
-
-    if (dtPlannedStart && dtPlannedEnd) {
-      const compareDate = compareDesc(
-        new Date(dtPlannedStart),
-        new Date(dtPlannedEnd)
-      );
-
-      if (compareDate === -1) {
+    if (!change) {
+      if (verifyName) {
         return {
-          error: 'A data de Fim planejado precisa ser posterior a de Ínicio',
+          error: `Já existe uma Fase de projeto com este nome`,
         };
+      }
+
+      if (dtPlannedStart && dtPlannedEnd) {
+        const compareDate = compareDesc(
+          new Date(dtPlannedStart),
+          new Date(dtPlannedEnd)
+        );
+
+        if (compareDate === -1) {
+          return {
+            error: 'A data de Fim planejado precisa ser posterior a de Ínicio',
+          };
+        }
       }
     }
 
