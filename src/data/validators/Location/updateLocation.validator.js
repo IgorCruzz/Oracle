@@ -28,10 +28,10 @@ export const updateLocationValidator = async (req, res, next) => {
         .required('O campo cep é obrigatório')
         .typeError('O preenchimento do cep é obrigatório'),
       nu_latitude: Yup.string()
-        .max(10, 'O tamanho máximo permitido para o campo latitude é 10')
+        .max(20, 'O tamanho máximo permitido para o campo latitude é 20')
         .nullable(),
       nu_longitude: Yup.string()
-        .max(10, 'O tamanho máximo permitido para o campo longitude é 10')
+        .max(20, 'O tamanho máximo permitido para o campo longitude é 20')
         .nullable(),
       id_project: Yup.number()
         .required('Projeto inválido')
