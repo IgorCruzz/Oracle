@@ -23,14 +23,14 @@ export class CreatePolygonAreaService {
 
     if (polygonAreaExists) {
       return {
-        error: `Já existe uma Vertice do polígono da área registrado com estes dados para a Localização de Canteiro com o ID -> ${verifyLocationExists.id_location} `,
+        error: `Já existe uma Vértice do polígono da área registrado com estes dados para a Localização de Canteiro com o ID -> ${verifyLocationExists.id_location} `,
       };
     }
 
     const polygonArea = await repository.createPolygonArea(data);
 
     return {
-      message: 'Vertice do polígono da área registrada com sucesso!',
+      message: 'Vértice do Polígono da Área registrado com sucesso!',
       polygonArea,
     };
   }

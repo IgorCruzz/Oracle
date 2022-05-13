@@ -12,7 +12,7 @@ export class FindPolygonAreasService {
 
     if (findPolygonAreas.length === 0)
       return {
-        error: 'Não há nenhuma Vertice do polígono da área registrada.',
+        error: 'Não há nenhuma Vértice do polígono da área registrada.',
       };
 
     return {

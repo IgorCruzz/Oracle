@@ -10,7 +10,7 @@ export class DeletePolygonAreaService {
 
     if (!verifyPolygonAreaExists)
       return {
-        error: `Não há nenhuma Vertice do polígono da área registrado com este ID -> ${id_polygon_area}.`,
+        error: `Não há nenhuma Vértice do polígono da área registrado com este ID -> ${id_polygon_area}.`,
       };
 
     await repository.deletePolygonArea({
@@ -18,7 +18,7 @@ export class DeletePolygonAreaService {
     });
 
     return {
-      message: 'Vertice do polígono da área excluída com sucesso!',
+      message: 'Vértice do Polígono da Área excluído com sucesso!',
     };
   }
 }

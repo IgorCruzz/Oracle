@@ -17,7 +17,7 @@ export class UpdatePolygonAreaService {
 
     if (!verifyPolygonAreaExists)
       return {
-        error: `Não há nenhuma Vertice do polígono da área registrada com este ID -> ${id_polygon_area}.`,
+        error: `Não há nenhuma Vértice do polígono da área registrada com este ID -> ${id_polygon_area}.`,
       };
 
     if (id_location) {
@@ -39,7 +39,7 @@ export class UpdatePolygonAreaService {
       polygonAreaExists.id_polygon_area !== Number(id_polygon_area)
     ) {
       return {
-        error: `Já existe uma Vertice do polígono da área registrado com estes dados para a Localização de Canteiro com o ID -> ${locationExists.id_location} `,
+        error: `Já existe uma Vértice do polígono da área registrado com estes dados para a Localização de Canteiro com o ID -> ${locationExists.id_location} `,
       };
     }
 
@@ -49,7 +49,7 @@ export class UpdatePolygonAreaService {
     );
 
     return {
-      message: 'Vertice do polígono da área atualizada com sucesso!',
+      message: 'Vértice do Polígono da Área atualizado com sucesso!',
       polygonArea: polygonAreaUpdated,
     };
   }

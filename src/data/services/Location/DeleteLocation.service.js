@@ -24,7 +24,7 @@ export class DeleteLocationService {
     if (verifyFk.length > 0) {
       return {
         error:
-          'Não foi possível excluir a Localização de Canteiro pois existem Polígono de Área associados.',
+          'Não foi possível excluir a Localização de Canteiro pois existem Vértices do Polígono da Área associados',
       };
     }
 
