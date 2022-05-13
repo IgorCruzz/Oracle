@@ -11,7 +11,9 @@ export class FindPolygonAreasService {
     });
 
     if (findPolygonAreas.length === 0)
-      return { error: 'Não há nenhum Polígono de Área registrado.' };
+      return {
+        error: 'Não há nenhuma Vertice do polígono da área registrada.',
+      };
 
     return {
       polygonAreas: findPolygonAreas,

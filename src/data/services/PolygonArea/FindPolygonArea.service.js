@@ -11,7 +11,7 @@ export class FindPolygonAreaService {
 
     if (!findpolygonArea)
       return {
-        error: `Não há nenhum Polígono de Área registrado com este ID -> ${id_polygon_area}.`,
+        error: `Não há nenhuma Vertice do polígono da área registrado com este ID -> ${id_polygon_area}.`,
       };
 
     return {
