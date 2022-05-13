@@ -62,29 +62,32 @@ export class UpdateProjectPhaseService {
       };
     }
 
-    const verifyName = await repository.findProjectPhaseName({
-      nm_project_phase,
-      id_project,
-    });
-
     if (!change) {
-      if (verifyName) {
+      const verifyName = await repository.findProjectPhaseName({
+        nm_project_phase,
+        id_project,
+      });
+
+      if (
+        verifyName &&
+        verifyName.id_project_phase !== Number(id_project_phase)
+      ) {
         return {
           error: `Já existe uma Fase de projeto com este nome`,
         };
       }
+    }
 
-      if (dtPlannedStart && dtPlannedEnd) {
-        const compareDate = compareDesc(
-          new Date(dtPlannedStart),
-          new Date(dtPlannedEnd)
-        );
+    if (dtPlannedStart && dtPlannedEnd) {
+      const compareDate = compareDesc(
+        new Date(dtPlannedStart),
+        new Date(dtPlannedEnd)
+      );
 
-        if (compareDate === -1) {
-          return {
-            error: 'A data de Fim planejado precisa ser posterior a de Ínicio',
-          };
-        }
+      if (compareDate === -1) {
+        return {
+          error: 'A data de Fim planejado precisa ser posterior a de Ínicio',
+        };
       }
     }
 
