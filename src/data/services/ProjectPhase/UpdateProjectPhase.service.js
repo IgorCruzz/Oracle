@@ -61,18 +61,16 @@ export class UpdateProjectPhaseService {
       };
     }
 
-    // const verifyProjectPhaseName = await repository.findProjectPhase({
-    //   nm_project_phase,
-    // });
+    const verifyName = await repository.findProjectPhaseName({
+      nm_project_phase,
+      id_project,
+    });
 
-    // if (
-    //   verifyProjectPhaseName &&
-    //   verifyProjectPhaseName.id_project_phase !== Number(id_project_phase)
-    // ) {
-    //   return {
-    //     error: `Já existe uma Fase de projeto com este nome.`,
-    //   };
-    // }
+    if (verifyName) {
+      return {
+        error: `Já existe uma Fase de projeto com este nome`,
+      };
+    }
 
     if (dtPlannedStart && dtPlannedEnd) {
       const compareDate = compareDesc(

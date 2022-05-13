@@ -123,7 +123,13 @@ export class ProjectPhaseRepository {
   }
 
   async updateTechnicalManagerArea(id_project_phase, data) {
-    const { dtPlannedEnd, dtPlannedStart, nm_project_phase, nu_order } = data;
+    const {
+      dtPlannedEnd,
+      dtPlannedStart,
+      nm_project_phase,
+      nu_order,
+      vl_phase,
+    } = data;
 
     const ProjectPhase = await Project_phase.findOne({
       where: {
@@ -136,6 +142,7 @@ export class ProjectPhaseRepository {
       dt_planned_end: dtPlannedEnd || null,
       nm_project_phase: nm_project_phase.trim(),
       nu_order,
+      vl_phase: vl_phase || null,
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 

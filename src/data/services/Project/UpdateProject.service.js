@@ -39,8 +39,6 @@ export class UpdateProjectService {
       }
     }
 
-    console.log(dtOfficial);
-
     const verifyProjectExists = await repository.findProjectById({
       id_project,
     });
