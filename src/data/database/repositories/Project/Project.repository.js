@@ -98,16 +98,18 @@ export class ProjectRepository {
     id_program,
     id_agency,
     cd_sei,
-    search,
+    nm_project,
   }) {
     let searchQuery;
 
-    if (cd_sei || search) {
+    if (cd_sei || nm_project) {
       searchQuery = {
         ...(cd_sei && {
           cd_sei: { [Op.like]: `%${cd_sei.trim()}%` },
         }),
-        ...(search && { nm_project: { [Op.like]: `%${search.trim()}%` } }),
+        ...(nm_project && {
+          nm_project: { [Op.like]: `%${nm_project.trim()}%` },
+        }),
       };
     } else {
       searchQuery = null;

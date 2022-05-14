@@ -3,11 +3,11 @@ import { FindProgramsService } from '../../services';
 export class FindProgramsController {
   async handle(req, res) {
     try {
-      const { page, limit, search } = req.query;
+      const { page, limit, nm_program } = req.query;
 
       const service = new FindProgramsService();
 
-      const response = await service.execute({ page, limit, search });
+      const response = await service.execute({ page, limit, nm_program });
 
       if (response.error)
         return res.status(400).json({

@@ -8,7 +8,7 @@ export class FindProductsController {
         limit,
         id_project_phase,
         id_suggested_role,
-        search,
+        nm_product,
       } = req.query;
 
       const service = new FindProductsService();
@@ -18,7 +18,7 @@ export class FindProductsController {
         limit,
         id_project_phase,
         id_suggested_role,
-        search,
+        nm_product,
       });
 
       if (response.error)

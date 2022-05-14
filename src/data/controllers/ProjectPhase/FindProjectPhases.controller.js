@@ -3,7 +3,7 @@ import { FindProjectPhasesService } from '../../services';
 export class FindProjectPhasesController {
   async handle(req, res) {
     try {
-      const { page, limit, id_project, search } = req.query;
+      const { page, limit, id_project, nm_project_phase } = req.query;
 
       const service = new FindProjectPhasesService();
 
@@ -11,7 +11,7 @@ export class FindProjectPhasesController {
         page,
         limit,
         id_project,
-        search,
+        nm_project_phase,
       });
 
       if (response.error)

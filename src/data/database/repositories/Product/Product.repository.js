@@ -69,13 +69,13 @@ export class ProductRepository {
     limit,
     id_project_phase,
     id_suggested_role,
-    search,
+    nm_product,
   }) {
-    return search
+    return nm_product
       ? await Product.findAndCountAll({
           where: {
             nm_product: {
-              [Op.like]: `%${search.trim()}%`,
+              [Op.like]: `%${nm_product.trim()}%`,
             },
           },
           limit: Number(limit),

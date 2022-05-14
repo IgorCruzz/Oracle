@@ -3,7 +3,7 @@ import { FindAgenciesService } from '../../services';
 export class FindAgenciesController {
   async handle(req, res) {
     try {
-      const { page, limit, jurisdictionId, search } = req.query;
+      const { page, limit, jurisdictionId, nm_agency } = req.query;
 
       const service = new FindAgenciesService();
 
@@ -11,7 +11,7 @@ export class FindAgenciesController {
         page,
         limit,
         jurisdictionId,
-        search,
+        nm_agency,
       });
 
       if (response.error)
