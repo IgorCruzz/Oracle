@@ -3,7 +3,14 @@ import { FindTechnicalManagersService } from '../../services';
 export class FindTechnicalManagersController {
   async handle(req, res) {
     try {
-      const { page, limit, id_project, name, crea, responsability } = req.query;
+      const {
+        page,
+        limit,
+        id_project,
+        nm_project,
+        nu_crea,
+        tp_responsability,
+      } = req.query;
 
       const service = new FindTechnicalManagersService();
 
@@ -11,9 +18,9 @@ export class FindTechnicalManagersController {
         page,
         limit,
         id_project,
-        name,
-        crea,
-        responsability,
+        nm_project,
+        nu_crea,
+        tp_responsability,
       });
 
       if (response.error)
