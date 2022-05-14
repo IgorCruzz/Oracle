@@ -10,7 +10,7 @@ export class Product_history extends Model {
           autoIncrement: true,
         },
         cd_status: DataTypes.TINYINT,
-        dt_status: DataTypes.STRING(255),
+        dt_status: DataTypes.DATE,
         tx_remark: DataTypes.DECIMAL(20, 2),
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
