@@ -5,7 +5,7 @@ export class FindTechnicalManagersService {
     page,
     limit,
     id_project,
-    nm_project,
+    nm_technical_manager,
     nu_crea,
     tp_responsability,
   }) {
@@ -15,7 +15,7 @@ export class FindTechnicalManagersService {
       page,
       limit,
       id_project,
-      nm_project,
+      nm_technical_manager,
       nu_crea,
       tp_responsability,
     });

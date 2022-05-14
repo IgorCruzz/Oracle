@@ -7,7 +7,7 @@ export class FindTechnicalManagersController {
         page,
         limit,
         id_project,
-        nm_project,
+        nm_technical_manager,
         nu_crea,
         tp_responsability,
       } = req.query;
@@ -18,7 +18,7 @@ export class FindTechnicalManagersController {
         page,
         limit,
         id_project,
-        nm_project,
+        nm_technical_manager,
         nu_crea,
         tp_responsability,
       });

@@ -34,16 +34,18 @@ export class TechnicalManagerRepository {
     page,
     limit,
     id_project,
-    nm_project,
+    nm_technical_manager,
     nu_crea,
     tp_responsability,
   }) {
     let searchQuery;
 
-    if (nm_project || nu_crea || tp_responsability) {
+    if (nm_technical_manager || nu_crea || tp_responsability) {
       searchQuery = {
-        ...(nm_project && {
-          nm_technical_manager: { [Op.like]: `%${nm_project.trim()}%` },
+        ...(nm_technical_manager && {
+          nm_technical_manager: {
+            [Op.like]: `%${nm_technical_manager.trim()}%`,
+          },
         }),
         ...(nu_crea && { nu_crea: { [Op.like]: `%${nu_crea.trim()}%` } }),
         ...(tp_responsability && {
