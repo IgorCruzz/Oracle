@@ -19,6 +19,9 @@ import {
   User,
   Password_recovery,
   Product_history,
+  Allocation_period,
+  Grade,
+  Sector,
 } from './models';
 
 const models = [
@@ -39,6 +42,9 @@ const models = [
   User,
   Password_recovery,
   Product_history,
+  Allocation_period,
+  Grade,
+  Sector,
 ];
 
 export const sequelize = new Sequelize(databaseConfig);

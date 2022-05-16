@@ -15,3 +15,7 @@ export * from './Document';
 export * from './User';
 export * from './Password_recovery';
 export * from './Product_history';
+
+export * from './Allocation_period';
+export * from './Grade';
+export * from './Sector';
