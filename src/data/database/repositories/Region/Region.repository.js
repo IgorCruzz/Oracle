@@ -16,12 +16,12 @@ export class RegionRepository {
     });
   }
 
-  async findRegions({ page, limit, search }) {
-    return search
+  async findRegions({ page, limit, nm_region }) {
+    return nm_region
       ? await Region.findAndCountAll({
           where: {
             nm_region: {
-              [Op.like]: `%${search.trim()}%`,
+              [Op.like]: `%${nm_region.trim()}%`,
             },
           },
           limit: Number(limit),

@@ -1,14 +1,14 @@
 import { AgencyRepository } from '../../database/repositories';
 
 export class FindAgenciesService {
-  async execute({ page, limit, jurisdictionId, search }) {
+  async execute({ page, limit, jurisdictionId, nm_agency }) {
     const repository = new AgencyRepository();
 
     const findAgencies = await repository.findAgencies({
       limit,
       page,
       jurisdictionId,
-      search,
+      nm_agency,
     });
 
     if (findAgencies.length === 0)

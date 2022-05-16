@@ -38,12 +38,12 @@ export class CityRepository {
     });
   }
 
-  async findCites({ page, limit, regionId, search }) {
-    return search
+  async findCites({ page, limit, regionId, nm_city }) {
+    return nm_city
       ? await City.findAndCountAll({
           where: {
             nm_city: {
-              [Op.like]: `%${search.trim()}%`,
+              [Op.like]: `%${nm_city.trim()}%`,
             },
           },
           limit: Number(limit),

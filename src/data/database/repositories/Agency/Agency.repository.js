@@ -42,12 +42,12 @@ export class AgencyRepository {
     });
   }
 
-  async findAgencies({ page, limit, jurisdictionId, search }) {
-    return search
+  async findAgencies({ page, limit, jurisdictionId, nm_agency }) {
+    return nm_agency
       ? await Agency.findAndCountAll({
           where: {
             nm_agency: {
-              [Op.like]: `%${search.trim()}%`,
+              [Op.like]: `%${nm_agency.trim()}%`,
             },
           },
           limit: Number(limit),

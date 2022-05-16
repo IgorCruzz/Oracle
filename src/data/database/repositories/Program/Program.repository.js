@@ -14,12 +14,12 @@ export class ProgramRepository {
     });
   }
 
-  async findPrograms({ page, limit, search }) {
-    return search
+  async findPrograms({ page, limit, nm_program }) {
+    return nm_program
       ? await Program.findAndCountAll({
           where: {
             nm_program: {
-              [Op.like]: `%${search.trim()}%`,
+              [Op.like]: `%${nm_program.trim()}%`,
             },
           },
           limit: Number(limit),

@@ -11,7 +11,7 @@ export class FindProjectsController {
         id_program,
         id_agency,
         cd_sei,
-        search,
+        nm_project,
       } = req.query;
 
       const service = new FindProjectsService();
@@ -24,7 +24,7 @@ export class FindProjectsController {
         id_program,
         id_agency,
         cd_sei,
-        search,
+        nm_project,
       });
 
       if (response.error)

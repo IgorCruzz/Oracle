@@ -16,12 +16,12 @@ export class JurisdictionRepository {
     });
   }
 
-  async findJurisdictions({ page, limit, search }) {
-    return search
+  async findJurisdictions({ page, limit, nm_jurisdiction }) {
+    return nm_jurisdiction
       ? await Jurisdiction.findAndCountAll({
           where: {
             nm_jurisdiction: {
-              [Op.like]: `%${search.trim()}%`,
+              [Op.like]: `%${nm_jurisdiction.trim()}%`,
             },
           },
           limit: Number(limit),

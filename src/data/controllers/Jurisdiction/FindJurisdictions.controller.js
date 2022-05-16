@@ -3,11 +3,11 @@ import { FindJurisdictionsService } from '../../services';
 export class FindJurisdictionsController {
   async handle(req, res) {
     try {
-      const { page, limit, search } = req.query;
+      const { page, limit, nm_jurisdiction } = req.query;
 
       const service = new FindJurisdictionsService();
 
-      const response = await service.execute({ page, limit, search });
+      const response = await service.execute({ page, limit, nm_jurisdiction });
 
       if (response.error)
         return res.status(400).json({

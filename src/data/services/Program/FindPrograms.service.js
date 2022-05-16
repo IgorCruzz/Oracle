@@ -1,13 +1,13 @@
 import { ProgramRepository } from '../../database/repositories';
 
 export class FindProgramsService {
-  async execute({ page, limit, search }) {
+  async execute({ page, limit, nm_program }) {
     const repository = new ProgramRepository();
 
     const findPrograms = await repository.findPrograms({
       limit,
       page,
-      search,
+      nm_program,
     });
 
     if (findPrograms.length === 0)

@@ -16,12 +16,12 @@ export class CategoryRepository {
     });
   }
 
-  async findCategories({ page, limit, search }) {
-    return search
+  async findCategories({ page, limit, nm_category }) {
+    return nm_category
       ? await Category.findAndCountAll({
           where: {
             nm_category: {
-              [Op.like]: `%${search.trim()}%`,
+              [Op.like]: `%${nm_category.trim()}%`,
             },
           },
           order: [['nm_category', 'ASC']],

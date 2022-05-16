@@ -3,11 +3,11 @@ import { FindCategoriesService } from '../../services';
 export class FindCategoriesController {
   async handle(req, res) {
     try {
-      const { page, limit, search } = req.query;
+      const { page, limit, nm_category } = req.query;
 
       const service = new FindCategoriesService();
 
-      const response = await service.execute({ page, limit, search });
+      const response = await service.execute({ page, limit, nm_category });
 
       if (response.error)
         return res.status(400).json({
