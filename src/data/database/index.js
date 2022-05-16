@@ -23,6 +23,7 @@ import {
   Grade,
   Sector,
   Role_grade,
+  Professional,
 } from './models';
 
 const models = [
@@ -47,6 +48,7 @@ const models = [
   Allocation_period,
   Grade,
   Sector,
+  Professional,
 ];
 
 export const sequelize = new Sequelize(databaseConfig);

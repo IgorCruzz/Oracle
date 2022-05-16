@@ -20,3 +20,4 @@ export * from './Allocation_period';
 export * from './Grade';
 export * from './Sector';
 export * from './Role_grade';
+export * from './Professional';
