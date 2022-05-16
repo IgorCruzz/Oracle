@@ -11,7 +11,7 @@ export class DeleteSectorService {
     if (!verifySectorExists)
       return { error: `Não existe um Setor com este ID -> ${id_sector}.` };
 
-    await repository.createSector({
+    await repository.deleteSector({
       id_sector,
     });
 
