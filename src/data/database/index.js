@@ -22,9 +22,11 @@ import {
   Allocation_period,
   Grade,
   Sector,
+  Role_grade,
 } from './models';
 
 const models = [
+  Role_grade,
   Category,
   Program,
   Region,

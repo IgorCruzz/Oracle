@@ -14,7 +14,10 @@ export class CreateRoleGradeService {
     });
 
     if (verifyRoleExists)
-      return { error: 'Já existe um Custo H:H registrado com estes dados.' };
+      return {
+        error:
+          'Já existe um Custo H:H registrado com a função e cargo inserido.',
+      };
 
     const roleGrade = await repository.createRoleGrade(data);
 

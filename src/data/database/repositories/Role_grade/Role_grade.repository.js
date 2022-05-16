@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { Role_grade } from '../../models';
+import { Role_grade, Grade, Role } from '../../models';
 
 export class RoleGradeRepository {
   async createRoleGrade(data) {
@@ -52,9 +52,24 @@ export class RoleGradeRepository {
           }
         : {},
       limit: Number(limit),
-      order: [['nm_grade', 'ASC']],
       offset: (Number(page) - 1) * Number(limit),
-      raw: true,
+
+      include: [
+        id_role
+          ? {
+              model: Role,
+              as: 'role',
+              where: { id_role },
+            }
+          : { model: Role, as: 'role' },
+        id_grade
+          ? {
+              model: Grade,
+              as: 'grade',
+              where: { id_grade },
+            }
+          : { model: Grade, as: 'grade' },
+      ],
     });
   }
 

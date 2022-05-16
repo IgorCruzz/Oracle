@@ -13,7 +13,7 @@ export class UpdateRoleGradeService {
         error: `Não existe um Custo H:h com este ID -> ${id_role_grade}.`,
       };
 
-    const roleUpdated = await repository.updateRole(id_role_grade, data);
+    const roleUpdated = await repository.updateRoleGrade(id_role_grade, data);
 
     return {
       message: 'Custo H:H atualizado com sucesso!',

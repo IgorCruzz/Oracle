@@ -26,8 +26,8 @@ export const createRoleGradeValidator = async (req, res, next) => {
         .required('Função inválida')
         .typeError('Função inválida'),
       id_grade: Yup.number()
-        .required('Esfera inválida')
-        .typeError('Esfera inválida'),
+        .required('Cargo inválido')
+        .typeError('Cargo inválido'),
     });
 
     await Schema.validate(req.body, { abortEarly: false });
