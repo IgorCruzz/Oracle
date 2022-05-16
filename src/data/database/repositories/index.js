@@ -15,3 +15,4 @@ export * from './Document/Document.repository';
 export * from './User/User.repository';
 export * from './PasswordRecovery/PasswordRecovery.repository';
 export * from './ProductHistory/ProductHistory.repository';
+export * from './Grade/Grade.repository';

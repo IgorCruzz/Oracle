@@ -109,3 +109,10 @@ export * from './Login/Login.service';
 
 // RECOVERY PASSWORD
 export * from './PasswordRecovery/PasswordRecovery.service';
+
+// GRADE
+export * from './Grade/CreateGrade.service';
+export * from './Grade/DeleteGrade.service';
+export * from './Grade/FindGrade.service';
+export * from './Grade/FindGradies.service';
+export * from './Grade/UpdateGrade.service';

@@ -107,3 +107,10 @@ export * from './Login/Login.validator';
 
 // RECOVERY PASSWORD
 export * from './RecoveryPassword/RecoveryPassword.validator';
+
+// GRADE
+export * from './Grade/createGrade.validator';
+export * from './Grade/deleteGrade.validator';
+export * from './Grade/findGrade.validator';
+export * from './Grade/findGradies.validator';
+export * from './Grade/updateGrade.validator';

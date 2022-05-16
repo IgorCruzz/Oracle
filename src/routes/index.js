@@ -17,8 +17,10 @@ import Document from './Document/Document.routes';
 import User from './User/User.routes';
 import Login from './Login/Login.routes';
 import RecoverPassword from './RecoverPassword/RecoverPassword.routes';
+import Grade from './Grade/Grade.routes';
 
 const routes = [
+  Grade,
   Category,
   Program,
   Region,

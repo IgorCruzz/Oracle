@@ -109,3 +109,10 @@ export * from './Login/Login.controller';
 
 // RECOVERY PASSWORD
 export * from './PasswordRecovery/PasswordRecovery.controller';
+
+// GRADE
+export * from './Grade/CreateGrade.controller';
+export * from './Grade/DeleteGrade.controller';
+export * from './Grade/FindGrade.controller';
+export * from './Grade/FindGradies.controller';
+export * from './Grade/UpdateGrade.controller';
