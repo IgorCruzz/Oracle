@@ -9,11 +9,38 @@ export class ProductRepository {
   }
 
   async createProduct(data) {
-    const { nm_product, ds_note_required_action } = data;
+    const { nm_product, ds_note_required_action, id_project_phase } = data;
+
+    const findProject = await Product.findAll({
+      where: {
+        id_project_phase,
+      },
+    });
+
+    const count = await Product.findAndCountAll({
+      where: {
+        id_project_phase,
+      },
+    });
+
+    let maior;
+
+    if (count.count > 0) {
+      const orderA = findProject.map(a => a.dataValues.nu_order);
+
+      maior = orderA.sort((a, b) => {
+        return b - a;
+      });
+
+      maior = maior[0] + 1;
+    } else {
+      maior = 1;
+    }
 
     const createdProduct = await Product.create({
       ...data,
       nm_product: nm_product.trim(),
+      nu_order: maior,
       ds_note_required_action:
         ds_note_required_action && ds_note_required_action.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),

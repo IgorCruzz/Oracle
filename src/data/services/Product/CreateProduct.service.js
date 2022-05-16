@@ -60,10 +60,37 @@ export class CreateProductService {
         return { error: 'Já existe um Produto com este nome.' };
       }
 
+      const findProject = await Product.findAll({
+        where: {
+          id_project_phase,
+        },
+      });
+
+      const count = await Product.findAndCountAll({
+        where: {
+          id_project_phase,
+        },
+      });
+
+      let maior;
+
+      if (count.count > 0) {
+        const orderA = findProject.map(a => a.dataValues.nu_order);
+
+        maior = orderA.sort((a, b) => {
+          return b - a;
+        });
+
+        maior = maior[0] + 1;
+      } else {
+        maior = 1;
+      }
+
       const createdProduct = await Product.create(
         {
           ...data,
           nm_product: nm_product.trim(),
+          nu_order: maior,
           ds_note_required_action:
             ds_note_required_action && ds_note_required_action.trim(),
           dt_created_at: new Date(Date.now()).toISOString(),
