@@ -1,11 +1,11 @@
-import { FindGradiesService } from '../../services';
+import { FindGradeService } from '../../services';
 
 export class FindGradeController {
   async handle(req, res) {
     try {
       const { id_grade } = req.params;
 
-      const service = new FindGradiesService();
+      const service = new FindGradeService();
 
       const response = await service.execute({ id_grade });
 

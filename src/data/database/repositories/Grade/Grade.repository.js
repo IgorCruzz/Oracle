@@ -2,9 +2,9 @@ import { Op } from 'sequelize';
 import { Grade } from '../../models';
 
 export class GradeRepository {
-  async createGrade({ name }) {
+  async createGrade({ nm_grade }) {
     const createdGrade = await Grade.create({
-      nm_grade: name.trim(),
+      nm_grade: nm_grade.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

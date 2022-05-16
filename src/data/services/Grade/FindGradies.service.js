@@ -14,7 +14,7 @@ export class FindGradiesService {
       return { error: 'Não há nenhum Cargo registrado.' };
 
     return {
-      categories: findGradies,
+      gradies: findGradies,
     };
   }
 }

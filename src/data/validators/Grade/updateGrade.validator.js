@@ -9,9 +9,9 @@ export const updateGradeValidator = async (req, res, next) => {
 
     const SchemaBody = Yup.object().shape({
       nm_grade: Yup.string()
-        .max(255, 'O tamanho máximo permitido para o campo nome é 255')
-        .required('O campo nome é obrigatório')
-        .typeError('O preenchimento do nome é obrigatório'),
+        .max(255, 'O tamanho máximo permitido para o campo nome do cargo é 255')
+        .required('O campo nome do cargo é obrigatório')
+        .typeError('O preenchimento do nome do cargo é obrigatório'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });
