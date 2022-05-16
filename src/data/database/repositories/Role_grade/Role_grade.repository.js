@@ -16,6 +16,30 @@ export class RoleGradeRepository {
     });
   }
 
+  async verifyRelationGrade({ id_grade }) {
+    return await Role_grade.findAll({
+      include: [
+        {
+          model: Grade,
+          as: 'grade',
+          where: { id_grade },
+        },
+      ],
+    });
+  }
+
+  async verifyRelationRole({ id_role }) {
+    return await Role_grade.findAll({
+      include: [
+        {
+          model: Role,
+          as: 'role',
+          where: { id_role },
+        },
+      ],
+    });
+  }
+
   async findRoleGrades({
     page,
     limit,

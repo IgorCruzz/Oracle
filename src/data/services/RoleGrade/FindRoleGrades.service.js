@@ -14,10 +14,10 @@ export class FindRoleGradesService {
     });
 
     if (findRoles.length === 0)
-      return { error: 'Não há nenhum Custo H:H registrado.' };
+      return { error: 'Não há nenhum Custo HH registrado.' };
 
     return {
-      roleGradies: findRoles,
+      coustsHH: findRoles,
     };
   }
 }

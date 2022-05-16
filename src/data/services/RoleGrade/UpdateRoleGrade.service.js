@@ -10,14 +10,14 @@ export class UpdateRoleGradeService {
 
     if (!verifyRoleExists)
       return {
-        error: `Não existe um Custo H:h com este ID -> ${id_role_grade}.`,
+        error: `Não existe um Custo HH com este ID -> ${id_role_grade}.`,
       };
 
     const roleUpdated = await repository.updateRoleGrade(id_role_grade, data);
 
     return {
-      message: 'Custo H:H atualizado com sucesso!',
-      roleGrade: roleUpdated,
+      message: 'Custo HH atualizado com sucesso!',
+      coustHH: roleUpdated,
     };
   }
 }

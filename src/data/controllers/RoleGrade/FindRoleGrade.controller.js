@@ -15,7 +15,7 @@ export class FindRoleGradeController {
         });
 
       return res.status(200).json({
-        roleGrade: response.roleGrade,
+        coustHH: response.coustHH,
       });
     } catch (err) {
       return res.status(500).json({

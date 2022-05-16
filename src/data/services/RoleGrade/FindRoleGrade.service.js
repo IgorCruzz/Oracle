@@ -10,11 +10,11 @@ export class FindRoleGradeService {
 
     if (!findRole)
       return {
-        error: `Não existe um Custo H:H com este ID -> ${id_role_grade}.`,
+        error: `Não existe um Custo HH com este ID -> ${id_role_grade}.`,
       };
 
     return {
-      roleGrade: findRole,
+      coustHH: findRole,
     };
   }
 }

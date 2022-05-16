@@ -28,13 +28,13 @@ export class FindRoleGradiesController {
           error: response.error,
         });
 
-      const { count, rows } = response.roleGradies;
+      const { count, rows } = response.coustsHH;
 
       return res.status(200).json({
         count,
         page,
         limit,
-        roleGradies: rows,
+        coustsHH: rows,
       });
     } catch (err) {
       return res.status(500).json({

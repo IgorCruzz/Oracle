@@ -10,7 +10,7 @@ export class DeleteRoleGradeService {
 
     if (!verifyRoleExists)
       return {
-        error: `Não existe um Custo H:H com este ID -> ${id_role_grade}.`,
+        error: `Não existe um Custo HH com este ID -> ${id_role_grade}.`,
       };
 
     await repository.deleteRoleGrade({
@@ -18,7 +18,7 @@ export class DeleteRoleGradeService {
     });
 
     return {
-      message: 'Custo H:H excluído com sucesso!',
+      message: 'Custo HH excluído com sucesso!',
     };
   }
 }
