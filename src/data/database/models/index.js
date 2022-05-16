@@ -19,3 +19,4 @@ export * from './Product_history';
 export * from './Allocation_period';
 export * from './Grade';
 export * from './Sector';
+export * from './Role_grade';

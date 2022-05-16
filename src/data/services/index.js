@@ -123,3 +123,10 @@ export * from './Sector/DeleteSector.service';
 export * from './Sector/FindSector.service';
 export * from './Sector/FindSectories.service';
 export * from './Sector/UpdateSector.service';
+
+// ROLE GRADE
+export * from './RoleGrade/CreateRoleGrade.service';
+export * from './RoleGrade/DeleteRoleGrade.service';
+export * from './RoleGrade/FindRoleGrade.service';
+export * from './RoleGrade/FindRoleGrades.service';
+export * from './RoleGrade/UpdateRoleGrade.service';

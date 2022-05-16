@@ -123,3 +123,10 @@ export * from './Sector/DeleteSector.controller';
 export * from './Sector/FindSector.controller';
 export * from './Sector/FindSectories.controller';
 export * from './Sector/UpdateSector.controller';
+
+// ROLE GRADE
+export * from './RoleGrade/CreateRoleGrade.controller';
+export * from './RoleGrade/DeleteRoleGrade.controller';
+export * from './RoleGrade/FindRoleGrade.controller';
+export * from './RoleGrade/FindRoleGradies.controller';
+export * from './RoleGrade/UpdateRoleGrade.controller';

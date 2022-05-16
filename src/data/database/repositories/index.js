@@ -17,3 +17,4 @@ export * from './PasswordRecovery/PasswordRecovery.repository';
 export * from './ProductHistory/ProductHistory.repository';
 export * from './Grade/Grade.repository';
 export * from './Sector/Sector.repository';
+export * from './Role_grade/Role_grade.repository';

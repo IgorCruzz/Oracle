@@ -121,3 +121,10 @@ export * from './Sector/deleteSector.validator';
 export * from './Sector/findSector.validator';
 export * from './Sector/findSectories.validator';
 export * from './Sector/updateSector.validator';
+
+// ROLE GRADE
+export * from './RoleGrade/createRoleGrade.validator';
+export * from './RoleGrade/deleteRoleGrade.validator';
+export * from './RoleGrade/findRoleGrade.validator';
+export * from './RoleGrade/findRoleGradies.validator';
+export * from './RoleGrade/updateRoleGrade.validator';
