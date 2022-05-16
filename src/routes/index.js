@@ -18,8 +18,10 @@ import User from './User/User.routes';
 import Login from './Login/Login.routes';
 import RecoverPassword from './RecoverPassword/RecoverPassword.routes';
 import Grade from './Grade/Grade.routes';
+import Sector from './Sector/Sector.routes';
 
 const routes = [
+  Sector,
   Grade,
   Category,
   Program,

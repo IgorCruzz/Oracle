@@ -116,3 +116,10 @@ export * from './Grade/DeleteGrade.service';
 export * from './Grade/FindGrade.service';
 export * from './Grade/FindGradies.service';
 export * from './Grade/UpdateGrade.service';
+
+// SECTOR
+export * from './Sector/CreateSector.service';
+export * from './Sector/DeleteSector.service';
+export * from './Sector/FindSector.service';
+export * from './Sector/FindSectories.service';
+export * from './Sector/UpdateSector.service';

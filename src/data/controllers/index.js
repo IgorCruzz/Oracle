@@ -116,3 +116,10 @@ export * from './Grade/DeleteGrade.controller';
 export * from './Grade/FindGrade.controller';
 export * from './Grade/FindGradies.controller';
 export * from './Grade/UpdateGrade.controller';
+
+// SECTOR
+export * from './Sector/CreateSector.controller';
+export * from './Sector/DeleteSector.controller';
+export * from './Sector/FindSector.controller';
+export * from './Sector/FindSectories.controller';
+export * from './Sector/UpdateSector.controller';

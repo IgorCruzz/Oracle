@@ -114,3 +114,10 @@ export * from './Grade/deleteGrade.validator';
 export * from './Grade/findGrade.validator';
 export * from './Grade/findGradies.validator';
 export * from './Grade/updateGrade.validator';
+
+// SECTOR
+export * from './Sector/createSector.validator';
+export * from './Sector/deleteSector.validator';
+export * from './Sector/findSector.validator';
+export * from './Sector/findSectories.validator';
+export * from './Sector/updateSector.validator';
