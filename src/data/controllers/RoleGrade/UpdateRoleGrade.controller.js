@@ -15,8 +15,8 @@ export class UpdateRoleGradeController {
         });
 
       return res.status(200).json({
-        roleGrade: response.roleGrade,
         message: response.message,
+        roleGrade: response.roleGrade,
       });
     } catch (err) {
       return res.status(500).json({

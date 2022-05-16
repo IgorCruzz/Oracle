@@ -2,7 +2,6 @@ import { GradeRepository } from '../../database/repositories';
 
 export class FindGradeService {
   async execute({ id_grade }) {
-    console.log('oooo');
     const repository = new GradeRepository();
 
     const findGrade = await repository.findGradeById({
