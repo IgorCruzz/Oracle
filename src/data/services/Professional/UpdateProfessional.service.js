@@ -20,7 +20,7 @@ export class UpdateProfessionalService {
 
     if (!verifySectorId)
       return {
-        error: `Não há nenhuma Setor registrado com este ID -> ${id_sector}.`,
+        error: `Não há nenhum Setor registrado com este ID -> ${id_sector}.`,
       };
 
     const verifyRoleGradeId = await roleGradeRepoistory.findRoleGradeById({
