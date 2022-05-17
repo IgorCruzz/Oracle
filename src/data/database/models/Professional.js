@@ -10,9 +10,9 @@ export class Professional extends Model {
           autoIncrement: true,
         },
         nm_professional: DataTypes.STRING,
+        in_delivery_analyst: DataTypes.CHAR(1),
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
-        in_delivery_analyst: DataTypes.CHAR(1),
       },
       {
         sequelize,
@@ -23,7 +23,7 @@ export class Professional extends Model {
   }
 
   static associate(models) {
-    Professional.belongsTo(models.Role, {
+    Professional.belongsTo(models.Role_grade, {
       foreignKey: 'id_role_grade',
       as: 'role',
     });
