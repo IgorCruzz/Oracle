@@ -128,3 +128,10 @@ export * from './RoleGrade/deleteRoleGrade.validator';
 export * from './RoleGrade/findRoleGrade.validator';
 export * from './RoleGrade/findRoleGradies.validator';
 export * from './RoleGrade/updateRoleGrade.validator';
+
+// PROFESSIONAL
+export * from './Professional/createProfessional.validator';
+export * from './Professional/deleteProfessional.validator';
+export * from './Professional/findProfessional.validator';
+export * from './Professional/findProfessionals.validator';
+export * from './Professional/updateProfessional.validator';
