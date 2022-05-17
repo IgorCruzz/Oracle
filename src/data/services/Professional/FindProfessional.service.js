@@ -6,6 +6,7 @@ export class FindProfessionalService {
 
     const findProfessional = await repository.findProfessionalById({
       id_professional,
+      populate: true,
     });
 
     if (!findProfessional)

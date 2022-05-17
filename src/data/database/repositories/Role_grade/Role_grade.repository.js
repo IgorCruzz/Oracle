@@ -115,7 +115,19 @@ export class RoleGradeRepository {
     });
   }
 
-  async findRoleGradeById({ id_role_grade }) {
+  async findRoleGradeById({ id_role_grade, populate }) {
+    if (populate) {
+      return await Role_grade.findOne({
+        where: {
+          id_role_grade,
+        },
+        include: [
+          { model: Role, as: 'role' },
+          { model: Grade, as: 'grade' },
+        ],
+      });
+    }
+
     return await Role_grade.findOne({
       where: {
         id_role_grade,

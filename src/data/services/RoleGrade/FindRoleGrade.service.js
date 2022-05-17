@@ -6,6 +6,7 @@ export class FindRoleGradeService {
 
     const findRole = await repository.findRoleGradeById({
       id_role_grade,
+      populate: true,
     });
 
     if (!findRole)
