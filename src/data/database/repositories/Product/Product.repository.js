@@ -106,7 +106,8 @@ export class ProductRepository {
             },
           },
           limit: Number(limit),
-          order: [['nm_product', 'ASC']],
+          order: [['nu_order', 'ASC']],
+
           offset: (Number(page) - 1) * Number(limit),
           include: [
             id_project_phase
@@ -128,7 +129,7 @@ export class ProductRepository {
       : await Product.findAndCountAll({
           limit: Number(limit),
           offset: (Number(page) - 1) * Number(limit),
-          order: [['nm_product', 'ASC']],
+          order: [['nu_order', 'ASC']],
           include: [
             id_project_phase
               ? {
@@ -203,7 +204,7 @@ export class ProductRepository {
   }
 
   async updateProduct(id_product, data) {
-    const { nm_product, ds_note_required_action } = data;
+    const { nm_product, ds_note_required_action, nu_order } = data;
 
     const product = await Product.findOne({
       where: {
@@ -213,6 +214,7 @@ export class ProductRepository {
 
     await product.update({
       ...data,
+      nu_order,
       nm_product: nm_product.trim(),
       ds_note_required_action:
         ds_note_required_action && ds_note_required_action.trim(),
