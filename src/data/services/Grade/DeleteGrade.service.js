@@ -26,7 +26,7 @@ export class DeleteGradeService {
       };
     }
 
-    await repository.createGrade({
+    await repository.deleteGrade({
       id_grade,
     });
 
