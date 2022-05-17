@@ -26,7 +26,7 @@ export class UpdateTechnicalManagerService {
         id_project,
       });
 
-      if (!projectExists) {
+      if (!projectExists || projectExists.dt_deleted_at) {
         return {
           error: `Não há nenhum Projeto registrado com este ID -> ${id_project}.`,
         };

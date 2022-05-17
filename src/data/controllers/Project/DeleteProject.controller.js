@@ -6,7 +6,10 @@ export class DeleteProjectController {
       const service = new DeleteProjectService();
       const { id_project } = req.params;
 
-      const response = await service.execute({ id_project });
+      const response = await service.execute({
+        id_project,
+        id_user: req.userId,
+      });
 
       if (response.error)
         return res.status(400).json({
@@ -17,7 +20,6 @@ export class DeleteProjectController {
         message: response.message,
       });
     } catch (err) {
-      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });

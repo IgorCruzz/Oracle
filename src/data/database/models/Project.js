@@ -43,6 +43,10 @@ export class Project extends Model {
                   .format('YYYY-MM-DD');
           },
         },
+        dt_deleted_at: DataTypes.DATE,
+        nm_deleted_by: {
+          type: DataTypes.STRING(255),
+        },
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
       },

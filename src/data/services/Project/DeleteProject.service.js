@@ -3,20 +3,22 @@ import {
   LocationRepository,
   TechnicalManagerRepository,
   ProjectPhaseRepository,
+  UserRepository,
 } from '../../database/repositories';
 
 export class DeleteProjectService {
-  async execute({ id_project }) {
+  async execute({ id_project, id_user }) {
     const repository = new ProjectRepository();
     const locationRepository = new LocationRepository();
     const technicalManagerRepository = new TechnicalManagerRepository();
     const projectPhaseRepository = new ProjectPhaseRepository();
+    const userRepository = new UserRepository();
 
     const verifyProjectExists = await repository.findProjectById({
       id_project,
     });
 
-    if (!verifyProjectExists)
+    if (!verifyProjectExists || verifyProjectExists.dt_deleted_at)
       return {
         error: `Não há nenhum Projeto registrado com este ID -> ${id_project}.`,
       };
@@ -56,8 +58,13 @@ export class DeleteProjectService {
       };
     }
 
+    const getUserEmail = await userRepository.findUserById({
+      id_user,
+    });
+
     await repository.deleteProject({
       id_project,
+      nm_deleted_by: getUserEmail.ds_email_login,
     });
 
     return {

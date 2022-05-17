@@ -6,6 +6,7 @@ module.exports = {
   username: 'ivdb488dfbm55d25',
   password: 'tsyzrnhplclwe3dz',
   database: 'n6gecc4s901uxvz7',
+  logging: false,
   define: {
     timestamps: false,
     freezeTableName: true,
@@ -13,6 +14,7 @@ module.exports = {
     collate: 'utf8_general_ci',
   },
   timezone: '-03:00',
+
   dialectOptions: {
     typeCast(field, next) {
       if (field.type === 'DATETIME') {

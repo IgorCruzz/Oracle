@@ -119,8 +119,15 @@ export class ProjectRepository {
       where: searchQuery
         ? {
             [Op.and]: searchQuery,
+            nm_deleted_by: {
+              [Op.is]: null,
+            },
           }
-        : {},
+        : {
+            nm_deleted_by: {
+              [Op.is]: null,
+            },
+          },
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
       order: [['nm_project', 'ASC']],
@@ -170,6 +177,14 @@ export class ProjectRepository {
     if (populate) {
       return await Project.findOne({
         where: {
+          [Op.and]: [
+            { id_project },
+            {
+              nm_deleted_by: {
+                [Op.is]: null,
+              },
+            },
+          ],
           id_project,
         },
         include: [
@@ -202,9 +217,16 @@ export class ProjectRepository {
     });
   }
 
-  async deleteProject({ id_project }) {
-    await Project.destroy({
-      where: { id_project },
+  async deleteProject({ id_project, nm_deleted_by }) {
+    const project = await Project.findOne({
+      where: {
+        id_project,
+      },
+    });
+
+    await project.update({
+      nm_deleted_by,
+      dt_deleted_at: new Date(Date.now()).toISOString(),
     });
   }
 

@@ -46,7 +46,7 @@ export class CreateProjectPhaseService {
       id_project,
     });
 
-    if (!verifyProjectExists)
+    if (!verifyProjectExists || verifyProjectExists.dt_deleted_at)
       return {
         error: `Não há nenhum Projeto registrado com este ID -> ${id_project}.`,
       };
