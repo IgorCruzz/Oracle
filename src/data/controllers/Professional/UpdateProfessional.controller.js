@@ -15,8 +15,8 @@ export class UpdateProfessionalController {
         });
 
       return res.status(200).json({
-        professional: response.professional,
         message: response.message,
+        professional: response.professional,
       });
     } catch (err) {
       return res.status(500).json({

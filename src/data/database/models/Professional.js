@@ -25,7 +25,7 @@ export class Professional extends Model {
   static associate(models) {
     Professional.belongsTo(models.Role_grade, {
       foreignKey: 'id_role_grade',
-      as: 'role',
+      as: 'coustHH',
     });
     Professional.belongsTo(models.Sector, {
       foreignKey: 'id_sector',

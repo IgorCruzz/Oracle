@@ -13,6 +13,10 @@ export class RoleGradeRepository {
       where: {
         id_role_grade: createdRoleGrade.dataValues.id_role_grade,
       },
+      include: [
+        { model: Role, as: 'role' },
+        { model: Grade, as: 'grade' },
+      ],
     });
   }
 
@@ -142,7 +146,10 @@ export class RoleGradeRepository {
       where: {
         id_role_grade: roleGrade.dataValues.id_role_grade,
       },
-      raw: true,
+      include: [
+        { model: Role, as: 'role' },
+        { model: Grade, as: 'grade' },
+      ],
     });
   }
 }

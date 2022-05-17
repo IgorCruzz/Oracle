@@ -16,6 +16,21 @@ export class ProfessionalRepository {
       where: {
         id_professional: createdProfessional.dataValues.id_professional,
       },
+      include: [
+        { model: Role_grade, as: 'coustHH' },
+        { model: Sector, as: 'sector' },
+        {
+          model: User,
+          as: 'user',
+          attributes: [
+            'id_user',
+            'ds_email_login',
+            'nm_user',
+            'dt_created_at',
+            'dt_updated_at',
+          ],
+        },
+      ],
     });
   }
 
@@ -27,7 +42,17 @@ export class ProfessionalRepository {
       include: [
         { model: Role_grade, as: 'coustHH' },
         { model: Sector, as: 'sector' },
-        { model: User, as: 'user' },
+        {
+          model: User,
+          as: 'user',
+          attributes: [
+            'id_user',
+            'ds_email_login',
+            'nm_user',
+            'dt_created_at',
+            'dt_updated_at',
+          ],
+        },
       ],
     });
   }
@@ -95,6 +120,13 @@ export class ProfessionalRepository {
           : {
               model: User,
               as: 'user',
+              attributes: [
+                'id_user',
+                'ds_email_login',
+                'nm_user',
+                'dt_created_at',
+                'dt_updated_at',
+              ],
             },
       ],
     });
@@ -136,7 +168,17 @@ export class ProfessionalRepository {
         include: [
           { model: Role_grade, as: 'coustHH' },
           { model: Sector, as: 'sector' },
-          { model: User, as: 'user' },
+          {
+            model: User,
+            as: 'user',
+            attributes: [
+              'id_user',
+              'ds_email_login',
+              'nm_user',
+              'dt_created_at',
+              'dt_updated_at',
+            ],
+          },
         ],
       });
     }
@@ -178,7 +220,17 @@ export class ProfessionalRepository {
       include: [
         { model: Role_grade, as: 'coustHH' },
         { model: Sector, as: 'sector' },
-        { model: User, as: 'user' },
+        {
+          model: User,
+          as: 'user',
+          attributes: [
+            'id_user',
+            'ds_email_login',
+            'nm_user',
+            'dt_created_at',
+            'dt_updated_at',
+          ],
+        },
       ],
     });
   }
