@@ -15,8 +15,8 @@ export class UpdateGradeController {
         });
 
       return res.status(200).json({
-        grade: response.grade,
         message: response.message,
+        grade: response.grade,
       });
     } catch (err) {
       return res.status(500).json({

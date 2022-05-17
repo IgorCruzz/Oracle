@@ -15,8 +15,8 @@ export class UpdateSectorController {
         });
 
       return res.status(200).json({
-        sector: response.sector,
         message: response.message,
+        sector: response.sector,
       });
     } catch (err) {
       return res.status(500).json({
