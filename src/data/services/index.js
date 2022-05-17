@@ -130,3 +130,10 @@ export * from './RoleGrade/DeleteRoleGrade.service';
 export * from './RoleGrade/FindRoleGrade.service';
 export * from './RoleGrade/FindRoleGrades.service';
 export * from './RoleGrade/UpdateRoleGrade.service';
+
+// PROFESSIONAL
+export * from './Professional/CreateProfessional.service';
+export * from './Professional/DeleteProfessional.service';
+export * from './Professional/FindProfessional.service';
+export * from './Professional/FindProfessionals.service';
+export * from './Professional/UpdateProfessional.service';

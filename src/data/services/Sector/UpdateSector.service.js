@@ -6,11 +6,11 @@ export class UpdateSectorService {
 
     const repository = new SectorRepository();
 
-    const verifyGradeExists = await repository.findSectorById({
+    const verifySectorExists = await repository.findSectorById({
       id_sector,
     });
 
-    if (!verifyGradeExists)
+    if (!verifySectorExists)
       return { error: `Não existe um Setor com este ID -> ${id_sector}.` };
 
     const verifySectorName = await repository.findSector({
@@ -20,11 +20,11 @@ export class UpdateSectorService {
     if (verifySectorName && verifySectorName.id_sector !== Number(id_sector))
       return { error: 'Já existe um Setor registrado com este nome.' };
 
-    const gradeUpdated = await repository.updateSector(id_sector, data);
+    const sectorUpdated = await repository.updateSector(id_sector, data);
 
     return {
       message: 'Setor atualizado com sucesso!',
-      sector: gradeUpdated,
+      sector: sectorUpdated,
     };
   }
 }

@@ -130,3 +130,10 @@ export * from './RoleGrade/DeleteRoleGrade.controller';
 export * from './RoleGrade/FindRoleGrade.controller';
 export * from './RoleGrade/FindRoleGradies.controller';
 export * from './RoleGrade/UpdateRoleGrade.controller';
+
+// PROFESSIONAL
+export * from './Professional/CreateProfessional.controller';
+export * from './Professional/DeleteProfessional.controller';
+export * from './Professional/FindProfessional.controller';
+export * from './Professional/FindProfessionals.controller';
+export * from './Professional/UpdateProfessional.controller';
