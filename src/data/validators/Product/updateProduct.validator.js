@@ -10,10 +10,6 @@ export const updateProductValidator = async (req, res, next) => {
     });
 
     const SchemaBody = Yup.object().shape({
-      nu_order: Yup.number()
-        .positive('O campo ordem precisa ser positivo')
-        .required('O campo ordem é obrigatório')
-        .typeError('O campo ordem precisa ser númerico'),
       nm_product: Yup.string()
         .max(
           255,

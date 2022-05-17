@@ -6,10 +6,6 @@ export const createProductValidator = async (req, res, next) => {
     const { qt_minimum_hours, qt_maximum_hours, qt_probable_hours } = req.body;
 
     const Schema = Yup.object().shape({
-      nu_order: Yup.number()
-        .positive('O campo ordem precisa ser positivo')
-        .required('O campo ordem é obrigatório')
-        .typeError('O campo ordem precisa ser númerico'),
       nm_product: Yup.string()
         .max(
           255,
