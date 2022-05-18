@@ -114,11 +114,13 @@ export class ProductRepository {
               ? {
                   model: Project_phase,
                   as: 'project_phase',
+                  required: true,
                   where: { id_project_phase },
                   include: [
                     {
                       model: Project,
                       as: 'project',
+                      required: true,
                       where: {
                         dt_deleted_at: null,
                       },
@@ -128,10 +130,12 @@ export class ProductRepository {
               : {
                   model: Project_phase,
                   as: 'project_phase',
+                  required: true,
                   include: [
                     {
                       model: Project,
                       as: 'project',
+                      required: true,
                       where: {
                         dt_deleted_at: null,
                       },
@@ -156,11 +160,13 @@ export class ProductRepository {
               ? {
                   model: Project_phase,
                   as: 'project_phase',
+                  required: true,
                   where: { id_project_phase },
                   include: [
                     {
                       model: Project,
                       as: 'project',
+                      required: true,
                       where: {
                         dt_deleted_at: null,
                       },
@@ -170,10 +176,12 @@ export class ProductRepository {
               : {
                   model: Project_phase,
                   as: 'project_phase',
+                  required: true,
                   include: [
                     {
                       model: Project,
                       as: 'project',
+                      required: true,
                       where: {
                         dt_deleted_at: null,
                       },

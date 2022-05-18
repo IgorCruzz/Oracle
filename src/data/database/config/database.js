@@ -6,6 +6,9 @@ module.exports = {
   username: 'ivdb488dfbm55d25',
   password: 'tsyzrnhplclwe3dz',
   database: 'n6gecc4s901uxvz7',
+  options: {
+    requestTimeout: 3000,
+  },
   logging: false,
   define: {
     timestamps: false,

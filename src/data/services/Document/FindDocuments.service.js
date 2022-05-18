@@ -9,25 +9,12 @@ export class FindDocumentsService {
       id_product,
     });
 
-    const getDocuments = findDocuments.rows.map(document => {
-      return document.dataValues.product.dataValues.project_phase
-        ? document.dataValues
-        : [];
-    });
-
-    if (getDocuments.length === 0)
-      return {
-        documents: {
-          count: findDocuments.count,
-          rows: [],
-        },
-      };
+    if (findDocuments.length === 0) {
+      return { error: 'Não há Documentos registrados.' };
+    }
 
     return {
-      documents: {
-        count: findDocuments.count,
-        rows: getDocuments.filter(doc => doc.id_document),
-      },
+      documents: findDocuments,
     };
   }
 }

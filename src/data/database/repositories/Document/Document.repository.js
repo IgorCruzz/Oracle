@@ -34,6 +34,7 @@ export class DocumentRepository {
 
   async findDocuments({ page, limit, id_product }) {
     return await Document.findAndCountAll({
+      where: id_product ? { id_product } : {},
       limit: Number(limit),
       order: [['ds_document', 'ASC']],
       offset: (Number(page) - 1) * Number(limit),
@@ -42,14 +43,16 @@ export class DocumentRepository {
           ? {
               model: Product,
               as: 'product',
-              where: { id_product },
+              required: true,
               include: [
                 {
                   model: Project_phase,
                   as: 'project_phase',
+                  required: true,
                   include: [
                     {
                       model: Project,
+                      required: true,
                       as: 'project',
                       where: {
                         dt_deleted_at: null,
@@ -61,14 +64,17 @@ export class DocumentRepository {
             }
           : {
               model: Product,
+              required: true,
               as: 'product',
               include: [
                 {
                   model: Project_phase,
+                  required: true,
                   as: 'project_phase',
                   include: [
                     {
                       model: Project,
+                      required: true,
                       as: 'project',
                       where: {
                         dt_deleted_at: null,

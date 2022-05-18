@@ -27,6 +27,7 @@ export class FindDocumentsController {
         documents: rows,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });

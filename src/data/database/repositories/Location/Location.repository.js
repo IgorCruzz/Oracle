@@ -53,9 +53,20 @@ export class LocationRepository {
           ? {
               model: Project,
               as: 'project',
-              where: { id_project },
+              where: {
+                [Op.and]: {
+                  id_project,
+                  dt_deleted_at: null,
+                },
+              },
             }
-          : { model: Project, as: 'project' },
+          : {
+              model: Project,
+              as: 'project',
+              where: {
+                dt_deleted_at: null,
+              },
+            },
       ],
     });
   }
@@ -81,7 +92,15 @@ export class LocationRepository {
         where: {
           id_location,
         },
-        include: [{ model: Project, as: 'project' }],
+        include: [
+          {
+            model: Project,
+            as: 'project',
+            where: {
+              dt_deleted_at: null,
+            },
+          },
+        ],
       });
     }
 
@@ -89,7 +108,15 @@ export class LocationRepository {
       where: {
         id_location,
       },
-      raw: true,
+      include: [
+        {
+          model: Project,
+          as: 'project',
+          where: {
+            dt_deleted_at: null,
+          },
+        },
+      ],
     });
   }
 

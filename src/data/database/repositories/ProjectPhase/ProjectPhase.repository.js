@@ -103,6 +103,7 @@ export class ProjectPhaseRepository {
             ? {
                 model: Project,
                 as: 'project',
+
                 where: {
                   [Op.and]: {
                     id_project,
@@ -113,6 +114,7 @@ export class ProjectPhaseRepository {
             : {
                 model: Project,
                 as: 'project',
+
                 where: {
                   dt_deleted_at: null,
                 },
