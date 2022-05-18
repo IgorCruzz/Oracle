@@ -15,6 +15,10 @@ export const createProfessionalValidator = async (req, res, next) => {
           1,
           'O tamanho máximo permitido para o campo entrega do analista é 1'
         )
+        .oneOf(
+          ['N', 'S', 's', 'n'],
+          'Valor para o campo entrega do analista inválido'
+        )
         .required('O campo entrega do analista é obrigatório')
         .typeError('O preenchimento do entrega do analista é obrigatório'),
       id_role_grade: Yup.number()

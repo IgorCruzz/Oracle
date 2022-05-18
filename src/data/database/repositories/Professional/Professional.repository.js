@@ -3,10 +3,11 @@ import { Professional, Role_grade, Sector, User } from '../../models';
 
 export class ProfessionalRepository {
   async createProfessional(data) {
-    const { nm_professional } = data;
+    const { nm_professional, in_delivery_analyst } = data;
 
     const createdProfessional = await Professional.create({
       ...data,
+      in_delivery_analyst: in_delivery_analyst.toUpperCase(),
       nm_professional: nm_professional.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
@@ -198,7 +199,7 @@ export class ProfessionalRepository {
   }
 
   async updateProfessional(id_professional, data) {
-    const { nm_professional } = data;
+    const { nm_professional, in_delivery_analyst } = data;
 
     const professional = await Professional.findOne({
       where: {
@@ -209,6 +210,7 @@ export class ProfessionalRepository {
     await professional.update({
       ...data,
       nm_professional: nm_professional.trim(),
+      in_delivery_analyst: in_delivery_analyst.toUpperCase(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
