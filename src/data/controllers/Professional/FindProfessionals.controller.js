@@ -30,8 +30,13 @@ export class FindProfessionalsController {
           error: response.error,
         });
 
+      const { count, rows } = response.professionals;
+
       return res.status(200).json({
-        professionals: response.professionals,
+        count,
+        page,
+        limit,
+        professionals: rows,
       });
     } catch (err) {
       return res.status(500).json({
