@@ -3,6 +3,7 @@ import {
   Role,
   Project_phase,
   Product_history,
+  Project,
 } from '../../database/models';
 import { sequelize } from '../../database';
 
@@ -40,6 +41,15 @@ export class CreateProductService {
         },
         raw: true,
         transaction: t,
+        include: [
+          {
+            model: Project,
+            as: 'project',
+            where: {
+              dt_deleted_at: null,
+            },
+          },
+        ],
       });
 
       if (!ProjectPhaseExists) {

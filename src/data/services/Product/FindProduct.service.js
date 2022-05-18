@@ -9,7 +9,7 @@ export class FindProductService {
       populate: true,
     });
 
-    if (!findProduct)
+    if (!findProduct || (findProduct && !findProduct.dataValues.project_phase))
       return {
         error: `Não há nenhum Produto registrado com este ID -> ${id_product}.`,
       };

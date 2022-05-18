@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { Project_phase, Project } from '../../models';
 
 export class ProjectPhaseRepository {
@@ -60,6 +61,25 @@ export class ProjectPhaseRepository {
     });
   }
 
+  async verifyProjectLogicDeleted({ id_project }) {
+    return await Project_phase.findAll({
+      include: [
+        {
+          model: Project,
+          as: 'project',
+          where: {
+            [Op.and]: {
+              id_project,
+              dt_deleted_at: {
+                [Op.is]: null,
+              },
+            },
+          },
+        },
+      ],
+    });
+  }
+
   async verifyProject({ id_project }) {
     return await Project_phase.findAll({
       include: [
@@ -83,16 +103,30 @@ export class ProjectPhaseRepository {
             ? {
                 model: Project,
                 as: 'project',
-                where: { id_project },
+                where: {
+                  [Op.and]: {
+                    id_project,
+                    dt_deleted_at: null,
+                  },
+                },
               }
-            : { model: Project, as: 'project', where: { id_project } },
+            : {
+                model: Project,
+                as: 'project',
+                where: {
+                  dt_deleted_at: null,
+                },
+              },
         ],
       });
     }
 
     return await Project_phase.findAll({
       where: {
-        id_project,
+        [Op.and]: {
+          id_project,
+          dt_deleted_at: null,
+        },
       },
       order: [['nu_order', 'ASC']],
       raw: true,
@@ -124,7 +158,15 @@ export class ProjectPhaseRepository {
         where: {
           id_project_phase,
         },
-        include: [{ model: Project, as: 'project' }],
+        include: [
+          {
+            model: Project,
+            as: 'project',
+            where: {
+              dt_deleted_at: null,
+            },
+          },
+        ],
       });
     }
 
@@ -132,7 +174,15 @@ export class ProjectPhaseRepository {
       where: {
         id_project_phase,
       },
-      raw: true,
+      include: [
+        {
+          model: Project,
+          as: 'project',
+          where: {
+            dt_deleted_at: null,
+          },
+        },
+      ],
     });
   }
 

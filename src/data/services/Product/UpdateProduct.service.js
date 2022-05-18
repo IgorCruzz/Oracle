@@ -21,7 +21,10 @@ export class UpdateProductService {
       id_product,
     });
 
-    if (!verifyProjectExists)
+    if (
+      !verifyProjectExists ||
+      (verifyProjectExists && !verifyProjectExists.dataValues.project_phase)
+    )
       return {
         error: `Não há nenhum Produto registrado com este ID -> ${id_product}.`,
       };

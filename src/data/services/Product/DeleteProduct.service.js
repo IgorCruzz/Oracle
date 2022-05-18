@@ -1,4 +1,10 @@
-import { Product, Document, Product_history } from '../../database/models';
+import {
+  Product,
+  Document,
+  Product_history,
+  Project_phase,
+  Project,
+} from '../../database/models';
 import { sequelize } from '../../database';
 
 export class DeleteProductService {
@@ -10,11 +16,29 @@ export class DeleteProductService {
         where: {
           id_product: Number(id_product),
         },
-        raw: true,
+        include: [
+          {
+            model: Project_phase,
+            as: 'project_phase',
+            include: [
+              {
+                model: Project,
+                as: 'project',
+                where: {
+                  dt_deleted_at: null,
+                },
+              },
+            ],
+          },
+        ],
+
         transaction: t,
       });
 
-      if (!verifyProductExists)
+      if (
+        !verifyProductExists ||
+        (verifyProductExists && !verifyProductExists.dataValues.project_phase)
+      )
         return {
           error: `Não há nenhum Produto registrado com este ID -> ${id_product}.`,
         };

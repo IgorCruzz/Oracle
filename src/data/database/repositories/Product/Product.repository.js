@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { Product, Role, Project_phase } from '../../models';
+import { Product, Role, Project_phase, Project } from '../../models';
 
 export class ProductRepository {
   async createManyProducts(data) {
@@ -115,8 +115,29 @@ export class ProductRepository {
                   model: Project_phase,
                   as: 'project_phase',
                   where: { id_project_phase },
+                  include: [
+                    {
+                      model: Project,
+                      as: 'project',
+                      where: {
+                        dt_deleted_at: null,
+                      },
+                    },
+                  ],
                 }
-              : { model: Project_phase, as: 'project_phase' },
+              : {
+                  model: Project_phase,
+                  as: 'project_phase',
+                  include: [
+                    {
+                      model: Project,
+                      as: 'project',
+                      where: {
+                        dt_deleted_at: null,
+                      },
+                    },
+                  ],
+                },
             id_suggested_role
               ? {
                   model: Role,
@@ -136,8 +157,29 @@ export class ProductRepository {
                   model: Project_phase,
                   as: 'project_phase',
                   where: { id_project_phase },
+                  include: [
+                    {
+                      model: Project,
+                      as: 'project',
+                      where: {
+                        dt_deleted_at: null,
+                      },
+                    },
+                  ],
                 }
-              : { model: Project_phase, as: 'project_phase' },
+              : {
+                  model: Project_phase,
+                  as: 'project_phase',
+                  include: [
+                    {
+                      model: Project,
+                      as: 'project',
+                      where: {
+                        dt_deleted_at: null,
+                      },
+                    },
+                  ],
+                },
             id_suggested_role
               ? {
                   model: Role,
@@ -184,7 +226,19 @@ export class ProductRepository {
         },
         include: [
           { model: Role, as: 'suggested_role' },
-          { model: Project_phase, as: 'project_phase' },
+          {
+            model: Project_phase,
+            as: 'project_phase',
+            include: [
+              {
+                model: Project,
+                as: 'project',
+                where: {
+                  dt_deleted_at: null,
+                },
+              },
+            ],
+          },
         ],
       });
     }
@@ -193,7 +247,22 @@ export class ProductRepository {
       where: {
         id_product,
       },
-      raw: true,
+      include: [
+        { model: Role, as: 'suggested_role' },
+        {
+          model: Project_phase,
+          as: 'project_phase',
+          include: [
+            {
+              model: Project,
+              as: 'project',
+              where: {
+                dt_deleted_at: null,
+              },
+            },
+          ],
+        },
+      ],
     });
   }
 
