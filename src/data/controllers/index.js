@@ -137,3 +137,10 @@ export * from './Professional/DeleteProfessional.controller';
 export * from './Professional/FindProfessional.controller';
 export * from './Professional/FindProfessionals.controller';
 export * from './Professional/UpdateProfessional.controller';
+
+// ALLOCATION PERIOD
+export * from './AllocationPeriod/CreateAllocationPeriod.controller';
+export * from './AllocationPeriod/DeleteAllocationPeriod.controller';
+export * from './AllocationPeriod/FindAllocationPeriod.controller';
+export * from './AllocationPeriod/FindAllocationPeriods.controller';
+export * from './AllocationPeriod/UpdateAllocationPeriod.controller';

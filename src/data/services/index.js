@@ -137,3 +137,10 @@ export * from './Professional/DeleteProfessional.service';
 export * from './Professional/FindProfessional.service';
 export * from './Professional/FindProfessionals.service';
 export * from './Professional/UpdateProfessional.service';
+
+// ALLOCATION PERIOD
+export * from './AllocationPeriod/CreateAllocationPeriod.service';
+export * from './AllocationPeriod/DeleteAllocationPeriod.service';
+export * from './AllocationPeriod/FindAllocationPeriod.service';
+export * from './AllocationPeriod/FindAllocationPeriods.service';
+export * from './AllocationPeriod/UpdateAllocationPeriod.service';
