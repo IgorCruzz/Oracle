@@ -1,4 +1,4 @@
-import { Document, Product } from '../../models';
+import { Document, Product, Project_phase, Project } from '../../models';
 
 export class DocumentRepository {
   async createManyDocuments(data) {
@@ -43,10 +43,40 @@ export class DocumentRepository {
               model: Product,
               as: 'product',
               where: { id_product },
+              include: [
+                {
+                  model: Project_phase,
+                  as: 'project_phase',
+                  include: [
+                    {
+                      model: Project,
+                      as: 'project',
+                      where: {
+                        dt_deleted_at: null,
+                      },
+                    },
+                  ],
+                },
+              ],
             }
           : {
               model: Product,
               as: 'product',
+              include: [
+                {
+                  model: Project_phase,
+                  as: 'project_phase',
+                  include: [
+                    {
+                      model: Project,
+                      as: 'project',
+                      where: {
+                        dt_deleted_at: null,
+                      },
+                    },
+                  ],
+                },
+              ],
             },
       ],
     });
@@ -88,7 +118,27 @@ export class DocumentRepository {
         where: {
           id_document,
         },
-        include: [{ model: Product, as: 'product' }],
+        include: [
+          {
+            model: Product,
+            as: 'product',
+            include: [
+              {
+                model: Project_phase,
+                as: 'project_phase',
+                include: [
+                  {
+                    model: Project,
+                    as: 'project',
+                    where: {
+                      dt_deleted_at: null,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
     }
 
@@ -96,7 +146,27 @@ export class DocumentRepository {
       where: {
         id_document,
       },
-      raw: true,
+      include: [
+        {
+          model: Product,
+          as: 'product',
+          include: [
+            {
+              model: Project_phase,
+              as: 'project_phase',
+              include: [
+                {
+                  model: Project,
+                  as: 'project',
+                  where: {
+                    dt_deleted_at: null,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
     });
   }
 

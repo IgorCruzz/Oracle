@@ -8,7 +8,11 @@ export class DeleteDocumentService {
       id_document,
     });
 
-    if (!verifyDocumentExists)
+    if (
+      !verifyDocumentExists ||
+      (verifyDocumentExists &&
+        !verifyDocumentExists.dataValues.product.dataValues.project_phase)
+    )
       return {
         error: `Não existe um Documento com este ID -> ${id_document}.`,
       };

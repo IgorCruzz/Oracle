@@ -9,7 +9,11 @@ export class FindDocumentService {
       populate: true,
     });
 
-    if (!findDocument)
+    if (
+      !findDocument ||
+      (findDocument &&
+        !findDocument.dataValues.product.dataValues.project_phase)
+    )
       return {
         error: `Não existe um Documento com este ID -> ${id_document}.`,
       };

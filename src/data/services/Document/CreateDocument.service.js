@@ -15,7 +15,10 @@ export class CreateDocumentService {
       id_product,
     });
 
-    if (!verifyProductExists)
+    if (
+      !verifyProductExists ||
+      (verifyProductExists && !verifyProductExists.dataValues.project_phase)
+    )
       return {
         error: `Não há nenhum Produto registrado com este ID -> ${id_product}.`,
       };
