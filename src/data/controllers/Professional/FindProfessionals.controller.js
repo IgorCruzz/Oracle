@@ -10,6 +10,7 @@ export class FindProfessionalsController {
         in_delivery_analyst,
         limit,
         nm_professional,
+        in_active,
         page,
       } = req.query;
 
@@ -21,6 +22,7 @@ export class FindProfessionalsController {
         id_user,
         in_delivery_analyst,
         limit,
+        in_active,
         nm_professional,
         page,
       });

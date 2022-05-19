@@ -8,6 +8,7 @@ export class FindProfessionalsService {
     in_delivery_analyst,
     limit,
     nm_professional,
+    in_active,
     page,
   }) {
     const repository = new ProfessionalRepository();
@@ -19,6 +20,7 @@ export class FindProfessionalsService {
       in_delivery_analyst,
       limit,
       nm_professional,
+      in_active,
       page,
     });
 

@@ -29,7 +29,14 @@ export class UserRepository {
     });
   }
 
-  async findUsers({ page, limit, ds_email_login, nm_user, tp_profile }) {
+  async findUsers({
+    page,
+    limit,
+    ds_email_login,
+    nm_user,
+    tp_profile,
+    in_active,
+  }) {
     let searchQuery;
 
     if (ds_email_login || nm_user || tp_profile) {
@@ -42,6 +49,9 @@ export class UserRepository {
         }),
         ...(tp_profile && {
           tp_profile,
+        }),
+        ...(in_active && {
+          in_active: { [Op.like]: `%${in_active.trim()}%` },
         }),
       };
     } else {
@@ -132,18 +142,16 @@ export class UserRepository {
     });
   }
 
-  async deleteUser({ id_user }) {
-    await User.destroy({
-      where: { id_user },
-      attributes: [
-        'id_user',
-        'ds_email_login',
-        'nm_user',
-        'dt_created_at',
-        'dt_updated_at',
-        'tp_profile',
-        'in_active',
-      ],
+  async deleteUser({ id_user, transaction }) {
+    const user = await User.findOne({
+      where: {
+        id_user,
+      },
+      ...(transaction && { transaction }),
+    });
+
+    await user.update({
+      in_active: 'N',
     });
   }
 

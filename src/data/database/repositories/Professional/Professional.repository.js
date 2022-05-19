@@ -29,6 +29,8 @@ export class ProfessionalRepository {
             'nm_user',
             'dt_created_at',
             'dt_updated_at',
+            'tp_profile',
+            'in_active',
           ],
         },
       ],
@@ -52,6 +54,8 @@ export class ProfessionalRepository {
             'nm_user',
             'dt_created_at',
             'dt_updated_at',
+            'tp_profile',
+            'in_active',
           ],
         },
       ],
@@ -72,6 +76,7 @@ export class ProfessionalRepository {
     id_role_grade,
     id_sector,
     id_user,
+    in_active,
   }) {
     let searchQuery;
 
@@ -82,6 +87,9 @@ export class ProfessionalRepository {
         }),
         ...(in_delivery_analyst && {
           in_delivery_analyst: { [Op.like]: `%${in_delivery_analyst.trim()}%` },
+        }),
+        ...(in_active && {
+          in_active: { [Op.like]: `%${in_active.trim()}%` },
         }),
       };
     } else {
@@ -133,6 +141,8 @@ export class ProfessionalRepository {
                 'nm_user',
                 'dt_created_at',
                 'dt_updated_at',
+                'tp_profile',
+                'in_active',
               ],
             },
       ],
@@ -190,6 +200,8 @@ export class ProfessionalRepository {
               'nm_user',
               'dt_created_at',
               'dt_updated_at',
+              'tp_profile',
+              'in_active',
             ],
           },
         ],
@@ -204,9 +216,16 @@ export class ProfessionalRepository {
     });
   }
 
-  async deleteProfessional({ id_professional }) {
-    await Professional.destroy({
-      where: { id_professional },
+  async deleteProfessional({ id_professional, transaction }) {
+    const professional = await Professional.findOne({
+      where: {
+        id_professional,
+      },
+      ...(transaction && { transaction }),
+    });
+
+    await professional.update({
+      in_active: 'N',
     });
   }
 
@@ -243,6 +262,8 @@ export class ProfessionalRepository {
             'nm_user',
             'dt_created_at',
             'dt_updated_at',
+            'tp_profile',
+            'in_active',
           ],
         },
       ],

@@ -18,7 +18,6 @@ export class CreateCopyProjectController {
         project: response.project,
       });
     } catch (err) {
-      console.log(err);
       return res.status(500).json({
         error:
           'Não foi possível realizar a cópia do projeto. Por favor, tente mais tarde.',
