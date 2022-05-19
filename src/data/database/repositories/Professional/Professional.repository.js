@@ -80,7 +80,7 @@ export class ProfessionalRepository {
   }) {
     let searchQuery;
 
-    if (nm_professional || in_delivery_analyst) {
+    if (nm_professional || in_delivery_analyst || in_active) {
       searchQuery = {
         ...(nm_professional && {
           nm_professional: { [Op.like]: `%${nm_professional.trim()}%` },
@@ -89,7 +89,7 @@ export class ProfessionalRepository {
           in_delivery_analyst: { [Op.like]: `%${in_delivery_analyst.trim()}%` },
         }),
         ...(in_active && {
-          in_active: { [Op.like]: `%${in_active.trim()}%` },
+          in_active,
         }),
       };
     } else {

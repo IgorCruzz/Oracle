@@ -39,7 +39,7 @@ export class UserRepository {
   }) {
     let searchQuery;
 
-    if (ds_email_login || nm_user || tp_profile) {
+    if (ds_email_login || nm_user || tp_profile || in_active) {
       searchQuery = {
         ...(ds_email_login && {
           ds_email_login: { [Op.like]: `%${ds_email_login.trim()}%` },
@@ -51,7 +51,7 @@ export class UserRepository {
           tp_profile,
         }),
         ...(in_active && {
-          in_active: { [Op.like]: `%${in_active.trim()}%` },
+          in_active,
         }),
       };
     } else {

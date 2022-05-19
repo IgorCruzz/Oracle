@@ -4,7 +4,14 @@ import {
 } from '../../database/repositories';
 
 export class FindUsersService {
-  async execute({ limit, page, ds_email_login, nm_user, tp_profile }) {
+  async execute({
+    limit,
+    page,
+    ds_email_login,
+    nm_user,
+    tp_profile,
+    in_active,
+  }) {
     const repository = new UserRepository();
     const professionalRepository = new ProfessionalRepository();
 
@@ -14,6 +21,7 @@ export class FindUsersService {
       nm_user,
       tp_profile,
       page,
+      in_active,
     });
 
     if (tp_profile === '2') {
