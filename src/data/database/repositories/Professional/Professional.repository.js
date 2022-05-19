@@ -58,6 +58,12 @@ export class ProfessionalRepository {
     });
   }
 
+  async getAllProfessionals() {
+    return await Professional.findAll({
+      raw: true,
+    });
+  }
+
   async findProfessionals({
     page,
     limit,

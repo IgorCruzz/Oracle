@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { User } from '../../models';
 
 export class UserRepository {
@@ -27,10 +28,33 @@ export class UserRepository {
     });
   }
 
-  async findUsers({ page, limit }) {
+  async findUsers({ page, limit, ds_email_login, nm_user, tp_profile }) {
+    let searchQuery;
+
+    if (ds_email_login || nm_user || tp_profile) {
+      searchQuery = {
+        ...(ds_email_login && {
+          ds_email_login: { [Op.like]: `%${ds_email_login.trim()}%` },
+        }),
+        ...(nm_user && {
+          nm_user: { [Op.like]: `%${nm_user.trim()}%` },
+        }),
+        ...(tp_profile && {
+          tp_profile,
+        }),
+      };
+    } else {
+      searchQuery = null;
+    }
+
     return await User.findAndCountAll({
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
+      where: searchQuery
+        ? {
+            [Op.and]: searchQuery,
+          }
+        : {},
+      ...(limit !== 'all' && { limit: Number(limit) }),
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
       attributes: [
         'id_user',
         'ds_email_login',

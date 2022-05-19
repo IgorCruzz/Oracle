@@ -3,11 +3,17 @@ import { FindUsersService } from '../../services';
 export class FindUsersController {
   async handle(req, res) {
     try {
-      const { page, limit } = req.query;
+      const { limit, page, ds_email_login, nm_user, tp_profile } = req.query;
 
       const service = new FindUsersService();
 
-      const response = await service.execute({ page, limit });
+      const response = await service.execute({
+        limit,
+        page,
+        ds_email_login,
+        nm_user,
+        tp_profile,
+      });
 
       if (response.error)
         return res.status(400).json({
