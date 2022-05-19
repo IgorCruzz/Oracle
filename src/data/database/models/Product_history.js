@@ -32,10 +32,10 @@ export class Product_history extends Model {
     //   foreignKey: 'id_allocation_period',
     //   as: 'allocation',
     // });
-    // Product_history.belongsTo(models.Professional, {
-    //   foreignKey: 'id_professional',
-    //   as: 'professional',
-    // });
+    Product_history.belongsTo(models.Professional, {
+      foreignKey: 'id_professional',
+      as: 'professional',
+    });
     // Product_history.belongsTo(models.Analyst_user, {
     //   foreignKey: 'id_analyst_user',
     //   as: 'user',

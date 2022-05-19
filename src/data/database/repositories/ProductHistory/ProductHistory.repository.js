@@ -1,4 +1,4 @@
-import { Product, Product_history } from '../../models';
+import { Product, Product_history, Professional } from '../../models';
 
 export class ProductHistoryRepository {
   async createProductHistory(data) {
@@ -13,6 +13,18 @@ export class ProductHistoryRepository {
         id_product_history: createdProductHistory.dataValues.id_product_history,
       },
       include: [{ model: Product, as: 'product' }],
+    });
+  }
+
+  async verifyRelation({ id_professional }) {
+    return await Product_history.findAll({
+      include: [
+        {
+          model: Professional,
+          as: 'professional',
+          where: { id_professional },
+        },
+      ],
     });
   }
 }
