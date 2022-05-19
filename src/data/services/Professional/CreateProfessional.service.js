@@ -36,6 +36,12 @@ export class CreateProfessionalService {
         id_user,
       });
 
+      if (verifyUserId && verifyUserId.tp_profile !== 2) {
+        return {
+          error: 'Não foi possível associar com este usuário.',
+        };
+      }
+
       if (!verifyUserId)
         return {
           error: `Não há nenhum usuário registrado com este ID -> ${id_user}.`,
@@ -56,7 +62,7 @@ export class CreateProfessionalService {
 
       if (verifyIfProfessionalHasUser) {
         return {
-          error: 'O usuário inserido já possui ligação a outro Colaborador',
+          error: 'O usuário inserido já possui ligação a outro Colaborador.',
         };
       }
     }

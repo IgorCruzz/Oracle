@@ -17,6 +17,7 @@ export class User extends Model {
         tp_profile: DataTypes.TINYINT,
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
+        in_active: DataTypes.CHAR(1),
       },
       {
         sequelize,

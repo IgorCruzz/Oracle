@@ -11,12 +11,17 @@ export class LoginService {
       ds_email_login: email,
     });
 
+    const verifyIfUserIsActive = await repository.isActive({
+      ds_email_login: email,
+    });
+
     if (
       !verifyEmailExists ||
       !(await repository.verifyPassword({
         ds_email_login: email,
         password,
-      }))
+      })) ||
+      !verifyIfUserIsActive
     ) {
       return { error: 'O e-mail ou a senha não corresponde a uma conta.' };
     }

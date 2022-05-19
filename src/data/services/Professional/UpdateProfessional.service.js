@@ -37,6 +37,12 @@ export class UpdateProfessionalService {
         id_user,
       });
 
+      if (verifyUserId && verifyUserId.tp_profile !== 2) {
+        return {
+          error: 'Não foi possível associar com este usuário.',
+        };
+      }
+
       if (!verifyUserId)
         return {
           error: `Não há nenhum usuário registrado com este ID -> ${id_user}.`,
@@ -61,6 +67,18 @@ export class UpdateProfessionalService {
       verifyProfessionalName.id_professional !== Number(id_professional)
     )
       return { error: 'Já existe um Colaborador registrado com este nome.' };
+
+    if (id_user) {
+      const verifyIfProfessionalHasUser = await repository.findUser({
+        id_user,
+      });
+
+      if (verifyIfProfessionalHasUser) {
+        return {
+          error: 'O usuário inserido já possui ligação a outro Colaborador.',
+        };
+      }
+    }
 
     const professionalUpdated = await repository.updateProfessional(
       id_professional,

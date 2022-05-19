@@ -4,37 +4,19 @@ import { ValidationError } from '../../../utils/validationError';
 export const createAllocationPeriodValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
-      dt_start_allocation: Yup.string()
-        .test('check-date', null, value => {
-          const dateDocument = value.trim().split('/');
-
-          if (!dateDocument) return false;
-
-          return true;
-
-          // const parsedDate = `${dateDocument[2]}-${dateDocument[1]}-${dateDocument[0]}`;
-
-          // console.log(parsedDate);
-
-          // const parse = new Date(parsedDate);
-
-          // if (dateDocument[1]) {
-          //   if (
-          //     parse.toString() === 'Invalid Date' ||
-          //     dateDocument[2].length < 4 ||
-          //     dateDocument[2].length > 4 ||
-          //     dateDocument[1].length < 2 ||
-          //     dateDocument[1].length > 2 ||
-          //     dateDocument[0].length < 2 ||
-          //     dateDocument[0].length > 2
-          //   ) {
-          //     return false;
-          //   }
-          // } else {
-          //   return false;
-          // }
-        })
-        .required('Campo obrigatório'),
+      dt_start_allocation: Yup.string().required(
+        'A Data inicial do período de Alocação é obrigatória'
+      ),
+      dt_end_allocation: Yup.string().required(
+        'A Data final do período de Alocação é obrigatória'
+      ),
+      qt_business_hours: Yup.number()
+        .positive(
+          'A quantidade de horas úteis do período de alocação precisa ser positiva'
+        )
+        .required(
+          'O campo quantidade de horas úteis do período de alocação é obrigatória'
+        ),
     });
 
     await Schema.validate(req.body, { abortEarly: false });

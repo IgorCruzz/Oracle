@@ -15,8 +15,8 @@ export class UpdateUserController {
         });
 
       return res.status(200).json({
-        user: response.user,
         message: response.message,
+        user: response.user,
       });
     } catch (err) {
       return res.status(500).json({

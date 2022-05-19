@@ -13,6 +13,11 @@ export const updateUserValidator = async (req, res, next) => {
         .max(100, 'O tamanho máximo permitido para o campo e-mail é 100')
         .required('O campo e-mail é obrigatório')
         .typeError('O preenchimento do e-mail é obrigatório'),
+      in_active: Yup.string()
+        .max(1, 'O tamanho máximo permitido para o campo ativo é 1')
+        .oneOf(['N', 'S', 's', 'n'], 'Valor para o campo ativo inválido')
+        .required('O campo ativo é obrigatório')
+        .typeError('O preenchimento do campo ativo é obrigatório'),
       password: Yup.string()
         .required('O campo senha é obrigatório')
         .matches(

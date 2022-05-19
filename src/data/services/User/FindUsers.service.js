@@ -16,7 +16,7 @@ export class FindUsersService {
       page,
     });
 
-    if (tp_profile === 2) {
+    if (tp_profile === '2') {
       const verifyIfUserHasAssociation = await professionalRepository.getAllProfessionals();
 
       const users = findUsers.rows.map(row => row.dataValues);

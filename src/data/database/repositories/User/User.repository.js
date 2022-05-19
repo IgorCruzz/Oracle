@@ -24,6 +24,7 @@ export class UserRepository {
         'dt_created_at',
         'dt_updated_at',
         'tp_profile',
+        'in_active',
       ],
     });
   }
@@ -62,8 +63,19 @@ export class UserRepository {
         'dt_created_at',
         'dt_updated_at',
         'tp_profile',
+        'in_active',
       ],
     });
+  }
+
+  async isActive({ ds_email_login }) {
+    const verifyActivity = await User.findOne({
+      where: {
+        ds_email_login,
+      },
+    });
+
+    return verifyActivity.in_active === 'S';
   }
 
   async findUserEmail({ ds_email_login }) {
@@ -78,6 +90,7 @@ export class UserRepository {
         'dt_created_at',
         'dt_updated_at',
         'tp_profile',
+        'in_active',
       ],
       raw: true,
     });
@@ -95,6 +108,7 @@ export class UserRepository {
         'dt_created_at',
         'dt_updated_at',
         'tp_profile',
+        'in_active',
       ],
       raw: true,
     });
@@ -112,6 +126,7 @@ export class UserRepository {
         'dt_created_at',
         'dt_updated_at',
         'tp_profile',
+        'in_active',
       ],
       raw: true,
     });
@@ -127,6 +142,7 @@ export class UserRepository {
         'dt_created_at',
         'dt_updated_at',
         'tp_profile',
+        'in_active',
       ],
     });
   }
@@ -154,6 +170,7 @@ export class UserRepository {
         'dt_created_at',
         'dt_updated_at',
         'tp_profile',
+        'in_active',
       ],
     });
   }
