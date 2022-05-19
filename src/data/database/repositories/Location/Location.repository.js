@@ -46,8 +46,8 @@ export class LocationRepository {
 
   async findLocations({ page, limit, id_project }) {
     return await Location.findAndCountAll({
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
+      ...(limit !== 'all' && { limit: Number(limit) }),
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
       include: [
         id_project
           ? {

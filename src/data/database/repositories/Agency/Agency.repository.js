@@ -50,8 +50,8 @@ export class AgencyRepository {
               [Op.like]: `%${nm_agency.trim()}%`,
             },
           },
-          limit: Number(limit),
-          offset: (Number(page) - 1) * Number(limit),
+          ...(limit !== 'all' && { limit: Number(limit) }),
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
           order: [['nm_agency', 'ASC']],
           include: [
             jurisdictionId
@@ -64,8 +64,8 @@ export class AgencyRepository {
           ],
         })
       : await Agency.findAndCountAll({
-          limit: Number(limit),
-          offset: (Number(page) - 1) * Number(limit),
+          ...(limit !== 'all' && { limit: Number(limit) }),
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
           order: [['nm_agency', 'ASC']],
           include: [
             jurisdictionId

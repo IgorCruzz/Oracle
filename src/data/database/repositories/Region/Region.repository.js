@@ -24,14 +24,14 @@ export class RegionRepository {
               [Op.like]: `%${nm_region.trim()}%`,
             },
           },
-          limit: Number(limit),
+          ...(limit !== 'all' && { limit: Number(limit) }),
           order: [['nm_region', 'ASC']],
-          offset: (Number(page) - 1) * Number(limit),
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
         })
       : await Region.findAndCountAll({
-          limit: Number(limit),
+          ...(limit !== 'all' && { limit: Number(limit) }),
           order: [['nm_region', 'ASC']],
-          offset: (Number(page) - 1) * Number(limit),
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
         });
   }
 

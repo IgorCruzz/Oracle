@@ -22,14 +22,14 @@ export class ProgramRepository {
               [Op.like]: `%${nm_program.trim()}%`,
             },
           },
-          limit: Number(limit),
+          ...(limit !== 'all' && { limit: Number(limit) }),
           order: [['nm_program', 'ASC']],
-          offset: (Number(page) - 1) * Number(limit),
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
         })
       : await Program.findAndCountAll({
-          limit: Number(limit),
+          ...(limit !== 'all' && { limit: Number(limit) }),
           order: [['nm_program', 'ASC']],
-          offset: (Number(page) - 1) * Number(limit),
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
         });
   }
 

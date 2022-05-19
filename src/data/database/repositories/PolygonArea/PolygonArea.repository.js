@@ -24,8 +24,8 @@ export class PolygonAreaRepository {
 
   async findPolygonAreas({ page, limit, id_location }) {
     return await Polygon_area.findAndCountAll({
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
+      ...(limit !== 'all' && { limit: Number(limit) }),
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
       include: [
         id_location
           ? {

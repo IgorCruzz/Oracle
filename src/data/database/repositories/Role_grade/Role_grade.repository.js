@@ -79,8 +79,8 @@ export class RoleGradeRepository {
             [Op.and]: searchQuery,
           }
         : {},
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
+      ...(limit !== 'all' && { limit: Number(limit) }),
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
 
       include: [
         id_role

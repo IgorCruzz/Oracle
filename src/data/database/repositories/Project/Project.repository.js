@@ -128,8 +128,8 @@ export class ProjectRepository {
               [Op.is]: null,
             },
           },
-      limit: Number(limit),
-      offset: (Number(page) - 1) * Number(limit),
+      ...(limit !== 'all' && { limit: Number(limit) }),
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
       order: [['nm_project', 'ASC']],
       include: [
         id_city

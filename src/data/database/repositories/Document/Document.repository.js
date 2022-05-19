@@ -35,9 +35,9 @@ export class DocumentRepository {
   async findDocuments({ page, limit, id_product }) {
     return await Document.findAndCountAll({
       where: id_product ? { id_product } : {},
-      limit: Number(limit),
+      ...(limit !== 'all' && { limit: Number(limit) }),
       order: [['ds_document', 'ASC']],
-      offset: (Number(page) - 1) * Number(limit),
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
       include: [
         id_product
           ? {

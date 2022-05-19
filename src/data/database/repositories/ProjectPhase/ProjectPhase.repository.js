@@ -95,8 +95,8 @@ export class ProjectPhaseRepository {
   async findProjectPhases({ page, limit, id_project }) {
     if (limit && page) {
       return await Project_phase.findAndCountAll({
-        limit: Number(limit),
-        offset: (Number(page) - 1) * Number(limit),
+        ...(limit !== 'all' && { limit: Number(limit) }),
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
         order: [['nu_order', 'ASC']],
         include: [
           id_project
