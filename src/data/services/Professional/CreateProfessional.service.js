@@ -49,6 +49,18 @@ export class CreateProfessionalService {
     if (verifyProfessionalExists)
       return { error: 'Já existe um Colaborador registrado com este nome.' };
 
+    if (id_user) {
+      const verifyIfProfessionalHasUser = await repository.findUser({
+        id_user,
+      });
+
+      if (verifyIfProfessionalHasUser) {
+        return {
+          error: 'O usuário inserido já possui ligação a outro Colaborador',
+        };
+      }
+    }
+
     const professional = await repository.createProfessional(data);
 
     return {

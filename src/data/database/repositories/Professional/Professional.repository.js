@@ -151,6 +151,12 @@ export class ProfessionalRepository {
     });
   }
 
+  async findUser({ id_user }) {
+    return await Professional.findOne({
+      include: [{ model: User, as: 'user', where: { id_user } }],
+    });
+  }
+
   async findProfessional({ nm_professional }) {
     return await Professional.findOne({
       where: {
