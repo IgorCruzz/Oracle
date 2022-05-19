@@ -135,3 +135,10 @@ export * from './Professional/deleteProfessional.validator';
 export * from './Professional/findProfessional.validator';
 export * from './Professional/findProfessionals.validator';
 export * from './Professional/updateProfessional.validator';
+
+// ALLOCATION PERIOD
+export * from './AllocationPeriod/createAllocationPeriod.validator';
+export * from './AllocationPeriod/deleteAllocationPeriod.validator';
+export * from './AllocationPeriod/findAllocationPeriod.validator';
+export * from './AllocationPeriod/findAllocationPeriods.validator';
+export * from './AllocationPeriod/updateAllocationPeriod.validator';

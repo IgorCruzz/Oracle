@@ -1,6 +1,6 @@
 import { DeleteAllocationPeriodService } from '../../services';
 
-export class DeleteLocationController {
+export class DeleteAllocationPeriodController {
   async handle(req, res) {
     try {
       const service = new DeleteAllocationPeriodService();

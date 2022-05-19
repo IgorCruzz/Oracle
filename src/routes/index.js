@@ -21,8 +21,10 @@ import Grade from './Grade/Grade.routes';
 import Sector from './Sector/Sector.routes';
 import RoleGrade from './RoleGrade/RoleGrade.routes';
 import Professional from './Professional/Professional.routes';
+import AllocationPeriod from './AllocationPeriod/AllocationPeriod.routes';
 
 const routes = [
+  AllocationPeriod,
   Professional,
   RoleGrade,
   Sector,

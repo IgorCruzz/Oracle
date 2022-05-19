@@ -16,6 +16,9 @@ export const createUserValidator = async (req, res, next) => {
           'A senha deve conter pelo menos 8 Caracteres, 1 letra em máisculo, 1 letra em minúsculo,1 número e 1 destes caracteres especias @ $ ! % * ? &'
         )
         .typeError('O preenchimento da senha é obrigatório'),
+      tp_profile: Yup.mixed()
+        .oneOf([0, 1, 2, 3, 4], 'Perfil inválido!')
+        .required('Informe o perfil do usuário!'),
       nm_user: Yup.string()
         .max(255, 'O tamanho máximo permitido para o campo nome é 255')
         .nullable(),

@@ -22,6 +22,7 @@ export class UserRepository {
         'nm_user',
         'dt_created_at',
         'dt_updated_at',
+        'tp_profile',
       ],
     });
   }
@@ -36,6 +37,7 @@ export class UserRepository {
         'nm_user',
         'dt_created_at',
         'dt_updated_at',
+        'tp_profile',
       ],
     });
   }
@@ -51,6 +53,7 @@ export class UserRepository {
         'nm_user',
         'dt_created_at',
         'dt_updated_at',
+        'tp_profile',
       ],
       raw: true,
     });
@@ -67,6 +70,7 @@ export class UserRepository {
         'nm_user',
         'dt_created_at',
         'dt_updated_at',
+        'tp_profile',
       ],
       raw: true,
     });
@@ -83,6 +87,7 @@ export class UserRepository {
         'nm_user',
         'dt_created_at',
         'dt_updated_at',
+        'tp_profile',
       ],
       raw: true,
     });
@@ -97,6 +102,7 @@ export class UserRepository {
         'nm_user',
         'dt_created_at',
         'dt_updated_at',
+        'tp_profile',
       ],
     });
   }
@@ -123,6 +129,7 @@ export class UserRepository {
         'nm_user',
         'dt_created_at',
         'dt_updated_at',
+        'tp_profile',
       ],
     });
   }

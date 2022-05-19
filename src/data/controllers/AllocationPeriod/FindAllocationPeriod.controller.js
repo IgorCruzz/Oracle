@@ -1,6 +1,6 @@
 import { FindAllocationPeriodService } from '../../services';
 
-export class FindLocationController {
+export class FindAllocationPeriodController {
   async handle(req, res) {
     try {
       const { id_allocation_period } = req.params;

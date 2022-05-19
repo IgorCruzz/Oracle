@@ -1,6 +1,6 @@
 import { CreateAllocationPeriodService } from '../../services';
 
-export class CreateLocationController {
+export class CreateAllocationPeriodController {
   async handle(req, res) {
     try {
       const service = new CreateAllocationPeriodService();

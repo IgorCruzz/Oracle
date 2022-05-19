@@ -14,6 +14,7 @@ export class User extends Model {
         nm_user: DataTypes.STRING(255),
         password: DataTypes.VIRTUAL,
         ds_password: DataTypes.STRING(100),
+        tp_profile: DataTypes.TINYINT,
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
       },
