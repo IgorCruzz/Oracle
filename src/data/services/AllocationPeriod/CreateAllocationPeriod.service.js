@@ -1,5 +1,6 @@
+import { compareDesc } from 'date-fns';
 import { AllocationPeriodRepository } from '../../database/repositories';
-// import { verifyDate } from '../../../utils/verifyDate';
+import { verifyDate } from '../../../utils/verifyDate';
 
 export class CreateAllocationPeriodService {
   async execute(data) {
@@ -7,14 +8,36 @@ export class CreateAllocationPeriodService {
 
     const repository = new AllocationPeriodRepository();
 
-    // dtPlannedStart = verifyDate({
-    //   msg: 'Data de ínicio planejado inválida. Utilize o formato dd/mm/yyyy',
-    //   value: dt_planned_start,
-    // });
+    const dtAllocationStart = verifyDate({
+      msg:
+        'Data inicial do período de Alocaçã inválida. Utilize o formato dd/mm/yyyy',
+      value: dt_start_allocation,
+    });
 
-    // if (dtPlannedStart.error) {
-    //   return { error: dtPlannedStart.error };
-    // }
+    if (dtAllocationStart.error) {
+      return { error: dtAllocationStart.error };
+    }
+
+    const dtAllocationEnd = verifyDate({
+      msg: 'Data final do período de Alocação. Utilize o formato dd/mm/yyyy',
+      value: dt_end_allocation,
+    });
+
+    if (dtAllocationEnd.error) {
+      return { error: dtAllocationEnd.error };
+    }
+
+    const compareDate = compareDesc(
+      new Date(dtAllocationStart),
+      new Date(dtAllocationEnd)
+    );
+
+    if (compareDate === -1) {
+      return {
+        error:
+          'A data final do período de Alocação precisa ser posterior a de Ínicio',
+      };
+    }
 
     const verifyAllocationPeriodExists = await repository.findAllocationPeriod({
       dt_start_allocation,

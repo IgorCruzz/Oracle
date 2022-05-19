@@ -35,6 +35,7 @@ export class Allocation_period extends Model {
           },
         },
         qt_business_hours: DataTypes.SMALLINT,
+
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
       },

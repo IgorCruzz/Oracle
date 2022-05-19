@@ -14,6 +14,11 @@ export const updateProfessionalValidator = async (req, res, next) => {
           'O tamanho máximo permitido para o campo nome do colaborador é 255'
         )
         .required('O campo nome do colaborador é obrigatório'),
+      in_active: Yup.string()
+        .max(1, 'O tamanho máximo permitido para o campo ativo é 1')
+        .oneOf(['N', 'S', 's', 'n'], 'Valor para o campo ativo inválido')
+        .required('O campo ativo é obrigatório')
+        .typeError('O preenchimento do campo ativo é obrigatório'),
       in_delivery_analyst: Yup.string()
         .max(
           1,

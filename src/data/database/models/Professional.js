@@ -11,6 +11,7 @@ export class Professional extends Model {
         },
         nm_professional: DataTypes.STRING,
         in_delivery_analyst: DataTypes.CHAR(1),
+        in_active: DataTypes.CHAR(1),
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
       },

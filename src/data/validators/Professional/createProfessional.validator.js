@@ -21,6 +21,11 @@ export const createProfessionalValidator = async (req, res, next) => {
         )
         .required('O campo entrega do analista é obrigatório')
         .typeError('O preenchimento do entrega do analista é obrigatório'),
+      in_active: Yup.string()
+        .max(1, 'O tamanho máximo permitido para o campo ativo é 1')
+        .oneOf(['N', 'S', 's', 'n'], 'Valor para o campo ativo inválido')
+        .required('O campo ativo é obrigatório')
+        .typeError('O preenchimento do campo ativo é obrigatório'),
       id_role_grade: Yup.number()
         .required('Custo HH inválido')
         .typeError('Custo HH inválido'),
