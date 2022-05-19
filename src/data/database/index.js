@@ -24,9 +24,11 @@ import {
   Sector,
   Role_grade,
   Professional,
+  Allocation,
 } from './models';
 
 const models = [
+  Allocation,
   Role_grade,
   Category,
   Program,

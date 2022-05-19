@@ -21,3 +21,4 @@ export * from './Grade';
 export * from './Sector';
 export * from './Role_grade';
 export * from './Professional';
+export * from './Allocation';
