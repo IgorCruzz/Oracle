@@ -20,3 +20,4 @@ export * from './Sector/Sector.repository';
 export * from './Role_grade/Role_grade.repository';
 export * from './Professional/Professional.repository';
 export * from './AllocationPeriod/AllocationPeriod.repository';
+export * from './Allocation/Allocation.repository';

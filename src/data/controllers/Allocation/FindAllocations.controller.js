@@ -1,4 +1,4 @@
-import { FindAllocationPeriodsService } from '../../services';
+import { FindAllocationService } from '../../services';
 
 export class FindAllocationsController {
   async handle(req, res) {
@@ -6,19 +6,33 @@ export class FindAllocationsController {
       const {
         page,
         limit,
-        dt_start_allocation,
-        dt_end_allocation,
-        qt_business_hours,
+        tp_action_picture,
+        qt_hours_picture,
+        vl_salary_picture,
+        vl_hour_cost_foto,
+        id_allocation_period,
+        id_product,
+        id_professional,
+        id_role_picture,
+        id_grade_picture,
+        id_sector_picture,
       } = req.query;
 
-      const service = new FindAllocationPeriodsService();
+      const service = new FindAllocationService();
 
       const response = await service.execute({
         page,
         limit,
-        dt_start_allocation,
-        dt_end_allocation,
-        qt_business_hours,
+        tp_action_picture,
+        qt_hours_picture,
+        vl_salary_picture,
+        vl_hour_cost_foto,
+        id_allocation_period,
+        id_product,
+        id_professional,
+        id_role_picture,
+        id_grade_picture,
+        id_sector_picture,
       });
 
       if (response.error)
@@ -26,13 +40,13 @@ export class FindAllocationsController {
           error: response.error,
         });
 
-      const { count, rows } = response.allocationPeriods;
+      const { count, rows } = response.allocations;
 
       return res.status(200).json({
         count,
         page,
         limit,
-        allocationPeriods: rows,
+        allocations: rows,
       });
     } catch (err) {
       return res.status(500).json({

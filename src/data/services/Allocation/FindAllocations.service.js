@@ -1,25 +1,39 @@
-import { AllocationPeriodRepository } from '../../database/repositories';
+import { AllocationRepository } from '../../database/repositories';
 
 export class FindAllocationsService {
   async execute({
     page,
     limit,
-    dt_start_allocation,
-    dt_end_allocation,
-    qt_business_hours,
+    tp_action_picture,
+    qt_hours_picture,
+    vl_salary_picture,
+    vl_hour_cost_foto,
+    id_allocation_period,
+    id_product,
+    id_professional,
+    id_role_picture,
+    id_grade_picture,
+    id_sector_picture,
   }) {
-    const repository = new AllocationPeriodRepository();
+    const repository = new AllocationRepository();
 
-    const findAllocationPeriods = await repository.findAllocationPeriods({
-      limit,
+    const findAllocations = await repository.findAllocations({
       page,
-      dt_start_allocation,
-      dt_end_allocation,
-      qt_business_hours,
+      limit,
+      tp_action_picture,
+      qt_hours_picture,
+      vl_salary_picture,
+      vl_hour_cost_foto,
+      id_allocation_period,
+      id_product,
+      id_professional,
+      id_role_picture,
+      id_grade_picture,
+      id_sector_picture,
     });
 
     return {
-      allocationPeriods: findAllocationPeriods,
+      allocations: findAllocations,
     };
   }
 }

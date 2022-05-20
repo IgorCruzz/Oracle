@@ -1,13 +1,13 @@
-import { FindAllocationPeriodService } from '../../services';
+import { FindAllocationService } from '../../services';
 
 export class FindAllocationController {
   async handle(req, res) {
     try {
-      const { id_allocation_period } = req.params;
+      const { id_allocation } = req.params;
 
-      const service = new FindAllocationPeriodService();
+      const service = new FindAllocationService();
 
-      const response = await service.execute({ id_allocation_period });
+      const response = await service.execute({ id_allocation });
 
       if (response.error)
         return res.status(400).json({
@@ -15,7 +15,7 @@ export class FindAllocationController {
         });
 
       return res.status(200).json({
-        allocationPeriod: response.allocationPeriod,
+        allocation: response.allocation,
       });
     } catch (err) {
       return res.status(500).json({

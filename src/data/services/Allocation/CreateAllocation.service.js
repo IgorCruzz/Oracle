@@ -1,61 +1,44 @@
-import { compareDesc } from 'date-fns';
-import { AllocationPeriodRepository } from '../../database/repositories';
-import { verifyDate } from '../../../utils/verifyDate';
+import {
+  AllocationRepository,
+  ProductHistoryRepository,
+} from '../../database/repositories';
 
 export class CreateAllocationService {
   async execute(data) {
-    const { dt_start_allocation, dt_end_allocation, qt_business_hours } = data;
+    const { id_allocation_period, id_product, id_professional } = data;
 
-    const repository = new AllocationPeriodRepository();
+    const repository = new AllocationRepository();
+    const productHistoryRepository = new ProductHistoryRepository();
 
-    const dtAllocationStart = verifyDate({
-      msg:
-        'Data inicial do período de Alocação inválida. Utilize o formato dd/mm/yyyy',
-      value: dt_start_allocation,
+    const verifyAllocation = await repository.findAllocation({
+      id_allocation_period,
+      id_product,
+      id_professional,
     });
 
-    if (dtAllocationStart.error) {
-      return { error: dtAllocationStart.error };
-    }
-
-    const dtAllocationEnd = verifyDate({
-      msg: 'Data final do período de Alocação. Utilize o formato dd/mm/yyyy',
-      value: dt_end_allocation,
-    });
-
-    if (dtAllocationEnd.error) {
-      return { error: dtAllocationEnd.error };
-    }
-
-    const compareDate = compareDesc(
-      new Date(dtAllocationStart),
-      new Date(dtAllocationEnd)
-    );
-
-    if (compareDate === -1) {
+    if (verifyAllocation) {
       return {
-        error:
-          'A data final do período de Alocação precisa ser posterior a de Ínicio',
+        error: 'O colaborador já possui uma locação para este período.',
       };
     }
 
-    const verifyAllocationPeriodExists = await repository.findAllocationPeriod({
-      dt_start_allocation,
-      dt_end_allocation,
-      qt_business_hours,
-    });
+    // await productHistoryRepository.createProductHistory({
+    //   cd_status: 1,
+    //   dt_status: new Date(Date.now()).toISOString(),
+    //   tx_remark: null,
+    //   id_product,
+    //   id_allocation_period,
+    //   id_professional,
+    //   id_analyst_user: 1,
+    //   dt_created_at: new Date(Date.now()).toISOString(),
+    //   dt_updated_at: new Date(Date.now()).toISOString(),
+    // });
 
-    if (verifyAllocationPeriodExists) {
-      return {
-        error: 'Já existe um Período de Alocação com estes dados.',
-      };
-    }
-
-    const allocationPeriod = await repository.createAllocationPeriod(data);
+    const allocation = await repository.createAllocationPeriod(data);
 
     return {
-      message: 'Período de Alocação registrado com sucesso!',
-      allocationPeriod,
+      message: 'Alocação registrada com sucesso!',
+      allocation,
     };
   }
 }

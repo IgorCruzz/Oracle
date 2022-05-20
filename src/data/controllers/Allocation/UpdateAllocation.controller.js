@@ -1,13 +1,13 @@
-import { UpdateAllocationPeriodService } from '../../services';
+import { UpdateAllocationService } from '../../services';
 
 export class UpdateAllocationController {
   async handle(req, res) {
     try {
-      const service = new UpdateAllocationPeriodService();
+      const service = new UpdateAllocationService();
 
-      const { id_allocation_period } = req.params;
+      const { id_allocation } = req.params;
 
-      const response = await service.execute(id_allocation_period, req.body);
+      const response = await service.execute(id_allocation, req.body);
 
       if (response.error)
         return res.status(400).json({
@@ -15,7 +15,7 @@ export class UpdateAllocationController {
         });
 
       return res.status(200).json({
-        allocationPeriod: response.allocationPeriod,
+        allocation: response.allocation,
         message: response.message,
       });
     } catch (err) {

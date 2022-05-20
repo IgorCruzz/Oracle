@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { Role } from '../../models';
 
 export class RoleRepository {
@@ -17,11 +18,25 @@ export class RoleRepository {
     });
   }
 
-  async findRoles() {
-    return await Role.findAll({
-      order: [['nm_role', 'ASC']],
-      raw: true,
-    });
+  //
+
+  async findRoles({ page, limit, nm_role }) {
+    return nm_role
+      ? await Role.findAndCountAll({
+          where: {
+            nm_role: {
+              [Op.like]: `%${nm_role.trim()}%`,
+            },
+          },
+          ...(limit !== 'all' && { limit: Number(limit) }),
+          order: [['nm_role', 'ASC']],
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+        })
+      : await Role.findAndCountAll({
+          ...(limit !== 'all' && { limit: Number(limit) }),
+          order: [['nm_role', 'ASC']],
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+        });
   }
 
   async findRole({ nm_role }) {

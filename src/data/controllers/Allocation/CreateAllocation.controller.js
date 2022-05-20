@@ -1,9 +1,9 @@
-import { CreateAllocationPeriodService } from '../../services';
+import { CreateAllocationService } from '../../services';
 
 export class CreateAllocationController {
   async handle(req, res) {
     try {
-      const service = new CreateAllocationPeriodService();
+      const service = new CreateAllocationService();
 
       const response = await service.execute(req.body);
 
@@ -14,7 +14,7 @@ export class CreateAllocationController {
 
       return res.status(200).json({
         message: response.message,
-        allocationPeriod: response.allocationPeriod,
+        allocation: response.allocation,
       });
     } catch (err) {
       return res.status(500).json({

@@ -1,26 +1,26 @@
-import { AllocationPeriodRepository } from '../../database/repositories';
+import { AllocationRepository } from '../../database/repositories';
 
 export class DeleteAllocationService {
-  async execute({ id_allocation_period }) {
-    const repository = new AllocationPeriodRepository();
+  async execute({ id_allocation }) {
+    const repository = new AllocationRepository();
 
     const verifyAllocationPeriodExists = await repository.findAllocationPeriodById(
       {
-        id_allocation_period,
+        id_allocation,
       }
     );
 
     if (!verifyAllocationPeriodExists)
       return {
-        error: `Não há nenhum Período de Alocação registrado com este ID -> ${id_allocation_period}.`,
+        error: `Não há nenhuma Alocação registrada com este ID -> ${id_allocation}.`,
       };
 
     await repository.deleteAllocationPeriod({
-      id_allocation_period,
+      id_allocation,
     });
 
     return {
-      message: 'Período de Alocação excluído com sucesso!',
+      message: 'Alocação excluída com sucesso!',
     };
   }
 }

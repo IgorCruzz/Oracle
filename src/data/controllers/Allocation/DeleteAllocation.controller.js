@@ -1,12 +1,12 @@
-import { DeleteAllocationPeriodService } from '../../services';
+import { DeleteAllocationService } from '../../services';
 
 export class DeleteAllocationController {
   async handle(req, res) {
     try {
-      const service = new DeleteAllocationPeriodService();
-      const { id_allocation_period } = req.params;
+      const service = new DeleteAllocationService();
+      const { id_allocation } = req.params;
 
-      const response = await service.execute({ id_allocation_period });
+      const response = await service.execute({ id_allocation });
 
       if (response.error)
         return res.status(400).json({

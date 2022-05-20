@@ -1,20 +1,20 @@
-import { AllocationPeriodRepository } from '../../database/repositories';
+import { AllocationRepository } from '../../database/repositories';
 
 export class FindAllocationService {
-  async execute({ id_allocation_period }) {
-    const repository = new AllocationPeriodRepository();
+  async execute({ id_allocation }) {
+    const repository = new AllocationRepository();
 
-    const findAllocationPeriod = await repository.findAllocationPeriodById({
-      id_allocation_period,
+    const findAllocation = await repository.findAllocationById({
+      id_allocation,
     });
 
-    if (!findAllocationPeriod)
+    if (!findAllocation)
       return {
-        error: `Não há nenhum Período de Alocação registrado com este ID -> ${id_allocation_period}.`,
+        error: `Não há nenhuma Alocação registrada com este ID -> ${id_allocation}.`,
       };
 
     return {
-      allocationPeriod: findAllocationPeriod,
+      allocation: findAllocation,
     };
   }
 }
