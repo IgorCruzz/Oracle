@@ -2,15 +2,15 @@ import { compareDesc } from 'date-fns';
 import { AllocationPeriodRepository } from '../../database/repositories';
 import { verifyDate } from '../../../utils/verifyDate';
 
-export class CreateAllocationPeriodService {
-  async execute(data) {
-    const { dt_start_allocation, dt_end_allocation, qt_business_hours } = data;
+export class UpdateAllocationService {
+  async execute(id_allocation_period, data) {
+    const { dt_start_allocation, dt_end_allocation } = data;
 
     const repository = new AllocationPeriodRepository();
 
     const dtAllocationStart = verifyDate({
       msg:
-        'Data inicial do período de Alocação inválida. Utilize o formato dd/mm/yyyy',
+        'Data inicial do período de Alocaçã inválida. Utilize o formato dd/mm/yyyy',
       value: dt_start_allocation,
     });
 
@@ -19,7 +19,7 @@ export class CreateAllocationPeriodService {
     }
 
     const dtAllocationEnd = verifyDate({
-      msg: 'Data final do período de Alocação. Utilize o formato dd/mm/yyyy',
+      msg: 'Data final do período de Alocaçã. Utilize o formato dd/mm/yyyy',
       value: dt_end_allocation,
     });
 
@@ -39,23 +39,24 @@ export class CreateAllocationPeriodService {
       };
     }
 
-    const verifyAllocationPeriodExists = await repository.findAllocationPeriod({
-      dt_start_allocation,
-      dt_end_allocation,
-      qt_business_hours,
+    const verifyAllocationPeriodId = await repository.findLocationById({
+      id_allocation_period,
     });
 
-    if (verifyAllocationPeriodExists) {
+    if (!verifyAllocationPeriodId) {
       return {
-        error: 'Já existe um Período de Alocação com estes dados.',
+        error: `Não há nenhum Período de Alocação registrado com este ID -> ${id_allocation_period}.`,
       };
     }
 
-    const allocationPeriod = await repository.createAllocationPeriod(data);
+    const AllocationPeriodUpdated = await repository.updateAllocationPeriod(
+      id_allocation_period,
+      data
+    );
 
     return {
-      message: 'Período de Alocação registrado com sucesso!',
-      allocationPeriod,
+      message: 'Período de Alocação atualizado com sucesso!',
+      allocationPeriod: AllocationPeriodUpdated,
     };
   }
 }

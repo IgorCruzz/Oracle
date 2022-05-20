@@ -10,7 +10,7 @@ export class UpdateAllocationPeriodService {
 
     const dtAllocationStart = verifyDate({
       msg:
-        'Data inicial do período de Alocaçã inválida. Utilize o formato dd/mm/yyyy',
+        'Data inicial do período de Alocação inválida. Utilize o formato dd/mm/yyyy',
       value: dt_start_allocation,
     });
 
@@ -19,7 +19,7 @@ export class UpdateAllocationPeriodService {
     }
 
     const dtAllocationEnd = verifyDate({
-      msg: 'Data final do período de Alocaçã. Utilize o formato dd/mm/yyyy',
+      msg: 'Data final do período de Alocação. Utilize o formato dd/mm/yyyy',
       value: dt_end_allocation,
     });
 

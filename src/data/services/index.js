@@ -144,3 +144,10 @@ export * from './AllocationPeriod/DeleteAllocationPeriod.service';
 export * from './AllocationPeriod/FindAllocationPeriod.service';
 export * from './AllocationPeriod/FindAllocationPeriods.service';
 export * from './AllocationPeriod/UpdateAllocationPeriod.service';
+
+// ALLOCATION
+export * from './Allocation/CreateAllocation.service';
+export * from './Allocation/DeleteAllocation.service';
+export * from './Allocation/FindAllocation.service';
+export * from './Allocation/FindAllocations.service';
+export * from './Allocation/UpdateAllocation.service';

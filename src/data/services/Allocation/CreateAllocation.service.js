@@ -2,7 +2,7 @@ import { compareDesc } from 'date-fns';
 import { AllocationPeriodRepository } from '../../database/repositories';
 import { verifyDate } from '../../../utils/verifyDate';
 
-export class CreateAllocationPeriodService {
+export class CreateAllocationService {
   async execute(data) {
     const { dt_start_allocation, dt_end_allocation, qt_business_hours } = data;
 

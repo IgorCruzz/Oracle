@@ -142,3 +142,10 @@ export * from './AllocationPeriod/deleteAllocationPeriod.validator';
 export * from './AllocationPeriod/findAllocationPeriod.validator';
 export * from './AllocationPeriod/findAllocationPeriods.validator';
 export * from './AllocationPeriod/updateAllocationPeriod.validator';
+
+// ALLOCATION
+export * from './Allocation/createAllocation.validator';
+export * from './Allocation/deleteAllocation.validator';
+export * from './Allocation/findAllocation.validator';
+export * from './Allocation/findAllocations.validator';
+export * from './Allocation/updateAllocation.validator';

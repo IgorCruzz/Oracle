@@ -144,3 +144,10 @@ export * from './AllocationPeriod/DeleteAllocationPeriod.controller';
 export * from './AllocationPeriod/FindAllocationPeriod.controller';
 export * from './AllocationPeriod/FindAllocationPeriods.controller';
 export * from './AllocationPeriod/UpdateAllocationPeriod.controller';
+
+// ALLOCATION
+export * from './Allocation/CreateAllocation.controller';
+export * from './Allocation/DeleteAllocation.controller';
+export * from './Allocation/FindAllocation.controller';
+export * from './Allocation/FindAllocations.controller';
+export * from './Allocation/UpdateAllocation.controller';
