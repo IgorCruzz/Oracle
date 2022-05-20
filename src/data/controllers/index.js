@@ -151,3 +151,4 @@ export * from './Allocation/DeleteAllocation.controller';
 export * from './Allocation/FindAllocation.controller';
 export * from './Allocation/FindAllocations.controller';
 export * from './Allocation/UpdateAllocation.controller';
+export * from './Allocation/FindProfessionalsFromAllocation.controller';

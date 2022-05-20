@@ -151,3 +151,5 @@ export * from './Allocation/DeleteAllocation.service';
 export * from './Allocation/FindAllocation.service';
 export * from './Allocation/FindAllocations.service';
 export * from './Allocation/UpdateAllocation.service';
+export * from './Allocation/FindProfessionals.service';
+export * from './Allocation/FindProfessionalsFromAllocation.service';

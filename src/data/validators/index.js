@@ -149,3 +149,4 @@ export * from './Allocation/deleteAllocation.validator';
 export * from './Allocation/findAllocation.validator';
 export * from './Allocation/findAllocations.validator';
 export * from './Allocation/updateAllocation.validator';
+export * from './Allocation/FindProfessionalsFromAllocation.validator';

@@ -5,6 +5,7 @@ import {
   UpdateAllocationController,
   FindAllocationsController,
   FindAllocationController,
+  FindProfessionalsFromAllocationController,
 } from '../../data/controllers';
 import {
   findAllocationValidator,
@@ -12,10 +13,18 @@ import {
   updateAllocationValidator,
   deleteAllocationValidator,
   findAllocationsValidator,
+  FindProfessionalsFromAllocationValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
 
 const routes = Router();
+
+routes.get(
+  '/allocations/professionals',
+  authenticator,
+  FindProfessionalsFromAllocationValidator,
+  new FindProfessionalsFromAllocationController().handle
+);
 
 routes.post(
   '/allocations',
