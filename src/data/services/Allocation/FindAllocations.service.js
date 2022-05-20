@@ -4,32 +4,26 @@ export class FindAllocationsService {
   async execute({
     page,
     limit,
-    tp_action_picture,
-    qt_hours_picture,
-    vl_salary_picture,
-    vl_hour_cost_foto,
-    id_allocation_period,
-    id_product,
+    cd_priority,
+    id_project,
+    id_project_phase,
+    nm_product,
+    tp_profile,
     id_professional,
-    id_role_picture,
-    id_grade_picture,
-    id_sector_picture,
+    allocation_period,
   }) {
     const repository = new AllocationRepository();
 
     const findAllocations = await repository.findAllocations({
       page,
       limit,
-      tp_action_picture,
-      qt_hours_picture,
-      vl_salary_picture,
-      vl_hour_cost_foto,
-      id_allocation_period,
-      id_product,
+      cd_priority,
+      id_project,
+      id_project_phase,
+      nm_product,
+      tp_profile,
       id_professional,
-      id_role_picture,
-      id_grade_picture,
-      id_sector_picture,
+      allocation_period,
     });
 
     return {

@@ -7,6 +7,9 @@ import {
   Role,
   Grade,
   Sector,
+  Project_phase,
+  Project,
+  User,
 } from '../../models';
 
 export class AllocationRepository {
@@ -35,65 +38,33 @@ export class AllocationRepository {
   async findAllocations({
     page,
     limit,
-    tp_action_picture,
-    qt_hours_picture,
-    vl_salary_picture,
-    vl_hour_cost_foto,
-    id_allocation_period,
-    id_product,
+    cd_priority,
+    id_project,
+    id_project_phase,
+    nm_product,
+    tp_profile,
     id_professional,
-    id_role_picture,
-    id_grade_picture,
-    id_sector_picture,
+    allocation_period,
   }) {
+    let dt_start_allocation;
+    let dt_end_allocation;
+
+    if (allocation_period) {
+      const [start, end] = allocation_period.split('-');
+
+      const [startDay, startMonth, startYear] = start.split('/');
+      const [endDay, endMonth, endYear] = end.split('/');
+
+      dt_start_allocation = `${startYear}-${startMonth}-${startDay}`;
+      dt_end_allocation = `${endYear}-${endMonth}-${endDay}`;
+    }
+
     let searchQuery;
 
-    if (
-      tp_action_picture ||
-      qt_hours_picture ||
-      vl_salary_picture ||
-      vl_hour_cost_foto ||
-      id_allocation_period ||
-      id_product ||
-      id_professional ||
-      id_role_picture ||
-      id_grade_picture ||
-      id_sector_picture
-    ) {
+    if (id_professional) {
       searchQuery = {
-        ...(tp_action_picture && {
-          tp_action_picture: { [Op.like]: `%${tp_action_picture.trim()}%` },
-        }),
-        ...(qt_hours_picture && {
-          qt_hours_picture: { [Op.like]: `%${qt_hours_picture.trim()}%` },
-        }),
-        ...(vl_salary_picture && {
-          vl_salary_picture: { [Op.like]: `%${vl_salary_picture.trim()}%` },
-        }),
-        ...(vl_hour_cost_foto && {
-          vl_hour_cost_foto: { [Op.like]: `%${vl_hour_cost_foto.trim()}%` },
-        }),
-        ...(id_allocation_period && {
-          id_allocation_period: {
-            [Op.like]: `%${id_allocation_period.trim()}%`,
-          },
-        }),
-        ...(id_product && {
-          id_product: { [Op.like]: `%${id_product.trim()}%` },
-        }),
-        ...(vl_salary_picture && {
-          vl_salary_picture: { [Op.like]: `%${vl_salary_picture.trim()}%` },
-        }),
-        ...(vl_hour_cost_foto && {
-          vl_hour_cost_foto: { [Op.like]: `%${vl_hour_cost_foto.trim()}%` },
-        }),
-        ...(id_allocation_period && {
-          id_allocation_period: {
-            [Op.like]: `%${id_allocation_period.trim()}%`,
-          },
-        }),
-        ...(id_product && {
-          id_product: { [Op.like]: `%${id_product.trim()}%` },
+        ...(id_professional && {
+          id_professional,
         }),
       };
     } else {
@@ -109,48 +80,94 @@ export class AllocationRepository {
       ...(limit !== 'all' && { limit: Number(limit) }),
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
       include: [
-        id_allocation_period
-          ? {
-              model: Allocation_period,
-              as: 'allocation_period',
-              where: { id_allocation_period },
-            }
-          : { model: Allocation_period, as: 'allocation_period' },
-        id_product
-          ? {
-              model: Product,
-              as: 'product',
-              where: { id_product },
-            }
-          : { model: Product, as: 'product' },
-        id_professional
-          ? {
-              model: Professional,
-              as: 'professional',
-              where: { id_professional },
-            }
-          : { model: Professional, as: 'professional' },
-        id_role_picture
-          ? {
-              model: Role,
-              as: 'role',
-              where: { id_role_picture },
-            }
-          : { model: Role, as: 'role' },
-        id_grade_picture
-          ? {
-              model: Grade,
-              as: 'grade',
-              where: { id_grade_picture },
-            }
-          : { model: Grade, as: 'grade' },
-        id_sector_picture
-          ? {
-              model: Sector,
-              as: 'sector',
-              where: { id_sector_picture },
-            }
-          : { model: Sector, as: 'sector' },
+        {
+          model: Allocation_period,
+          as: 'allocation_period',
+          where: allocation_period
+            ? {
+                [Op.and]: {
+                  dt_start_allocation: {
+                    [Op.gte]: new Date(dt_start_allocation),
+                    [Op.lte]: new Date(dt_end_allocation),
+                  },
+                },
+              }
+            : {},
+        },
+        {
+          model: Product,
+          as: 'product',
+          required: true,
+          where: nm_product
+            ? {
+                [Op.or]: [{ tp_required_action: 1 }, { tp_required_action: 2 }],
+                nm_product,
+              }
+            : {
+                [Op.or]: [
+                  {
+                    tp_required_action: 1,
+                  },
+                  {
+                    tp_required_action: 2,
+                  },
+                ],
+              },
+          include: [
+            {
+              model: Project_phase,
+              as: 'project_phase',
+              required: true,
+              where: id_project_phase ? { id_project_phase } : {},
+              include: [
+                {
+                  model: Project,
+                  as: 'project',
+                  required: true,
+                  where:
+                    cd_priority || id_project
+                      ? {
+                          [Op.and]: [
+                            {
+                              dt_deleted_at: null,
+                              ...(cd_priority && { cd_priority }),
+                              ...(id_project && { id_project }),
+                            },
+                          ],
+                        }
+                      : {
+                          dt_deleted_at: null,
+                        },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: Professional,
+          as: 'professional',
+          required: true,
+          include: [
+            {
+              model: User,
+              as: 'user',
+              required: true,
+              where: tp_profile ? { tp_profile } : {},
+              attributes: [
+                'id_user',
+                'ds_email_login',
+                'nm_user',
+                'dt_created_at',
+                'dt_updated_at',
+                'tp_profile',
+                'in_active',
+              ],
+            },
+          ],
+        },
+        { model: Role, as: 'role' },
+        { model: Grade, as: 'grade' },
+        { model: Sector, as: 'sector' },
       ],
     });
   }

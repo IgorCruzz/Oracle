@@ -6,16 +6,13 @@ export class FindAllocationsController {
       const {
         page,
         limit,
-        tp_action_picture,
-        qt_hours_picture,
-        vl_salary_picture,
-        vl_hour_cost_foto,
-        id_allocation_period,
-        id_product,
+        cd_priority,
+        id_project,
+        id_project_phase,
+        nm_product,
+        tp_profile,
         id_professional,
-        id_role_picture,
-        id_grade_picture,
-        id_sector_picture,
+        allocation_period,
       } = req.query;
 
       const service = new FindAllocationsService();
@@ -23,16 +20,13 @@ export class FindAllocationsController {
       const response = await service.execute({
         page,
         limit,
-        tp_action_picture,
-        qt_hours_picture,
-        vl_salary_picture,
-        vl_hour_cost_foto,
-        id_allocation_period,
-        id_product,
+        cd_priority,
+        id_project,
+        id_project_phase,
+        nm_product,
+        tp_profile,
         id_professional,
-        id_role_picture,
-        id_grade_picture,
-        id_sector_picture,
+        allocation_period,
       });
 
       if (response.error)
@@ -49,7 +43,6 @@ export class FindAllocationsController {
         allocations: rows,
       });
     } catch (err) {
-      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });

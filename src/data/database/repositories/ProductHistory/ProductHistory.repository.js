@@ -1,4 +1,9 @@
-import { Product, Product_history, Professional } from '../../models';
+import {
+  Product,
+  Product_history,
+  Professional,
+  Allocation_period,
+} from '../../models';
 
 export class ProductHistoryRepository {
   async createProductHistory(data) {
@@ -27,6 +32,30 @@ export class ProductHistoryRepository {
         id_product,
       },
       raw: true,
+    });
+  }
+
+  async verifyRelationProduct({ id_product }) {
+    return await Product_history.findAll({
+      include: [
+        {
+          model: Product,
+          as: 'product',
+          where: { id_product },
+        },
+      ],
+    });
+  }
+
+  async verifyRelationAllocationPeriod({ id_allocation_period }) {
+    return await Product_history.findAll({
+      include: [
+        {
+          model: Allocation_period,
+          as: 'allocation',
+          where: { id_allocation_period },
+        },
+      ],
     });
   }
 
