@@ -28,6 +28,7 @@ export class AllocationRepository {
       where: {
         id_allocation: createdAllocation.dataValues.id_allocation,
       },
+      ...(transaction && { transaction }),
     });
   }
 
@@ -167,18 +168,20 @@ export class AllocationRepository {
     });
   }
 
-  async findAllocationById({ id_allocation }) {
+  async findAllocationById({ id_allocation, transaction }) {
     return await Allocation.findOne({
       where: {
         id_allocation,
       },
+      ...(transaction && { transaction }),
       raw: true,
     });
   }
 
-  async deleteAllocation({ id_allocation }) {
+  async deleteAllocation({ id_allocation, transaction }) {
     await Allocation.destroy({
       where: { id_allocation },
+      ...(transaction && { transaction }),
     });
   }
 

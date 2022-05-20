@@ -1,17 +1,59 @@
-import { AllocationRepository } from '../../database/repositories';
+import {
+  AllocationRepository,
+  ProductHistoryRepository,
+} from '../../database/repositories';
+import { sequelize } from '../../database';
 
 export class UpdateAllocationService {
-  async execute(id_allocation, data) {
+  async execute(id_allocation, { id_professional }) {
+    const t = await sequelize.transaction();
+
     const repository = new AllocationRepository();
 
-    const AllocationUpdated = await repository.updateAllocationPeriod(
-      id_allocation,
-      data
-    );
+    const productHistoryRepository = new ProductHistoryRepository();
 
-    return {
-      message: 'Alocação atualizada com sucesso!',
-      allocation: AllocationUpdated,
-    };
+    try {
+      const getAllocation = await repository.findAllocationById({
+        id_allocation,
+        transaction: t,
+      });
+
+      if (!getAllocation)
+        return {
+          error: `Não há nenhuma locação registrada com este ID -> ${id_allocation}.`,
+        };
+
+      const { id_product } = getAllocation;
+
+      const { id_allocation_period } = getAllocation;
+
+      await productHistoryRepository.updateProductHistory({
+        cd_status: 1,
+        dt_status: new Date(Date.now()).toISOString(),
+        tx_remark: null,
+        id_product,
+        id_allocation_period,
+        id_professional,
+        id_analyst_user: null,
+        transaction: t,
+      });
+
+      await repository.updateAllocation(id_allocation, {
+        transaction: t,
+        id_professional,
+      });
+
+      t.commit();
+
+      return {
+        message: 'Substituição de colaborador efetuada com sucesso!',
+      };
+    } catch (e) {
+      if (t) {
+        await t.rollback();
+      }
+
+      return { error: 'Ocorreu um problema interno' };
+    }
   }
 }

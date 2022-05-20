@@ -6,8 +6,11 @@ export class UpdateAllocationController {
       const service = new UpdateAllocationService();
 
       const { id_allocation } = req.params;
+      const { id_professional } = req.body;
 
-      const response = await service.execute(id_allocation, req.body);
+      const response = await service.execute(id_allocation, {
+        id_professional,
+      });
 
       if (response.error)
         return res.status(400).json({

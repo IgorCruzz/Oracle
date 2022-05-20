@@ -61,7 +61,29 @@ export class CreateAllocationService {
           id_analyst_user: null,
           dt_created_at: new Date(Date.now()).toISOString(),
           dt_updated_at: new Date(Date.now()).toISOString(),
+          transaction: t,
         });
+
+        const allocation = await repository.createAllocation({
+          tp_action_picture: tp_required_action,
+          qt_hours_picture: Number(calculate.toFixed(2)),
+          vl_salary_picture: vl_salary,
+          vl_hour_cost_picture: vl_hour_cost,
+          id_allocation_period,
+          id_product,
+          id_professional,
+          id_grade_picture: id_grade,
+          id_sector_picture: id_sector,
+          id_role_picture: id_role,
+          transaction: t,
+        });
+
+        t.commit();
+
+        return {
+          message: 'Alocação registrada com sucesso!',
+          allocation,
+        };
       }
 
       await productHistoryRepository.createProductHistory({
@@ -74,19 +96,21 @@ export class CreateAllocationService {
         id_analyst_user: null,
         dt_created_at: new Date(Date.now()).toISOString(),
         dt_updated_at: new Date(Date.now()).toISOString(),
+        transaction: t,
       });
 
       const allocation = await repository.createAllocation({
         tp_action_picture: tp_required_action,
         qt_hours_picture: Number(calculate.toFixed(2)),
         vl_salary_picture: vl_salary,
-        vl_hour_cost_foto: vl_hour_cost,
+        vl_hour_cost_picture: vl_hour_cost,
         id_allocation_period,
         id_product,
         id_professional,
         id_grade_picture: id_grade,
         id_sector_picture: id_sector,
         id_role_picture: id_role,
+        transaction: t,
       });
 
       t.commit();

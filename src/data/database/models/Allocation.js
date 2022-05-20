@@ -22,7 +22,7 @@ export class Allocation extends Model {
           type: DataTypes.DECIMAL(20, 2),
           allowNull: true,
         },
-        vl_hour_cost_foto: {
+        vl_hour_cost_picture: {
           type: DataTypes.DECIMAL(20, 2),
           allowNull: true,
         },

@@ -1,4 +1,4 @@
-import { FindAllocationService } from '../../services';
+import { FindAllocationsService } from '../../services';
 
 export class FindAllocationsController {
   async handle(req, res) {
@@ -18,7 +18,7 @@ export class FindAllocationsController {
         id_sector_picture,
       } = req.query;
 
-      const service = new FindAllocationService();
+      const service = new FindAllocationsService();
 
       const response = await service.execute({
         page,
@@ -49,6 +49,7 @@ export class FindAllocationsController {
         allocations: rows,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });

@@ -45,10 +45,11 @@ export class ProductHistoryRepository {
   async updateProductHistory(data) {
     const { id_product, transaction, ...rest } = data;
 
-    const product = await Product.findOne({
+    const product = await Product_history.findOne({
       where: {
         id_product,
       },
+      ...(transaction && { transaction }),
     });
 
     await product.update({
