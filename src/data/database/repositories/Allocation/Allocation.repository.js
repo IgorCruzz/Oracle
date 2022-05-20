@@ -11,11 +11,18 @@ import {
 
 export class AllocationRepository {
   async createAllocation(data) {
-    const createdAllocation = await Allocation.create({
-      ...data,
-      dt_created_at: new Date(Date.now()).toISOString(),
-      dt_updated_at: new Date(Date.now()).toISOString(),
-    });
+    const { transaction, ...rest } = data;
+
+    const createdAllocation = await Allocation.create(
+      {
+        ...rest,
+        dt_created_at: new Date(Date.now()).toISOString(),
+        dt_updated_at: new Date(Date.now()).toISOString(),
+      },
+      {
+        ...(transaction && { transaction }),
+      }
+    );
 
     return await Allocation.findOne({
       where: {

@@ -1,5 +1,12 @@
 import { Op } from 'sequelize';
-import { Professional, Role_grade, Sector, User } from '../../models';
+import {
+  Professional,
+  Role_grade,
+  Sector,
+  User,
+  Role,
+  Grade,
+} from '../../models';
 
 export class ProfessionalRepository {
   async createProfessional(data) {
@@ -189,7 +196,14 @@ export class ProfessionalRepository {
           id_professional,
         },
         include: [
-          { model: Role_grade, as: 'coustHH' },
+          {
+            model: Role_grade,
+            as: 'coustHH',
+            include: [
+              { model: Role, as: 'role' },
+              { model: Grade, as: 'grade' },
+            ],
+          },
           { model: Sector, as: 'sector' },
           {
             model: User,
@@ -212,7 +226,30 @@ export class ProfessionalRepository {
       where: {
         id_professional,
       },
-      raw: true,
+      include: [
+        {
+          model: Role_grade,
+          as: 'coustHH',
+          include: [
+            { model: Role, as: 'role' },
+            { model: Grade, as: 'grade' },
+          ],
+        },
+        { model: Sector, as: 'sector' },
+        {
+          model: User,
+          as: 'user',
+          attributes: [
+            'id_user',
+            'ds_email_login',
+            'nm_user',
+            'dt_created_at',
+            'dt_updated_at',
+            'tp_profile',
+            'in_active',
+          ],
+        },
+      ],
     });
   }
 

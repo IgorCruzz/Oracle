@@ -4,7 +4,7 @@ import { ValidationError } from '../../../utils/validationError';
 export const findAllocationValidator = async (req, res, next) => {
   try {
     const SchemaParam = Yup.object().shape({
-      id_allocation_period: Yup.string().required('O campo id é obrigatório'),
+      id_allocation: Yup.string().required('O campo id é obrigatório'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });
