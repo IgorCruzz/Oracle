@@ -2,6 +2,7 @@ import {
   ProfessionalRepository,
   ProductHistoryRepository,
   UserRepository,
+  AllocationRepository,
 } from '../../database/repositories';
 import { sequelize } from '../../database';
 
@@ -10,6 +11,7 @@ export class DeleteProfessionalService {
     const repository = new ProfessionalRepository();
     const productHistory = new ProductHistoryRepository();
     const userRepository = new UserRepository();
+    const allocationRepository = new AllocationRepository();
 
     const t = await sequelize.transaction();
 
@@ -23,18 +25,29 @@ export class DeleteProfessionalService {
           error: `Não existe um Colaborador com este ID -> ${id_professional}.`,
         };
 
-      const verifyFk = await productHistory.verifyRelation({
+      const verifyFkProductHistory = await productHistory.verifyRelation({
         id_professional,
       });
 
-      if (verifyFk.length > 0) {
+      if (verifyFkProductHistory.length > 0) {
         return {
           error:
             'Não foi possível excluir o Colaborador pois existem Históricos de produtos associados.',
         };
       }
 
-      // ADICIONAR VERIFICAÇÃO DE INTEGRIDADE COM ALOCAÇÃO
+      const verifyFkProfessional = await allocationRepository.verifyRelationProfessional(
+        {
+          id_professional,
+        }
+      );
+
+      if (verifyFkProfessional.length > 0) {
+        return {
+          error:
+            'Não foi possível excluir o Colaborador pois existem Alocações associadas.',
+        };
+      }
 
       const { id_user } = verifyProfessionalExists;
 

@@ -35,6 +35,18 @@ export class AllocationRepository {
     });
   }
 
+  async verifyRelationProfessional({ id_professional }) {
+    return await Allocation.findAll({
+      include: [
+        {
+          model: Professional,
+          as: 'professional',
+          where: { id_professional },
+        },
+      ],
+    });
+  }
+
   async findAllocations({
     page,
     limit,
@@ -78,7 +90,7 @@ export class AllocationRepository {
           }
         : {},
       limit: limit !== 'all' ? Number(limit) : null,
-    offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       include: [
         {
           model: Allocation_period,
