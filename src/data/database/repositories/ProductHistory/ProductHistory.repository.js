@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import {
   Product,
   Product_history,
@@ -30,6 +31,15 @@ export class ProductHistoryRepository {
     return await Product_history.findOne({
       where: {
         id_product,
+      },
+      raw: true,
+    });
+  }
+
+  async findStatus({ id_product, cd_status }) {
+    return await Product_history.findOne({
+      where: {
+        [Op.and]: [{ id_product }, { cd_status }],
       },
       raw: true,
     });
@@ -68,6 +78,13 @@ export class ProductHistoryRepository {
           where: { id_professional },
         },
       ],
+    });
+  }
+
+  async deleteProductHistory({ id_professional, transaction }) {
+    return Product_history.destroy({
+      where: { id_professional },
+      transaction,
     });
   }
 

@@ -44,9 +44,10 @@ export class CreateAllocationService {
         value: tp_required_action,
       });
 
-      const verifyProductIfExistsOnHistory = await productHistoryRepository.findProductById(
+      const verifyProductIfExistsOnHistory = await productHistoryRepository.findStatus(
         {
           id_product,
+          cd_status: 1,
         }
       );
 

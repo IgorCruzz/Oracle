@@ -23,9 +23,14 @@ export class DeleteAllocationService {
           error: `Não há nenhuma locação registrada com este ID -> ${id_allocation}.`,
         };
 
-      const { id_product } = getAllocation;
+      const { id_product, id_professional } = getAllocation;
 
-      await productHistoryRepository.updateProductHistory({
+      await productHistoryRepository.deleteProductHistory({
+        id_professional,
+        transaction: t,
+      });
+
+      await productHistoryRepository.createProductHistory({
         cd_status: 0,
         dt_status: new Date(Date.now()).toISOString(),
         tx_remark: null,
