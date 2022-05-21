@@ -105,10 +105,10 @@ export class ProductRepository {
               [Op.like]: `%${nm_product.trim()}%`,
             },
           },
-          ...(limit !== 'all' && { limit: Number(limit) }),
+          limit: limit !== 'all' ? Number(limit) : null,
           order: [['nu_order', 'ASC']],
 
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           include: [
             id_project_phase
               ? {
@@ -152,8 +152,8 @@ export class ProductRepository {
           ],
         })
       : await Product.findAndCountAll({
-          ...(limit !== 'all' && { limit: Number(limit) }),
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+          limit: limit !== 'all' ? Number(limit) : null,
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           order: [['nu_order', 'ASC']],
           include: [
             id_project_phase

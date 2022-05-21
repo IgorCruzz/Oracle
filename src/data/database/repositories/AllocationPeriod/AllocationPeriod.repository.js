@@ -28,12 +28,31 @@ export class AllocationPeriodRepository {
 
     if (dt_start_allocation || dt_end_allocation || qt_business_hours) {
       searchQuery = {
-        ...(dt_start_allocation && {
-          dt_start_allocation: { [Op.like]: `%${dt_start_allocation.trim()}%` },
-        }),
-        ...(dt_end_allocation && {
-          dt_end_allocation: { [Op.like]: `%${dt_end_allocation.trim()}%` },
-        }),
+        ...(dt_start_allocation &&
+          !dt_end_allocation && {
+            dt_start_allocation: {
+              [Op.gte]: `%${dt_start_allocation.trim()}%`,
+            },
+          }),
+        ...(dt_start_allocation &&
+          dt_end_allocation && {
+            [Op.and]: [
+              {
+                dt_start_allocation: {
+                  [Op.gte]: `%${dt_start_allocation.trim()}%`,
+                },
+              },
+              {
+                dt_end_allocation: {
+                  [Op.lte]: `%${dt_end_allocation.trim()}%`,
+                },
+              },
+            ],
+          }),
+        ...(dt_end_allocation &&
+          !dt_start_allocation && {
+            dt_end_allocation: { [Op.lte]: `%${dt_end_allocation.trim()}%` },
+          }),
         ...(qt_business_hours && {
           qt_business_hours: { [Op.like]: `%${qt_business_hours.trim()}%` },
         }),
@@ -48,8 +67,8 @@ export class AllocationPeriodRepository {
             [Op.and]: searchQuery,
           }
         : {},
-      ...(limit !== 'all' && { limit: Number(limit) }),
-      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+      limit: limit !== 'all' ? Number(limit) : null,
+    offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
     });
   }
 

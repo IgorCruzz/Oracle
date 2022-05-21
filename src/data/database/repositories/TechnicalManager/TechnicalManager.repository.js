@@ -63,8 +63,8 @@ export class TechnicalManagerRepository {
           }
         : {},
       order: [['nm_technical_manager', 'ASC']],
-      ...(limit !== 'all' && { limit: Number(limit) }),
-      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+      limit: limit !== 'all' ? Number(limit) : null,
+    offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       include: [
         id_project
           ? {

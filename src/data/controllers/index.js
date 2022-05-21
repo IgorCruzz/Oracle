@@ -152,3 +152,8 @@ export * from './Allocation/FindAllocation.controller';
 export * from './Allocation/FindAllocations.controller';
 export * from './Allocation/UpdateAllocation.controller';
 export * from './Allocation/FindProfessionalsFromAllocation.controller';
+
+// PTI
+export * from './Pti/FindPeriodPti.controller';
+export * from './Pti/FindProductHistoryPti.controller';
+export * from './Pti/FindProfessionalPti.controller';

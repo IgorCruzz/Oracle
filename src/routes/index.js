@@ -23,8 +23,10 @@ import RoleGrade from './RoleGrade/RoleGrade.routes';
 import Professional from './Professional/Professional.routes';
 import AllocationPeriod from './AllocationPeriod/AllocationPeriod.routes';
 import Allocation from './Allocation/Allocation.routes';
+import Pti from './Pti/Pti.routes';
 
 const routes = [
+  Pti,
   Allocation,
   AllocationPeriod,
   Professional,

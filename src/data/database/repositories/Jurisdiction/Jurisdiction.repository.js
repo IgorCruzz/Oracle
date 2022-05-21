@@ -24,15 +24,15 @@ export class JurisdictionRepository {
               [Op.like]: `%${nm_jurisdiction.trim()}%`,
             },
           },
-          ...(limit !== 'all' && { limit: Number(limit) }),
+          limit: limit !== 'all' ? Number(limit) : null,
           order: [['nm_jurisdiction', 'ASC']],
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           raw: true,
         })
       : await Jurisdiction.findAndCountAll({
-          ...(limit !== 'all' && { limit: Number(limit) }),
+          limit: limit !== 'all' ? Number(limit) : null,
           order: [['nm_jurisdiction', 'ASC']],
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           raw: true,
         });
   }

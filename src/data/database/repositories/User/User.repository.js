@@ -64,8 +64,8 @@ export class UserRepository {
             [Op.and]: searchQuery,
           }
         : {},
-      ...(limit !== 'all' && { limit: Number(limit) }),
-      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+      limit: limit !== 'all' ? Number(limit) : null,
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       attributes: [
         'id_user',
         'ds_email_login',

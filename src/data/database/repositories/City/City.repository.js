@@ -46,9 +46,9 @@ export class CityRepository {
               [Op.like]: `%${nm_city.trim()}%`,
             },
           },
-          ...(limit !== 'all' && { limit: Number(limit) }),
+          limit: limit !== 'all' ? Number(limit) : null,
           order: [['nm_city', 'ASC']],
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           include: [
             regionId
               ? { model: Region, as: 'region', where: { id_region: regionId } }
@@ -56,8 +56,8 @@ export class CityRepository {
           ],
         })
       : await City.findAndCountAll({
-          ...(limit !== 'all' && { limit: Number(limit) }),
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+          limit: limit !== 'all' ? Number(limit) : null,
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           order: [['nm_city', 'ASC']],
           include: [
             regionId

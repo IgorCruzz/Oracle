@@ -109,9 +109,10 @@ export class ProfessionalRepository {
             [Op.and]: searchQuery,
           }
         : {},
-      ...(limit !== 'all' && { limit: Number(limit) }),
+
+      limit: limit !== 'all' ? Number(limit) : null,
       order: [['nm_professional', 'ASC']],
-      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       include: [
         id_role_grade
           ? {

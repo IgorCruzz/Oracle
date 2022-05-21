@@ -25,14 +25,14 @@ export class GradeRepository {
             },
           },
           order: [['nm_grade', 'ASC']],
-          ...(limit !== 'all' && { limit: Number(limit) }),
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+          limit: limit !== 'all' ? Number(limit) : null,
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           raw: true,
         })
       : await Grade.findAndCountAll({
-          ...(limit !== 'all' && { limit: Number(limit) }),
+          limit: limit !== 'all' ? Number(limit) : null,
           order: [['nm_grade', 'ASC']],
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           raw: true,
         });
   }

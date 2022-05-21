@@ -28,14 +28,14 @@ export class RoleRepository {
               [Op.like]: `%${nm_role.trim()}%`,
             },
           },
-          ...(limit !== 'all' && { limit: Number(limit) }),
+          limit: limit !== 'all' ? Number(limit) : null,
           order: [['nm_role', 'ASC']],
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
         })
       : await Role.findAndCountAll({
-          ...(limit !== 'all' && { limit: Number(limit) }),
+          limit: limit !== 'all' ? Number(limit) : null,
           order: [['nm_role', 'ASC']],
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : 1,
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
         });
   }
 
