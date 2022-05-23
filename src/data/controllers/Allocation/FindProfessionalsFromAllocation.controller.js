@@ -1,4 +1,4 @@
-import { FindAllocationsService } from '../../services';
+import { FindProfessionalsFromAllocationService } from '../../services';
 
 export class FindProfessionalsFromAllocationController {
   async handle(req, res) {
@@ -15,7 +15,7 @@ export class FindProfessionalsFromAllocationController {
         allocation_period,
       } = req.query;
 
-      const service = new FindAllocationsService();
+      const service = new FindProfessionalsFromAllocationService();
 
       const response = await service.execute({
         page,
@@ -34,13 +34,13 @@ export class FindProfessionalsFromAllocationController {
           error: response.error,
         });
 
-      const { count, rows } = response.allocations;
+      const { count, rows } = response.professionals;
 
       return res.status(200).json({
         count,
         page,
         limit,
-        allocations: rows,
+        professionals: rows,
       });
     } catch (err) {
       return res.status(500).json({

@@ -181,6 +181,22 @@ export class ProfessionalRepository {
     });
   }
 
+  async findProfessionalIdandName({ nm_professional, id_professional }) {
+    return await Professional.findOne({
+      where: {
+        [Op.or]: [
+          {
+            id_professional,
+          },
+          {
+            nm_professional: nm_professional.trim(),
+          },
+        ],
+      },
+      raw: true,
+    });
+  }
+
   async findProfessional({ nm_professional }) {
     return await Professional.findOne({
       where: {

@@ -1,33 +1,43 @@
-import { AllocationRepository } from '../../database/repositories';
+import {
+  // AllocationRepository,
+  ProfessionalRepository,
+} from '../../database/repositories';
 
 export class FindProfessionalsFromAllocationService {
   async execute({
     page,
     limit,
-    cd_priority,
-    id_project,
-    id_project_phase,
-    nm_product,
-    tp_profile,
-    id_professional,
-    allocation_period,
+    // cd_priority,
+    // id_project,
+    // id_project_phase,
+    // nm_product,
+    // tp_profile,
+    // id_professional,
+    // allocation_period,
   }) {
-    const repository = new AllocationRepository();
+    const professionalRepository = new ProfessionalRepository();
 
-    const findAllocations = await repository.findAllocations({
-      page,
+    // const repository = new AllocationRepository();
+
+    const findProfessionals = await professionalRepository.findProfessionals({
       limit,
-      cd_priority,
-      id_project,
-      id_project_phase,
-      nm_product,
-      tp_profile,
-      id_professional,
-      allocation_period,
+      page,
     });
 
+    // const findAllocations = await repository.findAllocations({
+    //   page,
+    //   limit,
+    //   cd_priority,
+    //   id_project,
+    //   id_project_phase,
+    //   nm_product,
+    //   tp_profile,
+    //   id_professional,
+    //   allocation_period,
+    // });
+
     return {
-      allocations: findAllocations,
+      professionals: findProfessionals,
     };
   }
 }

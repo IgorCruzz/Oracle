@@ -68,9 +68,12 @@ export class UpdateProfessionalService {
           error: `Não existe um Colaborador com este ID -> ${id_professional}.`,
         };
 
-      const verifyProfessionalName = await repository.findProfessional({
-        nm_professional,
-      });
+      const verifyProfessionalName = await repository.findProfessionalIdandName(
+        {
+          nm_professional,
+          id_professional,
+        }
+      );
 
       if (
         verifyProfessionalName &&
@@ -95,6 +98,7 @@ export class UpdateProfessionalService {
       }
 
       if (verifyProfessionalName.in_active !== in_active) {
+        console.log('oooooooooo');
         if (id_user) {
           await userRepository.updateUser(id_user, {
             in_active,
@@ -114,6 +118,7 @@ export class UpdateProfessionalService {
         professional: professionalUpdated,
       };
     } catch (e) {
+      console.log(e);
       if (t) {
         await t.rollback();
       }
