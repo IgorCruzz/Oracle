@@ -18,7 +18,7 @@ export class CreateRoleGradeService {
 
     if (!verifyRole) {
       return {
-        error: `Não há nenhuma função registrada com este ID -> ${id_grade}.`,
+        error: `Não há nenhuma função registrada com este ID -> ${id_role}.`,
       };
     }
 
