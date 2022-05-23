@@ -80,7 +80,7 @@ export class RoleGradeRepository {
           }
         : {},
       limit: limit !== 'all' ? Number(limit) : null,
-    offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
 
       include: [
         id_role
@@ -101,14 +101,12 @@ export class RoleGradeRepository {
     });
   }
 
-  async findRoleGrade({ id_grade, id_role, vl_hour_cost, vl_salary }) {
+  async findRoleGrade({ id_grade, id_role }) {
     return await Role_grade.findOne({
       where: {
         [Op.and]: {
           id_grade,
           id_role,
-          vl_hour_cost,
-          vl_salary,
         },
       },
       raw: true,

@@ -6,7 +6,7 @@ import {
 
 export class CreateRoleGradeService {
   async execute(data) {
-    const { id_grade, id_role, vl_hour_cost, vl_salary } = data;
+    const { id_grade, id_role } = data;
 
     const repository = new RoleGradeRepository();
     const gradeRepository = new GradeRepository();
@@ -35,14 +35,11 @@ export class CreateRoleGradeService {
     const verifyRoleExists = await repository.findRoleGrade({
       id_grade,
       id_role,
-      vl_hour_cost,
-      vl_salary,
     });
 
     if (verifyRoleExists)
       return {
-        error:
-          'Já existe um Custo HH registrado com a função e cargo inserido.',
+        error: 'Custo HH já cadastrado!',
       };
 
     const coustHH = await repository.createRoleGrade(data);

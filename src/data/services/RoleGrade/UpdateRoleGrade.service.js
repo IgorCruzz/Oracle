@@ -41,6 +41,19 @@ export class UpdateRoleGradeService {
         error: `Não existe um Custo HH com este ID -> ${id_role_grade}.`,
       };
 
+    const verifyRoleIsUnique = await repository.findRoleGrade({
+      id_grade,
+      id_role,
+    });
+
+    if (
+      verifyRoleIsUnique &&
+      verifyRoleIsUnique.id_role_grade !== Number(id_role_grade)
+    )
+      return {
+        error: 'Custo HH já cadastrado!',
+      };
+
     const roleUpdated = await repository.updateRoleGrade(id_role_grade, data);
 
     return {
