@@ -43,7 +43,7 @@ export const createProductValidator = async (req, res, next) => {
             : 'O campo quantidade provável de horas precisa ser númerico'
         ),
       tp_required_action: Yup.mixed()
-        .oneOf([1, 2, 3, 4], 'Ação Necessária Inválida')
+        .oneOf([0, 1, 2, 3, 4], 'Ação Necessária Inválida')
         .required('O campo Ação Necessária é obrigatório'),
       ds_note_required_action: Yup.string()
         .max(
