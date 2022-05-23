@@ -18,7 +18,7 @@ export class Document extends Model {
           type: DataTypes.DATEONLY,
           get() {
             return moment
-              .utc(this.getDataValue('dt_official_document'))
+              .utc(this.getDataValue('dt_upload'))
               .format('YYYY-MM-DD');
           },
         },
