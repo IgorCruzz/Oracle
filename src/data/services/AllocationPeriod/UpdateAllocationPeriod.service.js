@@ -39,7 +39,7 @@ export class UpdateAllocationPeriodService {
       };
     }
 
-    const verifyAllocationPeriodId = await repository.findLocationById({
+    const verifyAllocationPeriodId = await repository.findAllocationPeriodById({
       id_allocation_period,
     });
 
