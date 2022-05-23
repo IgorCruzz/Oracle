@@ -9,8 +9,18 @@ export class Role_grade extends Model {
           primaryKey: true,
           autoIncrement: true,
         },
-        vl_salary: DataTypes.DECIMAL(20, 2),
-        vl_hour_cost: DataTypes.DECIMAL(20, 2),
+        vl_salary: {
+          type: DataTypes.STRING,
+          // get() {
+          //   return this.getDataValue('vl_salary').toFixed(2);
+          // },
+        },
+        vl_hour_cost: {
+          type: DataTypes.DECIMAL(20, 2),
+          // get() {
+          //   return this.getDataValue('vl_salary').toFixed(2);
+          // },
+        },
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
       },
