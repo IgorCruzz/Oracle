@@ -105,10 +105,8 @@ export class AllocationRepository {
           where: allocation_period
             ? {
                 [Op.and]: {
-                  dt_start_allocation: {
-                    [Op.gte]: new Date(dt_start_allocation),
-                    [Op.lte]: new Date(dt_end_allocation),
-                  },
+                  [Op.gte]: new Date(dt_start_allocation),
+                  [Op.lte]: new Date(dt_end_allocation),
                 },
               }
             : {},

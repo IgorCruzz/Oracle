@@ -108,7 +108,7 @@ export class ProductRepository {
           limit: limit !== 'all' ? Number(limit) : null,
           order: [['nu_order', 'ASC']],
 
-        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           include: [
             id_project_phase
               ? {
@@ -153,7 +153,7 @@ export class ProductRepository {
         })
       : await Product.findAndCountAll({
           limit: limit !== 'all' ? Number(limit) : null,
-        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           order: [['nu_order', 'ASC']],
           include: [
             id_project_phase

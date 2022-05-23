@@ -129,7 +129,7 @@ export class ProjectRepository {
             },
           },
       limit: limit !== 'all' ? Number(limit) : null,
-    offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       order: [['nm_project', 'ASC']],
       include: [
         id_city

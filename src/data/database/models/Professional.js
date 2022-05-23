@@ -24,6 +24,11 @@ export class Professional extends Model {
   }
 
   static associate(models) {
+    Professional.hasMany(models.Allocation, {
+      foreignKey: 'id_professional',
+      as: 'allocation',
+    });
+
     Professional.belongsTo(models.Role_grade, {
       foreignKey: 'id_role_grade',
       as: 'coustHH',

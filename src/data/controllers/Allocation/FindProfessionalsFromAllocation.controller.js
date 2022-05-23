@@ -6,13 +6,11 @@ export class FindProfessionalsFromAllocationController {
       const {
         page,
         limit,
-        cd_priority,
-        id_project,
-        id_project_phase,
-        nm_product,
-        tp_profile,
-        id_professional,
         allocation_period,
+        nm_professional,
+        id_role,
+        id_grade,
+        id_sector,
       } = req.query;
 
       const service = new FindProfessionalsFromAllocationService();
@@ -20,13 +18,11 @@ export class FindProfessionalsFromAllocationController {
       const response = await service.execute({
         page,
         limit,
-        cd_priority,
-        id_project,
-        id_project_phase,
-        nm_product,
-        tp_profile,
-        id_professional,
         allocation_period,
+        nm_professional,
+        id_role,
+        id_grade,
+        id_sector,
       });
 
       if (response.error)
