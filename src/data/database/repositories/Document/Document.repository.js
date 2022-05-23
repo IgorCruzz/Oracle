@@ -6,11 +6,11 @@ export class DocumentRepository {
   }
 
   async createDocument(data) {
-    const { ds_document, nm_file } = data;
+    const { ds_document, nm_file, dtUpload } = data;
 
     const createdDocument = await Document.create({
       ...data,
-
+      dt_upload: dtUpload,
       ds_document: ds_document.trim(),
       nm_file: nm_file && nm_file.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
@@ -184,7 +184,7 @@ export class DocumentRepository {
   }
 
   async updateDocument(id_document, data) {
-    const { ds_document, nm_file } = data;
+    const { ds_document, nm_file, dtUpload } = data;
 
     const document = await Document.findOne({
       where: {
@@ -194,6 +194,7 @@ export class DocumentRepository {
 
     await document.update({
       ...data,
+      dt_upload: dtUpload,
       ds_document: ds_document.trim(),
       nm_file: nm_file && nm_file.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),

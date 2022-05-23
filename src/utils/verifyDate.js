@@ -5,6 +5,10 @@ export const verifyDate = ({ value, msg }) => {
 
   const parse = new Date(parsedDate);
 
+  if (dateDocument[2] === '0000') {
+    return { error: msg };
+  }
+
   if (dateDocument[1]) {
     if (
       parse.toString() === 'Invalid Date' ||

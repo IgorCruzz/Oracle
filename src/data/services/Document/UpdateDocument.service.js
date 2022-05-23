@@ -2,12 +2,26 @@ import {
   DocumentRepository,
   ProductRepository,
 } from '../../database/repositories';
+import { verifyDate } from '../../../utils/verifyDate';
 
 export class UpdateDocumentService {
   async execute(id_document, data) {
-    const { ds_document, id_product } = data;
+    const { ds_document, id_product, dt_upload } = data;
 
     const repository = new DocumentRepository();
+
+    let dtUpload;
+
+    if (dt_upload) {
+      dtUpload = verifyDate({
+        value: dt_upload,
+        msg: 'Data de upload inválida. Utilize o formato dd/mm/yyyy',
+      });
+
+      if (dtUpload.error) {
+        return { error: dtUpload.error };
+      }
+    }
 
     const verifyDocumentExists = await repository.findDocumentById({
       id_document,
@@ -43,7 +57,10 @@ export class UpdateDocumentService {
     )
       return { error: 'Já existe um Documento registrado com este nome.' };
 
-    const documentUpdated = await repository.updateDocument(id_document, data);
+    const documentUpdated = await repository.updateDocument(id_document, {
+      ...data,
+      dtUpload,
+    });
 
     return {
       message: 'Documento atualizado com sucesso!',
