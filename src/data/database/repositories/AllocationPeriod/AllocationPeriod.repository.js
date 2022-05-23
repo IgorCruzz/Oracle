@@ -92,7 +92,6 @@ export class AllocationPeriodRepository {
       where: {
         id_allocation_period,
       },
-      raw: true,
     });
   }
 

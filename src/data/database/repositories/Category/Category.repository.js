@@ -26,13 +26,13 @@ export class CategoryRepository {
           },
           order: [['nm_category', 'ASC']],
           limit: limit !== 'all' ? Number(limit) : null,
-        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           raw: true,
         })
       : await Category.findAndCountAll({
           limit: limit !== 'all' ? Number(limit) : null,
           order: [['nm_category', 'ASC']],
-        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           raw: true,
         });
   }
