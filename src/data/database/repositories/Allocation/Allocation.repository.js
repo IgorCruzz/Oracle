@@ -65,14 +65,6 @@ export class AllocationRepository {
     in_analisysCorretion,
     concluded,
   }) {
-    console.log({
-      ag_alocation,
-      on_production,
-      in_correction,
-      in_analisys,
-      in_analisysCorretion,
-      concluded,
-    });
     let dt_start_allocation;
     let dt_end_allocation;
 
