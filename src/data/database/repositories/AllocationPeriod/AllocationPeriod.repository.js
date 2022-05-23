@@ -68,7 +68,7 @@ export class AllocationPeriodRepository {
           }
         : {},
       limit: limit !== 'all' ? Number(limit) : null,
-    offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
     });
   }
 
@@ -103,6 +103,8 @@ export class AllocationPeriodRepository {
   }
 
   async updateAllocationPeriod(id_allocation_period, data) {
+    const { dtAllocationStart, dtAllocationEnd } = data;
+
     const location = await Allocation_period.findOne({
       where: {
         id_allocation_period,
@@ -111,6 +113,8 @@ export class AllocationPeriodRepository {
 
     await location.update({
       ...data,
+      dt_start_allocation: dtAllocationStart,
+      dt_end_allocation: dtAllocationEnd,
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 

@@ -51,7 +51,7 @@ export class UpdateAllocationPeriodService {
 
     const AllocationPeriodUpdated = await repository.updateAllocationPeriod(
       id_allocation_period,
-      data
+      { ...data, dtAllocationStart, dtAllocationEnd }
     );
 
     return {
