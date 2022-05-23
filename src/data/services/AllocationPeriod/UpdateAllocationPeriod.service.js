@@ -4,7 +4,7 @@ import { verifyDate } from '../../../utils/verifyDate';
 
 export class UpdateAllocationPeriodService {
   async execute(id_allocation_period, data) {
-    const { dt_start_allocation, dt_end_allocation } = data;
+    const { dt_start_allocation, dt_end_allocation, qt_business_hours } = data;
 
     const repository = new AllocationPeriodRepository();
 
@@ -48,6 +48,24 @@ export class UpdateAllocationPeriodService {
         error: `Não há nenhum Período de Alocação registrado com este ID -> ${id_allocation_period}.`,
       };
     }
+
+    const verifyAllocationPeriodExists = await repository.findAllocationPeriod({
+      dt_start_allocation: dtAllocationStart,
+      dt_end_allocation: dtAllocationEnd,
+      qt_business_hours,
+    });
+
+    if (
+      verifyAllocationPeriodExists &&
+      verifyAllocationPeriodExists.id_allocation_period !==
+        Number(id_allocation_period)
+    ) {
+      return {
+        error: 'Já existe um Período de Alocação com estes dados.',
+      };
+    }
+
+    console.log(verifyAllocationPeriodExists);
 
     const AllocationPeriodUpdated = await repository.updateAllocationPeriod(
       id_allocation_period,
