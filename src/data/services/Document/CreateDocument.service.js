@@ -23,8 +23,10 @@ export class CreateDocumentService {
         error: `Não há nenhum Produto registrado com este ID -> ${id_product}.`,
       };
 
+    let dtUpload;
+
     if (dt_upload) {
-      const dtUpload = verifyDate({
+      dtUpload = verifyDate({
         value: dt_upload,
         msg: 'Data de upload inválida. Utilize o formato dd/mm/yyyy',
       });
@@ -42,7 +44,7 @@ export class CreateDocumentService {
     if (verifyDocumentExists)
       return { error: 'Já existe uma Documento registrado com este nome.' };
 
-    const document = await repository.createDocument(data);
+    const document = await repository.createDocument({ ...data, dtUpload });
 
     return {
       message: 'Documento registrado com sucesso!',

@@ -21,9 +21,9 @@ export class FindProfessionalsController {
         id_sector,
         id_user,
         in_delivery_analyst,
-        limit,
         in_active,
         nm_professional,
+        limit,
         page,
       });
 

@@ -10,6 +10,7 @@ export class DocumentRepository {
 
     const createdDocument = await Document.create({
       ...data,
+
       ds_document: ds_document.trim(),
       nm_file: nm_file && nm_file.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
@@ -37,7 +38,7 @@ export class DocumentRepository {
       where: id_product ? { id_product } : {},
       limit: limit !== 'all' ? Number(limit) : null,
       order: [['ds_document', 'ASC']],
-    offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       include: [
         id_product
           ? {
