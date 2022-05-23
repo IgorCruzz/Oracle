@@ -5,7 +5,7 @@ import {
 import { sequelize } from '../../database';
 
 export class DeleteAllocationService {
-  async execute({ id_allocation }) {
+  async execute({ allocations }) {
     const t = await sequelize.transaction();
 
     const repository = new AllocationRepository();
@@ -13,38 +13,42 @@ export class DeleteAllocationService {
     const productHistoryRepository = new ProductHistoryRepository();
 
     try {
-      const getAllocation = await repository.findAllocationById({
-        id_allocation,
-        transaction: t,
-      });
+      await Promise.all(
+        allocations.map(async id_allocation => {
+          const getAllocation = await repository.findAllocationById({
+            id_allocation,
+            transaction: t,
+          });
 
-      if (!getAllocation)
-        return {
-          error: `Não há nenhuma locação registrada com este ID -> ${id_allocation}.`,
-        };
+          if (!getAllocation)
+            return {
+              error: `Não há nenhuma locação registrada com este ID -> ${id_allocation}.`,
+            };
 
-      const { id_product, id_professional } = getAllocation;
+          const { id_product, id_professional } = getAllocation;
 
-      await productHistoryRepository.deleteProductHistory({
-        id_professional,
-        transaction: t,
-      });
+          await productHistoryRepository.deleteProductHistory({
+            id_professional,
+            transaction: t,
+          });
 
-      await productHistoryRepository.createProductHistory({
-        cd_status: 0,
-        dt_status: new Date(Date.now()).toISOString(),
-        tx_remark: null,
-        id_product,
-        id_allocation_period: null,
-        id_professional: null,
-        id_analyst_user: null,
-        transaction: t,
-      });
+          await productHistoryRepository.createProductHistory({
+            cd_status: 0,
+            dt_status: new Date(Date.now()).toISOString(),
+            tx_remark: null,
+            id_product,
+            id_allocation_period: null,
+            id_professional: null,
+            id_analyst_user: null,
+            transaction: t,
+          });
 
-      await repository.deleteAllocation({
-        id_allocation,
-        transaction: t,
-      });
+          await repository.deleteAllocation({
+            id_allocation,
+            transaction: t,
+          });
+        })
+      );
 
       t.commit();
 

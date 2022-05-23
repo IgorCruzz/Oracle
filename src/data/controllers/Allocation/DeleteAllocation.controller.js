@@ -4,9 +4,9 @@ export class DeleteAllocationController {
   async handle(req, res) {
     try {
       const service = new DeleteAllocationService();
-      const { id_allocation } = req.params;
+      const { allocations } = req.body;
 
-      const response = await service.execute({ id_allocation });
+      const response = await service.execute({ allocations });
 
       if (response.error)
         return res.status(400).json({

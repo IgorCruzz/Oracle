@@ -34,7 +34,7 @@ routes.post(
 );
 
 routes.delete(
-  '/allocations/:id_allocation',
+  '/allocations',
   authenticator,
   deleteAllocationValidator,
   new DeleteAllocationController().handle

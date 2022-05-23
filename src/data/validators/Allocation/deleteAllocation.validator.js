@@ -4,10 +4,12 @@ import { ValidationError } from '../../../utils/validationError';
 export const deleteAllocationValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
-      id_allocation: Yup.string().required('O campo id é obrigatório'),
+      allocations: Yup.array()
+        .of(Yup.number())
+        .required('Campo Alocação é obrigatório'),
     });
 
-    await Schema.validate(req.params, { abortEarly: false });
+    await Schema.validate(req.body, { abortEarly: false });
 
     return next();
   } catch (e) {
