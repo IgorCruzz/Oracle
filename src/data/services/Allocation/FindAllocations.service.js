@@ -11,6 +11,12 @@ export class FindAllocationsService {
     tp_profile,
     id_professional,
     allocation_period,
+    ag_alocation,
+    on_production,
+    in_correction,
+    in_analisys,
+    in_analisysCorretion,
+    concluded,
   }) {
     const repository = new AllocationRepository();
 
@@ -24,6 +30,12 @@ export class FindAllocationsService {
       tp_profile,
       id_professional,
       allocation_period,
+      ag_alocation,
+      on_production,
+      in_correction,
+      in_analisys,
+      in_analisysCorretion,
+      concluded,
     });
 
     return {

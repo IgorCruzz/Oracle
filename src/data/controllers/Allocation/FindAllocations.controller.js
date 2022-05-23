@@ -13,6 +13,12 @@ export class FindAllocationsController {
         tp_profile,
         id_professional,
         allocation_period,
+        ag_alocation,
+        on_production,
+        in_correction,
+        in_analisys,
+        in_analisysCorretion,
+        concluded,
       } = req.query;
 
       const service = new FindAllocationsService();
@@ -27,6 +33,12 @@ export class FindAllocationsController {
         tp_profile,
         id_professional,
         allocation_period,
+        ag_alocation,
+        on_production,
+        in_correction,
+        in_analisys,
+        in_analisysCorretion,
+        concluded,
       });
 
       if (response.error)

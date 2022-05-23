@@ -10,6 +10,7 @@ import {
   Project_phase,
   Project,
   User,
+  Product_history,
 } from '../../models';
 
 export class AllocationRepository {
@@ -57,7 +58,21 @@ export class AllocationRepository {
     tp_profile,
     id_professional,
     allocation_period,
+    ag_alocation,
+    on_production,
+    in_correction,
+    in_analisys,
+    in_analisysCorretion,
+    concluded,
   }) {
+    console.log({
+      ag_alocation,
+      on_production,
+      in_correction,
+      in_analisys,
+      in_analisysCorretion,
+      concluded,
+    });
     let dt_start_allocation;
     let dt_end_allocation;
 
@@ -110,6 +125,7 @@ export class AllocationRepository {
           model: Product,
           as: 'product',
           required: true,
+
           where: nm_product
             ? {
                 [Op.or]: [{ tp_required_action: 1 }, { tp_required_action: 2 }],
@@ -126,6 +142,28 @@ export class AllocationRepository {
                 ],
               },
           include: [
+            {
+              model: Product_history,
+              as: 'product_history',
+              required: !!(
+                ag_alocation ||
+                on_production ||
+                in_correction ||
+                in_analisys ||
+                in_analisysCorretion ||
+                concluded
+              ),
+              where: {
+                [Op.or]: [
+                  ag_alocation && { cd_status: 0 },
+                  on_production && { cd_status: 1 },
+                  in_correction && { cd_status: 2 },
+                  in_analisys && { cd_status: 3 },
+                  in_analisysCorretion && { cd_status: 4 },
+                  concluded && { cd_status: 5 },
+                ],
+              },
+            },
             {
               model: Project_phase,
               as: 'project_phase',
