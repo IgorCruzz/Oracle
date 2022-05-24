@@ -100,8 +100,7 @@ export class FindProfessionalsFromAllocationService {
       const { allocation } = prof;
 
       const businessHours = allocation.map(
-        values =>
-          values.dataValues.allocation_period.dataValues.qt_business_hours
+        values => values.dataValues.qt_hours_picture
       );
 
       const sumBussinesHours = businessHours.reduce((a, b) => a + b, 0);

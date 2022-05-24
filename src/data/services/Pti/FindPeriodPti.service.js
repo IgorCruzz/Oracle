@@ -14,22 +14,13 @@ export class FindPeriodPtiService {
   async execute({
     page,
     limit,
-    allocation_period,
+    dt_start_allocation,
+    dt_end_allocation,
     nm_professional,
     id_role,
     id_grade,
     id_sector,
   }) {
-    let dt_start_allocation;
-    let dt_end_allocation;
-
-    if (allocation_period) {
-      const [start, end] = allocation_period.split('/');
-
-      dt_start_allocation = start;
-      dt_end_allocation = end;
-    }
-
     let searchQuery;
 
     if (nm_professional || id_role || id_grade || id_sector) {
@@ -51,7 +42,7 @@ export class FindPeriodPtiService {
       searchQuery = null;
     }
 
-    const ptis = await Professional.findAndCountAll({
+    const professionals = await Professional.findAndCountAll({
       where: searchQuery
         ? {
             [Op.and]: searchQuery,
@@ -103,8 +94,35 @@ export class FindPeriodPtiService {
       ],
     });
 
+    const getProfessionals = professionals.rows.map(professional => {
+      const prof = professional.dataValues;
+
+      const { allocation } = prof;
+
+      const businessHours = allocation.map(
+        values => values.dataValues.qt_hours_picture
+      );
+
+      const sumBussinesHours = businessHours.reduce((a, b) => a + b, 0);
+
+      return {
+        professional: {
+          id_professional: prof.id_professional,
+          nm_professional: prof.nm_professional,
+          in_delivery_analyst: prof.in_delivery_analyst === 'S' ? 'X' : '',
+          in_active: prof.in_active,
+        },
+        role: prof.coustHH.role.dataValues,
+        grade: prof.coustHH.role.dataValues,
+        allocation_hours: sumBussinesHours,
+      };
+    });
+
     return {
-      ptis,
+      ptis: {
+        count: professionals.count,
+        rows: { getProfessionals },
+      },
     };
   }
 }

@@ -6,13 +6,12 @@ export class FindPeriodPtiController {
       const {
         page,
         limit,
-        cd_priority,
-        id_project,
-        id_project_phase,
-        nm_product,
-        tp_profile,
-        id_professional,
-        allocation_period,
+        dt_start_allocation,
+        dt_end_allocation,
+        nm_professional,
+        id_role,
+        id_grade,
+        id_sector,
       } = req.query;
 
       const service = new FindPeriodPtiService();
@@ -20,13 +19,12 @@ export class FindPeriodPtiController {
       const response = await service.execute({
         page,
         limit,
-        cd_priority,
-        id_project,
-        id_project_phase,
-        nm_product,
-        tp_profile,
-        id_professional,
-        allocation_period,
+        dt_start_allocation,
+        dt_end_allocation,
+        nm_professional,
+        id_role,
+        id_grade,
+        id_sector,
       });
 
       if (response.error)
@@ -40,7 +38,7 @@ export class FindPeriodPtiController {
         count,
         page,
         limit,
-        ptis: rows,
+        ptis: rows.getProfessionals,
       });
     } catch (err) {
       return res.status(500).json({
