@@ -17,9 +17,11 @@ export class Document extends Model {
         dt_upload: {
           type: DataTypes.DATEONLY,
           get() {
-            return moment
-              .utc(this.getDataValue('dt_upload'))
-              .format('YYYY-MM-DD');
+            const value = this.getDataValue('dt_upload');
+
+            return value === null
+              ? null
+              : moment.utc(this.getDataValue('dt_upload')).format('YYYY-MM-DD');
           },
         },
         nm_file: {
