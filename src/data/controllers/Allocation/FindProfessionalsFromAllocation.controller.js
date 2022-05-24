@@ -10,8 +10,7 @@ export class FindProfessionalsFromAllocationController {
         id_role,
         id_grade,
         id_sector,
-        dt_start_allocation,
-        dt_end_allocation,
+        id_allocation_period,
       } = req.query;
 
       const service = new FindProfessionalsFromAllocationService();
@@ -23,8 +22,7 @@ export class FindProfessionalsFromAllocationController {
         id_role,
         id_grade,
         id_sector,
-        dt_start_allocation,
-        dt_end_allocation,
+        id_allocation_period,
       });
 
       if (response.error)

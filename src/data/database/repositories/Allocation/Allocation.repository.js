@@ -57,8 +57,7 @@ export class AllocationRepository {
     nm_product,
     tp_profile,
     id_professional,
-    dt_start_allocation,
-    dt_end_allocation,
+    id_allocation_period,
     ag_alocation,
     on_production,
     in_correction,
@@ -90,15 +89,11 @@ export class AllocationRepository {
         {
           model: Allocation_period,
           as: 'allocation_period',
-          where:
-            dt_start_allocation && dt_end_allocation
-              ? {
-                  [Op.and]: {
-                    dt_start_allocation,
-                    dt_end_allocation,
-                  },
-                }
-              : {},
+          where: id_allocation_period
+            ? {
+                id_allocation_period,
+              }
+            : {},
         },
         {
           model: Product,
