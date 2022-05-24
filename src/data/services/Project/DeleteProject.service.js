@@ -55,7 +55,7 @@ export class DeleteProjectService {
 
     if (verifyProduct.length >= 1) {
       return {
-        message:
+        error:
           'Não foi possível excluir o projeto pois há alocações associadas!',
       };
     }
