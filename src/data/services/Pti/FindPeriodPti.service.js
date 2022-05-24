@@ -14,8 +14,7 @@ export class FindPeriodPtiService {
   async execute({
     page,
     limit,
-    dt_start_allocation,
-    dt_end_allocation,
+    id_allocation_period,
     nm_professional,
     id_role,
     id_grade,
@@ -60,12 +59,11 @@ export class FindPeriodPtiService {
             {
               model: Allocation_period,
               as: 'allocation_period',
-              where: {
-                [Op.and]: {
-                  dt_start_allocation,
-                  dt_end_allocation,
-                },
-              },
+              where: id_allocation_period
+                ? {
+                    id_allocation_period,
+                  }
+                : {},
             },
           ],
         },

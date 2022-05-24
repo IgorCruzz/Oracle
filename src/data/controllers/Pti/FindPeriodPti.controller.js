@@ -6,8 +6,7 @@ export class FindPeriodPtiController {
       const {
         page,
         limit,
-        dt_start_allocation,
-        dt_end_allocation,
+        id_allocation_period,
         nm_professional,
         id_role,
         id_grade,
@@ -19,8 +18,7 @@ export class FindPeriodPtiController {
       const response = await service.execute({
         page,
         limit,
-        dt_start_allocation,
-        dt_end_allocation,
+        id_allocation_period,
         nm_professional,
         id_role,
         id_grade,
