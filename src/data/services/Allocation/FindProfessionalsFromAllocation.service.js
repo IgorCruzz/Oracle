@@ -14,22 +14,13 @@ export class FindProfessionalsFromAllocationService {
   async execute({
     page,
     limit,
-    allocation_period,
+    dt_start_allocation,
+    dt_end_allocation,
     nm_professional,
     id_role,
     id_grade,
     id_sector,
   }) {
-    let dt_start_allocation;
-    let dt_end_allocation;
-
-    if (allocation_period) {
-      const [start, end] = allocation_period.split('/');
-
-      dt_start_allocation = start;
-      dt_end_allocation = end;
-    }
-
     let searchQuery;
 
     if (nm_professional || id_role || id_grade || id_sector) {
