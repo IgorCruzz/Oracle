@@ -3,30 +3,14 @@ import { FindProductHistoryPtiService } from '../../services';
 export class FindProductHistoryPtiController {
   async handle(req, res) {
     try {
-      const {
-        page,
-        limit,
-        cd_priority,
-        id_project,
-        id_project_phase,
-        nm_product,
-        tp_profile,
-        id_professional,
-        allocation_period,
-      } = req.query;
+      const { page, limit, id_product } = req.query;
 
       const service = new FindProductHistoryPtiService();
 
       const response = await service.execute({
         page,
         limit,
-        cd_priority,
-        id_project,
-        id_project_phase,
-        nm_product,
-        tp_profile,
-        id_professional,
-        allocation_period,
+        id_product,
       });
 
       if (response.error)
@@ -34,13 +18,13 @@ export class FindProductHistoryPtiController {
           error: response.error,
         });
 
-      const { count, rows } = response.allocations;
+      const { count, rows } = response.ptis;
 
       return res.status(200).json({
         count,
         page,
         limit,
-        allocations: rows,
+        ptis: rows,
       });
     } catch (err) {
       return res.status(500).json({

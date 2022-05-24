@@ -1,33 +1,24 @@
-import { AllocationRepository } from '../../database/repositories';
+import { Product, Product_history } from '../../database/models';
 
 export class FindProductHistoryPtiService {
-  async execute({
-    page,
-    limit,
-    cd_priority,
-    id_project,
-    id_project_phase,
-    nm_product,
-    tp_profile,
-    id_professional,
-    allocation_period,
-  }) {
-    const repository = new AllocationRepository();
-
-    const findAllocations = await repository.findAllocations({
-      page,
-      limit,
-      cd_priority,
-      id_project,
-      id_project_phase,
-      nm_product,
-      tp_profile,
-      id_professional,
-      allocation_period,
+  async execute({ page, limit, id_product }) {
+    const findProductHistory = await Product.findAndCountAll({
+      limit: limit !== 'all' ? Number(limit) : null,
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+      include: [
+        {
+          model: Product_history,
+          required: true,
+          as: 'product_history',
+          where: {
+            id_product,
+          },
+        },
+      ],
     });
 
     return {
-      allocations: findAllocations,
+      ptis: findProductHistory,
     };
   }
 }

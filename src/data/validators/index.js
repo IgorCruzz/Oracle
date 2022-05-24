@@ -150,3 +150,8 @@ export * from './Allocation/findAllocation.validator';
 export * from './Allocation/findAllocations.validator';
 export * from './Allocation/updateAllocation.validator';
 export * from './Allocation/FindProfessionalsFromAllocation.validator';
+
+// PTI
+export * from './Ptis/FindPeriodPti.validator';
+export * from './Ptis/FindProductHistoryPti.validator';
+export * from './Ptis/FindProfessionalPti.validator';
