@@ -118,9 +118,19 @@ export class ProfessionalRepository {
           ? {
               model: Role_grade,
               as: 'coustHH',
-              where: { id_role_grade },
+              include: [
+                { model: Role, as: 'role' },
+                { model: Grade, as: 'grade' },
+              ],
+              where: {
+                id_role_grade,
+              },
             }
           : {
+              include: [
+                { model: Role, as: 'role' },
+                { model: Grade, as: 'grade' },
+              ],
               model: Role_grade,
               as: 'coustHH',
             },
