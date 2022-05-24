@@ -113,7 +113,7 @@ export class CreateProductService {
 
       const product = await Product.findOne({
         where: {
-          nm_product: createdProduct.dataValues.nm_product,
+          id_product: createdProduct.dataValues.id_product,
         },
         include: [
           { model: Role, as: 'suggested_role' },
