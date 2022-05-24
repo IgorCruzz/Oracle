@@ -7,7 +7,6 @@ import {
   UpdateUserController,
 } from '../../data/controllers';
 import {
-  findUserValidator,
   findUsersValidator,
   createUserValidator,
   deleteUserValidator,
@@ -40,11 +39,6 @@ routes.get(
   new FindUsersController().handle
 );
 
-routes.get(
-  '/user/:id_user',
-  authenticator,
-  findUserValidator,
-  new FindUserController().handle
-);
+routes.get('/user', authenticator, new FindUserController().handle);
 
 export default routes;
