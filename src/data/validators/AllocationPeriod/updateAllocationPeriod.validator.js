@@ -7,6 +7,8 @@ export const updateAllocationPeriodValidator = async (req, res, next) => {
       id_allocation_period: Yup.string().required('O campo id é obrigatório'),
     });
 
+    const { qt_business_hours } = req.body;
+
     const SchemaBody = Yup.object().shape({
       dt_start_allocation: Yup.string()
         .required('A Data inicial do período de Alocação é obrigatória')
@@ -26,7 +28,9 @@ export const updateAllocationPeriodValidator = async (req, res, next) => {
           'O campo quantidade de horas úteis do período de alocação é obrigatória'
         )
         .typeError(
-          'O preenchimento da quantidade de horas úteis do período de alocação é obrigatório'
+          typeof qt_business_hours === 'string'
+            ? 'A quantidade de horas úteis do período de alocação é inválida!'
+            : 'O preenchimento da quantidade de horas úteis do período de alocação é obrigatório'
         ),
     });
 

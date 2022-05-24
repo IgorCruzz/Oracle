@@ -3,6 +3,8 @@ import { ValidationError } from '../../../utils/validationError';
 
 export const createAllocationPeriodValidator = async (req, res, next) => {
   try {
+    const { qt_business_hours } = req.body;
+
     const Schema = Yup.object().shape({
       dt_start_allocation: Yup.string()
         .required('A Data inicial do período de Alocação é obrigatória')
@@ -22,7 +24,9 @@ export const createAllocationPeriodValidator = async (req, res, next) => {
           'O campo quantidade de horas úteis do período de alocação é obrigatória'
         )
         .typeError(
-          'O preenchimento da quantidade de horas úteis do período de alocação é obrigatório'
+          typeof qt_business_hours === 'string'
+            ? 'A quantidade de horas úteis do período de alocação é inválida!'
+            : 'O preenchimento da quantidade de horas úteis do período de alocação é obrigatório'
         ),
     });
 
