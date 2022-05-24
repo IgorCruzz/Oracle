@@ -28,6 +28,11 @@ export class Product extends Model {
   }
 
   static associate(models) {
+    Product.hasMany(models.Allocation, {
+      foreignKey: 'id_product',
+      as: 'allocation',
+    });
+
     Product.hasMany(models.Product_history, {
       foreignKey: 'id_product',
       as: 'product_history',

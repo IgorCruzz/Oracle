@@ -67,11 +67,12 @@ export class AllocationRepository {
   }) {
     let searchQuery;
 
-    if (id_professional) {
+    if (id_professional || id_suggested_role) {
       searchQuery = {
         ...(id_professional && {
           id_professional,
         }),
+        ...(id_suggested_role && { id_role_picture: id_suggested_role }),
       };
     } else {
       searchQuery = null;
@@ -98,7 +99,6 @@ export class AllocationRepository {
         {
           model: Product,
           as: 'product',
-          required: true,
 
           where: nm_product
             ? {
@@ -141,13 +141,13 @@ export class AllocationRepository {
             {
               model: Project_phase,
               as: 'project_phase',
-              required: true,
+
               where: id_project_phase ? { id_project_phase } : {},
               include: [
                 {
                   model: Project,
                   as: 'project',
-                  required: true,
+
                   where:
                     cd_priority || id_project
                       ? {
@@ -170,12 +170,12 @@ export class AllocationRepository {
         {
           model: Professional,
           as: 'professional',
-          required: true,
+
           include: [
             {
               model: User,
               as: 'user',
-              required: true,
+
               attributes: [
                 'id_user',
                 'ds_email_login',
@@ -191,7 +191,6 @@ export class AllocationRepository {
         {
           model: Role,
           as: 'role',
-          where: id_suggested_role ? { id_role: id_suggested_role } : null,
         },
         { model: Grade, as: 'grade' },
         { model: Sector, as: 'sector' },
