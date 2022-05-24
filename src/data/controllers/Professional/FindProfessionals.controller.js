@@ -8,9 +8,9 @@ export class FindProfessionalsController {
         id_sector,
         id_user,
         in_delivery_analyst,
-        limit,
         nm_professional,
         in_active,
+        limit,
         page,
       } = req.query;
 
