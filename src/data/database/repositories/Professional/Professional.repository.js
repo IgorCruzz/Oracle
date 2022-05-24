@@ -84,6 +84,7 @@ export class ProfessionalRepository {
     id_sector,
     id_user,
     in_active,
+    ds_email_login,
   }) {
     let searchQuery;
 
@@ -144,11 +145,18 @@ export class ProfessionalRepository {
               model: Sector,
               as: 'sector',
             },
-        id_user
+        id_user || ds_email_login
           ? {
               model: User,
               as: 'user',
-              where: { id_user },
+              where: {
+                [Op.and]: {
+                  ...(ds_email_login && {
+                    ds_email_login: { [Op.like]: `%${ds_email_login.trim()}%` },
+                  }),
+                  ...(id_user && { id_user }),
+                },
+              },
             }
           : {
               model: User,

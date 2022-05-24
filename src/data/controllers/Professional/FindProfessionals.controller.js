@@ -12,6 +12,7 @@ export class FindProfessionalsController {
         in_active,
         limit,
         page,
+        ds_email_login,
       } = req.query;
 
       const service = new FindProfessionalsService();
@@ -25,6 +26,7 @@ export class FindProfessionalsController {
         nm_professional,
         limit,
         page,
+        ds_email_login,
       });
 
       if (response.error)

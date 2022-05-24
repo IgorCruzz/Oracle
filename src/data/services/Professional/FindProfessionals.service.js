@@ -10,6 +10,7 @@ export class FindProfessionalsService {
     nm_professional,
     in_active,
     page,
+    ds_email_login,
   }) {
     const repository = new ProfessionalRepository();
 
@@ -22,6 +23,7 @@ export class FindProfessionalsService {
       nm_professional,
       in_active,
       page,
+      ds_email_login,
     });
 
     if (findProfessionals.length === 0)
