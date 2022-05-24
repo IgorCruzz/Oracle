@@ -34,13 +34,13 @@ export class FindPeriodPtiController {
           error: response.error,
         });
 
-      const { count, rows } = response.allocations;
+      const { count, rows } = response.ptis;
 
       return res.status(200).json({
         count,
         page,
         limit,
-        allocations: rows,
+        ptis: rows,
       });
     } catch (err) {
       return res.status(500).json({
