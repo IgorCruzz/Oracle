@@ -3,15 +3,15 @@ import { FindProfessionalPtiService } from '../../services';
 export class FindProfessionalPtiController {
   async handle(req, res) {
     try {
-      const { page, limit, dt_start_allocation, dt_end_allocation } = req.query;
+      const { page, limit, id_allocation_period, id_professional } = req.query;
 
       const service = new FindProfessionalPtiService();
 
       const response = await service.execute({
         page,
         limit,
-        dt_start_allocation,
-        dt_end_allocation,
+        id_allocation_period,
+        id_professional,
       });
 
       if (response.error)
@@ -25,7 +25,7 @@ export class FindProfessionalPtiController {
         count,
         page,
         limit,
-        ptis: rows,
+        ptis: rows.getAllocations,
       });
     } catch (err) {
       return res.status(500).json({
