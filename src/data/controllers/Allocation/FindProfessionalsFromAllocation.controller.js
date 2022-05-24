@@ -38,7 +38,7 @@ export class FindProfessionalsFromAllocationController {
         count,
         page,
         limit,
-        professionals: rows,
+        professionals: rows.getProfessionals,
       });
     } catch (err) {
       return res.status(500).json({

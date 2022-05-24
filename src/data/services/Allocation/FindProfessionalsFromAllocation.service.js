@@ -94,8 +94,36 @@ export class FindProfessionalsFromAllocationService {
       ],
     });
 
+    const getProfessionals = professionals.rows.map(professional => {
+      const prof = professional.dataValues;
+
+      const { allocation } = prof;
+
+      const businessHours = allocation.map(
+        values =>
+          values.dataValues.allocation_period.dataValues.qt_business_hours
+      );
+
+      const sumBussinesHours = businessHours.reduce((a, b) => a + b, 0);
+
+      return {
+        professional: {
+          id_professional: prof.id_professional,
+          nm_professional: prof.nm_professional,
+          in_delivery_analyst: prof.in_delivery_analyst,
+          in_active: prof.in_active,
+        },
+        role: prof.coustHH.role.dataValues,
+        grade: prof.coustHH.role.dataValues,
+        allocation_hours: sumBussinesHours,
+      };
+    });
+
     return {
-      professionals,
+      professionals: {
+        count: professionals.count,
+        rows: { getProfessionals },
+      },
     };
   }
 }
