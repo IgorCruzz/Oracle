@@ -12,7 +12,8 @@ export class FindAllocationsController {
         nm_product,
         tp_profile,
         id_professional,
-        allocation_period,
+        dt_start_allocation,
+        dt_end_allocation,
         ag_alocation,
         on_production,
         in_correction,
@@ -32,7 +33,8 @@ export class FindAllocationsController {
         nm_product,
         tp_profile,
         id_professional,
-        allocation_period,
+        dt_start_allocation,
+        dt_end_allocation,
         ag_alocation,
         on_production,
         in_correction,
@@ -55,6 +57,7 @@ export class FindAllocationsController {
         allocations: rows,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });

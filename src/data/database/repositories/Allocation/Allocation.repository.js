@@ -57,7 +57,8 @@ export class AllocationRepository {
     nm_product,
     tp_profile,
     id_professional,
-    allocation_period,
+    dt_start_allocation,
+    dt_end_allocation,
     ag_alocation,
     on_production,
     in_correction,
@@ -65,19 +66,6 @@ export class AllocationRepository {
     in_analisysCorretion,
     concluded,
   }) {
-    let dt_start_allocation;
-    let dt_end_allocation;
-
-    if (allocation_period) {
-      const [start, end] = allocation_period.split('-');
-
-      const [startDay, startMonth, startYear] = start.split('/');
-      const [endDay, endMonth, endYear] = end.split('/');
-
-      dt_start_allocation = `${startYear}-${startMonth}-${startDay}`;
-      dt_end_allocation = `${endYear}-${endMonth}-${endDay}`;
-    }
-
     let searchQuery;
 
     if (id_professional) {
@@ -102,14 +90,15 @@ export class AllocationRepository {
         {
           model: Allocation_period,
           as: 'allocation_period',
-          where: allocation_period
-            ? {
-                [Op.and]: {
-                  [Op.gte]: new Date(dt_start_allocation),
-                  [Op.lte]: new Date(dt_end_allocation),
-                },
-              }
-            : {},
+          where:
+            dt_start_allocation && dt_end_allocation
+              ? {
+                  [Op.and]: {
+                    dt_start_allocation,
+                    dt_end_allocation,
+                  },
+                }
+              : {},
         },
         {
           model: Product,
