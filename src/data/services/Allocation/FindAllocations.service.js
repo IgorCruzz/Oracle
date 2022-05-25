@@ -1,5 +1,4 @@
 import { Op } from 'sequelize';
-// import { format } from 'date-fns';
 import {
   Product,
   Allocation,
@@ -8,7 +7,6 @@ import {
   Product_history,
   Allocation_period,
   Professional,
-  User,
   Role,
   Grade,
   Sector,
@@ -33,9 +31,17 @@ export class FindAllocationsService {
   }) {
     const productCount = await Product.findAndCountAll({});
     const productHistories = await Product.findAndCountAll({
+      where: nm_product
+        ? {
+            nm_product: {
+              [Op.like]: `%${nm_product.trim()}%`,
+            },
+          }
+        : null,
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       include: [
+        { model: Role, as: 'suggested_role' },
         {
           model: Project_phase,
           as: 'project_phase',
@@ -113,10 +119,7 @@ export class FindAllocationsService {
               required: false,
               as: 'professional',
             },
-            {
-              model: Role,
-              as: 'role',
-            },
+
             { model: Grade, as: 'grade' },
             { model: Sector, as: 'sector' },
           ],
@@ -141,10 +144,9 @@ export class FindAllocationsService {
     });
 
     const getProducts = await productHistories.rows.map(value => {
-      const teste = value.dataValues;
-      const project_phase = teste.project_phase.dataValues;
-      const { project } = teste.project_phase.dataValues;
-      const { product_history } = value.dataValues;
+      const product = value.dataValues;
+      const project_phase = product.project_phase.dataValues;
+      const { project } = product.project_phase.dataValues;
 
       return {
         Project: {
@@ -156,15 +158,15 @@ export class FindAllocationsService {
           nm_project_phase: project_phase.nm_project_phase,
         },
         Product: {
-          id_product: teste.id_product,
-          nu_order: teste.nu_order,
-          nm_product: teste.nm_product,
-          qt_minimum_hour: teste.qt_minimum_hour,
-          qt_maximum_hours: teste.qt_maximum_hours,
-          qt_probable_hours: teste.qt_probable_hours,
-          tp_required_action: teste.tp_required_action,
-          ds_note_required_action: teste.ds_note_required_action,
-          id_suggested_role: teste.id_suggested_role,
+          id_product: product.id_product,
+          nu_order: product.nu_order,
+          nm_product: product.nm_product,
+          qt_minimum_hour: product.qt_minimum_hour,
+          qt_maximum_hours: product.qt_maximum_hours,
+          qt_probable_hours: product.qt_probable_hours,
+          tp_required_action: product.tp_required_action,
+          ds_note_required_action: product.ds_note_required_action,
+          suggested_role: product.suggested_role,
         },
         Status: {
           ...value.dataValues.product_history[
