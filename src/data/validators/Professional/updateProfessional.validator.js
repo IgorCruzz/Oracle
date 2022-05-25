@@ -28,7 +28,6 @@ export const updateProfessionalValidator = async (req, res, next) => {
           ['N', 'S', 's', 'n'],
           'Valor para o campo entrega do analista inválido'
         )
-        .required('O campo entrega do analista é obrigatório')
         .typeError('O preenchimento do entrega do analista é obrigatório'),
       id_role_grade: Yup.number()
         .required('Custo HH inválido')
