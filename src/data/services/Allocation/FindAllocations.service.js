@@ -1,4 +1,5 @@
 import { Op } from 'sequelize';
+import { format } from 'date-fns';
 import {
   Product,
   Allocation,
@@ -199,6 +200,19 @@ export class FindAllocationsService {
               }
             : null),
         },
+        allocation_period: status.allocation
+          ? {
+              id_allocation_period:
+                status.allocation.dataValues.id_allocation_period,
+              allocation_period: `${format(
+                status.allocation.dataValues.dt_start_allocation,
+                'dd/MM/yyyy'
+              )} - ${format(
+                status.allocation.dataValues.dt_end_allocation,
+                'dd/MM/yyyy'
+              )} (${status.allocation.dataValues.qt_business_hours}h)`,
+            }
+          : null,
       };
     });
 
