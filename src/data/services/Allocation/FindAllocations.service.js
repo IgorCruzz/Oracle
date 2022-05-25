@@ -192,10 +192,10 @@ export class FindAllocationsService {
           ...(status.professional
             ? {
                 id_professional: status.professional.dataValues.id_professional,
-                nm_professional: status.professional.dataValues.id_professional,
+                nm_professional: status.professional.dataValues.nm_professional,
                 in_delivery_analyst:
-                  status.professional.dataValues.id_professional,
-                in_active: status.professional.dataValues.id_professional,
+                  status.professional.dataValues.in_delivery_analyst,
+                in_active: status.professional.dataValues.in_active,
               }
             : null),
         },
