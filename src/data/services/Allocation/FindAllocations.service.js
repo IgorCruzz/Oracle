@@ -1,4 +1,5 @@
 import { Op } from 'sequelize';
+// import { format } from 'date-fns';
 import {
   Product,
   Allocation,
@@ -24,18 +25,30 @@ export class FindAllocationsService {
     id_suggested_role,
     id_professional,
     id_allocation_period,
-    on_production,
-    in_correction,
-    in_analisys,
-    in_analisysCorretion,
-    concluded,
+    // on_production,
+    // in_correction,
+    // in_analisys,
+    // in_analisysCorretion,
+    // concluded,
   }) {
+    const productCount = await Product.findAndCountAll({});
     const productHistories = await Product.findAndCountAll({
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       include: [
         {
+          model: Project_phase,
+          as: 'project_phase',
+          include: [
+            {
+              model: Project,
+              as: 'project',
+            },
+          ],
+        },
+        {
           model: Allocation,
+          required: false,
           as: 'allocation',
           where: {
             ...(id_professional && {
@@ -46,6 +59,7 @@ export class FindAllocationsService {
           include: [
             {
               model: Allocation_period,
+              required: false,
               as: 'allocation_period',
               where: id_allocation_period
                 ? {
@@ -55,39 +69,24 @@ export class FindAllocationsService {
             },
             {
               model: Product,
+              required: false,
               as: 'product',
-
-              where: nm_product
-                ? {
-                    [Op.or]: [
-                      { tp_required_action: 1 },
-                      { tp_required_action: 2 },
-                    ],
-                    nm_product,
-                  }
-                : {
-                    [Op.or]: [
-                      {
-                        tp_required_action: 1,
-                      },
-                      {
-                        tp_required_action: 2,
-                      },
-                    ],
-                  },
               include: [
                 {
                   model: Product_history,
+                  required: false,
                   as: 'product_history',
                 },
                 {
                   model: Project_phase,
+                  required: false,
                   as: 'project_phase',
 
                   where: id_project_phase ? { id_project_phase } : {},
                   include: [
                     {
                       model: Project,
+                      required: false,
                       as: 'project',
 
                       where:
@@ -111,24 +110,8 @@ export class FindAllocationsService {
             },
             {
               model: Professional,
+              required: false,
               as: 'professional',
-
-              include: [
-                {
-                  model: User,
-                  as: 'user',
-
-                  attributes: [
-                    'id_user',
-                    'ds_email_login',
-                    'nm_user',
-                    'dt_created_at',
-                    'dt_updated_at',
-                    'tp_profile',
-                    'in_active',
-                  ],
-                },
-              ],
             },
             {
               model: Role,
@@ -140,26 +123,38 @@ export class FindAllocationsService {
         },
         {
           model: Product_history,
-          required: true,
           as: 'product_history',
-          where: {
-            [Op.or]: [
-              { cd_status: 0 },
-              on_production && { cd_status: 1 },
-              in_correction && { cd_status: 2 },
-              in_analisys && { cd_status: 3 },
-              in_analisysCorretion && { cd_status: 4 },
-              concluded && { cd_status: 5 },
-            ],
-          },
+          include: [
+            {
+              model: Professional,
+
+              as: 'professional',
+            },
+            {
+              model: Allocation_period,
+
+              as: 'allocation',
+            },
+          ],
         },
       ],
     });
 
     const getProducts = await productHistories.rows.map(value => {
       const teste = value.dataValues;
+      const project_phase = teste.project_phase.dataValues;
+      const { project } = teste.project_phase.dataValues;
+      const { product_history } = value.dataValues;
 
-      console.log({
+      return {
+        Project: {
+          id_project: project.id_project,
+          nm_project: project.nm_project,
+        },
+        Project_phase: {
+          id_project_phase: project_phase.id_project_phase,
+          nm_project_phase: project_phase.nm_project_phase,
+        },
         Product: {
           id_product: teste.id_product,
           nu_order: teste.nu_order,
@@ -169,12 +164,21 @@ export class FindAllocationsService {
           qt_probable_hours: teste.qt_probable_hours,
           tp_required_action: teste.tp_required_action,
           ds_note_required_action: teste.ds_note_required_action,
+          id_suggested_role: teste.id_suggested_role,
         },
-      });
+        Status: {
+          ...value.dataValues.product_history[
+            value.dataValues.product_history.length - 1
+          ].dataValues,
+        },
+      };
     });
 
     return {
-      allocations: productHistories,
+      allocations: {
+        count: productCount.count,
+        rows: { getProducts },
+      },
     };
   }
 }

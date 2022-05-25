@@ -54,9 +54,10 @@ export class FindAllocationsController {
         count,
         page,
         limit,
-        allocations: rows,
+        allocations: rows.getProducts,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });
