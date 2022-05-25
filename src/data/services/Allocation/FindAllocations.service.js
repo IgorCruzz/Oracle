@@ -147,17 +147,21 @@ export class FindAllocationsService {
       const product = value.dataValues;
       const project_phase = product.project_phase.dataValues;
       const { project } = product.project_phase.dataValues;
+      const status =
+        value.dataValues.product_history[
+          value.dataValues.product_history.length - 1
+        ].dataValues;
 
       return {
-        Project: {
+        project: {
           id_project: project.id_project,
           nm_project: project.nm_project,
         },
-        Project_phase: {
+        project_phase: {
           id_project_phase: project_phase.id_project_phase,
           nm_project_phase: project_phase.nm_project_phase,
         },
-        Product: {
+        product: {
           id_product: product.id_product,
           nu_order: product.nu_order,
           nm_product: product.nm_product,
@@ -166,12 +170,27 @@ export class FindAllocationsService {
           qt_probable_hours: product.qt_probable_hours,
           tp_required_action: product.tp_required_action,
           ds_note_required_action: product.ds_note_required_action,
-          suggested_role: product.suggested_role,
         },
-        Status: {
-          ...value.dataValues.product_history[
-            value.dataValues.product_history.length - 1
-          ].dataValues,
+        suggested_role: {
+          id_role: product.suggested_role.id_role,
+          nm_role: product.suggested_role.nm_role,
+        },
+        product_history: {
+          id_product_history: status.id_product_history,
+          cd_status: status.cd_status,
+          dt_status: status.dt_status,
+          tx_remark: status.tx_remark,
+        },
+        professional: {
+          ...(status.professional
+            ? {
+                id_professional: status.professional.dataValues.id_professional,
+                nm_professional: status.professional.dataValues.id_professional,
+                in_delivery_analyst:
+                  status.professional.dataValues.id_professional,
+                in_active: status.professional.dataValues.id_professional,
+              }
+            : null),
         },
       };
     });
