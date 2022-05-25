@@ -289,15 +289,9 @@ export class ProfessionalRepository {
   }
 
   async deleteProfessional({ id_professional, transaction }) {
-    const professional = await Professional.findOne({
-      where: {
-        id_professional,
-      },
+    await Professional.destroy({
+      where: { id_professional },
       ...(transaction && { transaction }),
-    });
-
-    await professional.update({
-      in_active: 'N',
     });
   }
 
