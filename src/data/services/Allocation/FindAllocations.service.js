@@ -11,6 +11,7 @@ import {
   Grade,
   Sector,
 } from '../../database/models';
+import { calculateHour } from '../../../utils/calculateHour';
 
 export class FindAllocationsService {
   async execute({
@@ -153,6 +154,12 @@ export class FindAllocationsService {
         ].dataValues;
 
       return {
+        qt_hours_picture: calculateHour({
+          max: product.qt_maximum_hours,
+          min: product.qt_minimum_hours,
+          prov: product.qt_probable_hours,
+          value: product.tp_required_action,
+        }),
         project: {
           id_project: project.id_project,
           nm_project: project.nm_project,
@@ -165,7 +172,7 @@ export class FindAllocationsService {
           id_product: product.id_product,
           nu_order: product.nu_order,
           nm_product: product.nm_product,
-          qt_minimum_hour: product.qt_minimum_hour,
+          qt_minimum_hour: product.qt_minimum_hours,
           qt_maximum_hours: product.qt_maximum_hours,
           qt_probable_hours: product.qt_probable_hours,
           tp_required_action: product.tp_required_action,
