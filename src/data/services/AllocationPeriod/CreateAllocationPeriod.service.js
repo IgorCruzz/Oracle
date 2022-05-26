@@ -40,8 +40,8 @@ export class CreateAllocationPeriodService {
     }
 
     const verifyAllocationPeriodExists = await repository.findAllocationPeriod({
-      dt_start_allocation,
-      dt_end_allocation,
+      dt_start_allocation: dtAllocationStart,
+      dt_end_allocation: dtAllocationEnd,
       qt_business_hours,
     });
 
@@ -51,7 +51,11 @@ export class CreateAllocationPeriodService {
       };
     }
 
-    const allocationPeriod = await repository.createAllocationPeriod(data);
+    const allocationPeriod = await repository.createAllocationPeriod({
+      ...data,
+      dtAllocationStart,
+      dtAllocationEnd,
+    });
 
     return {
       message: 'Período de Alocação registrado com sucesso!',

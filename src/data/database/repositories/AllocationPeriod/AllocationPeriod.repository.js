@@ -3,8 +3,12 @@ import { Allocation_period } from '../../models';
 
 export class AllocationPeriodRepository {
   async createAllocationPeriod(data) {
+    const { dtAllocationStart, dtAllocationEnd, ...rest } = data;
+
     const createdAllocationPeriod = await Allocation_period.create({
-      ...data,
+      ...rest,
+      dt_start_allocation: dtAllocationStart,
+      dt_end_allocation: dtAllocationEnd,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
