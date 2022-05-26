@@ -36,7 +36,9 @@ export class AllocationPeriodRepository {
     ) {
       searchQuery = {
         ...(dt_start_allocation_in &&
-          dt_start_allocation_at && {
+          dt_start_allocation_at &&
+          !dt_end_allocation_in &&
+          !dt_end_allocation_at && {
             dt_start_allocation: {
               [Op.between]: [
                 new Date(dt_start_allocation_in),
@@ -44,14 +46,38 @@ export class AllocationPeriodRepository {
               ],
             },
           }),
-        ...(dt_end_allocation_in && {
-          dt_end_allocation_at: {
-            [Op.between]: [
-              new Date(dt_end_allocation_in),
-              new Date(dt_end_allocation_at),
+        ...(dt_end_allocation_in &&
+          dt_end_allocation_at &&
+          !dt_start_allocation_in &&
+          !dt_start_allocation_at && {
+            dt_end_allocation: {
+              [Op.between]: [
+                new Date(dt_end_allocation_in),
+                new Date(dt_end_allocation_at),
+              ],
+            },
+          }),
+        ...(dt_start_allocation_in &&
+          dt_start_allocation_at &&
+          dt_end_allocation_in &&
+          dt_end_allocation_at && {
+            [Op.and]: [
+              {
+                dt_start_allocation: {
+                  [Op.between]: [
+                    new Date(dt_start_allocation_in),
+                    new Date(dt_start_allocation_at),
+                  ],
+                },
+                dt_end_allocation: {
+                  [Op.between]: [
+                    new Date(dt_end_allocation_in),
+                    new Date(dt_end_allocation_at),
+                  ],
+                },
+              },
             ],
-          },
-        }),
+          }),
         ...(qt_business_hours && {
           qt_business_hours: { [Op.like]: `%${qt_business_hours.trim()}%` },
         }),
