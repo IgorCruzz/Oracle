@@ -154,11 +154,12 @@ export class FindAllocationsService {
       const status = value.dataValues.product_history[0].dataValues;
 
       return {
-        allocation: product.allocation
-          ? {
-              id_allocation: product.allocation[0].dataValues.id_allocation,
-            }
-          : null,
+        allocation:
+          product.allocation.length > 0
+            ? {
+                id_allocation: product.allocation[0].dataValues.id_allocation,
+              }
+            : null,
         qt_hours_picture: calculateHour({
           max: product.qt_maximum_hours,
           min: product.qt_minimum_hours,
