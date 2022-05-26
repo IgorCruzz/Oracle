@@ -45,10 +45,12 @@ export class FindProfessionalsFromAllocationService {
       include: [
         {
           model: Allocation,
+          required: true,
           as: 'allocation',
           include: [
             {
               model: Allocation_period,
+              required: true,
               as: 'allocation_period',
               where: {
                 id_allocation_period,
@@ -80,8 +82,6 @@ export class FindProfessionalsFromAllocationService {
         },
       ],
     });
-
-    console.log(professionals.rows);
 
     const getProfessionals = professionals.rows.map(professional => {
       const prof = professional.dataValues;
