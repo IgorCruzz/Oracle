@@ -84,6 +84,7 @@ export class FindAllocationsService {
                   model: Product_history,
                   required: false,
                   as: 'product_history',
+                  order: [['dt_created_at', 'DESC']],
                 },
                 {
                   model: Project_phase,
@@ -129,6 +130,7 @@ export class FindAllocationsService {
         {
           model: Product_history,
           as: 'product_history',
+          order: [['dt_created_at', 'DESC']],
           include: [
             {
               model: Professional,
@@ -149,10 +151,11 @@ export class FindAllocationsService {
       const product = value.dataValues;
       const project_phase = product.project_phase.dataValues;
       const { project } = product.project_phase.dataValues;
-      const status =
-        value.dataValues.product_history[
-          value.dataValues.product_history.length - 1
-        ].dataValues;
+      const status = value.dataValues.product_history[0].dataValues;
+
+      console.log({
+        values: value.dataValues.product_history,
+      });
 
       return {
         qt_hours_picture: calculateHour({
