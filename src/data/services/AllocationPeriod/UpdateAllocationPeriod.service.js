@@ -65,8 +65,6 @@ export class UpdateAllocationPeriodService {
       };
     }
 
-    console.log(verifyAllocationPeriodExists);
-
     const AllocationPeriodUpdated = await repository.updateAllocationPeriod(
       id_allocation_period,
       { ...data, dtAllocationStart, dtAllocationEnd }
