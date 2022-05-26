@@ -20,39 +20,38 @@ export class AllocationPeriodRepository {
   async findAllocationPeriods({
     page,
     limit,
-    dt_start_allocation,
-    dt_end_allocation,
+    dt_start_allocation_in,
+    dt_start_allocation_at,
+    dt_end_allocation_in,
+    dt_end_allocation_at,
     qt_business_hours,
   }) {
     let searchQuery;
 
-    if (dt_start_allocation || dt_end_allocation || qt_business_hours) {
+    if (
+      dt_start_allocation_in ||
+      dt_start_allocation_at ||
+      dt_end_allocation_in ||
+      dt_end_allocation_at
+    ) {
       searchQuery = {
-        ...(dt_start_allocation &&
-          !dt_end_allocation && {
+        ...(dt_start_allocation_in &&
+          dt_start_allocation_at && {
             dt_start_allocation: {
-              [Op.gte]: `%${dt_start_allocation.trim()}%`,
+              [Op.between]: [
+                new Date(dt_start_allocation_in),
+                new Date(dt_start_allocation_at),
+              ],
             },
           }),
-        ...(dt_start_allocation &&
-          dt_end_allocation && {
-            [Op.and]: [
-              {
-                dt_start_allocation: {
-                  [Op.gte]: `%${dt_start_allocation.trim()}%`,
-                },
-              },
-              {
-                dt_end_allocation: {
-                  [Op.lte]: `%${dt_end_allocation.trim()}%`,
-                },
-              },
+        ...(dt_end_allocation_in && {
+          dt_end_allocation_at: {
+            [Op.between]: [
+              new Date(dt_end_allocation_in),
+              new Date(dt_end_allocation_at),
             ],
-          }),
-        ...(dt_end_allocation &&
-          !dt_start_allocation && {
-            dt_end_allocation: { [Op.lte]: `%${dt_end_allocation.trim()}%` },
-          }),
+          },
+        }),
         ...(qt_business_hours && {
           qt_business_hours: { [Op.like]: `%${qt_business_hours.trim()}%` },
         }),

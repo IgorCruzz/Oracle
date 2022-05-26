@@ -6,8 +6,10 @@ export class FindAllocationPeriodsController {
       const {
         page,
         limit,
-        dt_start_allocation,
-        dt_end_allocation,
+        dt_start_allocation_in,
+        dt_start_allocation_at,
+        dt_end_allocation_in,
+        dt_end_allocation_at,
         qt_business_hours,
       } = req.query;
 
@@ -16,8 +18,10 @@ export class FindAllocationPeriodsController {
       const response = await service.execute({
         page,
         limit,
-        dt_start_allocation,
-        dt_end_allocation,
+        dt_start_allocation_in,
+        dt_start_allocation_at,
+        dt_end_allocation_in,
+        dt_end_allocation_at,
         qt_business_hours,
       });
 
