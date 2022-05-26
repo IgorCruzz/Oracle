@@ -27,15 +27,6 @@ export class FindProfessionalsFromAllocationService {
         ...(nm_professional && {
           nm_professional: { [Op.like]: `%${nm_professional.trim()}%` },
         }),
-        ...(id_role && {
-          id_role: { [Op.like]: `%${id_role.trim()}%` },
-        }),
-        ...(id_grade && {
-          id_grade: { [Op.like]: `%${id_grade.trim()}%` },
-        }),
-        ...(id_sector && {
-          id_sector: { [Op.like]: `%${id_sector.trim()}%` },
-        }),
       };
     } else {
       searchQuery = null;
@@ -89,6 +80,8 @@ export class FindProfessionalsFromAllocationService {
         },
       ],
     });
+
+    console.log(professionals.rows);
 
     const getProfessionals = professionals.rows.map(professional => {
       const prof = professional.dataValues;
