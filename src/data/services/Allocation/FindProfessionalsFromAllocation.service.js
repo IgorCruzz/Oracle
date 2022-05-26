@@ -45,12 +45,12 @@ export class FindProfessionalsFromAllocationService {
       include: [
         {
           model: Allocation,
-          required: true,
+
           as: 'allocation',
           include: [
             {
               model: Allocation_period,
-              required: true,
+
               as: 'allocation_period',
               where: {
                 id_allocation_period,
