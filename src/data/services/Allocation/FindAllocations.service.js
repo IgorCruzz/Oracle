@@ -116,15 +116,18 @@ export class FindAllocationsService {
           model: Product_history,
           as: 'product_history',
           order: [['dt_created_at', 'DESC']],
+
           include: [
             {
               model: Professional,
+              required: !!id_professional,
               where: id_professional ? { id_professional } : {},
 
               as: 'professional',
             },
             {
               model: Allocation_period,
+              required: !!id_allocation_period,
               where: id_allocation_period ? { id_allocation_period } : {},
               as: 'allocation',
             },
@@ -288,7 +291,7 @@ export class FindAllocationsService {
     return {
       allocations: {
         count: getProducts.length,
-        rows: getProducts,
+        rows: productHistories.rows,
       },
     };
   }
