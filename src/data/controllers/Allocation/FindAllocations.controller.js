@@ -12,8 +12,7 @@ export class FindAllocationsController {
         nm_product,
         id_suggested_role,
         id_professional,
-        dt_start_allocation,
-        dt_end_allocation,
+        id_allocation_period,
         ag_alocation,
         on_production,
         in_correction,
@@ -33,8 +32,7 @@ export class FindAllocationsController {
         nm_product,
         id_suggested_role,
         id_professional,
-        dt_start_allocation,
-        dt_end_allocation,
+        id_allocation_period,
         ag_alocation,
         on_production,
         in_correction,
@@ -54,7 +52,7 @@ export class FindAllocationsController {
         count,
         page,
         limit,
-        allocations: rows.getProducts,
+        allocations: rows,
       });
     } catch (err) {
       console.log(err);

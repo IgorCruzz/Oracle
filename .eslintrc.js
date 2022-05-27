@@ -23,7 +23,8 @@ module.exports = {
     "import/export": "off",
     "no-return-await": "off",
     "array-callback-return": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "prefer-spread": "off"
 
   },
 };

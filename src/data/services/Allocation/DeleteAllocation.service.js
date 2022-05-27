@@ -14,40 +14,38 @@ export class DeleteAllocationService {
 
     try {
       await Promise.all(
-        allocations.map(async id_allocation => {
-          const getAllocation = await repository.findAllocationById({
-            id_allocation,
-            transaction: t,
-          });
+        allocations.map(
+          async ({ id_allocation_period, id_product, id_professional }) => {
+            const verifyAllocationExists = await repository.findAllocation({
+              id_allocation_period,
+              id_product,
+              id_professional,
+            });
 
-          if (!getAllocation)
-            return {
-              error: `Não há nenhuma locação registrada com este ID -> ${id_allocation}.`,
-            };
+            await productHistoryRepository.deleteProductHistory({
+              id_professional,
+              transaction: t,
+            });
 
-          const { id_product, id_professional } = getAllocation;
+            await productHistoryRepository.createProductHistory({
+              cd_status: 0,
+              dt_status: new Date(Date.now()).toISOString(),
+              tx_remark: null,
+              id_product,
+              id_allocation_period: null,
+              id_professional: null,
+              id_analyst_user: null,
+              transaction: t,
+            });
 
-          await productHistoryRepository.deleteProductHistory({
-            id_professional,
-            transaction: t,
-          });
+            const { id_allocation } = verifyAllocationExists;
 
-          await productHistoryRepository.createProductHistory({
-            cd_status: 0,
-            dt_status: new Date(Date.now()).toISOString(),
-            tx_remark: null,
-            id_product,
-            id_allocation_period: null,
-            id_professional: null,
-            id_analyst_user: null,
-            transaction: t,
-          });
-
-          await repository.deleteAllocation({
-            id_allocation,
-            transaction: t,
-          });
-        })
+            await repository.deleteAllocation({
+              id_allocation,
+              transaction: t,
+            });
+          }
+        )
       );
 
       t.commit();
