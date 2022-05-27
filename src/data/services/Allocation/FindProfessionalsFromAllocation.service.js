@@ -22,7 +22,7 @@ export class FindProfessionalsFromAllocationService {
   }) {
     let searchQuery;
 
-    if (nm_professional || id_role || id_grade || id_sector) {
+    if (nm_professional) {
       searchQuery = {
         ...(nm_professional && {
           nm_professional: { [Op.like]: `%${nm_professional.trim()}%` },
@@ -61,12 +61,28 @@ export class FindProfessionalsFromAllocationService {
         {
           model: Role_grade,
           as: 'coustHH',
+          where:
+            id_role || id_grade
+              ? {
+                  [Op.or]: [
+                    {
+                      id_role,
+                    },
+                    { id_grade },
+                  ],
+                }
+              : null,
+
           include: [
             { model: Role, as: 'role' },
             { model: Grade, as: 'grade' },
           ],
         },
-        { model: Sector, as: 'sector' },
+        {
+          model: Sector,
+          as: 'sector',
+          where: id_sector ? { id_sector } : null,
+        },
         {
           model: User,
           as: 'user',
