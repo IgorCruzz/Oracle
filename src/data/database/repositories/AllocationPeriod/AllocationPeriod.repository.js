@@ -96,6 +96,7 @@ export class AllocationPeriodRepository {
             [Op.and]: searchQuery,
           }
         : {},
+      order: [['dt_start_allocation', 'DESC']],
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
     });
