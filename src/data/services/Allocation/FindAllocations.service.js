@@ -57,29 +57,32 @@ export class FindAllocationsService {
         {
           model: Allocation,
           as: 'allocation',
+          required: false,
           include: [
             {
               model: Allocation_period,
+              required: false,
               as: 'allocation_period',
             },
             {
               model: Product,
-
+              required: false,
               as: 'product',
               include: [
                 {
                   model: Product_history,
+                  required: false,
                   as: 'product_history',
                   order: [['dt_created_at', 'DESC']],
                 },
                 {
                   model: Project_phase,
                   as: 'project_phase',
-
-                  where: id_project_phase ? { id_project_phase } : {},
+                  required: false,
                   include: [
                     {
                       model: Project,
+                      required: false,
                       as: 'project',
 
                       where: {
@@ -274,7 +277,7 @@ export class FindAllocationsService {
     return {
       allocations: {
         count: productCount.count,
-        rows: getProducts,
+        rows: productHistories.rows,
       },
     };
   }
