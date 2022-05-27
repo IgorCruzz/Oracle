@@ -277,7 +277,7 @@ export class FindAllocationsService {
     return {
       allocations: {
         count: productCount.count,
-        rows: productHistories.rows,
+        rows: getProducts,
       },
     };
   }
