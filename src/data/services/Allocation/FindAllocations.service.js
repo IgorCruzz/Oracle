@@ -140,7 +140,10 @@ export class FindAllocationsService {
       const product = value.dataValues;
       const project_phase = product.project_phase.dataValues;
       const { project } = product.project_phase.dataValues;
-      const status = value.dataValues.product_history[0].dataValues;
+      const status =
+        value.dataValues.product_history[
+          value.dataValues.product_history.length - 1
+        ].dataValues;
 
       return {
         allocation:
@@ -288,6 +291,8 @@ export class FindAllocationsService {
     //   ],
     // });
 
+    // getProducts
+    // get.rows
     return {
       allocations: {
         count: getProducts.length,
