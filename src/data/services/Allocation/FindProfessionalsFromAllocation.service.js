@@ -20,10 +20,6 @@ export class FindProfessionalsFromAllocationService {
     id_grade,
     id_sector,
   }) {
-    console.log({
-      id_role,
-    });
-
     let searchQuery;
 
     if (nm_professional) {
