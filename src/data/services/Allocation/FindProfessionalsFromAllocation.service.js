@@ -20,6 +20,10 @@ export class FindProfessionalsFromAllocationService {
     id_grade,
     id_sector,
   }) {
+    console.log({
+      id_role,
+    });
+
     let searchQuery;
 
     if (nm_professional) {
@@ -64,14 +68,10 @@ export class FindProfessionalsFromAllocationService {
           where:
             id_role || id_grade
               ? {
-                  [Op.or]: [
-                    {
-                      id_role,
-                    },
-                    { id_grade },
-                  ],
+                  ...(id_role && { id_role }),
+                  ...(id_grade && { id_grade }),
                 }
-              : null,
+              : {},
 
           include: [
             { model: Role, as: 'role' },
