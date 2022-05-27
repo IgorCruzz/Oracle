@@ -31,7 +31,8 @@ export class FindAllocationsService {
     // in_analisysCorretion,
     // concluded,
   }) {
-    const productCount = await Product.findAndCountAll({});
+    // const productCount = await Product.findAndCountAll({});
+
     const productHistories = await Product.findAndCountAll({
       where: nm_product
         ? {
@@ -43,14 +44,23 @@ export class FindAllocationsService {
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       include: [
-        { model: Role, as: 'suggested_role' },
+        {
+          model: Role,
+          as: 'suggested_role',
+          where: id_suggested_role ? { id_role: id_suggested_role } : {},
+        },
         {
           model: Project_phase,
           as: 'project_phase',
+          where: id_project_phase ? { id_project_phase } : {},
           include: [
             {
               model: Project,
               as: 'project',
+              where: {
+                ...(cd_priority && { cd_priority }),
+                ...(id_project && { id_project }),
+              },
             },
           ],
         },
@@ -109,12 +119,13 @@ export class FindAllocationsService {
           include: [
             {
               model: Professional,
+              where: id_professional ? { id_professional } : {},
 
               as: 'professional',
             },
             {
               model: Allocation_period,
-
+              where: id_allocation_period ? { id_allocation_period } : {},
               as: 'allocation',
             },
           ],
@@ -276,8 +287,8 @@ export class FindAllocationsService {
 
     return {
       allocations: {
-        count: productCount.count,
-        rows: getProducts,
+        count: getProducts.length,
+        rows: productHistories.rows,
       },
     };
   }
