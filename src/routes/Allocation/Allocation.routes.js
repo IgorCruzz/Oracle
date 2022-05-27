@@ -6,6 +6,7 @@ import {
   FindAllocationsController,
   FindAllocationController,
   FindProfessionalsFromAllocationController,
+  FindProfessionalsAllocatedController,
 } from '../../data/controllers';
 import {
   findAllocationValidator,
@@ -45,6 +46,12 @@ routes.patch(
   authenticator,
   updateAllocationValidator,
   new UpdateAllocationController().handle
+);
+
+routes.get(
+  '/allocations/professionalAllocated',
+  authenticator,
+  new FindProfessionalsAllocatedController().handle
 );
 
 routes.get(
