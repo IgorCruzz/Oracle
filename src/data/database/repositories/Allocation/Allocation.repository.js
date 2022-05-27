@@ -199,11 +199,12 @@ export class AllocationRepository {
   }
 
   async findAllocation({ id_allocation_period, id_professional, id_product }) {
+    console.log(id_professional);
     return await Allocation.findOne({
       where: {
         [Op.and]: {
           id_allocation_period,
-          id_professional,
+          // id_professional,
           id_product,
         },
       },

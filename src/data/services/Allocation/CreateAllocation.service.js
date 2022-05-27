@@ -56,7 +56,7 @@ export class CreateAllocationService {
             const verifyAllocationExists = await repository.findAllocation({
               id_allocation_period,
               id_product,
-              id_professional,
+              // id_professional,
             });
 
             if (!verifyAllocationExists) {
