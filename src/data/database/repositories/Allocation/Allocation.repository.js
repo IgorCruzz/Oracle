@@ -198,15 +198,10 @@ export class AllocationRepository {
     });
   }
 
-  async findAllocation({ id_allocation_period, id_professional, id_product }) {
-    console.log(id_professional);
+  async findAllocation({ id_product }) {
     return await Allocation.findOne({
       where: {
-        [Op.and]: {
-          id_allocation_period,
-          // id_professional,
-          id_product,
-        },
+        id_product,
       },
       raw: true,
     });
