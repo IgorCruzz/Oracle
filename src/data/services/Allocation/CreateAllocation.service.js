@@ -57,6 +57,8 @@ export class CreateAllocationService {
               id_product,
             });
 
+            console.log(verifyAllocationExists);
+
             if (!verifyAllocationExists) {
               await productHistoryRepository.createProductHistory({
                 cd_status: 1,
@@ -90,11 +92,14 @@ export class CreateAllocationService {
               const {
                 id_product: idProduct,
                 id_professional: professional,
-
+                id_allocation_period: allocation,
                 id_allocation,
               } = verifyAllocationExists;
 
-              if (professional !== id_professional) {
+              if (
+                professional !== id_professional ||
+                id_allocation_period !== allocation
+              ) {
                 await productHistoryRepository.deleteProductHistory({
                   id_professional: professional,
                   id_allocation_period,
@@ -115,6 +120,7 @@ export class CreateAllocationService {
                 await repository.updateAllocation(id_allocation, {
                   transaction: t,
                   id_professional,
+                  id_allocation_period,
                 });
               }
             }
