@@ -90,7 +90,7 @@ export class CreateAllocationService {
               const {
                 id_product: idProduct,
                 id_professional: professional,
-                id_allocation_period: idAllocationPeriod,
+
                 id_allocation,
               } = verifyAllocationExists;
 
@@ -106,7 +106,7 @@ export class CreateAllocationService {
                   dt_status: new Date(Date.now()).toISOString(),
                   tx_remark: null,
                   id_product: idProduct,
-                  id_allocation_period: idAllocationPeriod,
+                  id_allocation_period,
                   id_professional,
                   id_analyst_user: null,
                   transaction: t,
