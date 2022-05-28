@@ -1,4 +1,5 @@
 import Sequelize, { Op } from 'sequelize';
+import { format } from 'date-fns';
 import {
   Product,
   Project_phase,
@@ -217,7 +218,13 @@ export class FindAllocationsService {
       },
       allocation_period: product.id_allocation_period && {
         id_allocation_period: product.id_allocation_period,
-        period: `${product['allocation.dt_start_allocation']} - ${product['allocation.dt_end_allocation']} (${product['allocation.qt_business_hours']}h)`,
+        period: `${format(
+          new Date(product['allocation.dt_start_allocation']),
+          'dd/MM/yyyy'
+        )} - ${format(
+          new Date(product['allocation.dt_end_allocation']),
+          'dd/MM/yyyy'
+        )} (${product['allocation.qt_business_hours']}h)`,
       },
     }));
 
