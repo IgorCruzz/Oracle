@@ -207,6 +207,23 @@ export class AllocationRepository {
     });
   }
 
+  async findAllocationToDelete({
+    id_product,
+    id_professional,
+    id_allocation_period,
+  }) {
+    return await Allocation.findOne({
+      where: {
+        [Op.and]: [
+          { id_product },
+          { id_professional },
+          { id_allocation_period },
+        ],
+      },
+      raw: true,
+    });
+  }
+
   async findAllocationById({ id_allocation, transaction }) {
     return await Allocation.findOne({
       where: {

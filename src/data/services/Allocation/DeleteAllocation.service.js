@@ -16,11 +16,13 @@ export class DeleteAllocationService {
       await Promise.all(
         allocations.map(
           async ({ id_allocation_period, id_product, id_professional }) => {
-            const verifyAllocationExists = await repository.findAllocation({
-              id_allocation_period,
-              id_product,
-              id_professional,
-            });
+            const verifyAllocationExists = await repository.findAllocationToDelete(
+              {
+                id_allocation_period,
+                id_product,
+                id_professional,
+              }
+            );
 
             await productHistoryRepository.deleteProductHistoryAllocation({
               id_professional,
@@ -29,11 +31,12 @@ export class DeleteAllocationService {
             });
 
             const { id_allocation } = verifyAllocationExists;
-
-            await repository.deleteAllocation({
-              id_allocation,
-              transaction: t,
-            });
+            if (id_allocation) {
+              await repository.deleteAllocation({
+                id_allocation,
+                transaction: t,
+              });
+            }
           }
         )
       );
@@ -44,6 +47,7 @@ export class DeleteAllocationService {
         message: 'Desalocação efetuada com sucesso!',
       };
     } catch (e) {
+      console.log(e);
       if (t) {
         await t.rollback();
       }
