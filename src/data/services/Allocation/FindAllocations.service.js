@@ -1,16 +1,12 @@
-import { Op } from 'sequelize';
-import { format } from 'date-fns';
+import Sequelize, { Op } from 'sequelize';
 import {
   Product,
-  Allocation,
   Project_phase,
   Project,
   Product_history,
   Allocation_period,
   Professional,
   Role,
-  Grade,
-  Sector,
 } from '../../database/models';
 import { calculateHour } from '../../../utils/calculateHour';
 
@@ -25,278 +21,213 @@ export class FindAllocationsService {
     id_suggested_role,
     id_professional,
     id_allocation_period,
-    // on_production,
-    // in_correction,
-    // in_analisys,
-    // in_analisysCorretion,
-    // concluded,
+    wt_alocation,
+    on_production,
+    in_correction,
+    in_analisys,
+    in_analisysCorretion,
+    concluded,
   }) {
-    // const productCount = await Product.findAndCountAll({});
+    const havingValues = [
+      wt_alocation && { value: 0 },
+      on_production && { value: 1 },
+      in_correction && { value: 2 },
+      in_analisys && { value: 3 },
+      in_analisysCorretion && { value: 4 },
+      concluded && { value: 5 },
+    ].filter(value => value);
 
-    const productHistories = await Product.findAndCountAll({
-      where: nm_product
-        ? {
-            nm_product: {
-              [Op.like]: `%${nm_product.trim()}%`,
-            },
-          }
-        : null,
+    const productHistories = await Product_history.findAndCountAll({
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+
+      attributes: [
+        [
+          Sequelize.fn('MAX', Sequelize.col('id_product_history')),
+          'id_product_history',
+        ],
+        [Sequelize.fn('MAX', Sequelize.col('cd_status')), 'cd_status'],
+        [Sequelize.fn('MAX', Sequelize.col('dt_status')), 'dt_status'],
+        [Sequelize.fn('MAX', Sequelize.col('tx_remark')), 'tx_remark'],
+        [Sequelize.col('product.id_product'), 'id_product'],
+        [
+          Sequelize.fn('MAX', Sequelize.col('professional.id_professional')),
+          'id_professional',
+        ],
+        [
+          Sequelize.fn('MAX', Sequelize.col('allocation.id_allocation_period')),
+          'id_allocation_period',
+        ],
+      ],
+
+      group: Sequelize.col('product.id_product'),
+      raw: true,
+
+      having:
+        wt_alocation ||
+        on_production ||
+        in_correction ||
+        in_analisys ||
+        in_analisysCorretion ||
+        concluded
+          ? Sequelize.where(Sequelize.literal('MAX(cd_status)'), '=', {
+              [Op.or]: havingValues.map(({ value }) => value),
+            })
+          : null,
+
       include: [
         {
-          model: Role,
-          as: 'suggested_role',
-          where: id_suggested_role ? { id_role: id_suggested_role } : {},
-        },
-        {
-          model: Project_phase,
-          as: 'project_phase',
-          where: id_project_phase ? { id_project_phase } : {},
-          include: [
-            {
-              model: Project,
-              as: 'project',
-              where: {
-                ...(cd_priority && { cd_priority }),
-                ...(id_project && { id_project }),
+          model: Product,
+          as: 'product',
+          required: cd_priority || id_project || id_project_phase || nm_product,
+          where: nm_product
+            ? {
+                ...(nm_product && {
+                  nm_product: { [Op.like]: `%${nm_product.trim()}%` },
+                }),
+              }
+            : {
+                [Op.or]: [
+                  {
+                    tp_required_action: 1,
+                  },
+                  {
+                    tp_required_action: 2,
+                  },
+                ],
               },
-            },
-          ],
-        },
-        {
-          model: Allocation,
-          as: 'allocation',
-          required: false,
           include: [
             {
-              model: Allocation_period,
-              required: false,
-              as: 'allocation_period',
+              model: Role,
+              required: id_suggested_role,
+              as: 'suggested_role',
+              where: id_suggested_role
+                ? {
+                    ...(id_suggested_role && { id_role: id_suggested_role }),
+                  }
+                : null,
             },
             {
-              model: Product,
-              required: false,
-              as: 'product',
+              model: Project_phase,
+              as: 'project_phase',
+              required: cd_priority || id_project || id_project_phase,
+              where: id_project_phase
+                ? {
+                    ...(id_project_phase && { id_project_phase }),
+                  }
+                : null,
               include: [
                 {
-                  model: Product_history,
-                  required: false,
-                  as: 'product_history',
-                  order: [['dt_created_at', 'DESC']],
-                },
-                {
-                  model: Project_phase,
-                  as: 'project_phase',
-                  required: false,
-                  include: [
-                    {
-                      model: Project,
-                      required: false,
-                      as: 'project',
-
-                      where: {
-                        dt_deleted_at: null,
-                      },
-                    },
-                  ],
+                  model: Project,
+                  as: 'project',
+                  required: cd_priority || id_project,
+                  where:
+                    cd_priority || id_project
+                      ? {
+                          ...(cd_priority && { cd_priority }),
+                          ...(id_project && { id_project }),
+                        }
+                      : null,
                 },
               ],
             },
-            {
-              model: Professional,
-              as: 'professional',
-            },
-
-            { model: Grade, as: 'grade' },
-            { model: Sector, as: 'sector' },
           ],
         },
         {
-          model: Product_history,
-          as: 'product_history',
-          order: [['dt_created_at', 'DESC']],
+          model: Professional,
+          as: 'professional',
 
-          include: [
-            {
-              model: Professional,
-              required: !!id_professional,
-              where: id_professional ? { id_professional } : {},
-
-              as: 'professional',
-            },
-            {
-              model: Allocation_period,
-              required: !!id_allocation_period,
-              where: id_allocation_period ? { id_allocation_period } : {},
-              as: 'allocation',
-            },
+          attributes: [
+            [
+              Sequelize.fn('MAX', Sequelize.col('nm_professional')),
+              'nm_professional',
+            ],
           ],
+          required: id_professional,
+          where: id_professional
+            ? {
+                id_professional,
+              }
+            : null,
+        },
+        {
+          model: Allocation_period,
+          as: 'allocation',
+          required: id_allocation_period,
+          attributes: [
+            [
+              Sequelize.fn('MAX', Sequelize.col('dt_start_allocation')),
+              'dt_start_allocation',
+            ],
+            [
+              Sequelize.fn('MAX', Sequelize.col('dt_end_allocation')),
+              'dt_end_allocation',
+            ],
+            [
+              Sequelize.fn('MAX', Sequelize.col('qt_business_hours')),
+              'qt_business_hours',
+            ],
+          ],
+          where: id_allocation_period
+            ? {
+                id_allocation_period,
+              }
+            : null,
         },
       ],
     });
 
-    const getProducts = await productHistories.rows.map(value => {
-      const product = value.dataValues;
-      const project_phase = product.project_phase.dataValues;
-      const { project } = product.project_phase.dataValues;
-      const status =
-        value.dataValues.product_history[
-          value.dataValues.product_history.length - 1
-        ].dataValues;
+    const getRows = productHistories.rows.map(product => ({
+      duration: calculateHour({
+        max: product['product.qt_maximum_hours'],
+        min: product['product.qt_minimum_hours'],
+        prov: product['product.qt_probable_hours'],
+        value: product['product.tp_required_action'],
+      }),
+      id_product_history: product.id_product_history,
+      project: {
+        id_project: product['product.project_phase.project.id_project'],
+        nm_project: product['product.project_phase.project.nm_project'],
+      },
+      project_phase: {
+        id_project_phase: product['product.project_phase.id_project_phase'],
+        nm_project_phase: product['product.project_phase.nm_project_phase'],
+      },
+      product: {
+        id_product: product['product.id_product'],
+        nm_product: product['product.nm_product'],
+      },
+      tp_required_action:
+        (product['product.tp_required_action'] === 1 && 'Produção Integral') ||
+        (product['product.tp_required_action'] === 2 && 'Produção Parcial'),
+      cd_status:
+        (product.cd_status === 0 && 'Não Alocado') ||
+        (product.cd_status === 1 && 'Em Produção') ||
+        (product.cd_status === 2 && 'Em Análise') ||
+        (product.cd_status === 3 && 'Em Correção') ||
+        (product.cd_status === 4 && 'Em Análise de Correção') ||
+        (product.cd_status === 5 && 'Concluído'),
+      suggested_role: {
+        id_role: product['product.suggested_role.id_role'],
+        nm_role: product['product.suggested_role.nm_role'],
+      },
+      professional: product.id_professional && {
+        id_professional: product.id_professional,
+        nm_professional: product['professional.nm_professional'],
+      },
+      allocation_period: product.id_allocation_period && {
+        id_allocation_period: product.id_allocation_period,
+        period: `${product['allocation.dt_start_allocation']} - ${product['allocation.dt_end_allocation']} (${product['allocation.qt_business_hours']}h)`,
+      },
+    }));
 
-      return {
-        allocation:
-          product.allocation.length > 0
-            ? {
-                id_allocation: product.allocation[0].dataValues.id_allocation,
-              }
-            : null,
-        qt_hours_picture: calculateHour({
-          max: product.qt_maximum_hours,
-          min: product.qt_minimum_hours,
-          prov: product.qt_probable_hours,
-          value: product.tp_required_action,
-        }),
-        project: {
-          id_project: project.id_project,
-          nm_project: project.nm_project,
-        },
-        project_phase: {
-          id_project_phase: project_phase.id_project_phase,
-          nm_project_phase: project_phase.nm_project_phase,
-        },
-        product: {
-          id_product: product.id_product,
-          nu_order: product.nu_order,
-          nm_product: product.nm_product,
-          qt_minimum_hour: product.qt_minimum_hours,
-          qt_maximum_hours: product.qt_maximum_hours,
-          qt_probable_hours: product.qt_probable_hours,
-          tp_required_action: product.tp_required_action,
-          ds_note_required_action: product.ds_note_required_action,
-        },
-        suggested_role: {
-          id_role: product.suggested_role.id_role,
-          nm_role: product.suggested_role.nm_role,
-        },
-        product_history: {
-          id_product_history: status.id_product_history,
-          cd_status: status.cd_status,
-          dt_status: status.dt_status,
-          tx_remark: status.tx_remark,
-        },
-        professional: {
-          ...(status.professional
-            ? {
-                id_professional: status.professional.dataValues.id_professional,
-                nm_professional: status.professional.dataValues.nm_professional,
-                in_delivery_analyst:
-                  status.professional.dataValues.in_delivery_analyst,
-                in_active: status.professional.dataValues.in_active,
-              }
-            : null),
-        },
-        allocation_period: status.allocation
-          ? {
-              id_allocation_period:
-                status.allocation.dataValues.id_allocation_period,
-              allocation_period: `${format(
-                status.allocation.dataValues.dt_start_allocation,
-                'dd/MM/yyyy'
-              )} - ${format(
-                status.allocation.dataValues.dt_end_allocation,
-                'dd/MM/yyyy'
-              )} (${status.allocation.dataValues.qt_business_hours}h)`,
-            }
-          : null,
-      };
-    });
-
-    // const get = await Product_history.findAndCountAll({
-    //   attributes: ['id_product_history', 'cd_status'],
-    //   include: [
-    //     {
-    //       model: Allocation_period,
-    //       as: 'allocation',
-    //       attributes: [
-    //         'dt_start_allocation',
-    //         'dt_end_allocation',
-    //         'id_allocation_period',
-    //         'qt_business_hours',
-    //       ],
-    //       required: !!id_allocation_period,
-    //       where: { ...(id_allocation_period && { id_allocation_period }) },
-    //     },
-    //     {
-    //       model: Professional,
-    //       as: 'professional',
-    //       attributes: ['id_professional', 'nm_professional'],
-    //       required: !!id_professional,
-    //       where: { ...(id_professional && { id_professional }) },
-    //     },
-    //     {
-    //       model: Product,
-    //       as: 'product',
-    //       required: !!(
-    //         cd_priority ||
-    //         id_project ||
-    //         id_project_phase ||
-    //         nm_product ||
-    //         id_suggested_role
-    //       ),
-    //       attributes: [
-    //         'id_product',
-    //         'nu_order',
-    //         'nm_product',
-    //         'qt_minimum_hours',
-    //         'qt_maximum_hours',
-    //         'qt_probable_hours',
-    //         'tp_required_action',
-    //       ],
-    //       where: { ...(nm_product && { nm_product }) },
-    //       include: [
-    //         {
-    //           model: Role,
-    //           as: 'suggested_role',
-    //           required: !!id_suggested_role,
-    //           attributes: ['id_role', 'nm_role'],
-    //           where: {
-    //             ...(id_suggested_role && { id_role: id_suggested_role }),
-    //           },
-    //         },
-    //         {
-    //           model: Project_phase,
-    //           as: 'project_phase',
-    //           attributes: ['nm_project_phase', 'id_project_phase'],
-    //           required: !!(cd_priority || id_project || id_project_phase),
-    //           where: {
-    //             ...(id_project_phase && { id_project_phase }),
-    //           },
-    //           include: [
-    //             {
-    //               model: Project,
-    //               required: !!(cd_priority || id_project),
-    //               as: 'project',
-    //               attributes: ['id_project', 'nm_project'],
-    //               where: {
-    //                 ...(cd_priority && { cd_priority }),
-    //                 ...(id_project && { id_project }),
-    //               },
-    //             },
-    //           ],
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // });
-
-    // getProducts
-    // get.rows
     return {
       allocations: {
-        count: getProducts.length,
-        rows: getProducts,
+        count:
+          productHistories.count.length > 1
+            ? productHistories.count[0].count
+            : 0,
+        rows: getRows,
       },
     };
   }

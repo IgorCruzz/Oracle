@@ -24,7 +24,8 @@ module.exports = {
     "no-return-await": "off",
     "array-callback-return": "off",
     "consistent-return": "off",
-    "prefer-spread": "off"
+    "prefer-spread": "off",
+    "no-nested-ternary": "off"
 
   },
 };
