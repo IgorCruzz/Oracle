@@ -103,17 +103,6 @@ export class CreateAllocationService {
                 });
 
                 await productHistoryRepository.createProductHistory({
-                  cd_status: 0,
-                  dt_status: new Date(Date.now()).toISOString(),
-                  tx_remark: null,
-                  id_product: idProduct,
-                  id_allocation_period: idAllocationPeriod,
-                  id_professional: professional,
-                  id_analyst_user: null,
-                  transaction: t,
-                });
-
-                await productHistoryRepository.createProductHistory({
                   cd_status: 1,
                   dt_status: new Date(Date.now()).toISOString(),
                   tx_remark: null,
