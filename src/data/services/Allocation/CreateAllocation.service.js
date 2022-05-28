@@ -99,6 +99,7 @@ export class CreateAllocationService {
               if (professional !== id_professional) {
                 await productHistoryRepository.deleteProductHistory({
                   id_professional: professional,
+                  id_allocation_period,
                   transaction: t,
                 });
 

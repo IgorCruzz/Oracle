@@ -88,6 +88,17 @@ export class ProductHistoryRepository {
     });
   }
 
+  async deleteProductHistoryAllocation({
+    id_professional,
+    id_allocation_period,
+    transaction,
+  }) {
+    return Product_history.destroy({
+      where: { [Op.and]: [{ id_professional }, id_allocation_period] },
+      transaction,
+    });
+  }
+
   async updateProductHistory(data) {
     const { id_product, transaction, ...rest } = data;
 
