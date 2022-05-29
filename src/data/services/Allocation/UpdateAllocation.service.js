@@ -30,6 +30,7 @@ export class UpdateAllocationService {
       if (professional !== id_professional) {
         await productHistoryRepository.deleteProductHistory({
           id_professional: professional,
+          id_product,
           transaction: t,
         });
 

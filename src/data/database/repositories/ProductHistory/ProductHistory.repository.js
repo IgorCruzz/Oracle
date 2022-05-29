@@ -81,9 +81,12 @@ export class ProductHistoryRepository {
     });
   }
 
-  async deleteProductHistory({ id_professional, transaction }) {
+  async deleteProductHistory({ id_professional, id_product, transaction }) {
     return Product_history.destroy({
-      where: { id_professional },
+      where: {
+        [Op.and]: [{ id_professional }, { id_product }],
+      },
+
       transaction,
     });
   }
@@ -91,10 +94,17 @@ export class ProductHistoryRepository {
   async deleteProductHistoryAllocation({
     id_professional,
     id_allocation_period,
+    id_product,
     transaction,
   }) {
     return Product_history.destroy({
-      where: { [Op.and]: [{ id_professional }, id_allocation_period] },
+      where: {
+        [Op.and]: [
+          { id_professional },
+          { id_allocation_period },
+          { id_product },
+        ],
+      },
       transaction,
     });
   }

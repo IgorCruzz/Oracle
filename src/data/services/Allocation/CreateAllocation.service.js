@@ -103,6 +103,7 @@ export class CreateAllocationService {
                 await productHistoryRepository.deleteProductHistory({
                   id_professional: professional,
                   id_allocation_period,
+                  id_product,
                   transaction: t,
                 });
 
