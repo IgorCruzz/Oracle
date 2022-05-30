@@ -38,7 +38,7 @@ export class FindAllocationsService {
       concluded && { value: 5 },
     ].filter(value => value);
 
-    const productHistories = await Product_history.findAndCountAll({
+    const productHistories = await Product_history.findAll({
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
 
@@ -178,7 +178,7 @@ export class FindAllocationsService {
       ],
     });
 
-    const getRows = productHistories.rows.map(product => ({
+    const getRows = productHistories.map(product => ({
       duration: calculateHour({
         max: product['product.qt_maximum_hours'],
         min: product['product.qt_minimum_hours'],
@@ -230,10 +230,7 @@ export class FindAllocationsService {
 
     return {
       allocations: {
-        count:
-          productHistories.count.length > 1
-            ? productHistories.count[0].count
-            : 0,
+        count: getRows.length,
         rows: getRows,
       },
     };
