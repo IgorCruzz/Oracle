@@ -7,6 +7,7 @@ import {
   DeleteDocumentController,
   UpdateDocumentController,
   UploadDocumentController,
+  RemoveUploadDocumentController,
 } from '../../data/controllers';
 import {
   findDocumentValidator,
@@ -21,6 +22,13 @@ import { storage } from '../../config/multer';
 const upload = multer({ storage });
 
 const routes = Router();
+
+routes.patch(
+  '/documents/upload/:id_document',
+  authenticator,
+  // updateDocumentValidator,
+  new RemoveUploadDocumentController().handle
+);
 
 routes.post(
   '/documents/upload',

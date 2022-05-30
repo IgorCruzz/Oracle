@@ -6,13 +6,11 @@ export class DocumentRepository {
   }
 
   async createDocument(data) {
-    const { ds_document, nm_file, dtUpload } = data;
+    const { ds_document } = data;
 
     const createdDocument = await Document.create({
       ...data,
-      dt_upload: dtUpload,
       ds_document: ds_document.trim(),
-      nm_file: nm_file && nm_file.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -184,17 +182,28 @@ export class DocumentRepository {
   }
 
   async updateDocument(id_document, data) {
+    const { ds_document } = data;
+
     const document = await Document.findOne({
       where: {
         id_document,
       },
     });
 
-    await document.update({
-      ...data,
-      dt_created_at: new Date(Date.now()).toISOString(),
-      dt_updated_at: new Date(Date.now()).toISOString(),
-    });
+    await document.update(
+      ds_document
+        ? {
+            ...data,
+            ds_document: ds_document.trim(),
+            dt_created_at: new Date(Date.now()).toISOString(),
+            dt_updated_at: new Date(Date.now()).toISOString(),
+          }
+        : {
+            ...data,
+            dt_created_at: new Date(Date.now()).toISOString(),
+            dt_updated_at: new Date(Date.now()).toISOString(),
+          }
+    );
 
     return await Document.findOne({
       where: {
