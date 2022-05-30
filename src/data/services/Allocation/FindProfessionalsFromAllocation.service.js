@@ -35,9 +35,11 @@ export class FindProfessionalsFromAllocationService {
     const professionals = await Professional.findAndCountAll({
       where: searchQuery
         ? {
-            [Op.and]: searchQuery,
+            [Op.and]: [searchQuery, { in_active: 'S' }],
           }
-        : {},
+        : {
+            in_active: 'S',
+          },
       limit: limit !== 'all' ? Number(limit) : null,
       order: [['nm_professional', 'ASC']],
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
