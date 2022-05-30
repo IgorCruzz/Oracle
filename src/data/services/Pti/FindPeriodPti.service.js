@@ -27,15 +27,6 @@ export class FindPeriodPtiService {
         ...(nm_professional && {
           nm_professional: { [Op.like]: `%${nm_professional.trim()}%` },
         }),
-        ...(id_role && {
-          id_role: { [Op.like]: `%${id_role.trim()}%` },
-        }),
-        ...(id_grade && {
-          id_grade: { [Op.like]: `%${id_grade.trim()}%` },
-        }),
-        ...(id_sector && {
-          id_sector: { [Op.like]: `%${id_sector.trim()}%` },
-        }),
       };
     } else {
       searchQuery = null;
@@ -58,6 +49,7 @@ export class FindPeriodPtiService {
           include: [
             {
               model: Allocation_period,
+              required: id_allocation_period,
               as: 'allocation_period',
               where: id_allocation_period
                 ? {
@@ -70,6 +62,13 @@ export class FindPeriodPtiService {
         {
           model: Role_grade,
           as: 'coustHH',
+          where:
+            id_role || id_grade
+              ? {
+                  ...(id_role && { id_role }),
+                  ...(id_grade && { id_grade }),
+                }
+              : {},
           include: [
             { model: Role, as: 'role' },
             { model: Grade, as: 'grade' },
