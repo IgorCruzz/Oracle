@@ -24,8 +24,10 @@ import Professional from './Professional/Professional.routes';
 import AllocationPeriod from './AllocationPeriod/AllocationPeriod.routes';
 import Allocation from './Allocation/Allocation.routes';
 import Pti from './Pti/Pti.routes';
+import Pdf from './Pdf/Pdf.routes';
 
 const routes = [
+  Pdf,
   Pti,
   Allocation,
   AllocationPeriod,
