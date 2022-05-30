@@ -202,7 +202,7 @@ export class FindAllocationsService {
         (product['product.tp_required_action'] === 1 && 'Produção Integral') ||
         (product['product.tp_required_action'] === 2 && 'Produção Parcial'),
       cd_status:
-        (product.cd_status === 0 && 'Não Alocado') ||
+        (product.cd_status === 0 && 'Ag. Alocação') ||
         (product.cd_status === 1 && 'Em Produção') ||
         (product.cd_status === 2 && 'Em Análise') ||
         (product.cd_status === 3 && 'Em Correção') ||
