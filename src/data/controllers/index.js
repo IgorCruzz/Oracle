@@ -153,7 +153,11 @@ export * from './Allocation/FindAllocations.controller';
 export * from './Allocation/UpdateAllocation.controller';
 export * from './Allocation/FindProfessionalsFromAllocation.controller';
 export * from './Allocation/FindProfessionalsAllocated.controller';
+
 // PTI
 export * from './Pti/FindPeriodPti.controller';
 export * from './Pti/FindProductHistoryPti.controller';
 export * from './Pti/FindProfessionalPti.controller';
+
+// DELIVERY
+export * from './Delivery/FindDelivery.controller';

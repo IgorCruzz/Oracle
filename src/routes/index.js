@@ -25,8 +25,10 @@ import AllocationPeriod from './AllocationPeriod/AllocationPeriod.routes';
 import Allocation from './Allocation/Allocation.routes';
 import Pti from './Pti/Pti.routes';
 import Pdf from './Pdf/Pdf.routes';
+import Delivery from './Delivery/Delivery.routes';
 
 const routes = [
+  Delivery,
   Pdf,
   Pti,
   Allocation,

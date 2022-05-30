@@ -153,7 +153,11 @@ export * from './Allocation/FindAllocations.service';
 export * from './Allocation/UpdateAllocation.service';
 export * from './Allocation/FindProfessionalsFromAllocation.service';
 export * from './Allocation/FindProfessionalsAllocated.service';
+
 // PTI
 export * from './Pti/FindPeriodPti.service';
 export * from './Pti/FindProductHistoryPti.service';
 export * from './Pti/FindProfessionalsPti.service';
+
+// DELIVERY
+export * from './Delivery/FindDeliveries.service';
