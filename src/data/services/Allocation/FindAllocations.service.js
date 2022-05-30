@@ -29,6 +29,24 @@ export class FindAllocationsService {
     in_analisysCorretion,
     concluded,
   }) {
+    if (
+      !cd_priority &&
+      !id_project &&
+      !id_project_phase &&
+      !nm_product &&
+      !id_suggested_role &&
+      !id_professional &&
+      !id_allocation_period &&
+      !wt_alocation &&
+      !on_production &&
+      !in_correction &&
+      !in_analisys &&
+      !in_analisysCorretion &&
+      !concluded
+    ) {
+      return { error: 'Selecione, pelo menos, uma opção de filtro.' };
+    }
+
     const havingValues = [
       wt_alocation && { value: 0 },
       on_production && { value: 1 },
