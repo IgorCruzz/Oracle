@@ -1,10 +1,12 @@
 import { Router } from 'express';
+import multer from 'multer';
 import {
   FindDocumentController,
   FindDocumentsController,
   CreateDocumentController,
   DeleteDocumentController,
   UpdateDocumentController,
+  UploadDocumentController,
 } from '../../data/controllers';
 import {
   findDocumentValidator,
@@ -14,8 +16,19 @@ import {
   updateDocumentValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
+import { storage } from '../../config/multer';
+
+const upload = multer({ storage });
 
 const routes = Router();
+
+routes.post(
+  '/documents/upload',
+  authenticator,
+  upload.single('file'),
+  // createDocumentValidator,
+  new UploadDocumentController().handle
+);
 
 routes.post(
   '/documents',

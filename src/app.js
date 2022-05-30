@@ -7,7 +7,7 @@ import './data/database';
 
 const server = express();
 server.use(
-  '/files',
+  '/documents',
   express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
 );
 server.use(express.json());

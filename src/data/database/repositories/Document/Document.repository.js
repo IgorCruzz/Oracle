@@ -184,8 +184,6 @@ export class DocumentRepository {
   }
 
   async updateDocument(id_document, data) {
-    const { ds_document, nm_file, dtUpload } = data;
-
     const document = await Document.findOne({
       where: {
         id_document,
@@ -194,9 +192,6 @@ export class DocumentRepository {
 
     await document.update({
       ...data,
-      dt_upload: dtUpload,
-      ds_document: ds_document.trim(),
-      nm_file: nm_file && nm_file.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

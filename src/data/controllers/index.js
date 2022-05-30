@@ -96,6 +96,7 @@ export * from './Document/DeleteDocument.controller';
 export * from './Document/FindDocument.controller';
 export * from './Document/FindDocuments.controller';
 export * from './Document/UpdateDocument.controller';
+export * from './Document/UploadDocument.controller';
 
 // USER
 export * from './User/CreateUser.controller';

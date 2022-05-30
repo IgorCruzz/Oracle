@@ -96,6 +96,7 @@ export * from './Document/DeleteDocument.service';
 export * from './Document/FindDocument.service';
 export * from './Document/FindDocuments.service';
 export * from './Document/UpdateDocument.service';
+export * from './Document/UploadDocument.service';
 
 // USER
 export * from './User/CreateUser.service';
