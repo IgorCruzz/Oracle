@@ -1,4 +1,3 @@
-// import { format } from 'date-fns';
 import { DocumentRepository } from '../../database/repositories';
 
 export class UploadDocumentService {
@@ -21,13 +20,10 @@ export class UploadDocumentService {
       };
     }
 
-    // const name = findDocument.ds_document.replace(/\s/, '-');
-    // const dateFormat = format(new Date(), 'dd/MM/yyyy');
-
-    // await repository.updateDocument(id_document, {
-    //   dt_upload: new Date(Date.now()).toISOString(),
-    //   nm_file: filename,
-    // });
+    await repository.updateDocument(id_document, {
+      dt_upload: new Date(Date.now()).toISOString(),
+      nm_file: filename,
+    });
 
     return {
       message: 'Upload realizado com sucesso!',

@@ -1,3 +1,5 @@
+import fs from 'fs';
+import { resolve } from 'path';
 import { DocumentRepository } from '../../database/repositories';
 
 export class RemoveUploadDocumentService {
@@ -13,6 +15,19 @@ export class RemoveUploadDocumentService {
         error: `Não há um Documento com este ID -> ${id_document}`,
       };
     }
+
+    const { nm_file } = findDocument;
+
+    if (!nm_file) {
+      return {
+        error: 'Este produto não possui um documento arquivado.',
+      };
+    }
+
+    fs.unlinkSync(
+      resolve(__dirname, '..', '..', '..', '..', 'tmp', 'documents', nm_file),
+      () => {}
+    );
 
     await repository.updateDocument(id_document, {
       dt_upload: null,
