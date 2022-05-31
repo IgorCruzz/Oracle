@@ -105,6 +105,19 @@ export class ProductHistoryRepository {
     });
   }
 
+  async deleteProductHistoryDelivery({
+    id_allocation_period,
+    id_product,
+    transaction,
+  }) {
+    return Product_history.destroy({
+      where: {
+        [Op.and]: [{ id_allocation_period }, { id_product }, { cd_status: 2 }],
+      },
+      transaction,
+    });
+  }
+
   async deleteProductHistoryAllocation({
     id_professional,
     id_allocation_period,

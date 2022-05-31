@@ -164,3 +164,4 @@ export * from './Pti/FindProfessionalsPti.service';
 // DELIVERY
 export * from './Delivery/FindDeliveries.service';
 export * from './Delivery/CreateDelivery.service';
+export * from './Delivery/UndoDelivery.service';
