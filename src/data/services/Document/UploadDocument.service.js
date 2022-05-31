@@ -27,7 +27,7 @@ export class UploadDocumentService {
 
     return {
       message: 'Upload realizado com sucesso!',
-      document: `http://localhost:3030/documents/${filename}`,
+      document: `http://143.198.191.56:3030/documents/${filename}`,
     };
   }
 }
