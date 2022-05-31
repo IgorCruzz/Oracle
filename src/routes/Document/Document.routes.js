@@ -15,6 +15,7 @@ import {
   createDocumentValidator,
   deleteDocumentValidator,
   updateDocumentValidator,
+  uploadDocumentValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { storage } from '../../config/multer';
@@ -34,7 +35,7 @@ routes.post(
   '/documents/upload',
   authenticator,
   upload.single('file'),
-  // createDocumentValidator,
+  uploadDocumentValidator,
   new UploadDocumentController().handle
 );
 

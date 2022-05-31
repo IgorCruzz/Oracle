@@ -3,17 +3,22 @@ import { ValidationError } from '../../../utils/validationError';
 
 export const uploadDocumentValidator = async (req, res, next) => {
   try {
-    const SchemaParam = Yup.object().shape({
-      id_document: Yup.string().required('O campo id é obrigatório'),
-    });
+    const request = {
+      filename: req.file ? req.file.filename : '',
+      id_document: req.body.id_document,
+    };
 
     const SchemaBody = Yup.object().shape({
-      file: Yup.string().required('O campo arquivo do documento é obrigatório'),
+      filename: Yup.string().required(
+        'O campo arquivo do documento é obrigatorio'
+      ),
+
+      id_document: Yup.string().required(
+        'O campo id do documento é obrigatório'
+      ),
     });
 
-    await SchemaParam.validate(req.params, { abortEarly: false });
-
-    await SchemaBody.validate(req.file, { abortEarly: false });
+    await SchemaBody.validate(request, { abortEarly: false });
 
     return next();
   } catch (e) {
