@@ -69,6 +69,20 @@ export class ProductHistoryRepository {
     });
   }
 
+  async findByProductandPeriod({
+    id_product,
+    id_allocation_period,
+    cd_status,
+    transaction,
+  }) {
+    return await Product_history.findOne({
+      where: {
+        [Op.and]: [{ id_product }, { id_allocation_period }, { cd_status }],
+      },
+      ...(transaction && { transaction }),
+    });
+  }
+
   async verifyRelation({ id_professional }) {
     return await Product_history.findAll({
       include: [

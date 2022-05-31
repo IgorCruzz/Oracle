@@ -163,3 +163,4 @@ export * from './Pti/FindProfessionalPti.controller';
 
 // DELIVERY
 export * from './Delivery/FindDelivery.controller';
+export * from './Delivery/CreateDelivery.controller';
