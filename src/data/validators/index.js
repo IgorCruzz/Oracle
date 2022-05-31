@@ -95,7 +95,7 @@ export * from './Document/findDocument.validator';
 export * from './Document/findDocuments.validator';
 export * from './Document/updateDocument.validator';
 export * from './Document/uploadDocument.validator';
-
+export * from './Document/removeUploadDocument.validator';
 // USER
 export * from './User/createUser.validator';
 export * from './User/deleteUser.validator';
