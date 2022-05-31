@@ -8,9 +8,9 @@ export class UploadDocumentService {
       id_document,
     });
 
-    if (size > 20000000) {
+    if (size > 200000000) {
       return {
-        error: `O limíte máximo para upload é 20MB.`,
+        error: `O limíte máximo para upload é 200MB.`,
       };
     }
 
