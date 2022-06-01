@@ -12,6 +12,7 @@ import {
   Project,
   User,
   Product_history,
+  City,
 } from '../../database/models';
 
 export class DownloadPtiService {
@@ -43,6 +44,12 @@ export class DownloadPtiService {
                 {
                   model: Project,
                   as: 'project',
+                  include: [
+                    {
+                      model: City,
+                      as: 'city',
+                    },
+                  ],
                 },
               ],
             },
@@ -78,6 +85,11 @@ export class DownloadPtiService {
       const all = allocation.dataValues;
 
       return {
+        city:
+          all.product.project_phase.dataValues.project.dataValues.city
+            .dataValues.nm_city,
+        project:
+          all.product.project_phase.dataValues.project.dataValues.nm_project,
         professional: all.professional.dataValues,
         products: all.product.dataValues,
         tp_action_picture: all.tp_action_picture,
@@ -86,6 +98,27 @@ export class DownloadPtiService {
     });
 
     const { professional } = getAllocations[0];
+
+    const borderColor = ['#ffffff', '#ffffff', '#ffffff', '#ffffff'];
+
+    const values = getAllocations.map(teste => [
+      { text: teste.city, style: 'values', borderColor },
+      { text: teste.project, style: 'values', borderColor },
+      { text: teste.products.nm_product, style: 'values', borderColor },
+      {
+        text:
+          (teste.tp_action_picture === 0 && 'Não Definida') ||
+          (teste.tp_action_picture === 1 && 'Produção Integral') ||
+          (teste.tp_action_picture === 2 && 'Produção Parcial') ||
+          (teste.tp_action_picture === 3 && 'Dispensado') ||
+          (teste.tp_action_picture === 4 && 'Concluído pelo demandante'),
+        style: 'values',
+        borderColor,
+      },
+      { text: teste.qt_hours_picture, style: 'lastColumnValue', borderColor },
+    ]);
+
+    const [total] = getAllocations.map((a, b) => a.qt_hours_picture + b, 0);
 
     const fonts = {
       Helvetica: {
@@ -96,10 +129,6 @@ export class DownloadPtiService {
       },
     };
     const printer = new Pdf(fonts);
-
-    const borderColor = ['#ffffff', '#ffffff', '#ffffff', '#ffffff'];
-
-    const product = ['2', '3'];
 
     const docDefinition = {
       pageOrientation: 'landscape',
@@ -255,22 +284,7 @@ export class DownloadPtiService {
                   bold: true,
                 },
               ],
-              [
-                { text: 'PROJETO', style: 'values', borderColor },
-                { text: 'PROJETO', style: 'values', borderColor },
-                {
-                  text: product.map(a => `${a}\n`),
-                  style: 'values',
-                  borderColor,
-                },
-
-                {
-                  text: product.map(a => `${a}\n`),
-                  style: 'values',
-                  borderColor,
-                },
-                { text: 'PROJETO', style: 'lastColumnValue', borderColor },
-              ],
+              ...values,
             ],
           },
         },
@@ -286,7 +300,7 @@ export class DownloadPtiService {
                   bold: true,
                 },
                 {
-                  text: '80.80',
+                  text: total,
                   style: 'total',
                   borderColor: ['#B0C4DE', '#B0C4DE', '#B0C4DE', '#B0C4DE'],
                   bold: true,
