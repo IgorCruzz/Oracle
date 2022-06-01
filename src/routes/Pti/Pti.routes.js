@@ -3,6 +3,7 @@ import {
   FindPeriodPtiController,
   FindProductHistoryPtiController,
   FindProfessionalPtiController,
+  DownloadPtiController,
 } from '../../data/controllers';
 
 import {
@@ -14,6 +15,12 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 
 const routes = Router();
+
+routes.get(
+  '/ptis/download/',
+  // authenticator,
+  new DownloadPtiController().handle
+);
 
 routes.get(
   '/ptis/allocationPeriods/',

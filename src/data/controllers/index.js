@@ -160,6 +160,7 @@ export * from './Allocation/FindProfessionalsAllocated.controller';
 export * from './Pti/FindPeriodPti.controller';
 export * from './Pti/FindProductHistoryPti.controller';
 export * from './Pti/FindProfessionalPti.controller';
+export * from './Pti/DownloadPti.controller';
 
 // DELIVERY
 export * from './Delivery/FindDelivery.controller';

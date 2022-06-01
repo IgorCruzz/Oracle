@@ -160,6 +160,7 @@ export * from './Allocation/FindProfessionalsAllocated.service';
 export * from './Pti/FindPeriodPti.service';
 export * from './Pti/FindProductHistoryPti.service';
 export * from './Pti/FindProfessionalsPti.service';
+export * from './Pti/DownloadPti.service';
 
 // DELIVERY
 export * from './Delivery/FindDeliveries.service';
