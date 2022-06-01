@@ -26,7 +26,7 @@ import {
   Professional,
   Allocation,
   Inspection,
-  Inspection_document
+  Inspection_document,
 } from './models';
 
 const models = [
@@ -54,7 +54,7 @@ const models = [
   Professional,
   Allocation,
   Inspection,
-  Inspection_document
+  Inspection_document,
 ];
 
 export const sequelize = new Sequelize(databaseConfig);

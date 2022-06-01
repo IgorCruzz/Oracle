@@ -159,7 +159,6 @@ export * from './Pti/FindProductHistoryPti.controller';
 export * from './Pti/FindProfessionalPti.controller';
 export * from './Pti/DownloadPti.controller';
 
-<<<<<<< HEAD
 // INSPECTION
 export * from './Inspection/CreateInspection.controller';
 export * from './Inspection/DeleteInspection.controller';
@@ -173,9 +172,8 @@ export * from './InspectionDocument/DeleteInspectionDocument.controller';
 export * from './InspectionDocument/FindInspectionDocument.controller';
 export * from './InspectionDocument/FindInspectionDocuments.controller';
 export * from './InspectionDocument/UpdateInspectionDocument.controller';
-=======
+
 // DELIVERY
 export * from './Delivery/FindDelivery.controller';
 export * from './Delivery/CreateDelivery.controller';
 export * from './Delivery/UndoDelivery.controller';
->>>>>>> beee6bbfdf2aa5f2e16ca45618444d489f82a0dd

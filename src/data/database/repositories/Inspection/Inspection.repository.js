@@ -4,9 +4,9 @@ import {
   Project_phase,
   Professional,
   Project,
-  Inspection_document
+  Inspection_document,
 } from '../../models';
-import { InspectionDocumentRepository } from "../InspectionDocument/InspectionDocument.repository"
+import { InspectionDocumentRepository } from '../InspectionDocument/InspectionDocument.repository';
 
 export class InspectionRepository {
   async createInspection(data) {
@@ -16,7 +16,7 @@ export class InspectionRepository {
       dt_new_end,
       tp_inspection,
       id_project_phase,
-      id_professional
+      id_professional,
     } = data;
 
     const createdInspection = await Inspection.create({
@@ -32,33 +32,33 @@ export class InspectionRepository {
     limit,
     id_project,
     id_project_phase,
-    id_professional
+    id_professional,
   }) {
     return await Inspection.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
       order: [['dt_inspection', 'ASC']],
       where: {
-        '$project_phase.id_project$': { [Op.eq]: id_project }
+        '$project_phase.id_project$': { [Op.eq]: id_project },
       },
       include: [
-          id_project_phase
+        id_project_phase
           ? {
               model: Project_phase,
               as: 'project_phase',
               where: { id_project_phase },
               include: [
                 id_project
-                ? {
-                    model: Project,
-                    as: 'project',
-                    where: { id_project },
-                  }
-                : { model: Project, as: 'project' },                   
-              ]
+                  ? {
+                      model: Project,
+                      as: 'project',
+                      where: { id_project },
+                    }
+                  : { model: Project, as: 'project' },
+              ],
             }
-          : { model: Project_phase, as: 'project_phase' },          
-          id_professional
+          : { model: Project_phase, as: 'project_phase' },
+        id_professional
           ? {
               model: Professional,
               as: 'professional',
@@ -68,19 +68,27 @@ export class InspectionRepository {
       ],
     });
   }
+
   async deleteInspection({ id_inspection }) {
-    const inspection = await this.findInspectionById({id_inspection, populate: true})
+    const inspection = await this.findInspectionById({
+      id_inspection,
+      populate: true,
+    });
 
     const inspectionDocumentRepository = new InspectionDocumentRepository();
-    await Promise.all(inspection.inspection_document.map(async(obj) => {
-      await inspectionDocumentRepository.deleteInspectionDocument({ id_inspection_document: obj.id_inspection_document })
-    }));
+    await Promise.all(
+      inspection.inspection_document.map(async obj => {
+        await inspectionDocumentRepository.deleteInspectionDocument({
+          id_inspection_document: obj.id_inspection_document,
+        });
+      })
+    );
 
     await Inspection.destroy({
       where: { id_inspection },
     });
-    
-  }  
+  }
+
   async findInspectionById({ id_inspection, populate }) {
     if (populate) {
       return await Inspection.findOne({
@@ -95,8 +103,8 @@ export class InspectionRepository {
               {
                 model: Project,
                 as: 'project',
-              }
-            ]
+              },
+            ],
           },
           {
             model: Professional,
@@ -105,8 +113,8 @@ export class InspectionRepository {
           {
             model: Inspection_document,
             as: 'inspection_document',
-          }          
-        ],   
+          },
+        ],
       });
     }
 
@@ -116,16 +124,17 @@ export class InspectionRepository {
       },
       raw: true,
     });
-  }  
+  }
+
   async updateInspection(id_inspection, data) {
-    console.log(data)
+    console.log(data);
     const {
       vl_new_cost,
       dt_inspection,
       dt_new_end,
       tp_inspection,
       id_project_phase,
-      id_professional
+      id_professional,
     } = data;
 
     const inspection = await Inspection.findOne({
@@ -140,15 +149,19 @@ export class InspectionRepository {
 
     return await Inspection.findOne({
       where: {
-        id_inspection: id_inspection,
+        id_inspection,
       },
       include: [
-        { model: Project_phase, as: 'project_phase', include: [ { model: Project, as: 'project' } ] },
+        {
+          model: Project_phase,
+          as: 'project_phase',
+          include: [{ model: Project, as: 'project' }],
+        },
         { model: Professional, as: 'professional' },
       ],
     });
   }
-/*
+  /*
 
   async findInspection({ id_inspection }) {
     return await Project.findOne({
