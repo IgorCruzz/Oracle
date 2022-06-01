@@ -96,8 +96,6 @@ export * from './Document/DeleteDocument.controller';
 export * from './Document/FindDocument.controller';
 export * from './Document/FindDocuments.controller';
 export * from './Document/UpdateDocument.controller';
-export * from './Document/UploadDocument.controller';
-export * from './Document/RemoveUploadDocument.controller';
 
 // USER
 export * from './User/CreateUser.controller';
@@ -154,12 +152,22 @@ export * from './Allocation/FindAllocation.controller';
 export * from './Allocation/FindAllocations.controller';
 export * from './Allocation/UpdateAllocation.controller';
 export * from './Allocation/FindProfessionalsFromAllocation.controller';
-export * from './Allocation/FindProfessionalsAllocated.controller';
 
 // PTI
 export * from './Pti/FindPeriodPti.controller';
 export * from './Pti/FindProductHistoryPti.controller';
 export * from './Pti/FindProfessionalPti.controller';
 
-// DELIVERY
-export * from './Delivery/FindDelivery.controller';
+// INSPECTION
+export * from './Inspection/CreateInspection.controller';
+export * from './Inspection/DeleteInspection.controller';
+export * from './Inspection/FindInspection.controller';
+export * from './Inspection/FindInspections.controller';
+export * from './Inspection/UpdateInspection.controller';
+
+// INSPECTION DOCUMENT
+export * from './InspectionDocument/CreateInspectionDocument.controller';
+export * from './InspectionDocument/DeleteInspectionDocument.controller';
+export * from './InspectionDocument/FindInspectionDocument.controller';
+export * from './InspectionDocument/FindInspectionDocuments.controller';
+export * from './InspectionDocument/UpdateInspectionDocument.controller';

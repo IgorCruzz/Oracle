@@ -22,3 +22,5 @@ export * from './Sector';
 export * from './Role_grade';
 export * from './Professional';
 export * from './Allocation';
+export * from './Inspection';
+export * from './Inspection_document';

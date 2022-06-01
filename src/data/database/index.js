@@ -25,11 +25,11 @@ import {
   Role_grade,
   Professional,
   Allocation,
+  Inspection,
+  Inspection_document
 } from './models';
 
 const models = [
-  Allocation,
-  Role_grade,
   Category,
   Program,
   Region,
@@ -50,7 +50,11 @@ const models = [
   Allocation_period,
   Grade,
   Sector,
+  Role_grade,
   Professional,
+  Allocation,
+  Inspection,
+  Inspection_document
 ];
 
 export const sequelize = new Sequelize(databaseConfig);

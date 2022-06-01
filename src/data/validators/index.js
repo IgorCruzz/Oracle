@@ -151,7 +151,16 @@ export * from './Allocation/findAllocations.validator';
 export * from './Allocation/updateAllocation.validator';
 export * from './Allocation/FindProfessionalsFromAllocation.validator';
 
-// PTI
-export * from './Ptis/FindPeriodPti.validator';
-export * from './Ptis/FindProductHistoryPti.validator';
-export * from './Ptis/FindProfessionalPti.validator';
+// INSPECTION
+export * from './Inspection/createInspection.validator';
+export * from './Inspection/deleteInspection.validator';
+export * from './Inspection/findInspection.validator';
+export * from './Inspection/findInspections.validator';
+export * from './Inspection/updateInspection.validator';
+
+// INSPECTION DOCUMENT
+export * from './InspectionDocument/createInspectionDocument.validator';
+export * from './InspectionDocument/deleteInspectionDocument.validator';
+export * from './InspectionDocument/findInspectionDocument.validator';
+export * from './InspectionDocument/findInspectionDocuments.validator';
+export * from './InspectionDocument/updateInspectionDocument.validator';

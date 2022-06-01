@@ -41,5 +41,9 @@ export class Professional extends Model {
       foreignKey: 'id_user',
       as: 'user',
     });
+    Professional.hasMany(models.Inspection, {
+      foreignKey: 'id_inspection',
+      as: 'inspection',
+    });
   }
 }

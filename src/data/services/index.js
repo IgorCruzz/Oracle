@@ -96,8 +96,6 @@ export * from './Document/DeleteDocument.service';
 export * from './Document/FindDocument.service';
 export * from './Document/FindDocuments.service';
 export * from './Document/UpdateDocument.service';
-export * from './Document/UploadDocument.service';
-export * from './Document/RemoveUploadDocument.service';
 
 // USER
 export * from './User/CreateUser.service';
@@ -154,12 +152,22 @@ export * from './Allocation/FindAllocation.service';
 export * from './Allocation/FindAllocations.service';
 export * from './Allocation/UpdateAllocation.service';
 export * from './Allocation/FindProfessionalsFromAllocation.service';
-export * from './Allocation/FindProfessionalsAllocated.service';
 
 // PTI
 export * from './Pti/FindPeriodPti.service';
 export * from './Pti/FindProductHistoryPti.service';
 export * from './Pti/FindProfessionalsPti.service';
 
-// DELIVERY
-export * from './Delivery/FindDeliveries.service';
+// INSPECTION
+export * from './Inspection/CreateInspection.service';
+export * from './Inspection/DeleteInspection.service';
+export * from './Inspection/FindInspection.service';
+export * from './Inspection/FindInspections.service';
+export * from './Inspection/UpdateInspection.service';
+
+// INSPECTION DOCUMENT
+export * from './InspectionDocument/CreateInspectionDocument.service';
+export * from './InspectionDocument/DeleteInspectionDocument.service';
+export * from './InspectionDocument/FindInspectionDocument.service';
+export * from './InspectionDocument/FindInspectionDocuments.service';
+export * from './InspectionDocument/UpdateInspectionDocument.service';
