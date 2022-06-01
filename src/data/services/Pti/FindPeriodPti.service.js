@@ -110,7 +110,7 @@ export class FindPeriodPtiService {
           in_active: prof.in_active,
         },
         role: prof.coustHH.role.dataValues,
-        grade: prof.coustHH.role.dataValues,
+        grade: prof.coustHH.grade.dataValues,
         allocation_hours: sumBussinesHours,
       };
     });

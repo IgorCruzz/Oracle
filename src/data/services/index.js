@@ -157,7 +157,9 @@ export * from './Allocation/FindProfessionalsFromAllocation.service';
 export * from './Pti/FindPeriodPti.service';
 export * from './Pti/FindProductHistoryPti.service';
 export * from './Pti/FindProfessionalsPti.service';
+export * from './Pti/DownloadPti.service';
 
+<<<<<<< HEAD
 // INSPECTION
 export * from './Inspection/CreateInspection.service';
 export * from './Inspection/DeleteInspection.service';
@@ -171,3 +173,9 @@ export * from './InspectionDocument/DeleteInspectionDocument.service';
 export * from './InspectionDocument/FindInspectionDocument.service';
 export * from './InspectionDocument/FindInspectionDocuments.service';
 export * from './InspectionDocument/UpdateInspectionDocument.service';
+=======
+// DELIVERY
+export * from './Delivery/FindDeliveries.service';
+export * from './Delivery/CreateDelivery.service';
+export * from './Delivery/UndoDelivery.service';
+>>>>>>> beee6bbfdf2aa5f2e16ca45618444d489f82a0dd

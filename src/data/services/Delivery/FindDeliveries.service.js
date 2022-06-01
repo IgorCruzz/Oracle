@@ -29,8 +29,8 @@ export class FindDeliveriesService {
     const havingValues = [
       wt_alocation && { value: 0 },
       on_production && { value: 1 },
-      in_correction && { value: 2 },
-      in_analisys && { value: 3 },
+      in_analisys && { value: 2 },
+      in_correction && { value: 3 },
       in_analisysCorretion && { value: 4 },
       concluded && { value: 5 },
     ].filter(value => value);

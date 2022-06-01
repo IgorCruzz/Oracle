@@ -69,6 +69,20 @@ export class ProductHistoryRepository {
     });
   }
 
+  async findByProductandPeriod({
+    id_product,
+    id_allocation_period,
+    cd_status,
+    transaction,
+  }) {
+    return await Product_history.findOne({
+      where: {
+        [Op.and]: [{ id_product }, { id_allocation_period }, { cd_status }],
+      },
+      ...(transaction && { transaction }),
+    });
+  }
+
   async verifyRelation({ id_professional }) {
     return await Product_history.findAll({
       include: [
@@ -87,6 +101,19 @@ export class ProductHistoryRepository {
         [Op.and]: [{ id_professional }, { id_product }],
       },
 
+      transaction,
+    });
+  }
+
+  async deleteProductHistoryDelivery({
+    id_allocation_period,
+    id_product,
+    transaction,
+  }) {
+    return Product_history.destroy({
+      where: {
+        [Op.and]: [{ id_allocation_period }, { id_product }, { cd_status: 2 }],
+      },
       transaction,
     });
   }

@@ -48,7 +48,6 @@ export class DeleteAllocationService {
         message: 'Desalocação efetuada com sucesso!',
       };
     } catch (e) {
-      console.log(e);
       if (t) {
         await t.rollback();
       }

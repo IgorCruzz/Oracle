@@ -9,7 +9,7 @@ import './data/database';
 const server = express();
 server.use(
   '/documents',
-  express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
+  express.static(resolve(__dirname, '..', 'tmp', 'documents'))
 );
 server.use(express.json());
 server.use(cors());
