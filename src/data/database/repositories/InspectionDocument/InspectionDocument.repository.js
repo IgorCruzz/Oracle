@@ -1,20 +1,12 @@
 import { Op } from 'sequelize';
 import { resolve } from 'path';
-import {
-  Inspection,
-  Inspection_document
-} from '../../models';
-import { folder } from '../../../../../config/multer_inspection_documents';
-
-import fs  from 'fs';
+import fs from 'fs';
+import { Inspection, Inspection_document } from '../../models';
+import { folder } from '../../../../config/multer_inspection_documents';
 
 export class InspectionDocumentRepository {
   async createInspectionDocument(data) {
-    const {
-      id_inspection,
-      nm_document,
-      nm_file,
-    } = data;
+    const { id_inspection, nm_document, nm_file } = data;
 
     const createdInspectionDocument = await Inspection_document.create({
       ...data.data,
@@ -23,13 +15,14 @@ export class InspectionDocumentRepository {
     });
     return createdInspectionDocument;
   }
+
   async findInspectionDocuments({
     page,
     limit,
     id_inspection,
     nm_document,
     nm_original_file,
-    nm_file
+    nm_file,
   }) {
     let searchQuery;
 
@@ -40,14 +33,14 @@ export class InspectionDocumentRepository {
         }),
         ...(nm_original_file && {
           nm_original_file: { [Op.like]: `%${nm_original_file.trim()}%` },
-        }),        
+        }),
         ...(nm_file && {
           nm_file: { [Op.like]: `%${nm_file.trim()}%` },
         }),
       };
     } else {
       searchQuery = null;
-    }    
+    }
     return await Inspection_document.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
@@ -55,22 +48,20 @@ export class InspectionDocumentRepository {
       where: searchQuery
         ? {
             [Op.and]: searchQuery,
-
           }
-        : {
-
-          },
+        : {},
       include: [
-          id_inspection
+        id_inspection
           ? {
               model: Inspection,
               as: 'inspection',
               where: { id_inspection },
             }
-          : { model: Inspection, as: 'inspection' },          
+          : { model: Inspection, as: 'inspection' },
       ],
     });
   }
+
   async deleteInspectionDocument({ id_inspection_document }) {
     const inspection_document = await Inspection_document.findOne({
       where: {
@@ -78,16 +69,16 @@ export class InspectionDocumentRepository {
       },
     });
 
-    if(inspection_document.nm_file){
+    if (inspection_document.nm_file) {
       const path = resolve(folder, inspection_document.nm_file);
-      fs.existsSync(path) && fs.unlink(path, (e) => (e))
+      fs.existsSync(path) && fs.unlink(path, e => e);
     }
 
     await Inspection_document.destroy({
-      where: { id_inspection_document: id_inspection_document },
+      where: { id_inspection_document },
     });
-  }  
-  
+  }
+
   async findInspectionDocumentById({ id_inspection_document, populate }) {
     if (populate) {
       return await Inspection_document.findOne({
@@ -115,23 +106,23 @@ export class InspectionDocumentRepository {
       },
       raw: true,
     });
-  }  
-  async updateInspectionDocument(id_inspection_document, file) {
+  }
 
+  async updateInspectionDocument(id_inspection_document, file) {
     const inspection_document = await Inspection_document.findOne({
       where: {
         id_inspection_document,
       },
     });
 
-    if(inspection_document.nm_file){
+    if (inspection_document.nm_file) {
       const path = resolve(folder, inspection_document.nm_file);
-      fs.existsSync(path) && fs.unlink(path, (e) => (e))
+      fs.existsSync(path) && fs.unlink(path, e => e);
     }
-    
+
     await inspection_document.update({
       nm_original_file: file.originalname,
-      nm_file: file.filename
+      nm_file: file.filename,
     });
 
     return await Inspection_document.findOne({
@@ -140,9 +131,4 @@ export class InspectionDocumentRepository {
       },
     });
   }
-
-
-
-
-
 }
