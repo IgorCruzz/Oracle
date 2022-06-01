@@ -3,9 +3,14 @@ import { DownloadPtiService } from '../../services';
 export class DownloadPtiController {
   async handle(req, res) {
     try {
+      const { id_allocation_period, id_professional } = req.query;
+
       const service = new DownloadPtiService();
 
-      const response = await service.execute({});
+      const response = await service.execute({
+        id_allocation_period,
+        id_professional,
+      });
 
       if (response.error)
         return res.status(400).json({

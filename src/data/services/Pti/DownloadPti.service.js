@@ -1,8 +1,92 @@
 import Pdf from 'pdfmake';
 import { resolve } from 'path';
+import {
+  Allocation,
+  Allocation_period,
+  Product,
+  Professional,
+  Role,
+  Grade,
+  Sector,
+  Project_phase,
+  Project,
+  User,
+  Product_history,
+} from '../../database/models';
 
 export class DownloadPtiService {
-  async execute() {
+  async execute({ id_allocation_period, id_professional }) {
+    const findAllocations = await Allocation.findAll({
+      where: {
+        id_professional,
+      },
+      include: [
+        {
+          model: Allocation_period,
+          as: 'allocation_period',
+          where: { id_allocation_period },
+        },
+        {
+          model: Product,
+          as: 'product',
+
+          include: [
+            {
+              model: Product_history,
+              as: 'product_history',
+            },
+            {
+              model: Project_phase,
+              as: 'project_phase',
+
+              include: [
+                {
+                  model: Project,
+                  as: 'project',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: Professional,
+          as: 'professional',
+
+          include: [
+            {
+              model: User,
+              as: 'user',
+              attributes: [
+                'id_user',
+                'ds_email_login',
+                'nm_user',
+                'dt_created_at',
+                'dt_updated_at',
+                'tp_profile',
+                'in_active',
+              ],
+            },
+          ],
+        },
+        { model: Role, as: 'role' },
+        { model: Grade, as: 'grade' },
+        { model: Sector, as: 'sector' },
+      ],
+    });
+
+    const getAllocations = findAllocations.map(allocation => {
+      const all = allocation.dataValues;
+
+      return {
+        professional: all.professional.dataValues,
+        products: all.product.dataValues,
+        tp_action_picture: all.tp_action_picture,
+        qt_hours_picture: all.qt_hours_picture,
+      };
+    });
+
+    const { professional } = getAllocations[0];
+
     const fonts = {
       Helvetica: {
         normal: 'Helvetica',
@@ -116,7 +200,7 @@ export class DownloadPtiService {
                   bold: true,
                 },
                 {
-                  text: 'Igor oliveira da cruz',
+                  text: professional.nm_professional,
                   style: 'columnsTitle',
                   borderColor: ['#B0C4DE', '#B0C4DE', '#B0C4DE', '#B0C4DE'],
                   bold: true,
