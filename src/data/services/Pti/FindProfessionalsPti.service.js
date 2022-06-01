@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import {
   Allocation,
   Allocation_period,
@@ -78,6 +79,14 @@ export class FindProfessionalPtiService {
       const all = allocation.dataValues;
 
       return {
+        period: `${format(
+          new Date(all.allocation_period.dataValues.dt_start_allocation),
+          'dd/MM/yyyy'
+        )} - ${format(
+          new Date(all.allocation_period.dataValues.dt_end_allocation),
+          'dd/MM/yyyy'
+        )} (${all.allocation_period.dataValues.qt_business_hours}h)`,
+        professional: all.professional.dataValues.nm_professional,
         products: all.product.dataValues,
         tp_action_picture: all.tp_action_picture,
         qt_hours_picture: all.qt_hours_picture,
