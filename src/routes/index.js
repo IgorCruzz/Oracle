@@ -53,7 +53,7 @@ const routes = [
   Login,
   RecoverPassword,
   Inspection,
-  InspectionDocument
+  InspectionDocument,
 ];
 
 const router = Router();

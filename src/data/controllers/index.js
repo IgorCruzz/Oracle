@@ -96,6 +96,8 @@ export * from './Document/DeleteDocument.controller';
 export * from './Document/FindDocument.controller';
 export * from './Document/FindDocuments.controller';
 export * from './Document/UpdateDocument.controller';
+export * from './Document/UploadDocument.controller';
+export * from './Document/RemoveUploadDocument.controller';
 
 // USER
 export * from './User/CreateUser.controller';
@@ -152,6 +154,7 @@ export * from './Allocation/FindAllocation.controller';
 export * from './Allocation/FindAllocations.controller';
 export * from './Allocation/UpdateAllocation.controller';
 export * from './Allocation/FindProfessionalsFromAllocation.controller';
+export * from './Allocation/FindProfessionalsAllocated.controller';
 
 // PTI
 export * from './Pti/FindPeriodPti.controller';

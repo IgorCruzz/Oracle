@@ -165,3 +165,8 @@ export * from './InspectionDocument/deleteInspectionDocument.validator';
 export * from './InspectionDocument/findInspectionDocument.validator';
 export * from './InspectionDocument/findInspectionDocuments.validator';
 export * from './InspectionDocument/updateInspectionDocument.validator';
+
+// PTI
+export * from './Ptis/FindPeriodPti.validator';
+export * from './Ptis/FindProductHistoryPti.validator';
+export * from './Ptis/FindProfessionalPti.validator';

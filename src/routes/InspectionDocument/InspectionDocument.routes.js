@@ -1,6 +1,6 @@
 import multer from 'multer';
-import { storage } from '../../../config/multer_inspection_documents';
 import { Router } from 'express';
+import { storage } from '../../config/multer_inspection_documents';
 import {
   CreateInspectionDocumentController,
   DeleteInspectionDocumentController,
@@ -40,7 +40,6 @@ routes.patch(
   updateInspectionDocumentValidator,
   new UpdateInspectionDocumentController().handle
 );
-
 
 routes.get(
   '/inspection_documents',

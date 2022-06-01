@@ -33,7 +33,7 @@ routes.delete(
 
 routes.patch(
   '/inspections/:id_inspection',
-   authenticator,
+  authenticator,
   updateInspectionValidator,
   new UpdateInspectionController().handle
 );

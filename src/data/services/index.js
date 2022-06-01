@@ -96,6 +96,8 @@ export * from './Document/DeleteDocument.service';
 export * from './Document/FindDocument.service';
 export * from './Document/FindDocuments.service';
 export * from './Document/UpdateDocument.service';
+export * from './Document/UploadDocument.service';
+export * from './Document/RemoveUploadDocument.service';
 
 // USER
 export * from './User/CreateUser.service';
@@ -152,6 +154,7 @@ export * from './Allocation/FindAllocation.service';
 export * from './Allocation/FindAllocations.service';
 export * from './Allocation/UpdateAllocation.service';
 export * from './Allocation/FindProfessionalsFromAllocation.service';
+export * from './Allocation/FindProfessionalsAllocated.service';
 
 // PTI
 export * from './Pti/FindPeriodPti.service';
