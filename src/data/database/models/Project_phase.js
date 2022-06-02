@@ -53,10 +53,13 @@ export class Project_phase extends Model {
       foreignKey: 'id_project',
       as: 'project',
     });
+    Project_phase.hasMany(models.Product, {
+      foreignKey: 'id_project_phase',
+      as: 'product',
+    });
     Project_phase.hasMany(models.Inspection, {
       foreignKey: 'id_inspection',
       as: 'inspection',
     });
-  }  
-  
+  }
 }

@@ -59,6 +59,11 @@ export class Project extends Model {
   }
 
   static associate(models) {
+    Project.hasMany(models.Project_phase, {
+      foreignKey: 'id_project',
+      as: 'project_phase',
+    });
+
     Project.belongsTo(models.City, {
       foreignKey: 'id_city',
       as: 'city',
