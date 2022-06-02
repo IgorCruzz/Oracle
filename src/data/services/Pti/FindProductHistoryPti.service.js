@@ -1,4 +1,9 @@
-import { Product, Product_history } from '../../database/models';
+import {
+  Product,
+  Product_history,
+  Professional,
+  Allocation_period,
+} from '../../database/models';
 
 export class FindProductHistoryPtiService {
   async execute({ page, limit, id_product }) {
@@ -13,6 +18,16 @@ export class FindProductHistoryPtiService {
           where: {
             id_product,
           },
+          include: [
+            {
+              model: Professional,
+              as: 'professional',
+            },
+            {
+              model: Allocation_period,
+              as: 'allocation',
+            },
+          ],
         },
       ],
     });
