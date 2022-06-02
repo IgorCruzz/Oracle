@@ -28,12 +28,11 @@ export class DownloadPtiController {
       pdfDoc.on('end', () => {
         const result = Buffer.concat(chunks);
 
-        res.setHeader('Content-Disposition', 'attachment; filename=quote.pdf');
+        // res.setHeader('Content-Disposition', 'attachment; filename=quote.pdf');
 
         res.contentType('application/pdf').send(result);
       });
     } catch (err) {
-      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });

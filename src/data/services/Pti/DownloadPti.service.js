@@ -102,7 +102,7 @@ export class DownloadPtiService {
         { text: proj.dataValues.city.nm_city, style: 'values', borderColor },
         { text: proj.dataValues.nm_project, style: 'values', borderColor },
         {
-          text: arr.map(a => `${a.nm_product}\n`),
+          text: arr.map(a => `${a.nm_product}\n\n\n`),
           style: 'values',
           borderColor,
         },
@@ -110,22 +110,22 @@ export class DownloadPtiService {
           text: arr.map(
             a =>
               (a.allocation[0].dataValues.tp_action_picture === 0 &&
-                'Não Definida\n') ||
+                'Não Definida\n\n\n') ||
               (a.allocation[0].dataValues.tp_action_picture === 1 &&
-                'Produção Integral\n') ||
+                'Produção Integral\n\n\n') ||
               (a.allocation[0].dataValues.tp_action_picture === 2 &&
-                'Produção Parcial\n') ||
+                'Produção Parcial\n\n\n') ||
               (a.allocation[0].dataValues.tp_action_picture === 3 &&
-                'Dispensado\n') ||
+                'Dispensado\n\n\n') ||
               (a.allocation[0].dataValues.tp_action_picture === 4 &&
-                'Concluído pelo demandante\n')
+                'Concluído pelo demandante\n\n\n')
           ),
           style: 'values',
           borderColor,
         },
         {
           text: arr.map(
-            a => `${String(a.allocation[0].dataValues.qt_hours_picture)}\n`
+            a => `${String(a.allocation[0].dataValues.qt_hours_picture)}\n\n\n`
           ),
           style: 'lastColumnValue',
           borderColor,
@@ -281,7 +281,7 @@ export class DownloadPtiService {
         },
         {
           table: {
-            widths: ['20%', '20%', '20%', '20%', '20%'],
+            widths: ['10%', '32%', '40%', '10%', '8%'],
             body: [
               [
                 {
@@ -309,7 +309,7 @@ export class DownloadPtiService {
                   bold: true,
                 },
                 {
-                  text: 'Soma de DURAÇÃO DA ATIVIDADE',
+                  text: 'DURAÇÃO (HH)',
                   style: 'total',
                   borderColor: ['#B0C4DE', '#B0C4DE', '#B0C4DE', '#B0C4DE'],
                   bold: true,
