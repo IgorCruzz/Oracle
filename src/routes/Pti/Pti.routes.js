@@ -84,16 +84,15 @@ routes.get(
         })
       );
 
-      console.log(arr[0].allocation[0].dataValues);
-      // tp_action_picture
-      // products
-
       console.log({
         city: proj.dataValues.city.nm_city,
         project: proj.dataValues.nm_project,
         product: arr.map(a => `${a.nm_product}\n`),
         tp_action_picture: arr.map(
           a => a.allocation[0].dataValues.tp_action_picture
+        ),
+        qt_hours_picture: arr.map(
+          a => a.allocation[0].dataValues.qt_hours_picture
         ),
       });
     });
