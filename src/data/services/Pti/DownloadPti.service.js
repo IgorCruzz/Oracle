@@ -106,6 +106,7 @@ export class DownloadPtiService {
           style: 'values',
           borderColor,
         },
+
         {
           text: arr.map(
             a =>
@@ -168,6 +169,7 @@ export class DownloadPtiService {
 
       content: [
         {
+          // IMAGES
           columns: [
             {
               image: resolve(
@@ -247,10 +249,11 @@ export class DownloadPtiService {
           text: 'divider',
           style: 'blank',
         },
-
+        // PROFESSIONAL
         {
           table: {
             widths: ['20%', '20%', '60%'],
+
             body: [
               [
                 {
@@ -279,10 +282,12 @@ export class DownloadPtiService {
           text: 'divider',
           style: 'blank',
         },
+        // TABLE
         {
           table: {
             widths: ['10%', '32%', '35%', '15%', '8%'],
             body: [
+              // TABLE HEAD
               [
                 {
                   text: 'MUNICÍPIO',
@@ -315,38 +320,16 @@ export class DownloadPtiService {
                   bold: true,
                 },
               ],
-              // ...values,
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
-              ['1', '2', '3', '4', '5'],
+              // TABLE BODY
+              ...values,
             ],
           },
         },
+        // TOTAL
         {
           table: {
             widths: ['90%', '10%'],
+
             body: [
               [
                 {
@@ -365,60 +348,66 @@ export class DownloadPtiService {
             ],
           },
         },
-
+        // SIGNATURES
         {
-          canvas: [
+          stack: [
             {
-              type: 'line',
-              x1: 0,
-              y1: 30,
-              x2: 450,
-              y2: 30,
-              lineWidth: 1,
+              canvas: [
+                {
+                  type: 'line',
+                  x1: 0,
+                  y1: 30,
+                  x2: 450,
+                  y2: 30,
+                  lineWidth: 1,
+                },
+              ],
+            },
+            {
+              text: `Responsável pelo Plano de Trabalho          ${nm_professional}`,
+              style: 'signatureText',
+              margin: [0, 5, 20, 5],
+            },
+            {
+              canvas: [
+                {
+                  type: 'line',
+                  x1: 0,
+                  y1: 30,
+                  x2: 450,
+                  y2: 30,
+                  lineWidth: 1,
+                },
+              ],
+            },
+            {
+              text: 'Coordenador',
+              style: 'signatureText',
+              margin: [0, 5, 20, 5],
+            },
+            {
+              canvas: [
+                {
+                  type: 'line',
+                  x1: 0,
+                  y1: 30,
+                  x2: 450,
+                  y2: 30,
+                  lineWidth: 1,
+                },
+              ],
+            },
+            {
+              text: 'Presidente do IEEA',
+              style: 'signatureText',
+              margin: [0, 5, 20, 5],
             },
           ],
-        },
-        {
-          text: `Responsável pelo Plano de Trabalho          ${nm_professional}`,
-          style: 'signatureText',
-          margin: [0, 5, 20, 5],
-        },
-        {
-          canvas: [
-            {
-              type: 'line',
-              x1: 0,
-              y1: 30,
-              x2: 450,
-              y2: 30,
-              lineWidth: 1,
-            },
-          ],
-        },
-        {
-          text: 'Coordenador',
-          style: 'signatureText',
-          margin: [0, 5, 20, 5],
-        },
-        {
-          canvas: [
-            {
-              type: 'line',
-              x1: 0,
-              y1: 30,
-              x2: 450,
-              y2: 30,
-              lineWidth: 1,
-            },
-          ],
-        },
-        {
-          text: 'Presidente do IEEA',
-          style: 'signatureText',
-          margin: [0, 5, 20, 5],
+          margin: [0, 20, 0, 0],
+          unbreakable: true,
         },
       ],
-
+      // STYLES
       styles: {
         blank: {
           color: '#ffffff',
