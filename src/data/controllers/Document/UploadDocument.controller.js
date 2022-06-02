@@ -7,12 +7,13 @@ export class UploadDocumentController {
 
       const { id_document } = req.body;
 
-      const { filename, size, mimetype } = req.file;
+      const { filename, size, mimetype, originalname } = req.file;
 
       const response = await service.execute(id_document, {
         filename,
         size,
         mimetype,
+        originalname,
       });
 
       if (response.error)

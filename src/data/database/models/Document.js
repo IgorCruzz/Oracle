@@ -24,6 +24,10 @@ export class Document extends Model {
               : moment.utc(this.getDataValue('dt_upload')).format('YYYY-MM-DD');
           },
         },
+
+        nm_original_file: {
+          type: DataTypes.STRING(1000),
+        },
         nm_file: {
           type: DataTypes.STRING(1000),
         },

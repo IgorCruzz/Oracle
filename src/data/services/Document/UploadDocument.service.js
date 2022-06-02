@@ -1,7 +1,7 @@
 import { DocumentRepository } from '../../database/repositories';
 
 export class UploadDocumentService {
-  async execute(id_document, { filename, size }) {
+  async execute(id_document, { filename, size, originalname }) {
     const repository = new DocumentRepository();
 
     const findDocument = await repository.findDocumentById({
@@ -23,6 +23,7 @@ export class UploadDocumentService {
     await repository.updateDocument(id_document, {
       dt_upload: new Date(Date.now()).toISOString(),
       nm_file: filename,
+      nm_original_file: originalname,
     });
 
     return {

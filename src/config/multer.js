@@ -17,13 +17,15 @@ export const storage = diskStorage({
         id_document: req.body.id_document,
       });
 
-      const { nm_file } = findDocument;
+      if (findDocument) {
+        const { nm_file } = findDocument;
 
-      if (nm_file) {
-        fs.unlinkSync(
-          resolve(__dirname, '..', '..', 'tmp', 'documents', nm_file),
-          () => {}
-        );
+        if (nm_file) {
+          fs.unlinkSync(
+            resolve(__dirname, '..', '..', 'tmp', 'documents', nm_file),
+            () => {}
+          );
+        }
       }
 
       cb(

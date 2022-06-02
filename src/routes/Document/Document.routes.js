@@ -24,10 +24,9 @@ const upload = multer({ storage });
 
 const routes = Router();
 
-routes.patch(
+routes.delete(
   '/documents/upload/:id_document',
   authenticator,
-  // updateDocumentValidator,
   new RemoveUploadDocumentController().handle
 );
 

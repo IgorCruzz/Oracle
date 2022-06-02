@@ -235,9 +235,9 @@ export class DownloadPtiService {
                 '..',
                 'utils',
                 'img',
-                'puc.jpg'
+                'fundacao.jpeg'
               ),
-              width: 70,
+              width: 50,
               height: 50,
               margin: [0, 5, 20, 5],
             },
@@ -281,7 +281,7 @@ export class DownloadPtiService {
         },
         {
           table: {
-            widths: ['10%', '32%', '40%', '10%', '8%'],
+            widths: ['10%', '32%', '35%', '15%', '8%'],
             body: [
               [
                 {
@@ -315,7 +315,32 @@ export class DownloadPtiService {
                   bold: true,
                 },
               ],
-              ...values,
+              // ...values,
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
+              ['1', '2', '3', '4', '5'],
             ],
           },
         },
@@ -340,6 +365,7 @@ export class DownloadPtiService {
             ],
           },
         },
+
         {
           canvas: [
             {
@@ -353,7 +379,7 @@ export class DownloadPtiService {
           ],
         },
         {
-          text: 'Responsável pelo Plano de Trabalho Kerolaine Lemos Leal',
+          text: `Responsável pelo Plano de Trabalho          ${nm_professional}`,
           style: 'signatureText',
           margin: [0, 5, 20, 5],
         },
@@ -370,7 +396,7 @@ export class DownloadPtiService {
           ],
         },
         {
-          text: 'Coordenador do Projeto Vinicius Loback',
+          text: 'Coordenador',
           style: 'signatureText',
           margin: [0, 5, 20, 5],
         },
@@ -387,7 +413,7 @@ export class DownloadPtiService {
           ],
         },
         {
-          text: 'Presidente do IEEA Marcus Muffareng',
+          text: 'Presidente do IEEA',
           style: 'signatureText',
           margin: [0, 5, 20, 5],
         },

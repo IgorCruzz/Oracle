@@ -32,6 +32,7 @@ export class RemoveUploadDocumentService {
     await repository.updateDocument(id_document, {
       dt_upload: null,
       nm_file: null,
+      nm_original_file: null,
     });
 
     return {
