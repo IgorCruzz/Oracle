@@ -1,53 +1,78 @@
 import Pdf from 'pdfmake';
 import { resolve } from 'path';
+import { format } from 'date-fns';
 import {
   Allocation,
   Allocation_period,
   Product,
   Professional,
-  Role,
-  Grade,
-  Sector,
   Project_phase,
   Project,
-  User,
-  Product_history,
   City,
 } from '../../database/models';
 
 export class DownloadPtiService {
   async execute({ id_allocation_period, id_professional }) {
-    const findAllocations = await Allocation.findAll({
+    const getProfessional = await Professional.findOne({
       where: {
         id_professional,
       },
+    });
+
+    const getAllocationPeriod = await Allocation_period.findOne({
+      where: {
+        id_allocation_period,
+      },
+    });
+
+    const {
+      dt_start_allocation,
+      dt_end_allocation,
+      qt_business_hours,
+    } = getAllocationPeriod;
+
+    const period = `${format(
+      new Date(dt_start_allocation),
+      'dd/MM/yyyy'
+    )} - ${format(
+      new Date(dt_end_allocation),
+      'dd/MM/yyyy'
+    )} (${qt_business_hours}h)`;
+
+    const { nm_professional } = getProfessional;
+
+    const project = await Project.findAll({
       include: [
         {
-          model: Allocation_period,
-          as: 'allocation_period',
-          where: { id_allocation_period },
+          model: City,
+          as: 'city',
         },
         {
-          model: Product,
-          as: 'product',
-
+          model: Project_phase,
+          as: 'project_phase',
+          required: true,
           include: [
             {
-              model: Product_history,
-              as: 'product_history',
-            },
-            {
-              model: Project_phase,
-              as: 'project_phase',
-
+              model: Product,
+              as: 'product',
+              required: true,
               include: [
                 {
-                  model: Project,
-                  as: 'project',
+                  model: Allocation,
+                  as: 'allocation',
+                  required: true,
                   include: [
                     {
-                      model: City,
-                      as: 'city',
+                      model: Professional,
+                      as: 'professional',
+                      required: true,
+                      where: { id_professional },
+                    },
+                    {
+                      model: Allocation_period,
+                      as: 'allocation_period',
+                      required: true,
+                      where: { id_allocation_period },
                     },
                   ],
                 },
@@ -55,70 +80,76 @@ export class DownloadPtiService {
             },
           ],
         },
-        {
-          model: Professional,
-          as: 'professional',
-
-          include: [
-            {
-              model: User,
-              as: 'user',
-              attributes: [
-                'id_user',
-                'ds_email_login',
-                'nm_user',
-                'dt_created_at',
-                'dt_updated_at',
-                'tp_profile',
-                'in_active',
-              ],
-            },
-          ],
-        },
-        { model: Role, as: 'role' },
-        { model: Grade, as: 'grade' },
-        { model: Sector, as: 'sector' },
       ],
     });
 
-    const getAllocations = findAllocations.map(allocation => {
-      const all = allocation.dataValues;
-
-      return {
-        city:
-          all.product.project_phase.dataValues.project.dataValues.city
-            .dataValues.nm_city,
-        project:
-          all.product.project_phase.dataValues.project.dataValues.nm_project,
-        professional: all.professional.dataValues,
-        products: all.product.dataValues,
-        tp_action_picture: all.tp_action_picture,
-        qt_hours_picture: all.qt_hours_picture,
-      };
-    });
-
-    const { professional } = getAllocations[0];
-
     const borderColor = ['#ffffff', '#ffffff', '#ffffff', '#ffffff'];
 
-    const values = getAllocations.map(teste => [
-      { text: teste.city, style: 'values', borderColor },
-      { text: teste.project, style: 'values', borderColor },
-      { text: teste.products.nm_product, style: 'values', borderColor },
-      {
-        text:
-          (teste.tp_action_picture === 0 && 'Não Definida') ||
-          (teste.tp_action_picture === 1 && 'Produção Integral') ||
-          (teste.tp_action_picture === 2 && 'Produção Parcial') ||
-          (teste.tp_action_picture === 3 && 'Dispensado') ||
-          (teste.tp_action_picture === 4 && 'Concluído pelo demandante'),
-        style: 'values',
-        borderColor,
-      },
-      { text: teste.qt_hours_picture, style: 'lastColumnValue', borderColor },
-    ]);
+    const values = project.map(proj => {
+      const products = proj.dataValues.project_phase
+        .map(val => val.dataValues.product)
+        .map(kok => kok.map(a => a.dataValues));
 
-    const [total] = getAllocations.map((a, b) => a.qt_hours_picture + b, 0);
+      const arr = [];
+
+      products.map(a =>
+        a.map(b => {
+          arr.push(b);
+        })
+      );
+
+      return [
+        { text: proj.dataValues.city.nm_city, style: 'values', borderColor },
+        { text: proj.dataValues.nm_project, style: 'values', borderColor },
+        {
+          text: arr.map(a => `${a.nm_product}\n`),
+          style: 'values',
+          borderColor,
+        },
+        {
+          text: arr.map(
+            a =>
+              (a.allocation[0].dataValues.tp_action_picture === 0 &&
+                'Não Definida\n') ||
+              (a.allocation[0].dataValues.tp_action_picture === 1 &&
+                'Produção Integral\n') ||
+              (a.allocation[0].dataValues.tp_action_picture === 2 &&
+                'Produção Parcial\n') ||
+              (a.allocation[0].dataValues.tp_action_picture === 3 &&
+                'Dispensado\n') ||
+              (a.allocation[0].dataValues.tp_action_picture === 4 &&
+                'Concluído pelo demandante\n')
+          ),
+          style: 'values',
+          borderColor,
+        },
+        {
+          text: arr.map(
+            a => `${String(a.allocation[0].dataValues.qt_hours_picture)}\n`
+          ),
+          style: 'lastColumnValue',
+          borderColor,
+        },
+      ];
+    });
+
+    const [total] = project.map(proj => {
+      const products = proj.dataValues.project_phase
+        .map(val => val.dataValues.product)
+        .map(kok => kok.map(a => a.dataValues));
+
+      const arr = [];
+
+      products.map(a =>
+        a.map(b => {
+          arr.push(b);
+        })
+      );
+
+      return arr.map(a => a.allocation[0].dataValues.qt_hours_picture);
+    });
+
+    const sum = total.reduce((a, b) => a + b, 0);
 
     const fonts = {
       Helvetica: {
@@ -229,13 +260,13 @@ export class DownloadPtiService {
                   bold: true,
                 },
                 {
-                  text: professional.nm_professional,
+                  text: nm_professional,
                   style: 'columnsTitle',
                   borderColor: ['#B0C4DE', '#B0C4DE', '#B0C4DE', '#B0C4DE'],
                   bold: true,
                 },
                 {
-                  text: 'Periodo 31/01/2022 a 11/02/2022',
+                  text: `Periodo ${period}`,
                   style: 'teste',
                   borderColor: ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF'],
                   bold: true,
@@ -300,7 +331,7 @@ export class DownloadPtiService {
                   bold: true,
                 },
                 {
-                  text: total,
+                  text: sum,
                   style: 'total',
                   borderColor: ['#B0C4DE', '#B0C4DE', '#B0C4DE', '#B0C4DE'],
                   bold: true,
