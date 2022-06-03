@@ -134,7 +134,7 @@ export class DownloadPtiService {
       ];
     });
 
-    const [total] = project.map(proj => {
+    const totals = project.map(proj => {
       const products = proj.dataValues.project_phase
         .map(val => val.dataValues.product)
         .map(kok => kok.map(a => a.dataValues));
@@ -150,7 +150,13 @@ export class DownloadPtiService {
       return arr.map(a => a.allocation[0].dataValues.qt_hours_picture);
     });
 
-    const sum = total.reduce((a, b) => a + b, 0);
+    const qtHoursPictures = [];
+
+    totals.map(qtHourPicture =>
+      qtHourPicture.map(value => qtHoursPictures.push(value))
+    );
+
+    const sum = qtHoursPictures.reduce((a, b) => a + b, 0);
 
     const fonts = {
       Helvetica: {
