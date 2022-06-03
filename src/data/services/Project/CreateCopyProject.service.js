@@ -122,18 +122,18 @@ export class CreateCopyProjectService {
       })
     );
 
-    constdocumentsLoaded = [];
+    const documentsLoaded = [];
 
     getDocuments.map(value => {
       value.map(document => {
-       documentsLoaded.push({
+        documentsLoaded.push({
           ...document.dataValues,
           product: document.dataValues.product.dataValues,
         });
       });
     });
 
-    constdocumentsParsed =documentsLoaded.map(value => {
+    const documentsParsed = documentsLoaded.map(value => {
       const getId = productsCreated.find(
         product => product.nm_product === value.product.nm_product
       );
