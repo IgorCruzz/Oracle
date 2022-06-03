@@ -10,7 +10,7 @@ export class Inspection extends Model {
           primaryKey: true,
           autoIncrement: true,
         },
-        dt_inspection:  {
+        dt_inspection: {
           type: DataTypes.DATEONLY,
           get() {
             const value = this.getDataValue('dt_inspection');
@@ -23,7 +23,7 @@ export class Inspection extends Model {
           },
         },
         tp_inspection: DataTypes.TINYINT(4),
-        dt_new_end:  {
+        dt_new_end: {
           type: DataTypes.DATEONLY,
           get() {
             const value = this.getDataValue('dt_new_end');
@@ -50,7 +50,7 @@ export class Inspection extends Model {
     Inspection.hasMany(models.Inspection_document, {
       foreignKey: 'id_inspection',
       as: 'inspection_document',
-    });    
+    });
     Inspection.belongsTo(models.Project_phase, {
       foreignKey: 'id_project_phase',
       as: 'project_phase',
@@ -59,5 +59,5 @@ export class Inspection extends Model {
       foreignKey: 'id_professional',
       as: 'professional',
     });
-  }  
+  }
 }

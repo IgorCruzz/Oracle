@@ -11,7 +11,7 @@ export class Inspection_document extends Model {
         },
         nm_document: {
           type: DataTypes.STRING(1000),
-        },       
+        },
         nm_original_file: {
           type: DataTypes.STRING(1000),
         },
@@ -34,5 +34,5 @@ export class Inspection_document extends Model {
       foreignKey: 'id_inspection',
       as: 'inspection',
     });
-  }  
+  }
 }

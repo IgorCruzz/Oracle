@@ -36,6 +36,18 @@ export class AllocationRepository {
     });
   }
 
+  async verifyRelationAllocationPeriod({ id_allocation_period }) {
+    return await Allocation.findAll({
+      include: [
+        {
+          model: Allocation_period,
+          as: 'allocation_period',
+          where: { id_allocation_period },
+        },
+      ],
+    });
+  }
+
   async verifyRelationProfessional({ id_professional }) {
     return await Allocation.findAll({
       include: [
