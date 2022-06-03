@@ -1,19 +1,22 @@
 import { CreateProjectService } from './CreateProject.service';
-import { ProjectPhaseRepository } from '../../database/repositories/ProjectPhase/ProjectPhase.repository';
-import { ProductRepository } from '../../database/repositories/Product/Product.repository';
-import { DocumentRepository } from '../../database/repositories/Document/Document.repository';
-import { ProjectRepository } from '../../database/repositories/Project/Project.repository';
+import {
+  Product_history,
+  Document,
+  Product,
+  Project_phase,
+  Project,
+} from '../../database/models';
 
 export class CreateCopyProjectService {
   async execute(id_project, data) {
     const projectService = new CreateProjectService();
-    const projectPhaseRepository = new ProjectPhaseRepository();
-    const productRepository = new ProductRepository();
-    const documentRepository = new DocumentRepository();
-    const projectRepository = new ProjectRepository();
-
-    const checkProjectId = await projectRepository.findProjectById({
-      id_project,
+    // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // CRIAR COPIA DO PROJETO
+    const checkProjectId = await Project.findOne({
+      where: {
+        id_project,
+      },
+      raw: true,
     });
 
     if (!checkProjectId) {
@@ -30,10 +33,32 @@ export class CreateCopyProjectService {
       };
 
     const { project } = response;
+    // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    const findProjectsPhase = await projectPhaseRepository.findProjectPhases({
-      id_project,
+    // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // CRIAR COPIA DAS FASES DO PROJETO
+
+    const findProjectsPhase = await Project_phase.findAll({
+      include: [
+        {
+          model: Project,
+          as: 'project',
+          where: {
+            dt_deleted_at: null,
+            id_project,
+          },
+        },
+      ],
+      order: [['nu_order', 'ASC']],
+      raw: true,
     });
+
+    if (findProjectsPhase.length === 0) {
+      return {
+        message: 'Projeto adicionado com sucesso!',
+        project,
+      };
+    }
 
     const projectPhaseCopy = findProjectsPhase.map(projectPhases => {
       return {
@@ -47,13 +72,28 @@ export class CreateCopyProjectService {
         dt_updated_at: new Date(Date.now()).toISOString(),
       };
     });
+    const projectPhase = await Project_phase.bulkCreate(projectPhaseCopy);
 
-    const projectPhases = await projectPhaseRepository.createManyProjectPhases(
-      projectPhaseCopy
-    );
+    const projectPhaseResult = projectPhase.map(values => values.dataValues);
 
-    const getProjectPhases = await projectPhaseRepository.findProjectPhases({
-      id_project,
+    // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // CRIAR COPIA DOS PRODUTOS
+
+    const getProjectPhases = await Project_phase.findAll({
+      include: [
+        {
+          model: Project,
+          as: 'project',
+          where: {
+            dt_deleted_at: null,
+            id_project,
+          },
+        },
+      ],
+      order: [['nu_order', 'ASC']],
+      raw: true,
     });
 
     const result = getProjectPhases.map((a, i) => {
@@ -66,18 +106,28 @@ export class CreateCopyProjectService {
         vl_phase: a.vl_phase,
         dt_created_at: a.dt_created_at,
         dt_updated_at: a.dt_updated_at,
-        id_project: projectPhases[i].id_project,
-        id_project_phase_copy: projectPhases[i].id_project_phase,
+        id_project: projectPhaseResult[i].id_project,
+        id_project_phase_copy: projectPhaseResult[i].id_project_phase,
       };
     });
 
     const getProducts = await Promise.all(
-      await result.map(async res => {
-        return await productRepository.getTest({
-          id_project_phase: res.id_project_phase,
+      result.map(async res => {
+        return await Product.findAll({
+          where: {
+            id_project_phase: res.id_project_phase,
+          },
+          raw: true,
         });
       })
     );
+
+    if (getProducts.length === 0) {
+      return {
+        message: 'Projeto adicionado com sucesso!',
+        project,
+      };
+    }
 
     const productsReplaceValue = [];
 
@@ -103,9 +153,29 @@ export class CreateCopyProjectService {
       })
     );
 
-    const productsCreated = await productRepository.createManyProducts(
-      productsReplaceValue
-    );
+    const productBulkCreate = await Product.bulkCreate(productsReplaceValue);
+
+    const productResult = productBulkCreate.map(values => values.dataValues);
+
+    productResult.map(async product => {
+      await Product_history.create({
+        cd_status: 0,
+        dt_status: new Date(Date.now()).toISOString(),
+        tx_remark: null,
+        id_product: product.id_product,
+        id_allocation_period: null,
+        id_professional: null,
+        id_analyst_user: null,
+        dt_created_at: new Date(Date.now()).toISOString(),
+        dt_updated_at: new Date(Date.now()).toISOString(),
+      });
+    });
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // CRIAR COPIA DOS DOCUMENTOS
+
     const getDocumentsReplace = [];
 
     getProducts.map(async product => {
@@ -116,8 +186,11 @@ export class CreateCopyProjectService {
 
     const getDocuments = await Promise.all(
       getDocumentsReplace.map(async document => {
-        return await documentRepository.findDocumentByIdProduct({
-          id_product: document.id_product,
+        return await Document.findAll({
+          where: {
+            id_product: document.id_product,
+          },
+          include: [{ model: Product, as: 'product' }],
         });
       })
     );
@@ -133,8 +206,15 @@ export class CreateCopyProjectService {
       });
     });
 
+    if (getDocuments.length === 0) {
+      return {
+        message: 'Projeto adicionado com sucesso!',
+        project,
+      };
+    }
+
     const documentsParsed = documentsLoaded.map(value => {
-      const getId = productsCreated.find(
+      const getId = productResult.find(
         product => product.nm_product === value.product.nm_product
       );
 
@@ -148,7 +228,9 @@ export class CreateCopyProjectService {
       };
     });
 
-    await documentRepository.createManyDocuments(documentsParsed);
+    await Document.bulkCreate(documentsParsed);
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return {
       message: 'Projeto adicionado com sucesso!',

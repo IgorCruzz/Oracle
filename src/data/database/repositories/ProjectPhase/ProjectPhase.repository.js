@@ -96,14 +96,13 @@ export class ProjectPhaseRepository {
     if (limit && page) {
       return await Project_phase.findAndCountAll({
         limit: limit !== 'all' ? Number(limit) : null,
-      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+        offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
         order: [['nu_order', 'ASC']],
         include: [
           id_project
             ? {
                 model: Project,
                 as: 'project',
-
                 where: {
                   [Op.and]: {
                     id_project,
@@ -114,7 +113,6 @@ export class ProjectPhaseRepository {
             : {
                 model: Project,
                 as: 'project',
-
                 where: {
                   dt_deleted_at: null,
                 },
@@ -124,12 +122,16 @@ export class ProjectPhaseRepository {
     }
 
     return await Project_phase.findAll({
-      where: {
-        [Op.and]: {
-          id_project,
-          dt_deleted_at: null,
+      include: [
+        {
+          model: Project,
+          as: 'project',
+          where: {
+            dt_deleted_at: null,
+            id_project,
+          },
         },
-      },
+      ],
       order: [['nu_order', 'ASC']],
       raw: true,
     });
