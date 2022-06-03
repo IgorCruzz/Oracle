@@ -111,6 +111,7 @@ export * from './Login/Login.service';
 
 // RECOVERY PASSWORD
 export * from './PasswordRecovery/PasswordRecovery.service';
+export * from './PasswordRecovery/PasswordUpdate.service';
 
 // GRADE
 export * from './Grade/CreateGrade.service';
@@ -175,6 +176,7 @@ export * from './InspectionDocument/DeleteInspectionDocument.service';
 export * from './InspectionDocument/FindInspectionDocument.service';
 export * from './InspectionDocument/FindInspectionDocuments.service';
 export * from './InspectionDocument/UpdateInspectionDocument.service';
+
 // DELIVERY
 export * from './Delivery/FindDeliveries.service';
 export * from './Delivery/CreateDelivery.service';

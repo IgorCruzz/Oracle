@@ -111,6 +111,7 @@ export * from './Login/Login.controller';
 
 // RECOVERY PASSWORD
 export * from './PasswordRecovery/PasswordRecovery.controller';
+export * from './PasswordRecovery/PasswordUpdate.controller';
 
 // GRADE
 export * from './Grade/CreateGrade.controller';

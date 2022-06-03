@@ -8,8 +8,7 @@ export default {
   async handle({ token, email }) {
     try {
       const mailOptions = {
-        from: 'igor.dsn.nuvem@gmail.com',
-        to: email,
+        to: 'igorcruz.dev@gmail.com',
         subject: 'Token para alteração de senha',
         template: 'password',
         context: {
@@ -19,10 +18,12 @@ export default {
 
       const transporter = nodemailer.createTransport({
         service: 'gmail',
+        secureConnection: false,
         auth: {
           user: 'igor.dsn.nuvem@gmail.com',
           pass: 'rjjcmycuxvnwwkeu',
         },
+        from: 'igor.dsn.nuvem@gmail.com',
       });
 
       transporter.use(

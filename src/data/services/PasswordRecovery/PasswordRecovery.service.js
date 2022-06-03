@@ -40,8 +40,12 @@ export class PasswordRecoveryService {
         email: 'igor.dsn.nuvem@gmail.com',
       });
 
+      const [mail, rest] = email.split('@');
+
+      const hideMail = `${mail}@`.padEnd(mail.length + rest.length, '*');
+
       return {
-        message: `Token enviado para o e-mail ${email} `,
+        message: `Token enviado para o e-mail: ${hideMail} `,
       };
     }
 
@@ -53,11 +57,15 @@ export class PasswordRecoveryService {
 
     await RecoverPassword.handle({
       token: cd_recovery,
-      email: 'igor.dsn.nuvem@gmail.com',
+      email: 'igorcruz.dev@gmail.com',
     });
 
+    const [mail, rest] = email.split('@');
+
+    const hideMail = `${mail}@`.padEnd(mail.length + rest.length, '*');
+
     return {
-      message: `Token enviado para o e-mail ${email} `,
+      message: `Token enviado para o e-mail: ${hideMail} `,
     };
   }
 }
