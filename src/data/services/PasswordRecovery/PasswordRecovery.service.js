@@ -37,7 +37,7 @@ export class PasswordRecoveryService {
 
       await RecoverPassword.handle({
         token: cd_recovery,
-        email: 'igor.dsn.nuvem@gmail.com',
+        email,
       });
 
       const [mail, rest] = email.split('@');
@@ -57,7 +57,7 @@ export class PasswordRecoveryService {
 
     await RecoverPassword.handle({
       token: cd_recovery,
-      email: 'igorcruz.dev@gmail.com',
+      email,
     });
 
     const [mail, rest] = email.split('@');

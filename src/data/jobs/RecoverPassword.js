@@ -8,7 +8,7 @@ export default {
   async handle({ token, email }) {
     try {
       const mailOptions = {
-        to: 'igorcruz.dev@gmail.com',
+        to: email,
         subject: 'Token para alteração de senha',
         template: 'password',
         context: {
