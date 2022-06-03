@@ -28,9 +28,9 @@ export class DownloadPtiController {
       pdfDoc.on('end', () => {
         const result = Buffer.concat(chunks);
 
-        //res.setHeader('Content-Disposition', 'attachment; filename=quote.pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=pti.pdf');
 
-        res.contentType('application/pdf').send(result);
+        res.status(200).send(result);
       });
     } catch (err) {
       return res.status(500).json({
