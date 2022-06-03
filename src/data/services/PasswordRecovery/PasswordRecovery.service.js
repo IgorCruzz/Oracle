@@ -20,14 +20,41 @@ export class PasswordRecoveryService {
       return { error: 'E-mail não corresponde a uma conta.' };
     }
 
-    const token = crypto.randomBytes(3).toString('hex');
+    const { id_user } = verifyEmailExists;
 
-    await repository.createRecoveryPassword({
-      email,
-      token,
+    const cd_recovery = crypto.randomBytes(3).toString('hex');
+
+    const findUser = await repository.findUser({
+      id_user,
     });
 
-    await RecoverPassword.handle({ create: 'teste' });
+    if (findUser) {
+      await repository.updateCode({
+        id_user,
+        email,
+        cd_recovery,
+      });
+
+      await RecoverPassword.handle({
+        token: cd_recovery,
+        email: 'igor.dsn.nuvem@gmail.com',
+      });
+
+      return {
+        message: `Token enviado para o e-mail ${email} `,
+      };
+    }
+
+    await repository.createRecoveryPassword({
+      id_user,
+      email,
+      cd_recovery,
+    });
+
+    await RecoverPassword.handle({
+      token: cd_recovery,
+      email: 'igor.dsn.nuvem@gmail.com',
+    });
 
     return {
       message: `Token enviado para o e-mail ${email} `,

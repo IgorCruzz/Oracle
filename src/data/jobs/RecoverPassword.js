@@ -5,16 +5,15 @@ import path from 'path';
 
 export default {
   key: 'RecoverPassword',
-  async handle() {
+  async handle({ token, email }) {
     try {
       const mailOptions = {
         from: 'igor.dsn.nuvem@gmail.com',
-        to: 'igor.dsn.nuvem@gmail.com',
+        to: email,
         subject: 'Token para alteração de senha',
         template: 'password',
         context: {
-          username: 'username',
-          token: 'token',
+          token,
         },
       };
 
