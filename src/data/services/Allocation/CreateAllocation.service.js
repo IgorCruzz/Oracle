@@ -57,8 +57,6 @@ export class CreateAllocationService {
               id_product,
             });
 
-            console.log(verifyAllocationExists);
-
             if (!verifyAllocationExists) {
               await productHistoryRepository.createProductHistory({
                 cd_status: 1,
