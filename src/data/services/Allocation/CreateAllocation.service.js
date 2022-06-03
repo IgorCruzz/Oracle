@@ -110,8 +110,8 @@ export class CreateAllocationService {
                   dt_status: new Date(Date.now()).toISOString(),
                   tx_remark: null,
                   id_product,
-                  id_allocation_period,
-                  id_professional: professional,
+                  id_allocation_period: null,
+                  id_professional: null,
                   id_analyst_user: null,
                   transaction: t,
                 });
@@ -144,6 +144,7 @@ export class CreateAllocationService {
         message: 'Alocação registrada com sucesso!',
       };
     } catch (e) {
+      console.log(e);
       if (t) {
         await t.rollback();
       }

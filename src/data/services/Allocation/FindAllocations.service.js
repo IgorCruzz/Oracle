@@ -29,23 +29,23 @@ export class FindAllocationsService {
     in_analisysCorretion,
     concluded,
   }) {
-    if (
-      !cd_priority &&
-      !id_project &&
-      !id_project_phase &&
-      !nm_product &&
-      !id_suggested_role &&
-      !id_professional &&
-      !id_allocation_period &&
-      !wt_alocation &&
-      !on_production &&
-      !in_correction &&
-      !in_analisys &&
-      !in_analisysCorretion &&
-      !concluded
-    ) {
-      return { error: 'Selecione, pelo menos, uma opção de filtro.' };
-    }
+    // if (
+    //   !cd_priority &&
+    //   !id_project &&
+    //   !id_project_phase &&
+    //   !nm_product &&
+    //   !id_suggested_role &&
+    //   !id_professional &&
+    //   !id_allocation_period &&
+    //   !wt_alocation &&
+    //   !on_production &&
+    //   !in_correction &&
+    //   !in_analisys &&
+    //   !in_analisysCorretion &&
+    //   !concluded
+    // ) {
+    //   return { error: 'Selecione, pelo menos, uma opção de filtro.' };
+    // }
 
     const havingValues = [
       wt_alocation && { value: 0 },
@@ -55,6 +55,35 @@ export class FindAllocationsService {
       in_analisysCorretion && { value: 4 },
       concluded && { value: 5 },
     ].filter(value => value);
+
+    // Product_history.findAll({
+    //   attributes: [
+    //     Sequelize.fn('MAX', Sequelize.col('id_product_history')),
+    //     'id_product_history',
+    //   ],
+    //   group: Sequelize.col('product.id_product'),
+    //   raw: true,
+    //   include: [
+    //     {
+    //       model: Product,
+    //       as: 'product',
+    //     },
+    //   ],
+    // })
+    //   .then(function(maxIds) {
+    //     console.log(maxIds);
+    //     return Product_history.findAll({
+    //       where: {
+    //         id_product_history: {
+    //           [Op.in]: maxIds,
+    //         },
+    //       },
+    //     });
+    //   })
+    //   .then(function(result) {
+    //     console.log(result);
+    //     return Promise.resolve(result);
+    //   });
 
     const productHistories = await Product_history.findAll({
       limit: limit !== 'all' ? Number(limit) : null,

@@ -31,6 +31,17 @@ export class DeleteAllocationService {
             //   transaction: t,
             // });
 
+            await productHistoryRepository.createProductHistory({
+              cd_status: 0,
+              dt_status: new Date(Date.now()).toISOString(),
+              tx_remark: null,
+              id_product,
+              id_allocation_period: null,
+              id_professional: null,
+              id_analyst_user: null,
+              transaction: t,
+            });
+
             const { id_allocation } = verifyAllocationExists;
             if (id_allocation) {
               await repository.deleteAllocation({
