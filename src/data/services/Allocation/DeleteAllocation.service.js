@@ -24,12 +24,12 @@ export class DeleteAllocationService {
               }
             );
 
-            await productHistoryRepository.deleteProductHistoryAllocation({
-              id_professional,
-              id_allocation_period,
-              id_product,
-              transaction: t,
-            });
+            // await productHistoryRepository.deleteProductHistoryAllocation({
+            //   id_professional,
+            //   id_allocation_period,
+            //   id_product,
+            //   transaction: t,
+            // });
 
             const { id_allocation } = verifyAllocationExists;
             if (id_allocation) {
