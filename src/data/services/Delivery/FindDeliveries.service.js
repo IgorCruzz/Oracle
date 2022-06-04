@@ -35,44 +35,46 @@ export class FindDeliveriesService {
       concluded && { value: 5 },
     ].filter(value => value);
 
-    const productHistories = await Product_history.findAll({
-      limit: limit !== 'all' ? Number(limit) : null,
-      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
-
+    const findLastRecord = await Product_history.findAll({
       attributes: [
         [
           Sequelize.fn('MAX', Sequelize.col('id_product_history')),
           'id_product_history',
         ],
-        [Sequelize.fn('MAX', Sequelize.col('cd_status')), 'cd_status'],
-        [Sequelize.fn('MAX', Sequelize.col('dt_status')), 'dt_status'],
-        [Sequelize.fn('MAX', Sequelize.col('tx_remark')), 'tx_remark'],
-        [Sequelize.col('product.id_product'), 'id_product'],
-        [
-          Sequelize.fn('MAX', Sequelize.col('professional.id_professional')),
-          'id_professional',
-        ],
-        [
-          Sequelize.fn('MAX', Sequelize.col('allocation.id_allocation_period')),
-          'id_allocation_period',
-        ],
       ],
-
-      group: Sequelize.col('product.id_product'),
+      group: Sequelize.col('id_product'),
       raw: true,
+    });
 
-      having:
-        wt_alocation ||
-        on_production ||
-        in_correction ||
-        in_analisys ||
-        in_analisysCorretion ||
-        concluded
-          ? Sequelize.where(Sequelize.literal('MAX(cd_status)'), '=', {
-              [Op.or]: havingValues.map(({ value }) => value),
-            })
-          : null,
+    const values = findLastRecord.map(
+      ({ id_product_history }) => id_product_history
+    );
 
+    const productHistories = await Product_history.findAll({
+      limit: limit !== 'all' ? Number(limit) : null,
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+      raw: true,
+      where: {
+        [Op.and]: [
+          {
+            id_product_history: {
+              [Op.in]: values,
+            },
+          },
+          wt_alocation ||
+          on_production ||
+          in_correction ||
+          in_analisys ||
+          in_analisysCorretion ||
+          concluded
+            ? {
+                cd_status: {
+                  [Op.or]: havingValues.map(({ value }) => value),
+                },
+              }
+            : {},
+        ],
+      },
       include: [
         {
           model: Product,
@@ -127,12 +129,7 @@ export class FindDeliveriesService {
           model: Professional,
           as: 'professional',
 
-          attributes: [
-            [
-              Sequelize.fn('MAX', Sequelize.col('nm_professional')),
-              'nm_professional',
-            ],
-          ],
+          attributes: ['nm_professional'],
           required: id_professional,
           where: id_professional
             ? {
@@ -145,18 +142,9 @@ export class FindDeliveriesService {
           as: 'allocation',
           required: id_allocation_period,
           attributes: [
-            [
-              Sequelize.fn('MAX', Sequelize.col('dt_start_allocation')),
-              'dt_start_allocation',
-            ],
-            [
-              Sequelize.fn('MAX', Sequelize.col('dt_end_allocation')),
-              'dt_end_allocation',
-            ],
-            [
-              Sequelize.fn('MAX', Sequelize.col('qt_business_hours')),
-              'qt_business_hours',
-            ],
+            'dt_start_allocation',
+            'dt_end_allocation',
+            'qt_business_hours',
           ],
           where: id_allocation_period
             ? {
