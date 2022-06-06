@@ -23,7 +23,7 @@ export class UndoDeliveryService {
               const { id_professional } = getHistory;
 
               await productHistoryRepository.createProductHistory({
-                cd_status: 2,
+                cd_status: 1,
                 dt_status: new Date(Date.now()).toISOString(),
                 tx_remark,
                 id_product,
