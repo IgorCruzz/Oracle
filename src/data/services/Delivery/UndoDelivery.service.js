@@ -10,7 +10,7 @@ export class UndoDeliveryService {
     try {
       await Promise.all(
         await data.deliveries.map(
-          async ({ id_allocation_period, id_product }) => {
+          async ({ id_allocation_period, id_product, tx_remark }) => {
             const getHistory = await productHistoryRepository.findByProductandPeriod(
               {
                 id_allocation_period,
@@ -20,9 +20,16 @@ export class UndoDeliveryService {
             );
 
             if (getHistory) {
-              await productHistoryRepository.deleteProductHistoryDelivery({
-                id_allocation_period,
+              const { id_professional } = getHistory;
+
+              await productHistoryRepository.createProductHistory({
+                cd_status: 2,
+                dt_status: new Date(Date.now()).toISOString(),
+                tx_remark,
                 id_product,
+                id_allocation_period,
+                id_professional,
+                id_analyst_user: null,
                 transaction: t,
               });
             }

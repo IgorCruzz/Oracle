@@ -79,6 +79,7 @@ export class ProductHistoryRepository {
       where: {
         [Op.and]: [{ id_product }, { id_allocation_period }, { cd_status }],
       },
+
       ...(transaction && { transaction }),
     });
   }
