@@ -28,8 +28,13 @@ export class FindUsersController {
           error: response.error,
         });
 
+      const { count, rows } = response.users;
+
       return res.status(200).json({
-        users: response.users,
+        count,
+        page,
+        limit,
+        users: rows,
       });
     } catch (err) {
       return res.status(500).json({
