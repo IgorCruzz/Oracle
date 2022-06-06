@@ -1,5 +1,8 @@
+import { Op } from 'sequelize';
+
 import { ProductHistoryRepository } from '../../database/repositories';
 import { sequelize } from '../../database';
+import { Product_history } from '../../database/models';
 
 export class CreateDeliveryService {
   async execute(data) {
@@ -11,24 +14,55 @@ export class CreateDeliveryService {
       await Promise.all(
         await data.deliveries.map(
           async ({ id_allocation_period, id_product, tx_remark }) => {
-            const getHistory = await productHistoryRepository.findByProductandPeriod(
-              {
-                id_allocation_period,
-                id_product,
-                cd_status: 1,
-              }
+            const findLastRecord = await Product_history.findAll({
+              attributes: [
+                [
+                  sequelize.fn('MAX', sequelize.col('id_product_history')),
+                  'id_product_history',
+                ],
+              ],
+              group: sequelize.col('id_product'),
+              raw: true,
+            });
+
+            const values = findLastRecord.map(
+              ({ id_product_history }) => id_product_history
             );
+
+            const getHistory = await Product_history.findOne({
+              where: {
+                [Op.and]: [
+                  {
+                    id_product_history: {
+                      [Op.in]: values,
+                    },
+                  },
+                  { id_product },
+                  { id_allocation_period },
+                  { cd_status: 1 },
+                ],
+              },
+              transaction: t,
+            });
 
             if (getHistory) {
               const { id_professional } = getHistory;
 
-              const getHistoryWithStatusTwo = await productHistoryRepository.findByProductandPeriod(
-                {
-                  id_allocation_period,
-                  id_product,
-                  cd_status: 2,
-                }
-              );
+              const getHistoryWithStatusTwo = await Product_history.findOne({
+                where: {
+                  [Op.and]: [
+                    {
+                      id_product_history: {
+                        [Op.in]: values,
+                      },
+                    },
+                    { id_product },
+                    { id_allocation_period },
+                    { cd_status: 2 },
+                  ],
+                },
+                transaction: t,
+              });
 
               if (!getHistoryWithStatusTwo) {
                 await productHistoryRepository.createProductHistory({
