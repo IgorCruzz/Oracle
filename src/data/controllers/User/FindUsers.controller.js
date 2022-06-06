@@ -28,6 +28,12 @@ export class FindUsersController {
           error: response.error,
         });
 
+      if (response.userHasNoAssociations) {
+        return res.status(200).json({
+          users: response.userHasNoAssociations,
+        });
+      }
+
       const { count, rows } = response.users;
 
       return res.status(200).json({

@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { User } from '../../models';
+import { User, Professional } from '../../models';
 
 export class UserRepository {
   async createUser(data) {
@@ -66,6 +66,12 @@ export class UserRepository {
         : {},
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+      include: [
+        {
+          model: Professional,
+          as: 'professional',
+        },
+      ],
       attributes: [
         'id_user',
         'ds_email_login',

@@ -35,7 +35,7 @@ export class FindUsersService {
         });
       });
 
-      return { users: userHasNoAssociations };
+      return { userHasNoAssociations };
     }
 
     if (findUsers.length === 0)

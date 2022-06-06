@@ -39,6 +39,13 @@ export class User extends Model {
     return User;
   }
 
+  static associate(models) {
+    User.hasOne(models.Professional, {
+      foreignKey: 'id_user',
+      as: 'professional',
+    });
+  }
+
   checkPassword(password) {
     return bcyptjs.compare(password, this.ds_password);
   }
