@@ -26,6 +26,14 @@ export class LoginService {
       return { error: 'O e-mail ou a senha não corresponde a uma conta.' };
     }
 
+    const { in_temporary_password } = verifyEmailExists;
+
+    if (in_temporary_password) {
+      return {
+        error: 'Redefina a senha para prosseguir com o login,',
+      };
+    }
+
     return {
       message: 'Login realizado com sucesso!',
       access_token: jwt.sign(

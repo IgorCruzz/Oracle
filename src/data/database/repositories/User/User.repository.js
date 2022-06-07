@@ -31,6 +31,7 @@ export class UserRepository {
         'dt_updated_at',
         'tp_profile',
         'in_active',
+        'in_temporary_password',
       ],
     });
   }
@@ -87,6 +88,7 @@ export class UserRepository {
         'dt_updated_at',
         'tp_profile',
         'in_active',
+        'in_temporary_password',
       ],
     });
   }
@@ -114,6 +116,7 @@ export class UserRepository {
         'dt_updated_at',
         'tp_profile',
         'in_active',
+        'in_temporary_password',
       ],
       raw: true,
     });
@@ -132,6 +135,7 @@ export class UserRepository {
         'dt_updated_at',
         'tp_profile',
         'in_active',
+        'in_temporary_password',
       ],
       raw: true,
     });
@@ -150,6 +154,7 @@ export class UserRepository {
         'dt_updated_at',
         'tp_profile',
         'in_active',
+        'in_temporary_password',
       ],
       raw: true,
     });
@@ -192,6 +197,7 @@ export class UserRepository {
         'dt_updated_at',
         'tp_profile',
         'in_active',
+        'in_temporary_password',
       ],
     });
   }
