@@ -313,7 +313,7 @@ export class ProfessionalRepository {
 
     await professional.update({
       ...data,
-      nm_professional: nm_professional.trim(),
+      ...(nm_professional && { nm_professional: nm_professional.trim() }),
       // in_delivery_analyst: in_delivery_analyst.toUpperCase(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
