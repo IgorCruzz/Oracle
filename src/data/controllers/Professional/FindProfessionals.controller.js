@@ -13,6 +13,7 @@ export class FindProfessionalsController {
         limit,
         page,
         ds_email_login,
+        has_no_association,
       } = req.query;
 
       const service = new FindProfessionalsService();
@@ -27,6 +28,7 @@ export class FindProfessionalsController {
         limit,
         page,
         ds_email_login,
+        has_no_association,
       });
 
       if (response.error)

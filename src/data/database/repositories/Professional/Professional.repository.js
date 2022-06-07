@@ -85,10 +85,16 @@ export class ProfessionalRepository {
     id_user,
     in_active,
     ds_email_login,
+    has_no_association,
   }) {
     let searchQuery;
 
-    if (nm_professional || in_delivery_analyst || in_active) {
+    if (
+      nm_professional ||
+      in_delivery_analyst ||
+      in_active ||
+      has_no_association
+    ) {
       searchQuery = {
         ...(nm_professional && {
           nm_professional: { [Op.like]: `%${nm_professional.trim()}%` },
@@ -99,6 +105,7 @@ export class ProfessionalRepository {
         ...(in_active && {
           in_active,
         }),
+        ...(has_no_association && { id_user: null }),
       };
     } else {
       searchQuery = null;
