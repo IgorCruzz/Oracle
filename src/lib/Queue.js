@@ -1,8 +1,9 @@
 import Queue from 'bull';
 
 import RecoverPassword from '../data/jobs/RecoverPassword';
+import NewAccount from '../data/jobs/NewAccount';
 
-const queuesArr = [RecoverPassword];
+const queuesArr = [RecoverPassword, NewAccount];
 
 const queues = queuesArr.map(job => ({
   bull: new Queue(job.key, {
