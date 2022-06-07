@@ -17,6 +17,12 @@ export class UserRepository {
       where: {
         ds_email_login: createdLocation.dataValues.ds_email_login,
       },
+      include: [
+        {
+          model: Professional,
+          as: 'professional',
+        },
+      ],
       attributes: [
         'id_user',
         'ds_email_login',
