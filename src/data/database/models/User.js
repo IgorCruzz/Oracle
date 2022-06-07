@@ -18,6 +18,7 @@ export class User extends Model {
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
         in_active: DataTypes.CHAR(1),
+        in_temporary_password: DataTypes.CHAR(1),
       },
       {
         sequelize,

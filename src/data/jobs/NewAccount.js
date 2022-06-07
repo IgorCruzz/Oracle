@@ -9,7 +9,7 @@ export default {
     try {
       const mailOptions = {
         to: email,
-        subject: 'Conta nova',
+        subject: 'Primeiro acesso',
         template: 'newAccount',
         context: {
           password,
