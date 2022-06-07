@@ -13,6 +13,7 @@ export default {
         template: 'password',
         context: {
           token,
+          email,
         },
       };
 

@@ -14,13 +14,7 @@ export const createUserValidator = async (req, res, next) => {
         .oneOf(['N', 'S', 's', 'n'], 'Valor para o campo ativo inválido')
         .required('O campo ativo é obrigatório')
         .typeError('O preenchimento do campo ativo é obrigatório'),
-      password: Yup.string()
-        .required('O campo senha é obrigatório')
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-          'A senha deve conter pelo menos 8 Caracteres, 1 letra em máisculo, 1 letra em minúsculo,1 número e 1 destes caracteres especias @ $ ! % * ? &'
-        )
-        .typeError('O preenchimento da senha é obrigatório'),
+
       tp_profile: Yup.mixed()
         .oneOf([0, 1, 2, 3, 4], 'Perfil inválido!')
         .required('Informe o perfil do usuário!'),
