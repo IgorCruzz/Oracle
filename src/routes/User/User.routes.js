@@ -6,6 +6,7 @@ import {
   DeleteUserController,
   UpdateUserController,
   ProvisoryPasswordController,
+  CreatePasswordAndLoginController,
 } from '../../data/controllers';
 import {
   findUsersValidator,
@@ -18,6 +19,11 @@ import authenticator from '../../data/authenticator/jwt.authenticator';
 const routes = Router();
 
 routes.post('/users', createUserValidator, new CreateUserController().handle);
+
+routes.post(
+  '/users/newPassword',
+  new CreatePasswordAndLoginController().handle
+);
 
 routes.post(
   '/users/:id_user/provisoryPassword',

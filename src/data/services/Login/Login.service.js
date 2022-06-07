@@ -28,9 +28,9 @@ export class LoginService {
 
     const { in_temporary_password } = verifyEmailExists;
 
-    if (in_temporary_password) {
+    if (in_temporary_password === 'S') {
       return {
-        error: 'Redefina a senha para prosseguir com o login,',
+        error: 'Redefina a senha para prosseguir com o login.',
       };
     }
 
