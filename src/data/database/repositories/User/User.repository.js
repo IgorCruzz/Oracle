@@ -9,6 +9,7 @@ export class UserRepository {
       ds_email_login: ds_email_login.trim(),
       nm_user: nm_user && nm_user.trim(),
       ...data,
+      in_temporary_password: 'S',
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
