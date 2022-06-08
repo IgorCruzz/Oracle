@@ -11,6 +11,7 @@ export class FindPeriodPtiController {
         id_role,
         id_grade,
         id_sector,
+        user_alocated,
       } = req.query;
 
       const service = new FindPeriodPtiService();
@@ -23,6 +24,7 @@ export class FindPeriodPtiController {
         id_role,
         id_grade,
         id_sector,
+        user_alocated,
       });
 
       if (response.error)

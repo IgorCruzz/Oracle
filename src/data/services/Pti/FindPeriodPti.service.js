@@ -19,6 +19,7 @@ export class FindPeriodPtiService {
     id_role,
     id_grade,
     id_sector,
+    user_alocated,
   }) {
     let searchQuery;
 
@@ -46,11 +47,12 @@ export class FindPeriodPtiService {
         {
           model: Allocation,
           as: 'allocation',
-          required: false,
+          required: !!user_alocated,
           where: id_allocation_period ? { id_allocation_period } : {},
           include: [
             {
               model: Allocation_period,
+
               as: 'allocation_period',
             },
           ],
