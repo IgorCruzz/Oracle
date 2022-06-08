@@ -1,6 +1,4 @@
-import {
-  InspectionRepository,
-} from '../../database/repositories';
+import { InspectionRepository } from '../../database/repositories';
 
 export class DeleteInspectionService {
   async execute({ id_inspection }) {
@@ -14,7 +12,6 @@ export class DeleteInspectionService {
       return {
         error: `Não há nenhuma vistoria registrada com este ID -> ${id_inspection}.`,
       };
-
 
     await repository.deleteInspection({
       id_inspection,

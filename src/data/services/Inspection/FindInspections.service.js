@@ -7,7 +7,7 @@ export class FindInspectionsService {
     id,
     id_project,
     id_project_phase,
-    id_professional
+    id_professional,
   }) {
     const repository = new InspectionRepository();
 
@@ -17,7 +17,7 @@ export class FindInspectionsService {
       id,
       id_project,
       id_project_phase,
-      id_professional
+      id_professional,
     });
 
     if (findInspections.length === 0)

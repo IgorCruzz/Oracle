@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+// import { Professional } from './Professional';
 
 export class Product_history extends Model {
   static init(sequelize) {
@@ -14,6 +15,13 @@ export class Product_history extends Model {
         tx_remark: DataTypes.DECIMAL(20, 2),
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
+        // id_previous_professional: {
+        //   type: DataTypes.INTEGER,
+        //   references: {
+        //     model: Professional,
+        //     key: 'id_professional',
+        //   },
+        // },
       },
       {
         sequelize,

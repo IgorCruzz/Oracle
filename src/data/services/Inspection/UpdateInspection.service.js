@@ -1,19 +1,12 @@
 import {
   InspectionRepository,
-  ProjectPhaseRepository
+  ProjectPhaseRepository,
 } from '../../database/repositories';
 import { verifyDate } from '../../../utils/verifyDate';
 
 export class UpdateInspectionService {
   async execute(id_inspection, data) {
-    const {
-      vl_new_cost,
-      dt_inspection,
-      dt_new_end,
-      tp_inspection,
-      id_project_phase,
-      id_professional
-    } = data;
+    const { dt_inspection, dt_new_end, id_project_phase } = data;
 
     let dtNewEnd;
     if (dt_new_end) {
@@ -36,15 +29,15 @@ export class UpdateInspectionService {
       if (dtInspection.error) {
         return { error: dtInspection.error };
       }
-    }    
+    }
 
     const repository = new InspectionRepository();
     const projectPhaseRepository = new ProjectPhaseRepository();
     const inspectionRepository = new InspectionRepository();
 
     const inspectionExists = await inspectionRepository.findInspectionById({
-      id_inspection: id_inspection, 
-      populate: false
+      id_inspection,
+      populate: false,
     });
 
     if (!inspectionExists) {
@@ -53,11 +46,12 @@ export class UpdateInspectionService {
       };
     }
 
-
-    const projectPhaseExists = await projectPhaseRepository.findProjectPhaseById({
-      id_project_phase: id_project_phase, 
-      populate: false
-    });
+    const projectPhaseExists = await projectPhaseRepository.findProjectPhaseById(
+      {
+        id_project_phase,
+        populate: false,
+      }
+    );
 
     if (!projectPhaseExists) {
       return {

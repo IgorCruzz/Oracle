@@ -24,10 +24,4 @@ export class Password_recovery extends Model {
 
     return Password_recovery;
   }
-
-  static associate(models) {
-    // Password_recovery.belongsTo(models.User, {
-    //   foreignKey: 'id_user',
-    // });
-  }
 }

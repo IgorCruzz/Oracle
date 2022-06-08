@@ -27,7 +27,7 @@ export class Inspection extends Model {
           type: DataTypes.DATEONLY,
           get() {
             const value = this.getDataValue('dt_new_end');
-            return value == 'Invalid Date'
+            return value === null
               ? null
               : moment
                   .utc(this.getDataValue('dt_new_end'))
