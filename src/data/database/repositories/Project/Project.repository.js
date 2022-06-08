@@ -31,7 +31,7 @@ export class ProjectRepository {
 
     return await Project.findOne({
       where: {
-        nm_project: createdProject.dataValues.nm_project,
+        id_project: createdProject.dataValues.id_project,
       },
       include: [
         { model: City, as: 'city' },
@@ -265,7 +265,7 @@ export class ProjectRepository {
 
     return await Project.findOne({
       where: {
-        nm_project: project.dataValues.nm_project,
+        id_project: project.dataValues.id_project,
       },
       include: [
         { model: City, as: 'city' },
