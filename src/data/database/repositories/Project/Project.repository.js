@@ -167,7 +167,16 @@ export class ProjectRepository {
   async findProject({ nm_project }) {
     return await Project.findOne({
       where: {
-        nm_project: nm_project.trim(),
+        [Op.and]: [
+          {
+            nm_project: nm_project.trim(),
+          },
+          {
+            nm_deleted_by: {
+              [Op.is]: null,
+            },
+          },
+        ],
       },
       raw: true,
     });
