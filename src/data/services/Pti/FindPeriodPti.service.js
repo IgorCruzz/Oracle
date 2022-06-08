@@ -22,7 +22,7 @@ export class FindPeriodPtiService {
   }) {
     let searchQuery;
 
-    if (nm_professional || id_role || id_grade || id_sector) {
+    if (nm_professional) {
       searchQuery = {
         ...(nm_professional && {
           nm_professional: { [Op.like]: `%${nm_professional.trim()}%` },
@@ -46,16 +46,12 @@ export class FindPeriodPtiService {
         {
           model: Allocation,
           as: 'allocation',
+          required: false,
+          where: id_allocation_period ? { id_allocation_period } : {},
           include: [
             {
               model: Allocation_period,
-              required: id_allocation_period,
               as: 'allocation_period',
-              where: id_allocation_period
-                ? {
-                    id_allocation_period,
-                  }
-                : {},
             },
           ],
         },
@@ -74,7 +70,11 @@ export class FindPeriodPtiService {
             { model: Grade, as: 'grade' },
           ],
         },
-        { model: Sector, as: 'sector' },
+        {
+          model: Sector,
+          as: 'sector',
+          where: id_sector ? { id_sector } : null,
+        },
         {
           model: User,
           as: 'user',
