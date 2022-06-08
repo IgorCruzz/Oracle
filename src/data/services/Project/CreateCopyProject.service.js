@@ -140,7 +140,7 @@ export class CreateCopyProjectService {
         productsReplaceValue.push({
           nu_order: product.nu_order,
           nm_product: product.nm_product,
-          qt_minimum_hours: product.qt_maximum_hours,
+          qt_minimum_hours: product.qt_minimum_hours,
           qt_maximum_hours: product.qt_maximum_hours,
           qt_probable_hours: product.qt_probable_hours,
           tp_required_action: 0,
