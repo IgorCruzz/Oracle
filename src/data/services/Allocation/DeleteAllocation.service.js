@@ -24,26 +24,20 @@ export class DeleteAllocationService {
               }
             );
 
-            // await productHistoryRepository.deleteProductHistoryAllocation({
-            //   id_professional,
-            //   id_allocation_period,
-            //   id_product,
-            //   transaction: t,
-            // });
-
-            await productHistoryRepository.createProductHistory({
-              cd_status: 0,
-              dt_status: new Date(Date.now()).toISOString(),
-              tx_remark: null,
-              id_product,
-              id_allocation_period: null,
-              id_professional: null,
-              id_analyst_user: null,
-              transaction: t,
-            });
-
             const { id_allocation } = verifyAllocationExists;
             if (id_allocation) {
+              await productHistoryRepository.createProductHistory({
+                cd_status: 0,
+                dt_status: new Date(Date.now()).toISOString(),
+                tx_remark: null,
+                id_product,
+                id_allocation_period: null,
+                id_previous_professional: id_professional,
+                id_professional: null,
+                id_analyst_user: null,
+                transaction: t,
+              });
+
               await repository.deleteAllocation({
                 id_allocation,
                 transaction: t,

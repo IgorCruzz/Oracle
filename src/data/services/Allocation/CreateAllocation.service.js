@@ -98,13 +98,6 @@ export class CreateAllocationService {
                 professional !== id_professional ||
                 id_allocation_period !== allocation
               ) {
-                // await productHistoryRepository.deleteProductHistory({
-                //   id_professional: professional,
-                //   id_allocation_period,
-                //   id_product,
-                //   transaction: t,
-                // });
-
                 await productHistoryRepository.createProductHistory({
                   cd_status: 0,
                   dt_status: new Date(Date.now()).toISOString(),
@@ -112,6 +105,8 @@ export class CreateAllocationService {
                   id_product,
                   id_allocation_period: null,
                   id_professional: null,
+                  id_previous_professional:
+                    professional !== id_professional ? professional : null,
                   id_analyst_user: null,
                   transaction: t,
                 });

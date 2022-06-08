@@ -1,5 +1,4 @@
 import { Model, DataTypes } from 'sequelize';
-// import { Professional } from './Professional';
 
 export class Product_history extends Model {
   static init(sequelize) {
@@ -15,13 +14,6 @@ export class Product_history extends Model {
         tx_remark: DataTypes.DECIMAL(20, 2),
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
-        // id_previous_professional: {
-        //   type: DataTypes.INTEGER,
-        //   references: {
-        //     model: Professional,
-        //     key: 'id_professional',
-        //   },
-        // },
       },
       {
         sequelize,
@@ -43,6 +35,10 @@ export class Product_history extends Model {
     Product_history.belongsTo(models.Professional, {
       foreignKey: 'id_professional',
       as: 'professional',
+    });
+    Product_history.belongsTo(models.Professional, {
+      foreignKey: 'id_previous_professional',
+      as: 'old_professional',
     });
     // Product_history.belongsTo(models.Analyst_user, {
     //   foreignKey: 'id_analyst_user',
