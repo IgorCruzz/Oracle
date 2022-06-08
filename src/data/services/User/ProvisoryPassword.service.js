@@ -21,8 +21,10 @@ export class ProvisoryPasswordService {
       in_temporary_password: 'S',
     });
 
+    const { ds_email_login } = checkIfUserExists;
+
     await NewAccount.handle({
-      email: 'igor.dsn.nuvem@gmail.com',
+      email: ds_email_login,
       password: provisoryPassword,
     });
 

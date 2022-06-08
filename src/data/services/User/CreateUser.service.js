@@ -1,11 +1,14 @@
+import crypto from 'crypto';
 import {
   UserRepository,
   ProfessionalRepository,
 } from '../../database/repositories';
+import NewAccount from '../../jobs/NewAccount';
 
 export class CreateUserService {
   async execute(data) {
-    const { ds_email_login, id_professional } = data;
+    const { ds_email_login, id_professional, provisory_password } = data;
+    const provisoryPassword = crypto.randomBytes(5).toString('hex');
 
     const repository = new UserRepository();
     const professionalRepository = new ProfessionalRepository();
@@ -32,7 +35,10 @@ export class CreateUserService {
       }
     }
 
-    const user = await repository.createUser(data);
+    const user = await repository.createUser({
+      ...data,
+      password: provisoryPassword,
+    });
 
     if (id_professional) {
       const { id_user } = user.dataValues;
@@ -47,6 +53,13 @@ export class CreateUserService {
     const getUserCreated = await repository.findUserById({
       id_user,
     });
+
+    if (provisory_password) {
+      await NewAccount.handle({
+        email: ds_email_login,
+        password: provisoryPassword,
+      });
+    }
 
     return {
       message: 'Usuário registrado com sucesso!',
