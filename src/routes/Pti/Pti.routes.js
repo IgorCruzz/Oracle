@@ -4,6 +4,7 @@ import {
   FindProductHistoryPtiController,
   FindProfessionalPtiController,
   DownloadPtiController,
+  FindProductHistoryPtiFromProfessionalController,
 } from '../../data/controllers';
 
 import {
@@ -27,6 +28,12 @@ routes.get(
   authenticator,
   FindPeriodPtiValidator,
   new FindPeriodPtiController().handle
+);
+
+routes.get(
+  '/ptis/professionals/:id_professional/productHistories/',
+  authenticator,
+  new FindProductHistoryPtiFromProfessionalController().handle
 );
 
 routes.get(

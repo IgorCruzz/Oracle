@@ -164,6 +164,7 @@ export * from './Pti/FindPeriodPti.service';
 export * from './Pti/FindProductHistoryPti.service';
 export * from './Pti/FindProfessionalsPti.service';
 export * from './Pti/DownloadPti.service';
+export * from './Pti/FindProductHistoryPtiFromProfessional.service';
 
 // INSPECTION
 export * from './Inspection/CreateInspection.service';

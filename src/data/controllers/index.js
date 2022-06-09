@@ -164,6 +164,7 @@ export * from './Pti/FindPeriodPti.controller';
 export * from './Pti/FindProductHistoryPti.controller';
 export * from './Pti/FindProfessionalPti.controller';
 export * from './Pti/DownloadPti.controller';
+export * from './Pti/FindProductHistoryPtiFromProfessional.controller';
 
 // INSPECTION
 export * from './Inspection/CreateInspection.controller';
