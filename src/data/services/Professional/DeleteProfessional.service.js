@@ -51,6 +51,11 @@ export class DeleteProfessionalService {
 
       const { id_user } = verifyProfessionalExists;
 
+      await repository.deleteProfessional({
+        id_professional,
+        transaction: t,
+      });
+
       if (id_user) {
         await userRepository.deleteUser({
           id_user,
@@ -58,17 +63,13 @@ export class DeleteProfessionalService {
         });
       }
 
-      await repository.deleteProfessional({
-        id_professional,
-        transaction: t,
-      });
-
       t.commit();
 
       return {
         message: 'Colaborador excluído com sucesso!',
       };
     } catch (e) {
+      console.log(e);
       if (t) {
         await t.rollback();
       }
