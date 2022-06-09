@@ -168,16 +168,19 @@ export class UserRepository {
   }
 
   async deleteUser({ id_user, transaction }) {
-    const user = await User.findOne({
-      where: {
-        id_user,
-      },
+    await Professional.destroy({
+      where: { id_user },
       ...(transaction && { transaction }),
     });
-
-    await user.update({
-      in_active: 'N',
-    });
+    // const user = await User.findOne({
+    //   where: {
+    //     id_user,
+    //   },
+    //   ...(transaction && { transaction }),
+    // });
+    // await user.update({
+    //   in_active: 'N',
+    // });
   }
 
   async updateUser(id_user, data) {
