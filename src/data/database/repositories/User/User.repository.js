@@ -168,7 +168,7 @@ export class UserRepository {
   }
 
   async deleteUser({ id_user, transaction }) {
-    await Professional.destroy({
+    await User.destroy({
       where: { id_user },
       ...(transaction && { transaction }),
     });
