@@ -32,7 +32,7 @@ export class UpdatePasswordService {
       return { error: 'A senha não pode ser a mesma da atual!' };
     }
 
-    await repository.updateUser(id_user, data);
+    await repository.updateUser(id_user, { password: newPassword });
 
     return {
       message: 'Senha atualizada com sucesso!',
