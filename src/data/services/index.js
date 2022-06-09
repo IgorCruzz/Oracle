@@ -107,6 +107,7 @@ export * from './User/FindUsers.service';
 export * from './User/UpdateUser.service';
 export * from './User/ProvisoryPassword.service';
 export * from './User/CreatePasswordAndLogin.service';
+export * from './User/UpdatePassword.service';
 
 // LOGIN
 export * from './Login/Login.service';

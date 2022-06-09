@@ -107,6 +107,7 @@ export * from './User/FindUsers.controller';
 export * from './User/UpdateUser.controller';
 export * from './User/ProvisoryPassword.controller';
 export * from './User/CreatePasswordAndLogin.controller';
+export * from './User/UpdatePassword.controller';
 
 // LOGIN
 export * from './Login/Login.controller';

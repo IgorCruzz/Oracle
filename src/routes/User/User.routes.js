@@ -7,6 +7,7 @@ import {
   UpdateUserController,
   ProvisoryPasswordController,
   CreatePasswordAndLoginController,
+  UpdatePasswordController,
 } from '../../data/controllers';
 import {
   findUsersValidator,
@@ -35,6 +36,12 @@ routes.delete(
   authenticator,
   deleteUserValidator,
   new DeleteUserController().handle
+);
+
+routes.patch(
+  '/user/changePassword',
+  authenticator,
+  new UpdatePasswordController().handle
 );
 
 routes.patch(

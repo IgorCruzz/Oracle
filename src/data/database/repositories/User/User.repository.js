@@ -147,6 +147,13 @@ export class UserRepository {
       where: {
         id_user,
       },
+      include: [
+        {
+          model: Professional,
+          as: 'professional',
+        },
+      ],
+
       attributes: [
         'id_user',
         'ds_email_login',
@@ -157,7 +164,6 @@ export class UserRepository {
         'in_active',
         'in_temporary_password',
       ],
-      raw: true,
     });
   }
 
