@@ -47,7 +47,7 @@ export class FindPeriodPtiService {
         {
           model: Allocation,
           as: 'allocation',
-          required: !!user_alocated,
+          required: !user_alocated,
           where: id_allocation_period ? { id_allocation_period } : {},
           include: [
             {
