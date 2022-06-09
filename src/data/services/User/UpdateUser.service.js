@@ -46,6 +46,25 @@ export class UpdateUserService {
     if (id_professional) {
       const { id_user: idUser } = userUpdated.dataValues;
 
+      const checkIfUserHasProfessionalAssociated = await professionalRepository.findUser(
+        {
+          id_user,
+        }
+      );
+
+      if (!checkIfUserHasProfessionalAssociated) {
+        await professionalRepository.updateProfessional(id_professional, {
+          id_user: idUser,
+        });
+      }
+
+      await professionalRepository.updateProfessional(
+        checkIfUserHasProfessionalAssociated.id_professional,
+        {
+          id_user: null,
+        }
+      );
+
       await professionalRepository.updateProfessional(id_professional, {
         id_user: idUser,
       });
