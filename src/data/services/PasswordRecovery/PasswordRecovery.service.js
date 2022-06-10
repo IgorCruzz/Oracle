@@ -40,12 +40,8 @@ export class PasswordRecoveryService {
         email,
       });
 
-      const [mail, rest] = email.split('@');
-
-      const hideMail = `${mail}@`.padEnd(mail.length + rest.length, '*');
-
       return {
-        message: `Token enviado para o e-mail: ${hideMail} `,
+        message: `Link de redefinição de senha enviado para o seu e-mail.`,
       };
     }
 
@@ -60,12 +56,8 @@ export class PasswordRecoveryService {
       email,
     });
 
-    const [mail, rest] = email.split('@');
-
-    const hideMail = `${mail}@`.padEnd(mail.length + rest.length, '*');
-
     return {
-      message: `Token enviado para o e-mail: ${hideMail} `,
+      message: `Link de redefinição de senha enviado para o seu e-mail.`,
     };
   }
 }

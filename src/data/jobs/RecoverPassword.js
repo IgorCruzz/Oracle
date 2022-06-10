@@ -10,7 +10,7 @@ export default {
       const mailOptions = {
         from: 'InfraCidades <igorcruz.dev@gmail.com>',
         to: email,
-        subject: 'Token para alteração de senha',
+        subject: 'Redefinição de senha',
         template: 'password',
         context: {
           token,
