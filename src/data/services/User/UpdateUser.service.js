@@ -5,7 +5,7 @@ import {
 
 export class UpdateUserService {
   async execute(id_user, data) {
-    const { ds_email_login, id_professional } = data;
+    const { ds_email_login, id_professional, removeProfessional } = data;
 
     const repository = new UserRepository();
     const professionalRepository = new ProfessionalRepository();
@@ -42,6 +42,12 @@ export class UpdateUserService {
     }
 
     const userUpdated = await repository.updateUser(id_user, data);
+
+    if (removeProfessional) {
+      await professionalRepository.updateProfessional(removeProfessional, {
+        id_user: null,
+      });
+    }
 
     if (id_professional) {
       const { id_user: idUser } = userUpdated.dataValues;
