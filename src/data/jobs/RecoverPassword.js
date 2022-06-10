@@ -8,6 +8,7 @@ export default {
   async handle({ token, email }) {
     try {
       const mailOptions = {
+        from: 'InfraCidades <igorcruz.dev@gmail.com>',
         to: email,
         subject: 'Token para alteração de senha',
         template: 'password',
@@ -18,13 +19,13 @@ export default {
       };
 
       const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        secureConnection: false,
+        host: 'smtp-relay.sendinblue.com',
+        port: 587,
         auth: {
-          user: 'igor.dsn.nuvem@gmail.com',
-          pass: 'rjjcmycuxvnwwkeu',
+          user: 'igorcruz.dev@gmail.com',
+          pass: 'pm8d5sKF29HzqRW7',
         },
-        from: 'igor.dsn.nuvem@gmail.com',
+        from: 'igorcruz.dev@gmail.com',
       });
 
       transporter.use(
