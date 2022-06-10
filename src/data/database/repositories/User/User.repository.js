@@ -101,6 +101,10 @@ export class UserRepository {
       },
     });
 
+    if (!verifyActivity) {
+      return false;
+    }
+
     return verifyActivity.in_active === 'S';
   }
 

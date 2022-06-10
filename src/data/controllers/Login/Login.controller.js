@@ -17,6 +17,7 @@ export class LoginController {
         access_token: response.access_token,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });
