@@ -30,14 +30,11 @@ export class PasswordUpdateService {
     }
 
     const getDifferenceInHours = differenceInHours(
-      new Date(),
+      new Date().toLocaleString('pt-BR', {
+        timeZone: 'America/Sao_Paulo',
+      }),
       new Date(verifyCode.dataValues.dt_updated_at)
     );
-
-    console.log({
-      code: code !== verifyCode.dataValues.cd_recovery,
-      diference: getDifferenceInHours,
-    });
 
     if (
       code !== verifyCode.dataValues.cd_recovery ||
