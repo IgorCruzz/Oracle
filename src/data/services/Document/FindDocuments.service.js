@@ -15,7 +15,7 @@ export class FindDocumentsService {
     }
 
     return {
-     documents: findDocuments,
+      documents: findDocuments,
     };
   }
 }

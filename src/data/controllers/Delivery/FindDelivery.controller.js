@@ -19,6 +19,8 @@ export class FindDeliveryController {
         concluded,
       } = req.query;
 
+      const { userId } = req;
+
       const service = new FindDeliveriesService();
 
       const response = await service.execute({
@@ -35,6 +37,7 @@ export class FindDeliveryController {
         in_analisys,
         in_analisysCorretion,
         concluded,
+        userId,
       });
 
       if (response.error)

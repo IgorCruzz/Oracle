@@ -8,6 +8,7 @@ import {
   Allocation_period,
   Professional,
   Role,
+  User,
 } from '../../database/models';
 
 export class FindDeliveriesService {
@@ -24,6 +25,7 @@ export class FindDeliveriesService {
     in_analisys,
     in_analisysCorretion,
     concluded,
+    userId,
   }) {
     if (
       !id_professional &&
@@ -39,6 +41,16 @@ export class FindDeliveriesService {
     ) {
       return { error: 'Selecione, pelo menos, uma opção de filtro.' };
     }
+
+    const getUser = await User.findOne({
+      where: { id_user: userId },
+      include: [
+        {
+          model: Professional,
+          as: 'professional',
+        },
+      ],
+    });
 
     const havingValues = [
       on_production && { value: 1 },
@@ -63,109 +75,208 @@ export class FindDeliveriesService {
       ({ id_product_history }) => id_product_history
     );
 
-    const productHistories = await Product_history.findAll({
-      limit: limit !== 'all' ? Number(limit) : null,
-      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
-      raw: true,
-      where: {
-        [Op.and]: [
-          {
-            id_product_history: {
-              [Op.in]: values,
-            },
-          },
-          on_production ||
-          in_correction ||
-          in_analisys ||
-          in_analisysCorretion ||
-          concluded
-            ? {
-                cd_status: {
-                  [Op.or]: havingValues.map(({ value }) => value),
+    const productHistories = await Product_history.findAll(
+      getUser.tp_profile === 2
+        ? {
+            limit: limit !== 'all' ? Number(limit) : null,
+            offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+            raw: true,
+            where: {
+              [Op.and]: [
+                {
+                  id_product_history: {
+                    [Op.in]: values,
+                  },
                 },
-              }
-            : {},
-        ],
-      },
-      include: [
-        {
-          model: Product,
-          as: 'product',
-          required: id_project || id_project_phase || nm_product,
-          where: nm_product
-            ? {
-                ...(nm_product && {
-                  nm_product: { [Op.like]: `%${nm_product.trim()}%` },
-                }),
-              }
-            : {
-                [Op.or]: [
+                on_production ||
+                in_correction ||
+                in_analisys ||
+                in_analisysCorretion ||
+                concluded
+                  ? {
+                      cd_status: {
+                        [Op.or]: havingValues.map(({ value }) => value),
+                      },
+                    }
+                  : {},
+              ],
+            },
+            include: [
+              {
+                model: Product,
+                as: 'product',
+                required: id_project || id_project_phase || nm_product,
+                where: nm_product
+                  ? {
+                      ...(nm_product && {
+                        nm_product: { [Op.like]: `%${nm_product.trim()}%` },
+                      }),
+                    }
+                  : {
+                      [Op.or]: [
+                        {
+                          tp_required_action: 1,
+                        },
+                        {
+                          tp_required_action: 2,
+                        },
+                      ],
+                    },
+                include: [
                   {
-                    tp_required_action: 1,
+                    model: Role,
+                    as: 'suggested_role',
                   },
                   {
-                    tp_required_action: 2,
+                    model: Project_phase,
+                    as: 'project_phase',
+                    required: id_project || id_project_phase,
+                    where: id_project_phase
+                      ? {
+                          ...(id_project_phase && { id_project_phase }),
+                        }
+                      : null,
+                    include: [
+                      {
+                        model: Project,
+                        as: 'project',
+                        required: id_project,
+                        where: id_project
+                          ? {
+                              ...(id_project && { id_project }),
+                            }
+                          : null,
+                      },
+                    ],
                   },
                 ],
               },
-          include: [
-            {
-              model: Role,
-              as: 'suggested_role',
-            },
-            {
-              model: Project_phase,
-              as: 'project_phase',
-              required: id_project || id_project_phase,
-              where: id_project_phase
-                ? {
-                    ...(id_project_phase && { id_project_phase }),
-                  }
-                : null,
-              include: [
-                {
-                  model: Project,
-                  as: 'project',
-                  required: id_project,
-                  where: id_project
-                    ? {
-                        ...(id_project && { id_project }),
-                      }
-                    : null,
+              {
+                model: Professional,
+                as: 'professional',
+
+                attributes: ['nm_professional'],
+                required: true,
+                where: {
+                  id_professional: getUser.professional.id_professional,
                 },
+              },
+              {
+                model: Allocation_period,
+                as: 'allocation',
+                required: id_allocation_period,
+                attributes: [
+                  'dt_start_allocation',
+                  'dt_end_allocation',
+                  'qt_business_hours',
+                ],
+              },
+            ],
+          }
+        : {
+            limit: limit !== 'all' ? Number(limit) : null,
+            offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+            raw: true,
+            where: {
+              [Op.and]: [
+                {
+                  id_product_history: {
+                    [Op.in]: values,
+                  },
+                },
+                on_production ||
+                in_correction ||
+                in_analisys ||
+                in_analisysCorretion ||
+                concluded
+                  ? {
+                      cd_status: {
+                        [Op.or]: havingValues.map(({ value }) => value),
+                      },
+                    }
+                  : {},
               ],
             },
-          ],
-        },
-        {
-          model: Professional,
-          as: 'professional',
+            include: [
+              {
+                model: Product,
+                as: 'product',
+                required: id_project || id_project_phase || nm_product,
+                where: nm_product
+                  ? {
+                      ...(nm_product && {
+                        nm_product: { [Op.like]: `%${nm_product.trim()}%` },
+                      }),
+                    }
+                  : {
+                      [Op.or]: [
+                        {
+                          tp_required_action: 1,
+                        },
+                        {
+                          tp_required_action: 2,
+                        },
+                      ],
+                    },
+                include: [
+                  {
+                    model: Role,
+                    as: 'suggested_role',
+                  },
+                  {
+                    model: Project_phase,
+                    as: 'project_phase',
+                    required: id_project || id_project_phase,
+                    where: id_project_phase
+                      ? {
+                          ...(id_project_phase && { id_project_phase }),
+                        }
+                      : null,
+                    include: [
+                      {
+                        model: Project,
+                        as: 'project',
+                        required: id_project,
+                        where: id_project
+                          ? {
+                              ...(id_project && { id_project }),
+                            }
+                          : null,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                model: Professional,
+                as: 'professional',
 
-          attributes: ['nm_professional'],
-          required: id_professional,
-          where: id_professional
-            ? {
-                id_professional,
-              }
-            : null,
-        },
-        {
-          model: Allocation_period,
-          as: 'allocation',
-          required: id_allocation_period,
-          attributes: [
-            'dt_start_allocation',
-            'dt_end_allocation',
-            'qt_business_hours',
-          ],
-          where: id_allocation_period
-            ? {
-                id_allocation_period,
-              }
-            : null,
-        },
-      ],
-    });
+                attributes: ['nm_professional'],
+                required: id_professional,
+                where: id_professional
+                  ? {
+                      id_professional,
+                    }
+                  : null,
+              },
+              {
+                model: Allocation_period,
+                as: 'allocation',
+                required: id_allocation_period,
+                attributes: [
+                  'dt_start_allocation',
+                  'dt_end_allocation',
+                  'qt_business_hours',
+                ],
+                where: id_allocation_period
+                  ? {
+                      id_allocation_period,
+                    }
+                  : null,
+              },
+            ],
+          }
+    );
 
     const getRows = productHistories.map(product => ({
       id_product_history: product.id_product_history,
