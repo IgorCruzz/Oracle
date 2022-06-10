@@ -33,6 +33,11 @@ export class Product extends Model {
       as: 'allocation',
     });
 
+    Product.belongsTo(models.Document, {
+      foreignKey: 'id_product',
+      as: 'document',
+    });
+
     Product.hasMany(models.Product_history, {
       foreignKey: 'id_product',
       as: 'product_history',

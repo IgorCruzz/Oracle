@@ -9,6 +9,7 @@ import {
   Professional,
   Role,
   User,
+  Document,
 } from '../../database/models';
 
 export class FindDeliveriesService {
@@ -123,6 +124,10 @@ export class FindDeliveriesService {
                       ],
                     },
                 include: [
+                  // {
+                  //   model: Document,
+                  //   as: 'document',
+                  // },
                   {
                     model: Role,
                     as: 'suggested_role',
@@ -177,6 +182,7 @@ export class FindDeliveriesService {
             limit: limit !== 'all' ? Number(limit) : null,
             offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
             raw: true,
+
             where: {
               [Op.and]: [
                 {
@@ -219,6 +225,11 @@ export class FindDeliveriesService {
                       ],
                     },
                 include: [
+                  {
+                    model: Document,
+                    distinct: true,
+                    as: 'document',
+                  },
                   {
                     model: Role,
                     as: 'suggested_role',
@@ -280,6 +291,7 @@ export class FindDeliveriesService {
 
     const getRows = productHistories.map(product => ({
       id_product_history: product.id_product_history,
+      hasDocuments: !!product['product.document.id_document'],
       project: {
         id_project: product['product.project_phase.project.id_project'],
         nm_project: product['product.project_phase.project.nm_project'],
