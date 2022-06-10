@@ -345,7 +345,7 @@ export class DownloadPtiService {
                   bold: true,
                 },
                 {
-                  text: sum,
+                  text: sum.toFixed(2),
                   style: 'total',
                   borderColor: ['#B0C4DE', '#B0C4DE', '#B0C4DE', '#B0C4DE'],
                   bold: true,

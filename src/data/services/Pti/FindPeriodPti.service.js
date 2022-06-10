@@ -113,7 +113,7 @@ export class FindPeriodPtiService {
         },
         role: prof.coustHH.role.dataValues,
         grade: prof.coustHH.grade.dataValues,
-        allocation_hours: sumBussinesHours,
+        allocation_hours: sumBussinesHours.toFixed(2),
       };
     });
 
