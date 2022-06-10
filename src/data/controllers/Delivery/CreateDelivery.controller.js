@@ -14,6 +14,7 @@ export class CreateDeliveryController {
 
       return res.status(200).json({
         message: response.message,
+        result: response.result,
       });
     } catch (err) {
       return res.status(500).json({
