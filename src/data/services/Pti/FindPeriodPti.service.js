@@ -8,6 +8,9 @@ import {
   Sector,
   User,
   Allocation_period,
+  Product,
+  Project_phase,
+  Project,
 } from '../../database/models';
 
 export class FindPeriodPtiService {
@@ -36,9 +39,9 @@ export class FindPeriodPtiService {
     const professionals = await Professional.findAndCountAll({
       where: searchQuery
         ? {
-            [Op.and]: searchQuery,
+            [Op.and]: [...(searchQuery ? { searchQuery } : null)],
           }
-        : {},
+        : null,
       limit: limit !== 'all' ? Number(limit) : null,
       order: [['nm_professional', 'ASC']],
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
@@ -48,8 +51,35 @@ export class FindPeriodPtiService {
           model: Allocation,
           as: 'allocation',
           required: !user_alocated,
-          where: id_allocation_period ? { id_allocation_period } : {},
+          where: id_allocation_period
+            ? {
+                [Op.and]: [
+                  {
+                    id_allocation_period,
+                  },
+                ],
+              }
+            : {},
+
           include: [
+            {
+              model: Product,
+              as: 'product',
+
+              include: [
+                {
+                  model: Project_phase,
+                  as: 'project_phase',
+
+                  include: [
+                    {
+                      model: Project,
+                      as: 'project',
+                    },
+                  ],
+                },
+              ],
+            },
             {
               model: Allocation_period,
 
@@ -98,9 +128,14 @@ export class FindPeriodPtiService {
 
       const { allocation } = prof;
 
-      const businessHours = allocation.map(
-        values => values.dataValues.qt_hours_picture
-      );
+      const businessHours = allocation
+        .map(values => {
+          return values.dataValues.product.dataValues.project_phase.dataValues
+            .project.dataValues.nm_deleted_by === null
+            ? values.dataValues.qt_hours_picture
+            : false;
+        })
+        .filter(Boolean);
 
       const sumBussinesHours = businessHours.reduce((a, b) => a + b, 0);
 
@@ -116,6 +151,19 @@ export class FindPeriodPtiService {
         allocation_hours: sumBussinesHours.toFixed(2),
       };
     });
+
+    if (!user_alocated) {
+      return {
+        ptis: {
+          count: professionals.count,
+          rows: {
+            getProfessionals: getProfessionals.filter(
+              a => a.allocation_hours > 0
+            ),
+          },
+        },
+      };
+    }
 
     return {
       ptis: {

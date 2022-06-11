@@ -78,6 +78,11 @@ export class FindAllocationsService {
       where: {
         [Op.and]: [
           {
+            '$product.project_phase.project.nm_deleted_by$': {
+              [Op.is]: null,
+            },
+          },
+          {
             id_product_history: {
               [Op.in]: values,
             },
@@ -141,12 +146,15 @@ export class FindAllocationsService {
                 {
                   model: Project,
                   as: 'project',
-                  required: cd_priority || id_project,
+                  required: true,
                   where:
                     cd_priority || id_project
                       ? {
                           ...(cd_priority && { cd_priority }),
                           ...(id_project && { id_project }),
+                          nm_deleted_by: {
+                            [Op.is]: null,
+                          },
                         }
                       : null,
                 },

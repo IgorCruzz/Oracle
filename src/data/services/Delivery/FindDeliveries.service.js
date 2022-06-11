@@ -91,6 +91,11 @@ export class FindDeliveriesService {
             where: {
               [Op.and]: [
                 {
+                  '$product.project_phase.project.nm_deleted_by$': {
+                    [Op.is]: null,
+                  },
+                },
+                {
                   id_product_history: {
                     [Op.in]: values,
                   },
@@ -196,6 +201,11 @@ export class FindDeliveriesService {
             ],
             where: {
               [Op.and]: [
+                {
+                  '$product.project_phase.project.nm_deleted_by$': {
+                    [Op.is]: null,
+                  },
+                },
                 {
                   id_product_history: {
                     [Op.in]: values,
