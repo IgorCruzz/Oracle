@@ -5,6 +5,7 @@ import {
   Product,
   Project_phase,
   Project,
+  Allocation_period,
 } from '../../database/models';
 
 export class FindProductHistoryPtiFromProfessionalService {
@@ -20,6 +21,15 @@ export class FindProductHistoryPtiFromProfessionalService {
         ],
       },
       include: [
+        {
+          model: Allocation_period,
+          as: 'allocation',
+          attributes: [
+            'dt_start_allocation',
+            'dt_end_allocation',
+            'qt_business_hours',
+          ],
+        },
         { model: Professional, as: 'professional' },
         { model: Professional, as: 'old_professional' },
         {
