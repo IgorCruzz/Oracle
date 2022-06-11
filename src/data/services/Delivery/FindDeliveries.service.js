@@ -82,6 +82,12 @@ export class FindDeliveriesService {
             limit: limit !== 'all' ? Number(limit) : null,
             offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
             raw: true,
+            order: [
+              ['allocation', 'dt_start_allocation', 'ASC'],
+              ['product', 'project_phase', 'project', 'nm_project', 'ASC'],
+              ['product', 'project_phase', 'nu_order', 'ASC'],
+              ['product', 'nu_order', 'ASC'],
+            ],
             where: {
               [Op.and]: [
                 {
@@ -182,7 +188,12 @@ export class FindDeliveriesService {
             limit: limit !== 'all' ? Number(limit) : null,
             offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
             raw: true,
-
+            order: [
+              ['allocation', 'dt_start_allocation', 'ASC'],
+              ['product', 'project_phase', 'project', 'nm_project', 'ASC'],
+              ['product', 'project_phase', 'nu_order', 'ASC'],
+              ['product', 'nu_order', 'ASC'],
+            ],
             where: {
               [Op.and]: [
                 {
@@ -274,6 +285,7 @@ export class FindDeliveriesService {
                 model: Allocation_period,
                 as: 'allocation',
                 required: id_allocation_period,
+
                 attributes: [
                   'dt_start_allocation',
                   'dt_end_allocation',
