@@ -2,47 +2,45 @@ import { Op } from 'sequelize';
 
 import { ProductHistoryRepository } from '../../database/repositories';
 import { sequelize } from '../../database';
-import { Product_history, Document, Product } from '../../database/models';
+import { Product_history, Document } from '../../database/models';
 
 export class CreateDeliveryService {
   async execute(data) {
     const t = await sequelize.transaction();
-    const result = [];
 
     const productHistoryRepository = new ProductHistoryRepository();
 
     try {
+      const verifyStatus = data.deliveries.filter(value =>
+        value.cd_status.match(
+          /('Não Alocado|Em Análise|Em Análise de Correção|Concluído')/
+        )
+      );
+
+      if (verifyStatus.length > 0) {
+        return {
+          error:
+            'Só é possível entregar produtos que estejam em produção ou em correção.',
+        };
+      }
+
+      const verifyDocuments = await Document.findAll({
+        where: {
+          id_product: {
+            [Op.and]: data.deliveries.map(({ id_product }) => id_product),
+          },
+        },
+      });
+
+      if (verifyDocuments.length === 0) {
+        return {
+          error: 'Não foi possível efetuar a entrega! Há documentos pendentes.',
+        };
+      }
+
       await Promise.all(
         await data.deliveries.map(
           async ({ id_allocation_period, id_product, tx_remark }) => {
-            const checkIfHasNoDocuments = await Document.findAll({
-              where: {
-                [Op.and]: [
-                  {
-                    dt_upload: null,
-                  },
-                  {
-                    id_product,
-                  },
-                ],
-              },
-            });
-
-            if (checkIfHasNoDocuments.length > 0) {
-              const getProduct = await Product.findOne({
-                where: {
-                  id_product,
-                },
-              });
-
-              result.push({
-                message: `Não foi possível efetuar a entrega! Há documentos pendentes.`,
-                product: getProduct.nm_product,
-                id_allocation_period,
-              });
-              return;
-            }
-
             const findLastRecord = await Product_history.findAll({
               attributes: [
                 [
@@ -105,18 +103,6 @@ export class CreateDeliveryService {
                   transaction: t,
                 });
               }
-
-              const getProduct = await Product.findOne({
-                where: {
-                  id_product,
-                },
-              });
-
-              result.push({
-                message: `Entrega registrada com sucesso!`,
-                product: getProduct.nm_product,
-                id_allocation_period,
-              });
             }
           }
         )
@@ -126,9 +112,9 @@ export class CreateDeliveryService {
 
       return {
         message: 'Entrega registrada com sucesso!',
-        result,
       };
     } catch (e) {
+      console.log(e);
       if (t) {
         await t.rollback();
       }

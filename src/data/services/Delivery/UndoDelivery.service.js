@@ -10,6 +10,19 @@ export class UndoDeliveryService {
     const productHistoryRepository = new ProductHistoryRepository();
 
     try {
+      const verifyStatus = data.deliveries.filter(value =>
+        value.cd_status.match(
+          /('Não Alocado|Em Produção|Em Correção|Concluído')/
+        )
+      );
+
+      if (verifyStatus.length > 0) {
+        return {
+          error:
+            'Só é possível desfazer a entrega de produtos que estejam em análise ou em análise de correção',
+        };
+      }
+
       await Promise.all(
         await data.deliveries.map(
           async ({ id_allocation_period, id_product, tx_remark }) => {
