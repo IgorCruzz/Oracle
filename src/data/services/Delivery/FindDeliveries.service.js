@@ -135,10 +135,6 @@ export class FindDeliveriesService {
                       ],
                     },
                 include: [
-                  // {
-                  //   model: Document,
-                  //   as: 'document',
-                  // },
                   {
                     model: Role,
                     as: 'suggested_role',
@@ -247,11 +243,6 @@ export class FindDeliveriesService {
                     },
                 include: [
                   {
-                    model: Document,
-                    distinct: true,
-                    as: 'document',
-                  },
-                  {
                     model: Role,
                     as: 'suggested_role',
                   },
@@ -311,39 +302,49 @@ export class FindDeliveriesService {
           }
     );
 
-    const getRows = productHistories.map(product => ({
-      id_product_history: product.id_product_history,
-      hasDocuments: !!product['product.document.id_document'],
-      project: {
-        id_project: product['product.project_phase.project.id_project'],
-        nm_project: product['product.project_phase.project.nm_project'],
-      },
-      project_phase: {
-        id_project_phase: product['product.project_phase.id_project_phase'],
-        nm_project_phase: product['product.project_phase.nm_project_phase'],
-      },
-      product: {
-        id_product: product['product.id_product'],
-        nm_product: product['product.nm_product'],
-      },
-      cd_status:
-        (product.cd_status === 0 && 'Não Alocado') ||
-        (product.cd_status === 1 && 'Em Produção') ||
-        (product.cd_status === 2 && 'Em Análise') ||
-        (product.cd_status === 3 && 'Em Correção') ||
-        (product.cd_status === 4 && 'Em Análise de Correção') ||
-        (product.cd_status === 5 && 'Concluído'),
-      allocation_period: product.id_allocation_period && {
-        id_allocation_period: product.id_allocation_period,
-        period: `${format(
-          new Date(product['allocation.dt_start_allocation']),
-          'dd/MM/yyyy'
-        )} - ${format(
-          new Date(product['allocation.dt_end_allocation']),
-          'dd/MM/yyyy'
-        )} (${product['allocation.qt_business_hours']}h)`,
-      },
-    }));
+    const getRows = await Promise.all(
+      await productHistories.map(async product => {
+        const getDocuments = await Document.count({
+          where: {
+            id_product: product.id_product,
+          },
+        });
+
+        return {
+          id_product_history: product.id_product_history,
+          hasDocuments: getDocuments,
+          project: {
+            id_project: product['product.project_phase.project.id_project'],
+            nm_project: product['product.project_phase.project.nm_project'],
+          },
+          project_phase: {
+            id_project_phase: product['product.project_phase.id_project_phase'],
+            nm_project_phase: product['product.project_phase.nm_project_phase'],
+          },
+          product: {
+            id_product: product['product.id_product'],
+            nm_product: product['product.nm_product'],
+          },
+          cd_status:
+            (product.cd_status === 0 && 'Não Alocado') ||
+            (product.cd_status === 1 && 'Em Produção') ||
+            (product.cd_status === 2 && 'Em Análise') ||
+            (product.cd_status === 3 && 'Em Correção') ||
+            (product.cd_status === 4 && 'Em Análise de Correção') ||
+            (product.cd_status === 5 && 'Concluído'),
+          allocation_period: product.id_allocation_period && {
+            id_allocation_period: product.id_allocation_period,
+            period: `${format(
+              new Date(product['allocation.dt_start_allocation']),
+              'dd/MM/yyyy'
+            )} - ${format(
+              new Date(product['allocation.dt_end_allocation']),
+              'dd/MM/yyyy'
+            )} (${product['allocation.qt_business_hours']}h)`,
+          },
+        };
+      })
+    );
 
     return {
       deliveries: {
