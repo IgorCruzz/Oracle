@@ -38,6 +38,27 @@ export class CreateDeliveryService {
         };
       }
 
+      const verifyArchives = await Document.findAll({
+        where: {
+          [Op.and]: [
+            {
+              id_product: {
+                [Op.and]: data.deliveries.map(({ id_product }) => id_product),
+              },
+            },
+            {
+              dt_upload: null,
+            },
+          ],
+        },
+      });
+
+      if (verifyArchives.length > 0) {
+        return {
+          error: 'Não foi possível efetuar a entrega! Há documentos pendentes.',
+        };
+      }
+
       await Promise.all(
         await data.deliveries.map(
           async ({ id_allocation_period, id_product, tx_remark }) => {
