@@ -185,3 +185,6 @@ export * from './InspectionDocument/UpdateInspectionDocument.service';
 export * from './Delivery/FindDeliveries.service';
 export * from './Delivery/CreateDelivery.service';
 export * from './Delivery/UndoDelivery.service';
+
+// ANALYSIS
+export * from './Analysis/FindAnalysis.service';

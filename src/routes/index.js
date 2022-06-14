@@ -27,8 +27,10 @@ import Pti from './Pti/Pti.routes';
 import Inspection from './Inspection/Inspection.routes';
 import InspectionDocument from './InspectionDocument/InspectionDocument.routes';
 import Delivery from './Delivery/Delivery.routes';
+import Analysis from './Analysis/Analysis.routes';
 
 const routes = [
+  Analysis,
   Delivery,
   Pti,
   Allocation,

@@ -185,3 +185,6 @@ export * from './InspectionDocument/UpdateInspectionDocument.controller';
 export * from './Delivery/FindDelivery.controller';
 export * from './Delivery/CreateDelivery.controller';
 export * from './Delivery/UndoDelivery.controller';
+
+// ANALYSIS
+export * from './Analysis/FindAnalysis.controller';
