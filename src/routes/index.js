@@ -28,8 +28,10 @@ import Inspection from './Inspection/Inspection.routes';
 import InspectionDocument from './InspectionDocument/InspectionDocument.routes';
 import Delivery from './Delivery/Delivery.routes';
 import Analysis from './Analysis/Analysis.routes';
+import DownloadFile from './DownloadFile/DownloadFile.routes';
 
 const routes = [
+  DownloadFile,
   Analysis,
   Delivery,
   Pti,
