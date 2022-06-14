@@ -4,8 +4,8 @@ import authenticator from '../../data/authenticator/jwt.authenticator';
 
 const routes = Router();
 
-routes.post('/download', authenticator, (req, res) => {
-  const { filename } = req.body;
+routes.get('/download/:filename', authenticator, (req, res) => {
+  const { filename } = req.params;
   const file = `${__dirname}/tmp/documents/${filename}`;
   return res.download(file);
 });
