@@ -304,15 +304,42 @@ export class FindDeliveriesService {
 
     const getRows = await Promise.all(
       await productHistories.map(async product => {
-        const getDocuments = await Document.count({
+        const countDocuments = await Document.count({
           where: {
             id_product: product.id_product,
           },
         });
 
+        const getDocuments = await Document.findAll({
+          where: {
+            id_product: product.id_product,
+          },
+        });
+
+        let documents;
+
+        if (getDocuments.length === 0) {
+          documents = 'Nenhum arquivo anexado';
+        }
+
+        if (getDocuments.length > 0) {
+          documents = 'Pelo menos um arquivo anexado';
+        }
+
+        const getArchives = await Document.findAll({
+          where: {
+            [Op.and]: [{ id_product: product.id_product }, { dt_upload: null }],
+          },
+        });
+
+        if (getDocuments.length > 0 && getArchives.length > 0) {
+          documents = 'Documentos sem arquivo anexado';
+        }
+
         return {
           id_product_history: product.id_product_history,
-          hasDocuments: getDocuments,
+          hasDocuments: countDocuments,
+          documents,
           project: {
             id_project: product['product.project_phase.project.id_project'],
             nm_project: product['product.project_phase.project.nm_project'],
