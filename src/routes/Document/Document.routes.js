@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
+import { resolve } from 'path';
 import {
   FindDocumentController,
   FindDocumentsController,
@@ -23,6 +24,20 @@ import { storage } from '../../config/multer';
 const upload = multer({ storage });
 
 const routes = Router();
+
+routes.get('/documents/download/:filename', (req, res) => {
+  const { filename } = req.params;
+  const file = resolve(
+    __dirname,
+    '..',
+    '..',
+    '..',
+    'tmp',
+    'documents',
+    filename
+  );
+  return res.download(file);
+});
 
 routes.delete(
   '/documents/upload/:id_document',
