@@ -20,12 +20,13 @@ import {
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { storage } from '../../config/multer';
+import { Document } from '../../data/database/models';
 
 const upload = multer({ storage });
 
 const routes = Router();
 
-routes.get('/documents/download/:filename', (req, res) => {
+routes.get('/documents/download/:filename', async (req, res) => {
   const { filename } = req.params;
   const file = resolve(
     __dirname,
@@ -36,7 +37,14 @@ routes.get('/documents/download/:filename', (req, res) => {
     'documents',
     filename
   );
-  return res.download(file);
+
+  const getFilename = await Document.findOne({
+    where: { nm_file: filename },
+  });
+
+  const { nm_original_file } = getFilename;
+
+  return res.download(file, nm_original_file);
 });
 
 routes.delete(
