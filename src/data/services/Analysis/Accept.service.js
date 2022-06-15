@@ -20,7 +20,7 @@ export class AcceptService {
       if (verifyStatus.length > 0) {
         return {
           error:
-            'Só é possível aceitar produtos que estejam em em análise ou em análise de correção.',
+            'Só é possível aceitar produtos que estejam em análise ou em análise de correção.',
         };
       }
 
@@ -44,15 +44,31 @@ export class AcceptService {
 
             const getHistory = await Product_history.findOne({
               where: {
-                [Op.and]: [
+                [Op.or]: [
                   {
-                    id_product_history: {
-                      [Op.in]: values,
-                    },
+                    [Op.and]: [
+                      {
+                        id_product_history: {
+                          [Op.in]: values,
+                        },
+                      },
+                      { id_product },
+                      { id_allocation_period },
+                      { cd_status: 2 },
+                    ],
                   },
-                  { id_product },
-                  { id_allocation_period },
-                  { cd_status: 1 },
+                  {
+                    [Op.and]: [
+                      {
+                        id_product_history: {
+                          [Op.in]: values,
+                        },
+                      },
+                      { id_product },
+                      { id_allocation_period },
+                      { cd_status: 4 },
+                    ],
+                  },
                 ],
               },
               transaction: t,
@@ -61,34 +77,16 @@ export class AcceptService {
             if (getHistory) {
               const { id_professional } = getHistory;
 
-              const getHistoryWithStatusTwo = await Product_history.findOne({
-                where: {
-                  [Op.and]: [
-                    {
-                      id_product_history: {
-                        [Op.in]: values,
-                      },
-                    },
-                    { id_product },
-                    { id_allocation_period },
-                    { cd_status: 2 },
-                  ],
-                },
+              await productHistoryRepository.createProductHistory({
+                cd_status: 5,
+                dt_status: new Date(Date.now()).toISOString(),
+                tx_remark,
+                id_product,
+                id_allocation_period,
+                id_professional,
+                id_analyst_user: null,
                 transaction: t,
               });
-
-              if (!getHistoryWithStatusTwo) {
-                await productHistoryRepository.createProductHistory({
-                  cd_status: 2,
-                  dt_status: new Date(Date.now()).toISOString(),
-                  tx_remark,
-                  id_product,
-                  id_allocation_period,
-                  id_professional,
-                  id_analyst_user: null,
-                  transaction: t,
-                });
-              }
             }
           }
         )
@@ -97,7 +95,7 @@ export class AcceptService {
       await t.commit();
 
       return {
-        message: 'Entrega registrada com sucesso!',
+        message: 'Aceite registrado com sucesso!',
       };
     } catch (e) {
       console.log(e);
