@@ -310,8 +310,6 @@ export class FindAnalysisService {
           },
         });
 
-        console.log({ product });
-
         return {
           id_product_history: product.id_product_history,
           hasDocuments: getDocuments,
