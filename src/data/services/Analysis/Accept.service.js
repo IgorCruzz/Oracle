@@ -2,9 +2,9 @@ import { Op } from 'sequelize';
 
 import { ProductHistoryRepository } from '../../database/repositories';
 import { sequelize } from '../../database';
-import { Product_history, Document } from '../../database/models';
+import { Product_history } from '../../database/models';
 
-export class CreateDeliveryService {
+export class AcceptService {
   async execute(data) {
     const t = await sequelize.transaction();
 
@@ -13,49 +13,14 @@ export class CreateDeliveryService {
     try {
       const verifyStatus = data.deliveries.filter(value =>
         value.cd_status.match(
-          /('Não Alocado|Em Análise|Em Análise de Correção|Concluído')/
+          /('Ag. Alocação|Em Produção|Em Correção|Concluído')/
         )
       );
 
       if (verifyStatus.length > 0) {
         return {
           error:
-            'Só é possível entregar produtos que estejam em produção ou em correção.',
-        };
-      }
-
-      const verifyDocuments = await Document.findAll({
-        where: {
-          id_product: {
-            [Op.and]: data.deliveries.map(({ id_product }) => id_product),
-          },
-        },
-      });
-
-      if (verifyDocuments.length === 0) {
-        return {
-          error: 'Não foi possível efetuar a entrega! Há documentos pendentes.',
-        };
-      }
-
-      const verifyArchives = await Document.findAll({
-        where: {
-          [Op.and]: [
-            {
-              id_product: {
-                [Op.and]: data.deliveries.map(({ id_product }) => id_product),
-              },
-            },
-            {
-              dt_upload: null,
-            },
-          ],
-        },
-      });
-
-      if (verifyArchives.length > 0) {
-        return {
-          error: 'Não foi possível efetuar a entrega! Há documentos pendentes.',
+            'Só é possível aceitar produtos que estejam em em análise ou em análise de correção.',
         };
       }
 

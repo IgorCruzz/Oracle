@@ -188,3 +188,4 @@ export * from './Delivery/UndoDelivery.service';
 
 // ANALYSIS
 export * from './Analysis/FindAnalysis.service';
+export * from './Analysis/Accept.service';
