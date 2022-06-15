@@ -40,9 +40,9 @@ export class Product_history extends Model {
       foreignKey: 'id_previous_professional',
       as: 'old_professional',
     });
-    // Product_history.belongsTo(models.Analyst_user, {
-    //   foreignKey: 'id_analyst_user',
-    //   as: 'user',
-    // });
+    Product_history.belongsTo(models.User, {
+      foreignKey: 'id_analyst_user',
+      as: 'user',
+    });
   }
 }
