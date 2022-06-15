@@ -303,14 +303,8 @@ export class FindDeliveriesService {
     );
 
     const getRows = await Promise.all(
-      await productHistories.map(async product => {
+      productHistories.map(async product => {
         const countDocuments = await Document.count({
-          where: {
-            id_product: product.id_product,
-          },
-        });
-
-        const getDocuments = await Document.findAll({
           where: {
             id_product: product.id_product,
           },
@@ -318,22 +312,47 @@ export class FindDeliveriesService {
 
         let documents;
 
-        if (getDocuments.length === 0) {
-          documents = 'Nenhum arquivo anexado';
+        if (countDocuments === 0) {
+          documents = 'Nenhum documento anexado';
         }
 
-        if (getDocuments.length > 0) {
-          documents = 'Pelo menos um arquivo anexado';
-        }
-
-        const getArchives = await Document.findAll({
+        const documentossemarquivos = await Document.count({
           where: {
-            [Op.and]: [{ id_product: product.id_product }, { dt_upload: null }],
+            [Op.and]: [
+              { id_product: product.id_product },
+              {
+                dt_upload: null,
+              },
+            ],
           },
         });
 
-        if (getDocuments.length > 0 && getArchives.length > 0) {
-          documents = 'Documentos sem arquivo anexado';
+        if (countDocuments > 0 && countDocuments >= documentossemarquivos) {
+          documents = 'Pelo menos um arquivo anexado';
+        }
+
+        if (countDocuments > 0 && countDocuments === documentossemarquivos) {
+          documents = 'Nenhum arquivo anexado';
+        }
+
+        const documentosscomarquivos = await Document.findAll({
+          where: {
+            [Op.and]: [
+              { id_product: product.id_product },
+              {
+                nm_original_file: {
+                  [Op.not]: null,
+                },
+              },
+            ],
+          },
+        });
+
+        if (
+          countDocuments > 0 &&
+          documentosscomarquivos.length === countDocuments
+        ) {
+          documents = 'Todos os aquivos foram anexados';
         }
 
         return {
