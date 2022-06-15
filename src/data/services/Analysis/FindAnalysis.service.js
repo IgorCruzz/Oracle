@@ -310,6 +310,8 @@ export class FindAnalysisService {
           },
         });
 
+        console.log({ product });
+
         return {
           id_product_history: product.id_product_history,
           hasDocuments: getDocuments,
@@ -325,6 +327,9 @@ export class FindAnalysisService {
             id_product: product['product.id_product'],
             nm_product: product['product.nm_product'],
           },
+          delivery_from:
+            product['product.professional.nm_professional'] || 'Não Possui',
+          delivery_at: format(new Date(product.dt_created_at), 'dd/MM/yyyy'),
           cd_status:
             (product.cd_status === 0 && 'Não Alocado') ||
             (product.cd_status === 1 && 'Em Produção') ||
