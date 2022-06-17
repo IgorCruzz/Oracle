@@ -39,6 +39,7 @@ export class Inspection extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'inspection',
         sequelize,
       }
     );

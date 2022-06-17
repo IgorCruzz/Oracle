@@ -18,6 +18,7 @@ export class Password_recovery extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'password_recovery',
         sequelize,
       }
     );

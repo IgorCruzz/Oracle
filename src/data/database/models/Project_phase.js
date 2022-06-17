@@ -41,6 +41,7 @@ export class Project_phase extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'project_phase',
         sequelize,
       }
     );

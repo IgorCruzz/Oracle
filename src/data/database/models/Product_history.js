@@ -16,6 +16,7 @@ export class Product_history extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'product_history',
         sequelize,
       }
     );
