@@ -1,3 +1,4 @@
+import utf8 from 'utf8';
 import { DocumentRepository } from '../../database/repositories';
 
 export class UploadDocumentService {
@@ -20,14 +21,10 @@ export class UploadDocumentService {
       };
     }
 
-    console.log({
-      originalname,
-    });
-
     await repository.updateDocument(id_document, {
       dt_upload: new Date(Date.now()).toISOString(),
       nm_file: filename,
-      nm_original_file: originalname,
+      nm_original_file: utf8.decode(originalname),
     });
 
     return {
