@@ -20,6 +20,10 @@ export class UploadDocumentService {
       };
     }
 
+    console.log({
+      originalname,
+    });
+
     await repository.updateDocument(id_document, {
       dt_upload: new Date(Date.now()).toISOString(),
       nm_file: filename,
