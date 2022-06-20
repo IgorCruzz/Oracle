@@ -13,7 +13,7 @@ export class CreateDeliveryService {
     try {
       const verifyStatus = data.deliveries.filter(value =>
         value.cd_status.match(
-          /('Não Alocado|Em Análise|Em Análise de Correção|Concluído')/
+          /(Não Alocado|Em Análise|Em Análise de Correção|Concluído)/
         )
       );
 

@@ -7,7 +7,7 @@ export const acceptValidator = async (req, res, next) => {
       analysis: Yup.array()
         .of(
           Yup.object().shape({
-            cd_status: Yup.number().required('O campo status é obrigatório'),
+            cd_status: Yup.string().required('O campo status é obrigatório'),
             id_allocation_period: Yup.number()
               .required('Período de locação inválido')
               .typeError('Período de locação inválido'),

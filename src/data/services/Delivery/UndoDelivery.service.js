@@ -11,9 +11,7 @@ export class UndoDeliveryService {
 
     try {
       const verifyStatus = data.deliveries.filter(value =>
-        value.cd_status.match(
-          /('Não Alocado|Em Produção|Em Correção|Concluído')/
-        )
+        value.cd_status.match(/(Não Alocado|Em Produção|Em Correção|Concluído)/)
       );
 
       if (verifyStatus.length > 0) {

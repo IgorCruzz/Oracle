@@ -11,11 +11,13 @@ export class AcceptService {
     const productHistoryRepository = new ProductHistoryRepository();
 
     try {
-      const verifyStatus = data.deliveries.filter(value =>
+      const verifyStatus = data.analysis.filter(value =>
         value.cd_status.match(
-          /('Ag. Alocação|Em Produção|Em Correção|Concluído')/
+          /(Ag. Alocação|Em Produção|Em Correção|Concluído)/
         )
       );
+
+      console.log(verifyStatus);
 
       if (verifyStatus.length > 0) {
         return {
@@ -25,7 +27,7 @@ export class AcceptService {
       }
 
       await Promise.all(
-        await data.deliveries.map(
+        await data.analysis.map(
           async ({ id_allocation_period, id_product, tx_remark }) => {
             const findLastRecord = await Product_history.findAll({
               attributes: [
