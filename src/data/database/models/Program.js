@@ -14,7 +14,6 @@ export class Program extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
-        tableName: 'program',
         sequelize,
       }
     );

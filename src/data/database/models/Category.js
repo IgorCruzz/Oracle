@@ -14,7 +14,6 @@ export class Category extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
-        tableName: 'category',
         sequelize,
       }
     );

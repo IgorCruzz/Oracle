@@ -24,3 +24,5 @@ export * from './Professional';
 export * from './Allocation';
 export * from './Inspection';
 export * from './Inspection_document';
+export * from './Timelapse_Coordinates';
+export * from './Media_timelapse';

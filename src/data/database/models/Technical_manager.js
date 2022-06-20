@@ -17,7 +17,6 @@ export class Technical_manager extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
-        tableName: 'technical_manager',
         sequelize,
       }
     );

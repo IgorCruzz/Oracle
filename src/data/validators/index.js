@@ -166,13 +166,21 @@ export * from './InspectionDocument/findInspectionDocument.validator';
 export * from './InspectionDocument/findInspectionDocuments.validator';
 export * from './InspectionDocument/updateInspectionDocument.validator';
 
+// TIMELAPSE
+export * from './Timelapse/createTimelapse.validator';
+export * from './Timelapse/deleteTimelapse.validator';
+export * from './Timelapse/findTimelapse.validator';
+export * from './Timelapse/findTimelapses.validator';
+export * from './Timelapse/updateTimelapse.validator';
+
+// MEDIA TIMELAPSE
+export * from './MediaTimelapse/createMediaTimelapse.validator';
+export * from './MediaTimelapse/deleteMediaTimelapse.validator';
+export * from './MediaTimelapse/findMediaTimelapse.validator';
+export * from './MediaTimelapse/findMediaTimelapses.validator';
+export * from './MediaTimelapse/updateMediaTimelapse.validator';
+
 // PTI
 export * from './Ptis/FindPeriodPti.validator';
 export * from './Ptis/FindProductHistoryPti.validator';
 export * from './Ptis/FindProfessionalPti.validator';
-
-// ANALYSIS
-export * from './Analysis/accept.validator';
-export * from './Analysis/undoAccept.validator';
-export * from './Analysis/correction.validator';
-export * from './Analysis/undoCorrection.validator';

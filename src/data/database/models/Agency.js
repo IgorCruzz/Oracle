@@ -14,7 +14,6 @@ export class Agency extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
-        tableName: 'agency',
         sequelize,
       }
     );

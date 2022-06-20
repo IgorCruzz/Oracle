@@ -1,7 +1,5 @@
 import { Router } from 'express';
 import multer from 'multer';
-import { resolve } from 'path';
-
 import {
   FindDocumentController,
   FindDocumentsController,
@@ -21,32 +19,10 @@ import {
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { storage } from '../../config/multer';
-import { Document } from '../../data/database/models';
 
 const upload = multer({ storage });
 
 const routes = Router();
-
-routes.get('/documents/download/:filename', async (req, res) => {
-  const { filename } = req.params;
-  const file = resolve(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    'tmp',
-    'documents',
-    filename
-  );
-
-  const getFilename = await Document.findOne({
-    where: { nm_file: filename },
-  });
-
-  const { nm_original_file } = getFilename;
-
-  return res.download(file, nm_original_file);
-});
 
 routes.delete(
   '/documents/upload/:id_document',

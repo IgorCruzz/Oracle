@@ -303,62 +303,16 @@ export class FindDeliveriesService {
     );
 
     const getRows = await Promise.all(
-      productHistories.map(async product => {
-        const countDocuments = await Document.count({
+      await productHistories.map(async product => {
+        const getDocuments = await Document.count({
           where: {
             id_product: product.id_product,
           },
         });
 
-        let documents;
-
-        if (countDocuments === 0) {
-          documents = 'Nenhum documento anexado';
-        }
-
-        const documentossemarquivos = await Document.count({
-          where: {
-            [Op.and]: [
-              { id_product: product.id_product },
-              {
-                dt_upload: null,
-              },
-            ],
-          },
-        });
-
-        if (countDocuments > 0 && countDocuments >= documentossemarquivos) {
-          documents = 'Pelo menos um arquivo anexado';
-        }
-
-        if (countDocuments > 0 && countDocuments === documentossemarquivos) {
-          documents = 'Nenhum arquivo anexado';
-        }
-
-        const documentosscomarquivos = await Document.findAll({
-          where: {
-            [Op.and]: [
-              { id_product: product.id_product },
-              {
-                nm_original_file: {
-                  [Op.not]: null,
-                },
-              },
-            ],
-          },
-        });
-
-        if (
-          countDocuments > 0 &&
-          documentosscomarquivos.length === countDocuments
-        ) {
-          documents = 'Todos os aquivos foram anexados';
-        }
-
         return {
           id_product_history: product.id_product_history,
-          hasDocuments: countDocuments,
-          documents,
+          hasDocuments: getDocuments,
           project: {
             id_project: product['product.project_phase.project.id_project'],
             nm_project: product['product.project_phase.project.nm_project'],
@@ -372,7 +326,7 @@ export class FindDeliveriesService {
             nm_product: product['product.nm_product'],
           },
           cd_status:
-            (product.cd_status === 0 && 'Ag. Alocação') ||
+            (product.cd_status === 0 && 'Não Alocado') ||
             (product.cd_status === 1 && 'Em Produção') ||
             (product.cd_status === 2 && 'Em Análise') ||
             (product.cd_status === 3 && 'Em Correção') ||

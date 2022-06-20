@@ -7,7 +7,6 @@ export const folder = resolve(
   '..',
   '..',
   'tmp',
-  'uploads',
   'inspection_documents'
 );
 

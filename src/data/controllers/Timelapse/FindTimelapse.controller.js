@@ -1,11 +1,13 @@
-import { UndoAcceptService } from '../../services';
+import { FindTimelapseService } from '../../services';
 
-export class UndoAcceptController {
+export class FindTimelapseController {
   async handle(req, res) {
     try {
-      const service = new UndoAcceptService();
+      const { id_timelapse } = req.params;
 
-      const response = await service.execute(req.body);
+      const service = new FindTimelapseService();
+
+      const response = await service.execute({ id_timelapse });
 
       if (response.error)
         return res.status(400).json({
@@ -13,7 +15,7 @@ export class UndoAcceptController {
         });
 
       return res.status(200).json({
-        message: response.message,
+        timelapse: response.timelapse,
       });
     } catch (err) {
       console.log(err);

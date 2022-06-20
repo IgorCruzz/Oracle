@@ -16,7 +16,6 @@ export class Professional extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
-        tableName: 'professional',
         sequelize,
       }
     );

@@ -23,3 +23,5 @@ export * from './AllocationPeriod/AllocationPeriod.repository';
 export * from './Allocation/Allocation.repository';
 export * from './Inspection/Inspection.repository';
 export * from './InspectionDocument/InspectionDocument.repository';
+export * from './Timelapse/Timelapse.repository';
+export * from './MediaTimelapse/MediaTimelapse.repository';

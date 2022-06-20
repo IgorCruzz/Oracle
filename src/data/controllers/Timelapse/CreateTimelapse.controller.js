@@ -1,9 +1,9 @@
-import { UndoCorrectionService } from '../../services';
+import { CreateTimelapseService } from '../../services';
 
-export class UndoCorrectionController {
+export class CreateTimelapseController {
   async handle(req, res) {
     try {
-      const service = new UndoCorrectionService();
+      const service = new CreateTimelapseService();
 
       const response = await service.execute(req.body);
 
@@ -14,6 +14,7 @@ export class UndoCorrectionController {
 
       return res.status(200).json({
         message: response.message,
+        timelapse: response.timelapse,
       });
     } catch (err) {
       console.log(err);

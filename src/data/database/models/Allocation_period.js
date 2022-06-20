@@ -40,7 +40,6 @@ export class Allocation_period extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
-        tableName: 'allocation_period',
         sequelize,
       }
     );

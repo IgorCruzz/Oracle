@@ -25,7 +25,6 @@ export class Role_grade extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
-        tableName: 'role_grade',
         sequelize,
       }
     );

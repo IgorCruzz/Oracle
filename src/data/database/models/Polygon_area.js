@@ -15,7 +15,6 @@ export class Polygon_area extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
-        tableName: 'polygon_area',
         sequelize,
       }
     );

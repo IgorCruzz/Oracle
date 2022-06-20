@@ -20,7 +20,6 @@ export class Product extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
-        tableName: 'product',
         sequelize,
       }
     );

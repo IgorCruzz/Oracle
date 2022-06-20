@@ -2,10 +2,10 @@ require('dotenv/config');
 
 module.exports = {
   dialect: 'mysql',
-  host: '143.198.191.56',
-  username: 'gerobras',
-  password: 'Ger@1234Obras',
-  database: 'gerobras',
+  host: 'x8autxobia7sgh74.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+  username: 'ivdb488dfbm55d25',
+  password: 'tsyzrnhplclwe3dz',
+  database: 'n6gecc4s901uxvz7',
   options: {
     requestTimeout: 3000,
   },
@@ -17,7 +17,6 @@ module.exports = {
     collate: 'utf8_general_ci',
   },
   timezone: '-03:00',
-  quoteIdentifiers: false,
 
   dialectOptions: {
     typeCast(field, next) {

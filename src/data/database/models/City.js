@@ -14,7 +14,6 @@ export class City extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
-        tableName: 'city',
         sequelize,
       }
     );
