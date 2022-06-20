@@ -181,21 +181,14 @@ export * from './InspectionDocument/FindInspectionDocument.controller';
 export * from './InspectionDocument/FindInspectionDocuments.controller';
 export * from './InspectionDocument/UpdateInspectionDocument.controller';
 
-// TIMELAPSE
-export * from './Timelapse/CreateTimelapse.controller';
-export * from './Timelapse/DeleteTimelapse.controller';
-export * from './Timelapse/FindTimelapse.controller';
-export * from './Timelapse/FindTimelapses.controller';
-export * from './Timelapse/UpdateTimelapse.controller';
-
-// MEDIA TIMELAPSE
-export * from './MediaTimelapse/CreateMediaTimelapse.controller';
-export * from './MediaTimelapse/DeleteMediaTimelapse.controller';
-export * from './MediaTimelapse/FindMediaTimelapse.controller';
-export * from './MediaTimelapse/FindMediaTimelapses.controller';
-export * from './MediaTimelapse/UpdateMediaTimelapse.controller';
-
 // DELIVERY
 export * from './Delivery/FindDelivery.controller';
 export * from './Delivery/CreateDelivery.controller';
 export * from './Delivery/UndoDelivery.controller';
+
+// ANALYSIS
+export * from './Analysis/FindAnalysis.controller';
+export * from './Analysis/Accept.controller';
+export * from './Analysis/UndoAccept.controller';
+export * from './Analysis/Correction.controller';
+export * from './Analysis/UndoCorrection.controller';

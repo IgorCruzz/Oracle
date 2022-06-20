@@ -5,9 +5,10 @@ export class FindInspectionDocumentsService {
     page,
     limit,
     id,
+    id_inspection,
+    nm_document,
     nm_original_file,
-    dt_media,
-    id_timelapse_coordinates
+    nm_file
   }) {
     const repository = new InspectionDocumentRepository();
 
@@ -15,9 +16,10 @@ export class FindInspectionDocumentsService {
       page,
       limit,
       id,
+      id_inspection,
+      nm_document,
       nm_original_file,
-      dt_media,
-      id_timelapse_coordinates
+      nm_file
     });
 
     if (findInspectionDocuments.length === 0)

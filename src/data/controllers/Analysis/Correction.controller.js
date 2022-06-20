@@ -1,10 +1,11 @@
-import { CreateMediaTimelapseService } from '../../services';
+import { CorrectionService } from '../../services';
 
-export class CreateMediaTimelapseController {
+export class CorrectionController {
   async handle(req, res) {
     try {
-      const service = new CreateMediaTimelapseService();
-      const response = await service.execute(req);
+      const service = new CorrectionService();
+
+      const response = await service.execute(req.body);
 
       if (response.error)
         return res.status(400).json({
@@ -13,7 +14,6 @@ export class CreateMediaTimelapseController {
 
       return res.status(200).json({
         message: response.message,
-        media_timelapse: response.media_timelapse,
       });
     } catch (err) {
       console.log(err);

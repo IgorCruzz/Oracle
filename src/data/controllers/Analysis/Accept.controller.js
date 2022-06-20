@@ -1,12 +1,11 @@
-import { DeleteMediaTimelapseService } from '../../services';
+import { AcceptService } from '../../services';
 
-export class DeleteMediaTimelapseController {
+export class AcceptController {
   async handle(req, res) {
     try {
-      const service = new DeleteMediaTimelapseService();
-      const { id_media_timelapse } = req.params;
+      const service = new AcceptService();
 
-      const response = await service.execute({ id_media_timelapse });
+      const response = await service.execute(req.body);
 
       if (response.error)
         return res.status(400).json({

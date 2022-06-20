@@ -30,6 +30,7 @@ export class Allocation extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'allocation',
         sequelize,
       }
     );

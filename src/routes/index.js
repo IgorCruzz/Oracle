@@ -26,11 +26,11 @@ import Allocation from './Allocation/Allocation.routes';
 import Pti from './Pti/Pti.routes';
 import Inspection from './Inspection/Inspection.routes';
 import InspectionDocument from './InspectionDocument/InspectionDocument.routes';
-import Timelapse from './Timelapse/Timelapse.routes';
-import MediaTimelapse from './MediaTimelapse/MediaTimelapse.routes';
 import Delivery from './Delivery/Delivery.routes';
+import Analysis from './Analysis/Analysis.routes';
 
 const routes = [
+  Analysis,
   Delivery,
   Pti,
   Allocation,
@@ -58,8 +58,6 @@ const routes = [
   RecoverPassword,
   Inspection,
   InspectionDocument,
-  Timelapse,
-  MediaTimelapse
 ];
 
 const router = Router();

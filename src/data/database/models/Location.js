@@ -19,6 +19,7 @@ export class Location extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'location',
         sequelize,
       }
     );

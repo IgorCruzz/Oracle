@@ -14,6 +14,7 @@ export class Role extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'role',
         sequelize,
       }
     );

@@ -31,6 +31,7 @@ export class UpdateInspectionService {
       }
     }
 
+    const repository = new InspectionRepository();
     const projectPhaseRepository = new ProjectPhaseRepository();
     const inspectionRepository = new InspectionRepository();
 
@@ -58,14 +59,14 @@ export class UpdateInspectionService {
       };
     }
 
-    const inspection = await inspectionRepository.updateInspection(id_inspection, data);
+    const inspection = await repository.updateInspection(id_inspection, data);
 
     if (inspection.error) {
       return { error: inspection.error };
     }
 
     return {
-      message: 'Vistoria atualizada com sucesso!',
+      message: 'Vistoria adicionada com sucesso!',
       inspection,
     };
   }

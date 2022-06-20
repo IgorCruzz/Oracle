@@ -8,7 +8,7 @@ export default {
   async handle({ password, email }) {
     try {
       const mailOptions = {
-        from: 'InfraCidades <igorcruz.dev@gmail.com>',
+        from: 'InfraCidades <gerobras.dev@gmail.com>',
         to: email,
         subject: 'Primeiro acesso',
         template: 'newAccount',
@@ -21,10 +21,10 @@ export default {
         host: 'smtp-relay.sendinblue.com',
         port: 587,
         auth: {
-          user: 'igorcruz.dev@gmail.com',
+          user: 'gerobras.dev@gmail.com',
           pass: 'pm8d5sKF29HzqRW7',
         },
-        from: 'igorcruz.dev@gmail.com',
+        from: 'gerobras.dev@gmail.com',
       });
 
       transporter.use(

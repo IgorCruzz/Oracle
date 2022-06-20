@@ -14,6 +14,7 @@ export class Jurisdiction extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'jurisdiction',
         sequelize,
       }
     );

@@ -21,6 +21,7 @@ export class User extends Model {
         in_temporary_password: DataTypes.CHAR(1),
       },
       {
+        tableName: 'user',
         sequelize,
       }
     );

@@ -41,6 +41,7 @@ export class Project_phase extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'project_phase',
         sequelize,
       }
     );
@@ -58,13 +59,8 @@ export class Project_phase extends Model {
       as: 'product',
     });
     Project_phase.hasMany(models.Inspection, {
-      foreignKey: 'id_project_phase',
+      foreignKey: 'id_inspection',
       as: 'inspection',
     });
-    Project_phase.hasMany(models.Timelapse_Coordinates, {
-      foreignKey: 'id_project_phase',
-      as: 'timelapse',
-    });    
-    
   }
 }

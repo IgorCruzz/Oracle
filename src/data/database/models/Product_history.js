@@ -16,6 +16,7 @@ export class Product_history extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'product_history',
         sequelize,
       }
     );
@@ -40,9 +41,9 @@ export class Product_history extends Model {
       foreignKey: 'id_previous_professional',
       as: 'old_professional',
     });
-    // Product_history.belongsTo(models.Analyst_user, {
-    //   foreignKey: 'id_analyst_user',
-    //   as: 'user',
-    // });
+    Product_history.belongsTo(models.User, {
+      foreignKey: 'id_analyst_user',
+      as: 'user',
+    });
   }
 }

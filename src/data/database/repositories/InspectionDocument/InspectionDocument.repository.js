@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 import { resolve } from 'path';
 import fs from 'fs';
 import { Inspection, Inspection_document } from '../../models';
-import { folder } from '../../../../config/multer_media_timelapse';
+import { folder } from '../../../../config/multer_inspection_documents';
 
 export class InspectionDocumentRepository {
   async createInspectionDocument(data) {
