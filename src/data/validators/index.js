@@ -170,3 +170,6 @@ export * from './InspectionDocument/updateInspectionDocument.validator';
 export * from './Ptis/FindPeriodPti.validator';
 export * from './Ptis/FindProductHistoryPti.validator';
 export * from './Ptis/FindProfessionalPti.validator';
+
+// ANALYSIS
+export * from './Analysis/accept.validator';
