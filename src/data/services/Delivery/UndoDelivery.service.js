@@ -11,7 +11,9 @@ export class UndoDeliveryService {
 
     try {
       const verifyStatus = data.deliveries.filter(value =>
-        value.cd_status.match(/(Não Alocado|Em Produção|Em Correção|Concluído)/)
+        value.cd_status.match(
+          /(Ag. Alocação|Em Produção|Em Correção|Concluído)/
+        )
       );
 
       if (verifyStatus.length > 0) {
@@ -38,6 +40,55 @@ export class UndoDeliveryService {
             const values = findLastRecord.map(
               ({ id_product_history }) => id_product_history
             );
+
+            const getHistory2 = await Product_history.findOne({
+              where: {
+                [Op.and]: [
+                  {
+                    id_product_history: {
+                      [Op.in]: values,
+                    },
+                  },
+                  { id_product },
+                  { id_allocation_period },
+                  { cd_status: 4 },
+                ],
+              },
+              transaction: t,
+            });
+
+            if (getHistory2) {
+              const { id_professional } = getHistory2;
+
+              const getHistoryWithStatusTwo = await Product_history.findOne({
+                where: {
+                  [Op.and]: [
+                    {
+                      id_product_history: {
+                        [Op.in]: values,
+                      },
+                    },
+                    { id_product },
+                    { id_allocation_period },
+                    { cd_status: 3 },
+                  ],
+                },
+                transaction: t,
+              });
+
+              if (!getHistoryWithStatusTwo) {
+                await productHistoryRepository.createProductHistory({
+                  cd_status: 3,
+                  dt_status: new Date(Date.now()).toISOString(),
+                  tx_remark,
+                  id_product,
+                  id_allocation_period,
+                  id_professional,
+                  id_analyst_user: null,
+                  transaction: t,
+                });
+              }
+            }
 
             const getHistory = await Product_history.findOne({
               where: {

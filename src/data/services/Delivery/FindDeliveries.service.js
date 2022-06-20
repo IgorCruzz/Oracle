@@ -372,7 +372,7 @@ export class FindDeliveriesService {
             nm_product: product['product.nm_product'],
           },
           cd_status:
-            (product.cd_status === 0 && 'Não Alocado') ||
+            (product.cd_status === 0 && 'Ag. Alocação') ||
             (product.cd_status === 1 && 'Em Produção') ||
             (product.cd_status === 2 && 'Em Análise') ||
             (product.cd_status === 3 && 'Em Correção') ||

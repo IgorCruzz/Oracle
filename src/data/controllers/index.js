@@ -189,3 +189,6 @@ export * from './Delivery/UndoDelivery.controller';
 // ANALYSIS
 export * from './Analysis/FindAnalysis.controller';
 export * from './Analysis/Accept.controller';
+export * from './Analysis/UndoAccept.controller';
+export * from './Analysis/Correction.controller';
+export * from './Analysis/UndoCorrection.controller';

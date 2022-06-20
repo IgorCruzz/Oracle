@@ -173,3 +173,6 @@ export * from './Ptis/FindProfessionalPti.validator';
 
 // ANALYSIS
 export * from './Analysis/accept.validator';
+export * from './Analysis/undoAccept.validator';
+export * from './Analysis/correction.validator';
+export * from './Analysis/undoCorrection.validator';

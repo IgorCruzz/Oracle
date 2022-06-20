@@ -4,7 +4,7 @@ import { ProductHistoryRepository } from '../../database/repositories';
 import { sequelize } from '../../database';
 import { Product_history } from '../../database/models';
 
-export class AcceptService {
+export class UndoAcceptService {
   async execute(data) {
     const t = await sequelize.transaction();
 
@@ -13,14 +13,14 @@ export class AcceptService {
     try {
       const verifyStatus = data.analysis.filter(value =>
         value.cd_status.match(
-          /(Ag. Alocação|Em Produção|Em Correção|Concluído)/
+          /(Ag. Alocação|Em Produção|Em Análise|Em Análise de Correção)/
         )
       );
 
       if (verifyStatus.length > 0) {
         return {
           error:
-            'Só é possível aceitar produtos que estejam em análise ou em análise de correção.',
+            'Só é possível desfazer aceite de produtos que estejam em correção ou concluído.',
         };
       }
 
@@ -54,7 +54,7 @@ export class AcceptService {
                       },
                       { id_product },
                       { id_allocation_period },
-                      { cd_status: 2 },
+                      { cd_status: 5 },
                     ],
                   },
                   {
@@ -66,7 +66,7 @@ export class AcceptService {
                       },
                       { id_product },
                       { id_allocation_period },
-                      { cd_status: 4 },
+                      { cd_status: 3 },
                     ],
                   },
                 ],
@@ -78,7 +78,7 @@ export class AcceptService {
               const { id_professional } = getHistory;
 
               await productHistoryRepository.createProductHistory({
-                cd_status: 5,
+                cd_status: 2,
                 dt_status: new Date(Date.now()).toISOString(),
                 tx_remark,
                 id_product,
@@ -95,7 +95,7 @@ export class AcceptService {
       await t.commit();
 
       return {
-        message: 'Aceite registrado com sucesso!',
+        message: 'Aceite desfeito com sucesso!',
       };
     } catch (e) {
       console.log(e);

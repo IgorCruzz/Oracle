@@ -13,7 +13,7 @@ export class CreateDeliveryService {
     try {
       const verifyStatus = data.deliveries.filter(value =>
         value.cd_status.match(
-          /(Não Alocado|Em Análise|Em Análise de Correção|Concluído)/
+          /(Ag. Alocação|Em Análise|Em Análise de Correção|Concluído)/
         )
       );
 
@@ -76,6 +76,55 @@ export class CreateDeliveryService {
             const values = findLastRecord.map(
               ({ id_product_history }) => id_product_history
             );
+
+            const getHistory2 = await Product_history.findOne({
+              where: {
+                [Op.and]: [
+                  {
+                    id_product_history: {
+                      [Op.in]: values,
+                    },
+                  },
+                  { id_product },
+                  { id_allocation_period },
+                  { cd_status: 3 },
+                ],
+              },
+              transaction: t,
+            });
+
+            if (getHistory2) {
+              const { id_professional } = getHistory2;
+
+              const getHistoryWithStatusTwo = await Product_history.findOne({
+                where: {
+                  [Op.and]: [
+                    {
+                      id_product_history: {
+                        [Op.in]: values,
+                      },
+                    },
+                    { id_product },
+                    { id_allocation_period },
+                    { cd_status: 4 },
+                  ],
+                },
+                transaction: t,
+              });
+
+              if (!getHistoryWithStatusTwo) {
+                await productHistoryRepository.createProductHistory({
+                  cd_status: 4,
+                  dt_status: new Date(Date.now()).toISOString(),
+                  tx_remark,
+                  id_product,
+                  id_allocation_period,
+                  id_professional,
+                  id_analyst_user: null,
+                  transaction: t,
+                });
+              }
+            }
 
             const getHistory = await Product_history.findOne({
               where: {

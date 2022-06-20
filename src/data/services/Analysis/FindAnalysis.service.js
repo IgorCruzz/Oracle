@@ -28,20 +28,20 @@ export class FindAnalysisService {
     concluded,
     userId,
   }) {
-    // if (
-    //   !id_professional &&
-    //   !id_project &&
-    //   !id_project_phase &&
-    //   !nm_product &&
-    //   !id_allocation_period &&
-    //   !on_production &&
-    //   !in_correction &&
-    //   !in_analisys &&
-    //   !in_analisysCorretion &&
-    //   !concluded
-    // ) {
-    //   return { error: 'Selecione, pelo menos, uma opção de filtro.' };
-    // }
+    if (
+      !id_professional &&
+      !id_project &&
+      !id_project_phase &&
+      !nm_product &&
+      !id_allocation_period &&
+      !on_production &&
+      !in_correction &&
+      !in_analisys &&
+      !in_analisysCorretion &&
+      !concluded
+    ) {
+      return { error: 'Selecione, pelo menos, uma opção de filtro.' };
+    }
 
     const getUser = await User.findOne({
       where: { id_user: userId },
@@ -329,7 +329,7 @@ export class FindAnalysisService {
             product['product.professional.nm_professional'] || 'Não Possui',
           delivery_at: format(new Date(product.dt_created_at), 'dd/MM/yyyy'),
           cd_status:
-            (product.cd_status === 0 && 'Não Alocado') ||
+            (product.cd_status === 0 && 'Ag. Alocação') ||
             (product.cd_status === 1 && 'Em Produção') ||
             (product.cd_status === 2 && 'Em Análise') ||
             (product.cd_status === 3 && 'Em Correção') ||

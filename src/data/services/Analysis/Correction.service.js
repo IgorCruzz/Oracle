@@ -4,7 +4,7 @@ import { ProductHistoryRepository } from '../../database/repositories';
 import { sequelize } from '../../database';
 import { Product_history } from '../../database/models';
 
-export class AcceptService {
+export class CorrectionService {
   async execute(data) {
     const t = await sequelize.transaction();
 
@@ -20,7 +20,7 @@ export class AcceptService {
       if (verifyStatus.length > 0) {
         return {
           error:
-            'Só é possível aceitar produtos que estejam em análise ou em análise de correção.',
+            'Só é possível corrigir produtos que estejam em análise ou em análise de correção.',
         };
       }
 
@@ -78,7 +78,7 @@ export class AcceptService {
               const { id_professional } = getHistory;
 
               await productHistoryRepository.createProductHistory({
-                cd_status: 5,
+                cd_status: 3,
                 dt_status: new Date(Date.now()).toISOString(),
                 tx_remark,
                 id_product,
