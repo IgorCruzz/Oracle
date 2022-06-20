@@ -5,13 +5,7 @@ import {
 
 export class CreateTimelapseService {
   async execute(data) {
-    const {
-      ds_coordinates,
-      tp_media,
-      nu_latitude,
-      nu_longetude,
-      id_project_phase,
-    } = data;
+    const { id_project_phase } = data;
 
     const repository = new TimelapseRepository();
     const projectPhaseRepository = new ProjectPhaseRepository();

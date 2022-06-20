@@ -176,3 +176,10 @@ export * from './Analysis/accept.validator';
 export * from './Analysis/undoAccept.validator';
 export * from './Analysis/correction.validator';
 export * from './Analysis/undoCorrection.validator';
+
+// TIMELAPSE
+export * from './Timelapse/createTimelapse.validator';
+export * from './Timelapse/deleteTimelapse.validator';
+export * from './Timelapse/findTimelapse.validator';
+export * from './Timelapse/findTimelapses.validator';
+export * from './Timelapse/updateTimelapse.validator';
