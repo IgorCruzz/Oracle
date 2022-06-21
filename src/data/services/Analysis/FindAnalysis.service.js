@@ -204,11 +204,11 @@ export class FindAnalysisService {
             nm_product: product['product.nm_product'],
           },
           delivery_from:
-            (product.cd_status === 2 &&
+            ((product.cd_status === 2 || product.cd_status === 4) &&
               product['professional.nm_professional']) ||
             'Não Possui',
           delivery_at:
-            (product.cd_status === 2 &&
+            ((product.cd_status === 2 || product.cd_status === 4) &&
               format(new Date(product.dt_created_at), 'dd/MM/yyyy')) ||
             'Não possui',
           cd_status:
