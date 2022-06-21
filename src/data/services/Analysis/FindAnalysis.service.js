@@ -326,8 +326,13 @@ export class FindAnalysisService {
             nm_product: product['product.nm_product'],
           },
           delivery_from:
-            product['product.professional.nm_professional'] || 'Não Possui',
-          delivery_at: format(new Date(product.dt_created_at), 'dd/MM/yyyy'),
+            (product.cd_status === 2 &&
+              product['professional.nm_professional']) ||
+            'Não Possui',
+          delivery_at:
+            (product.cd_status === 2 &&
+              format(new Date(product.dt_created_at), 'dd/MM/yyyy')) ||
+            'Não possui',
           cd_status:
             (product.cd_status === 0 && 'Ag. Alocação') ||
             (product.cd_status === 1 && 'Em Produção') ||

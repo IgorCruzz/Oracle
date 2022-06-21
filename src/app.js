@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+
 import exphbs from 'express-handlebars';
 import helmet from 'helmet';
 import express from 'express';

@@ -17,6 +17,12 @@ export class PasswordRecoveryRepository {
     });
   }
 
+  async deleteCode({ id_user }) {
+    return Password_recovery.destroy({
+      where: { id_user },
+    });
+  }
+
   async updateCode({ email, cd_recovery, id_user }) {
     const category = await Password_recovery.findOne({
       where: {

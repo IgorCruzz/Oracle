@@ -27,6 +27,12 @@ const upload = multer({ storage });
 
 const routes = Router();
 
+routes.get('/view', async (req, res) => {
+  return res
+    .status(200)
+    .render(resolve(__dirname, '..', '..', '..', 'tmp', 'documents', 'd.docx'));
+});
+
 routes.get('/documents/download/:filename', async (req, res) => {
   const { filename } = req.params;
   const file = resolve(

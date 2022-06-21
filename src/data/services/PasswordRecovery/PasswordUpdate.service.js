@@ -54,7 +54,7 @@ export class PasswordUpdateService {
 
     await userRepository.updateUser(id_user, { password });
 
-    await repository.updateCode({ cd_recovery: null, email, id_user });
+    await repository.deleteCode({ id_user });
 
     return {
       message: 'Senha alterada com sucesso!',
