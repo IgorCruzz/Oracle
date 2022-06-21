@@ -20,7 +20,7 @@ export class CorrectionService {
       if (verifyStatus.length > 0) {
         return {
           error:
-            'Só é possível corrigir produtos que estejam em análise ou em análise de correção.',
+            'Só é possível realizar a correção de produtos que estejam em análise ou em análise de correção.',
         };
       }
 
@@ -95,7 +95,7 @@ export class CorrectionService {
       await t.commit();
 
       return {
-        message: 'Aceite registrado com sucesso!',
+        message: 'Correção solicitada com sucesso!',
       };
     } catch (e) {
       console.log(e);

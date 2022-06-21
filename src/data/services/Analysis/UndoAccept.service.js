@@ -20,7 +20,7 @@ export class UndoAcceptService {
       if (verifyStatus.length > 0) {
         return {
           error:
-            'Só é possível desfazer aceite de produtos que estejam em correção ou concluído.',
+            'Só é possível desfazer o aceite de produtos que estejam em correção ou concluído.',
         };
       }
 

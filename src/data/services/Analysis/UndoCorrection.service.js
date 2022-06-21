@@ -20,7 +20,7 @@ export class UndoCorrectionService {
       if (verifyStatus.length > 0) {
         return {
           error:
-            'Só é possível desfazer correção de produtos que estejam em correção.',
+            'Só é possível desfazer a correção de produtos que estejam em correção.',
         };
       }
 
@@ -83,7 +83,7 @@ export class UndoCorrectionService {
       await t.commit();
 
       return {
-        message: 'Aceite registrado com sucesso!',
+        message: 'Solicitação de correção desfeita com sucesso!',
       };
     } catch (e) {
       console.log(e);

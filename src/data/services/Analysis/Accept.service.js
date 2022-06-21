@@ -20,7 +20,7 @@ export class AcceptService {
       if (verifyStatus.length > 0) {
         return {
           error:
-            'Só é possível aceitar produtos que estejam em análise ou em análise de correção.',
+            'Só é possível realizar o aceite de produtos que estejam em análise ou em análise de correção.',
         };
       }
 
@@ -95,7 +95,7 @@ export class AcceptService {
       await t.commit();
 
       return {
-        message: 'Aceite registrado com sucesso!',
+        message: 'Aceite realizado com sucesso!',
       };
     } catch (e) {
       console.log(e);
