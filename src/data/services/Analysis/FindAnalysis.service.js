@@ -38,7 +38,7 @@ export class FindAnalysisService {
       !in_analisysCorretion &&
       !concluded
     ) {
-      return { error: 'Selecione, pelo menos, uma opção de filtro.' };
+      return { error: 'Informe pelo menos uma opção de filtro!' };
     }
 
     const havingValues = [
