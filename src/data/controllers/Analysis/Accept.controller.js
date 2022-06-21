@@ -4,8 +4,9 @@ export class AcceptController {
   async handle(req, res) {
     try {
       const service = new AcceptService();
+      const { userId } = req;
 
-      const response = await service.execute(req.body);
+      const response = await service.execute(req.body, userId);
 
       if (response.error)
         return res.status(400).json({

@@ -8,7 +8,6 @@ import {
   Allocation_period,
   Professional,
   Role,
-  User,
   Document,
 } from '../../database/models';
 
@@ -26,7 +25,6 @@ export class FindAnalysisService {
     in_analisys,
     in_analisysCorretion,
     concluded,
-    userId,
   }) {
     if (
       !id_professional &&
@@ -42,16 +40,6 @@ export class FindAnalysisService {
     ) {
       return { error: 'Selecione, pelo menos, uma opção de filtro.' };
     }
-
-    const getUser = await User.findOne({
-      where: { id_user: userId },
-      include: [
-        {
-          model: Professional,
-          as: 'professional',
-        },
-      ],
-    });
 
     const havingValues = [
       on_production && { value: 1 },
@@ -76,231 +64,121 @@ export class FindAnalysisService {
       ({ id_product_history }) => id_product_history
     );
 
-    const productHistories = await Product_history.findAll(
-      getUser.tp_profile === 2
-        ? {
-            limit: limit !== 'all' ? Number(limit) : null,
-            offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
-            raw: true,
-            order: [
-              ['allocation', 'dt_start_allocation', 'ASC'],
-              ['product', 'project_phase', 'project', 'nm_project', 'ASC'],
-              ['product', 'project_phase', 'nu_order', 'ASC'],
-              ['product', 'nu_order', 'ASC'],
-            ],
-            where: {
-              [Op.and]: [
-                {
-                  '$product.project_phase.project.nm_deleted_by$': {
-                    [Op.is]: null,
-                  },
+    const productHistories = await Product_history.findAll({
+      limit: limit !== 'all' ? Number(limit) : null,
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+      raw: true,
+      order: [
+        ['allocation', 'dt_start_allocation', 'ASC'],
+        ['product', 'project_phase', 'project', 'nm_project', 'ASC'],
+        ['product', 'project_phase', 'nu_order', 'ASC'],
+        ['product', 'nu_order', 'ASC'],
+      ],
+      where: {
+        [Op.and]: [
+          {
+            '$product.project_phase.project.nm_deleted_by$': {
+              [Op.is]: null,
+            },
+          },
+          {
+            id_product_history: {
+              [Op.in]: values,
+            },
+          },
+          on_production ||
+          in_correction ||
+          in_analisys ||
+          in_analisysCorretion ||
+          concluded
+            ? {
+                cd_status: {
+                  [Op.or]: havingValues.map(({ value }) => value),
                 },
-                {
-                  id_product_history: {
-                    [Op.in]: values,
+              }
+            : {},
+        ],
+      },
+      include: [
+        {
+          model: Product,
+          as: 'product',
+          required: id_project || id_project_phase || nm_product,
+          where: nm_product
+            ? {
+                ...(nm_product && {
+                  nm_product: { [Op.like]: `%${nm_product.trim()}%` },
+                }),
+              }
+            : {
+                [Op.or]: [
+                  {
+                    tp_required_action: 1,
                   },
+                  {
+                    tp_required_action: 2,
+                  },
+                ],
+              },
+          include: [
+            {
+              model: Role,
+              as: 'suggested_role',
+            },
+            {
+              model: Project_phase,
+              as: 'project_phase',
+              required: id_project || id_project_phase,
+              where: id_project_phase
+                ? {
+                    ...(id_project_phase && { id_project_phase }),
+                  }
+                : null,
+              include: [
+                {
+                  model: Project,
+                  as: 'project',
+                  required: id_project,
+                  where: id_project
+                    ? {
+                        ...(id_project && { id_project }),
+                      }
+                    : null,
                 },
-                on_production ||
-                in_correction ||
-                in_analisys ||
-                in_analisysCorretion ||
-                concluded
-                  ? {
-                      cd_status: {
-                        [Op.or]: havingValues.map(({ value }) => value),
-                      },
-                    }
-                  : {},
               ],
             },
-            include: [
-              {
-                model: Product,
-                as: 'product',
-                required: id_project || id_project_phase || nm_product,
-                where: nm_product
-                  ? {
-                      ...(nm_product && {
-                        nm_product: { [Op.like]: `%${nm_product.trim()}%` },
-                      }),
-                    }
-                  : {
-                      [Op.or]: [
-                        {
-                          tp_required_action: 1,
-                        },
-                        {
-                          tp_required_action: 2,
-                        },
-                      ],
-                    },
-                include: [
-                  {
-                    model: Role,
-                    as: 'suggested_role',
-                  },
-                  {
-                    model: Project_phase,
-                    as: 'project_phase',
-                    required: id_project || id_project_phase,
-                    where: id_project_phase
-                      ? {
-                          ...(id_project_phase && { id_project_phase }),
-                        }
-                      : null,
-                    include: [
-                      {
-                        model: Project,
-                        as: 'project',
-                        required: id_project,
-                        where: id_project
-                          ? {
-                              ...(id_project && { id_project }),
-                            }
-                          : null,
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                model: Professional,
-                as: 'professional',
+          ],
+        },
+        {
+          model: Professional,
+          as: 'professional',
 
-                attributes: ['nm_professional'],
-                required: true,
-                where: {
-                  id_professional: getUser.professional.id_professional,
-                },
-              },
-              {
-                model: Allocation_period,
-                as: 'allocation',
-                required: id_allocation_period,
-                attributes: [
-                  'dt_start_allocation',
-                  'dt_end_allocation',
-                  'qt_business_hours',
-                ],
-              },
-            ],
-          }
-        : {
-            limit: limit !== 'all' ? Number(limit) : null,
-            offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
-            raw: true,
-            order: [
-              ['allocation', 'dt_start_allocation', 'ASC'],
-              ['product', 'project_phase', 'project', 'nm_project', 'ASC'],
-              ['product', 'project_phase', 'nu_order', 'ASC'],
-              ['product', 'nu_order', 'ASC'],
-            ],
-            where: {
-              [Op.and]: [
-                {
-                  '$product.project_phase.project.nm_deleted_by$': {
-                    [Op.is]: null,
-                  },
-                },
-                {
-                  id_product_history: {
-                    [Op.in]: values,
-                  },
-                },
-                on_production ||
-                in_correction ||
-                in_analisys ||
-                in_analisysCorretion ||
-                concluded
-                  ? {
-                      cd_status: {
-                        [Op.or]: havingValues.map(({ value }) => value),
-                      },
-                    }
-                  : {},
-              ],
-            },
-            include: [
-              {
-                model: Product,
-                as: 'product',
-                required: id_project || id_project_phase || nm_product,
-                where: nm_product
-                  ? {
-                      ...(nm_product && {
-                        nm_product: { [Op.like]: `%${nm_product.trim()}%` },
-                      }),
-                    }
-                  : {
-                      [Op.or]: [
-                        {
-                          tp_required_action: 1,
-                        },
-                        {
-                          tp_required_action: 2,
-                        },
-                      ],
-                    },
-                include: [
-                  {
-                    model: Role,
-                    as: 'suggested_role',
-                  },
-                  {
-                    model: Project_phase,
-                    as: 'project_phase',
-                    required: id_project || id_project_phase,
-                    where: id_project_phase
-                      ? {
-                          ...(id_project_phase && { id_project_phase }),
-                        }
-                      : null,
-                    include: [
-                      {
-                        model: Project,
-                        as: 'project',
-                        required: id_project,
-                        where: id_project
-                          ? {
-                              ...(id_project && { id_project }),
-                            }
-                          : null,
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                model: Professional,
-                as: 'professional',
+          attributes: ['nm_professional'],
+          required: id_professional,
+          where: id_professional
+            ? {
+                id_professional,
+              }
+            : null,
+        },
+        {
+          model: Allocation_period,
+          as: 'allocation',
+          required: id_allocation_period,
 
-                attributes: ['nm_professional'],
-                required: id_professional,
-                where: id_professional
-                  ? {
-                      id_professional,
-                    }
-                  : null,
-              },
-              {
-                model: Allocation_period,
-                as: 'allocation',
-                required: id_allocation_period,
-
-                attributes: [
-                  'dt_start_allocation',
-                  'dt_end_allocation',
-                  'qt_business_hours',
-                ],
-                where: id_allocation_period
-                  ? {
-                      id_allocation_period,
-                    }
-                  : null,
-              },
-            ],
-          }
-    );
+          attributes: [
+            'dt_start_allocation',
+            'dt_end_allocation',
+            'qt_business_hours',
+          ],
+          where: id_allocation_period
+            ? {
+                id_allocation_period,
+              }
+            : null,
+        },
+      ],
+    });
 
     const getRows = await Promise.all(
       await productHistories.map(async product => {

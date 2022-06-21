@@ -5,7 +5,7 @@ import { sequelize } from '../../database';
 import { Product_history } from '../../database/models';
 
 export class CorrectionService {
-  async execute(data) {
+  async execute(data, userId) {
     const t = await sequelize.transaction();
 
     const productHistoryRepository = new ProductHistoryRepository();
@@ -84,7 +84,7 @@ export class CorrectionService {
                 id_product,
                 id_allocation_period,
                 id_professional,
-                id_analyst_user: null,
+                id_analyst_user: userId,
                 transaction: t,
               });
             }
