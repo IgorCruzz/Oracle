@@ -23,14 +23,61 @@ import authenticator from '../../data/authenticator/jwt.authenticator';
 import { storage } from '../../config/multer';
 import { Document } from '../../data/database/models';
 
+const path = require('path');
+const fs = require('fs').promises;
+const libre = require('libreoffice-convert');
+libre.convertAsync = require('util').promisify(libre.convert);
+
 const upload = multer({ storage });
 
 const routes = Router();
 
-routes.get('/view', async (req, res) => {
+routes.get('/visualizer/:filename', async (req, res) => {
+  const { filename } = req.params;
+  let replaceName;
+
+  if (filename.includes('.docx')) {
+    replaceName = filename.split('.docx')[0];
+  }
+
+  const inputPath = path.join(
+    __dirname,
+    '..',
+    '..',
+    '..',
+    'tmp',
+    'documents',
+    filename
+  );
+  const outputPath = path.join(
+    __dirname,
+    '..',
+    '..',
+    '..',
+    'tmp',
+    'documents',
+    `${replaceName}.pdf`
+  );
+
+  const docxBuf = await fs.readFile(inputPath);
+
+  const pdfBuf = await libre.convertAsync(docxBuf, '.pdf', undefined);
+
+  await fs.writeFile(outputPath, pdfBuf);
+
   return res
     .status(200)
-    .render(resolve(__dirname, '..', '..', '..', 'tmp', 'documents', 'd.docx'));
+    .sendFile(
+      path.join(
+        __dirname,
+        '..',
+        '..',
+        '..',
+        'tmp',
+        'documents',
+        `${replaceName}.pdf`
+      )
+    );
 });
 
 routes.get('/documents/download/:filename', async (req, res) => {

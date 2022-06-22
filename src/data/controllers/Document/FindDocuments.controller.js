@@ -24,7 +24,7 @@ export class FindDocumentsController {
         count,
         page,
         limit,
-       documents: rows,
+        documents: rows,
       });
     } catch (err) {
       return res.status(500).json({
