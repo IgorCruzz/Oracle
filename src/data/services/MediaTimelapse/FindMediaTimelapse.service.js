@@ -1,7 +1,7 @@
 import { MediaTimelapseRepository } from '../../database/repositories';
 
 export class FindMediaTimelapseService {
-	async execute({ id_media_timelapse }) {
+  async execute({ id_media_timelapse }) {
     const repository = new MediaTimelapseRepository();
 
     const findMediaTimelapse = await repository.findMediaTimelapseById({
@@ -11,7 +11,7 @@ export class FindMediaTimelapseService {
 
     if (!findMediaTimelapse)
       return {
-        error: `Não há nenhuma media registrada com este ID -> ${id_media_lapse}.`,
+        error: `Não há nenhuma media registrada com este ID -> ${id_media_timelapse}.`,
       };
 
     return {

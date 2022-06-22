@@ -186,11 +186,8 @@ export * from './Ptis/FindPeriodPti.validator';
 export * from './Ptis/FindProductHistoryPti.validator';
 export * from './Ptis/FindProfessionalPti.validator';
 
-<<<<<<< HEAD
-=======
 // ANALYSIS
 export * from './Analysis/accept.validator';
 export * from './Analysis/undoAccept.validator';
 export * from './Analysis/correction.validator';
 export * from './Analysis/undoCorrection.validator';
->>>>>>> main

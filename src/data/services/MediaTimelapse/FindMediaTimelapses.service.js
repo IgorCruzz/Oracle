@@ -7,11 +7,7 @@ export class FindMediaTimelapsesService {
     id,
     nm_original_file,
     dt_media,
-<<<<<<< HEAD
-    id_timelapse_coordinates
-=======
     id_timelapse_coordinates,
->>>>>>> main
   }) {
     const repository = new MediaTimelapseRepository();
 
@@ -21,11 +17,7 @@ export class FindMediaTimelapsesService {
       id,
       nm_original_file,
       dt_media,
-<<<<<<< HEAD
-      id_timelapse_coordinates
-=======
       id_timelapse_coordinates,
->>>>>>> main
     });
 
     if (findMediaTimelapses.length === 0)

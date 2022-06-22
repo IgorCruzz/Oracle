@@ -3,12 +3,7 @@ import { FindMediaTimelapsesService } from '../../services';
 export class FindMediaTimelapsesController {
   async handle(req, res) {
     try {
-      const {
-        page,
-        limit,
-        id,
-        id_timelapse_coordinates,
-      } = req.query;
+      const { page, limit, id, id_timelapse_coordinates } = req.query;
 
       const service = new FindMediaTimelapsesService();
 

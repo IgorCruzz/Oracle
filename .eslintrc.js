@@ -26,6 +26,7 @@ module.exports = {
     "consistent-return": "off",
     "prefer-spread": "off",
     "no-nested-ternary": "off",
-    "prefer-destructuring": "off"
+    "prefer-destructuring": "off",
+    "import/named": "off"    
   },
 };

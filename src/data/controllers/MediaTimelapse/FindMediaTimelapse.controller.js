@@ -1,4 +1,5 @@
 import { FindMediaTimelapseService } from '../../services';
+
 export class FindMediaTimelapseController {
   async handle(req, res) {
     try {
