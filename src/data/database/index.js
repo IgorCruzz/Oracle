@@ -27,6 +27,8 @@ import {
   Allocation,
   Inspection,
   Inspection_document,
+  Timelapse_Coordinates,
+  Media_timelapse
 } from './models';
 
 const models = [
@@ -55,6 +57,8 @@ const models = [
   Allocation,
   Inspection,
   Inspection_document,
+  Timelapse_Coordinates,
+  Media_timelapse
 ];
 
 export const sequelize = new Sequelize(databaseConfig);

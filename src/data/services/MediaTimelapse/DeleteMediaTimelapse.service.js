@@ -1,4 +1,10 @@
+<<<<<<< HEAD
+import {
+  MediaTimelapseRepository,
+} from '../../database/repositories';
+=======
 import { MediaTimelapseRepository } from '../../database/repositories';
+>>>>>>> main
 
 export class DeleteMediaTimelapseService {
   async execute({ id_media_timelapse }) {
@@ -13,6 +19,10 @@ export class DeleteMediaTimelapseService {
         error: `Não há nenhuma coordenadas registrado com este ID -> ${id_media_timelapse}.`,
       };
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
     await repository.deleteMediaTimelapse({
       id_media_timelapse,
     });

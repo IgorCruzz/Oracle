@@ -59,8 +59,13 @@ export class Project_phase extends Model {
       as: 'product',
     });
     Project_phase.hasMany(models.Inspection, {
-      foreignKey: 'id_inspection',
+      foreignKey: 'id_project_phase',
       as: 'inspection',
     });
+    Project_phase.hasMany(models.Timelapse_Coordinates, {
+      foreignKey: 'id_project_phase',
+      as: 'timelapse',
+    });    
+    
   }
 }

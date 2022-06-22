@@ -7,7 +7,7 @@ export const folder = resolve(
   '..',
   '..',
   'tmp',
-  'inspection_documents'
+  'media_timelapses'
 );
 
 export const storage = diskStorage({

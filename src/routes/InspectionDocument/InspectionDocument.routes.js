@@ -1,6 +1,6 @@
 import multer from 'multer';
 import { Router } from 'express';
-import { storage } from '../../config/multer_inspection_documents';
+import { storage } from '../../config/multer_media_timelapse';
 import {
   CreateInspectionDocumentController,
   DeleteInspectionDocumentController,

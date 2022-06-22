@@ -181,6 +181,21 @@ export * from './InspectionDocument/FindInspectionDocument.service';
 export * from './InspectionDocument/FindInspectionDocuments.service';
 export * from './InspectionDocument/UpdateInspectionDocument.service';
 
+// TIMELAPSE
+export * from './Timelapse/CreateTimelapse.service';
+export * from './Timelapse/DeleteTimelapse.service';
+export * from './Timelapse/FindTimelapse.service';
+export * from './Timelapse/FindTimelapses.service';
+export * from './Timelapse/UpdateTimelapse.service';
+
+// MEDIA TIMELAPSE
+export * from './MediaTimelapse/CreateMediaTimelapse.service';
+export * from './MediaTimelapse/DeleteMediaTimelapse.service';
+export * from './MediaTimelapse/FindMediaTimelapse.service';
+export * from './MediaTimelapse/FindMediaTimelapses.service';
+export * from './MediaTimelapse/UpdateMediaTimelapse.service';
+export * from './MediaTimelapse/DownloadMediaTimelapse.service';
+
 // DELIVERY
 export * from './Delivery/FindDeliveries.service';
 export * from './Delivery/CreateDelivery.service';

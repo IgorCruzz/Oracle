@@ -11,7 +11,7 @@ export class FindInspectionDocumentService {
 
     if (!findInspectionDocument)
       return {
-        error: `Não há nenhuma vistoria registrada com este ID -> ${id_inspection_document}.`,
+        error: `Não há nenhuma documento registrado com este ID -> ${id_inspection_document}.`,
       };
 
     return {
