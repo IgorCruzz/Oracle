@@ -16,6 +16,12 @@ module.exports = {
     charset: 'utf8',
     collate: 'utf8_general_ci',
   },
+  pool: {
+    max: 50,
+    min: 0,
+    acquire: 1200000,
+    idle: 1000000,
+  },
   timezone: '-03:00',
   quoteIdentifiers: false,
 
