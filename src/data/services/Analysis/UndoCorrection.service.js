@@ -20,7 +20,7 @@ export class UndoCorrectionService {
       if (verifyStatus.length > 0) {
         return {
           error:
-            'Só é possível desfazer a correção de produtos que estejam em correção.',
+            'Só é possível desfazer a solicitação de correção de produtos que estejam em correção.',
         };
       }
 
