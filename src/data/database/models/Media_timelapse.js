@@ -17,11 +17,9 @@ export class Media_timelapse extends Model {
 
             return value === null
               ? null
-              : moment
-                  .utc(this.getDataValue('dt_media'))
-                  .format('YYYY-MM-DD');
+              : moment.utc(this.getDataValue('dt_media')).format('YYYY-MM-DD');
           },
-        },  
+        },
         nm_original_file: {
           type: DataTypes.STRING(1000),
         },
@@ -32,6 +30,7 @@ export class Media_timelapse extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'media_timelapse',
         sequelize,
       }
     );

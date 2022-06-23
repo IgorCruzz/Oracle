@@ -11,7 +11,7 @@ export class Timelapse_Coordinates extends Model {
         },
         ds_coordinates: {
           type: DataTypes.STRING(255),
-        },        
+        },
         tp_media: DataTypes.TINYINT(4),
         nu_latitude: DataTypes.CHAR(20),
         nu_longitude: DataTypes.CHAR(20),
@@ -20,6 +20,7 @@ export class Timelapse_Coordinates extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
+        tableName: 'timelapse_coordinates',
         sequelize,
       }
     );
