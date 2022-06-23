@@ -38,46 +38,62 @@ routes.get('/visualizer/:filename', async (req, res) => {
 
   if (filename.includes('.docx')) {
     replaceName = filename.split('.docx')[0];
+
+    const inputPath = path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'tmp',
+      'documents',
+      filename
+    );
+    const outputPath = path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'tmp',
+      'documents',
+      `${replaceName}.pdf`
+    );
+
+    const docxBuf = await fs.readFile(inputPath);
+
+    const pdfBuf = await libre.convertAsync(docxBuf, '.pdf', undefined);
+
+    await fs.writeFile(outputPath, pdfBuf);
+
+    return res
+      .status(200)
+      .sendFile(
+        path.join(
+          __dirname,
+          '..',
+          '..',
+          '..',
+          'tmp',
+          'documents',
+          `${replaceName}.pdf`
+        )
+      );
   }
 
-  const inputPath = path.join(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    'tmp',
-    'documents',
-    filename
-  );
-  const outputPath = path.join(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    'tmp',
-    'documents',
-    `${replaceName}.pdf`
-  );
-
-  const docxBuf = await fs.readFile(inputPath);
-
-  const pdfBuf = await libre.convertAsync(docxBuf, '.pdf', undefined);
-
-  await fs.writeFile(outputPath, pdfBuf);
-
-  return res
-    .status(200)
-    .sendFile(
-      path.join(
-        __dirname,
-        '..',
-        '..',
-        '..',
-        'tmp',
-        'documents',
-        `${replaceName}.pdf`
-      )
-    );
+  if (filename.includes('.pdf')) {
+    return res
+      .status(200)
+      .sendFile(
+        path.join(
+          __dirname,
+          '..',
+          '..',
+          '..',
+          'tmp',
+          'documents',
+          `${filename}.pdf`
+        )
+      );
+  }
 });
 
 routes.get('/documents/download/:filename', async (req, res) => {
