@@ -90,7 +90,7 @@ routes.get('/visualizer/:filename', async (req, res) => {
           '..',
           'tmp',
           'documents',
-          `${filename}.pdf`
+          `${filename}`
         )
       );
   }
