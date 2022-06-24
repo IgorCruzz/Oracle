@@ -358,6 +358,7 @@ export class FindDeliveriesService {
         return {
           id_product_history: product.id_product_history,
           hasDocuments: countDocuments,
+          tx_remark: product.tx_remark || 'Não possui',
           documents,
           project: {
             id_project: product['product.project_phase.project.id_project'],

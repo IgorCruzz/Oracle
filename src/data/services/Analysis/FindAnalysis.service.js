@@ -190,6 +190,7 @@ export class FindAnalysisService {
 
         return {
           id_product_history: product.id_product_history,
+          tx_remark: product.tx_remark || 'Não possui',
           hasDocuments: getDocuments,
           project: {
             id_project: product['product.project_phase.project.id_project'],
