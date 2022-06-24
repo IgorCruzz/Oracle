@@ -20,7 +20,7 @@ export class CorrectionService {
       if (verifyStatus.length > 0) {
         return {
           error:
-            'Só é possível realizar a correção de produtos que estejam em análise ou em análise de correção.',
+            'Só é possível solicitar a correção de produtos que estejam em análise ou em análise de correção.',
         };
       }
 
