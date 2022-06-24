@@ -13,14 +13,14 @@ export class UndoAcceptService {
     try {
       const verifyStatus = data.analysis.filter(value =>
         value.cd_status.match(
-          /(Ag. Alocação|Em Produção|Em Análise|Em Análise de Correção)/
+          /(Ag. Alocação|Em Produção|Em Análise|Em Análise de Correção|Em Correção)/
         )
       );
 
       if (verifyStatus.length > 0) {
         return {
           error:
-            'Só é possível desfazer o aceite de produtos que estejam em correção ou concluído.',
+            'Só é possível desfazer o aceite de produtos que estejam concluído.',
         };
       }
 
