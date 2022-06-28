@@ -65,6 +65,7 @@ export class CreateCopyProjectService {
         id_project: project.id_project,
         nu_order: projectPhases.nu_order,
         nm_project_phase: projectPhases.nm_project_phase,
+        tp_project_phase: projectPhases.tp_project_phase,
         dt_planned_start: null,
         dt_planned_end: null,
         vl_phase: null,

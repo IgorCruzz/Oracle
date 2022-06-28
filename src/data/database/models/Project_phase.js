@@ -24,6 +24,7 @@ export class Project_phase extends Model {
                   .format('YYYY-MM-DD');
           },
         },
+        tp_project_phase: DataTypes.SMALLINT,
         dt_planned_end: {
           type: DataTypes.DATEONLY,
           get() {
@@ -65,7 +66,6 @@ export class Project_phase extends Model {
     Project_phase.hasMany(models.Timelapse_Coordinates, {
       foreignKey: 'id_project_phase',
       as: 'timelapse',
-    });    
-    
+    });
   }
 }

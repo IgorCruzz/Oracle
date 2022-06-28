@@ -15,6 +15,7 @@ export class ProjectPhaseRepository {
       nm_project_phase,
       id_project,
       vl_phase,
+      tp_project_phase,
     } = data;
 
     const findProject = await Project_phase.findAll({
@@ -47,6 +48,7 @@ export class ProjectPhaseRepository {
       dt_planned_start: dtPlannedStart || null,
       dt_planned_end: dtPlannedEnd || null,
       nm_project_phase: nm_project_phase.trim(),
+      tp_project_phase,
       nu_order: maior,
       id_project,
       vl_phase,
@@ -203,6 +205,7 @@ export class ProjectPhaseRepository {
       nm_project_phase,
       nu_order,
       vl_phase,
+      tp_project_phase,
     } = data;
 
     const ProjectPhase = await Project_phase.findOne({
@@ -215,6 +218,7 @@ export class ProjectPhaseRepository {
       dt_planned_start: dtPlannedStart || null,
       dt_planned_end: dtPlannedEnd || null,
       nm_project_phase: nm_project_phase.trim(),
+      tp_project_phase,
       nu_order,
       vl_phase: vl_phase || null,
       dt_updated_at: new Date(Date.now()).toISOString(),
