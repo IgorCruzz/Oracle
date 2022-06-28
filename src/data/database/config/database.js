@@ -2,7 +2,7 @@ require('dotenv/config');
 
 module.exports = {
   dialect: 'mysql',
-  host: '143.198.191.56',
+  host: '164.92.118.12',
   username: 'gerobras',
   password: 'Ger@1234Obras',
   database: 'gerobras',
