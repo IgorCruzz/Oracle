@@ -4,7 +4,7 @@ import { ValidationError } from '../../../utils/validationError';
 export const downloadMediaTimelapseValidator = async (req, res, next) => {
   try {
     const SchemaParam = Yup.object().shape({
-      id_media_timelapse: Yup.string().required('O campo id é obrigatório'),
+      nm_file: Yup.string().required('Nome de arquivo inválido'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });

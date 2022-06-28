@@ -12,6 +12,7 @@ export const updateMediaTimelapseValidator = async (req, res, next) => {
       'video/mpeg',
       'video/ogg',
       'video/webm',
+      'video/mp4'      
     ];
     const SchemaParam = Yup.object().shape({
       id_media_timelapse: Yup.number().required('ID da do documento inválido'),

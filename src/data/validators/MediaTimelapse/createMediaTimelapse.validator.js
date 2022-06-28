@@ -18,11 +18,12 @@ export const createMediaTimelapseValidator = async (req, res, next) => {
       'video/mpeg',
       'video/ogg',
       'video/webm',
+      'video/mp4'
     ];
     const SchemaFile = Yup.object().shape({
       size: Yup.number()
         .min(1, 'O arquivo não pode estar vazio')
-        .max(20, 'O arquivo não pode passar de 200Mb'),
+        .max(200000000, 'O arquivo não pode passar de 200Mb'),
       mimetype: Yup.string().test(
         'fileFormat',
         'Tipo de imagem/video inválido',

@@ -59,7 +59,7 @@ routes.get(
 );
 
 routes.get(
-	'/media_timelapse/download/:id_media_timelapse',
+	'/media_timelapse/download/:nm_file',
 //	authenticator,
 	downloadMediaTimelapseValidator,
 	new DownloadMediaTimelapseController().handle

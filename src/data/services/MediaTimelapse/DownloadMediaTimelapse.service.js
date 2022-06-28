@@ -5,19 +5,9 @@ import url from 'url';
 import { MediaTimelapseRepository } from '../../database/repositories';
 
 export class DownloadMediaTimelapseService {
-  async execute({ id_media_timelapse, res, req }) {
-    const repository = new MediaTimelapseRepository();
+  async execute({ nm_file, req, res }) {
 
-    const findMediaTimelapse = await repository.findMediaTimelapseById({
-      id_media_timelapse,
-      populate: true,
-    });
-    if (!findMediaTimelapse)
-      return {
-        error: `Não há nenhuma media registrada com este ID -> ${id_media_timelapse}.`,
-      };
-
-    const file = `${__dirname}/../../../../tmp/media_timelapses/${findMediaTimelapse.nm_file}`;
+    const file = `${__dirname}/../../../../tmp/media_timelapses/${nm_file}`;
 
     // Parsing the URL
     const request = url.parse(req.url, true);
@@ -44,10 +34,20 @@ export class DownloadMediaTimelapseService {
       if (ext === '.jpg') {
         contentType = 'image/jpeg';
       }
-
+      const SUPPORTED_FORMATS = {
+        '.jpg' : 'image/jpg',
+        '.jpeg' : 'image/jpeg',
+        '.gif' : 'image/gif',
+        '.png' : 'image/png',
+        '.avi' : 'video/x-msvideo',
+        '.mpeg' : 'video/mpeg',
+        '.ogg' : 'video/ogg',
+        '.webm' : 'video/webm',
+        '.mp4' : 'video/mp4'      
+      };      
       // Setting the headers
       res.writeHead(200, {
-        'Content-Type': 'image/jpg',
+        'Content-Type': SUPPORTED_FORMATS[ext],
       });
 
       // Reading the file

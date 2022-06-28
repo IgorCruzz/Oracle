@@ -3,10 +3,10 @@ import { DownloadMediaTimelapseService } from '../../services';
 export class DownloadMediaTimelapseController {
   async handle(req, res) {
     try {
-      const id_media_timelapse = req.params.id_media_timelapse;
+      const nm_file = req.params.nm_file;
       const service = new DownloadMediaTimelapseService();
 
-      const response = await service.execute({ id_media_timelapse, res, req });
+      const response = await service.execute({ nm_file, req, res });
 
       return response;
     } catch (err) {
