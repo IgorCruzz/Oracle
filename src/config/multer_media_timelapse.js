@@ -2,13 +2,7 @@ import { diskStorage } from 'multer';
 import { resolve, extname } from 'path';
 import crypto from 'crypto';
 
-export const folder = resolve(
-  __dirname,
-  '..',
-  '..',
-  'tmp',
-  'media_timelapses'
-);
+export const folder = resolve(__dirname, '..', '..', 'tmp', 'media_timelapses');
 
 export const storage = diskStorage({
   destination: (req, file, cb) => {

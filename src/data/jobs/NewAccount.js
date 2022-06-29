@@ -2,13 +2,14 @@ import 'dotenv/config';
 import nodemailer from 'nodemailer';
 import hbs from 'nodemailer-express-handlebars';
 import path from 'path';
+import transporterConfig from '../../config/transporter';
 
 export default {
   key: 'NewAccount',
   async handle({ password, email }) {
     try {
       const mailOptions = {
-        from: 'InfraCidades <gerobras.dev@gmail.com>',
+        from: `InfraCidades <${process.env.MAIL_TRANSPORTER_FROM}>`,
         to: email,
         subject: 'Primeiro acesso',
         template: 'newAccount',
@@ -18,13 +19,7 @@ export default {
       };
 
       const transporter = nodemailer.createTransport({
-        host: 'smtp-relay.sendinblue.com',
-        port: 587,
-        auth: {
-          user: 'igorcruz.dev@gmail.com',
-          pass: 'pm8d5sKF29HzqRW7',
-        },
-        from: 'igorcruz.dev@gmail.com',
+        ...transporterConfig,
       });
 
       transporter.use(

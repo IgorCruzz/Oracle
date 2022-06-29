@@ -1,7 +1,6 @@
 import { resolve } from 'path';
 
 import exphbs from 'express-handlebars';
-// import helmet from 'helmet';
 import express from 'express';
 import cors from 'cors';
 import { exposeRoutes } from './routes';
@@ -14,7 +13,6 @@ server.use(
 );
 server.use(express.json());
 server.use(cors());
-// server.use(helmet());
 server.use(exposeRoutes);
 
 server.engine('handlebars', exphbs());
