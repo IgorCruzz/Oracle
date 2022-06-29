@@ -1,11 +1,11 @@
 require('dotenv/config');
 
 module.exports = {
-  dialect: 'mysql',
-  host: '164.92.118.12',
-  username: 'gerobras',
-  password: 'Ger@1234Obras',
-  database: 'gerobras',
+  dialect: process.env.DB_DIALECT,
+  host: process.env.DB_HOST,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   options: {
     requestTimeout: 3000,
   },
