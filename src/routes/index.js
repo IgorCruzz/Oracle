@@ -30,8 +30,10 @@ import Timelapse from './Timelapse/Timelapse.routes';
 import MediaTimelapse from './MediaTimelapse/MediaTimelapse.routes';
 import Delivery from './Delivery/Delivery.routes';
 import Analysis from './Analysis/Analysis.routes';
+import Report from './Report/Report.routes';
 
 const routes = [
+  Report,
   Analysis,
   Delivery,
   Pti,
@@ -61,7 +63,7 @@ const routes = [
   Inspection,
   InspectionDocument,
   Timelapse,
-  MediaTimelapse
+  MediaTimelapse,
 ];
 
 const router = Router();
