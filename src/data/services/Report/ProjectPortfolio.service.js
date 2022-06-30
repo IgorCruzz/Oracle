@@ -296,6 +296,27 @@ export class ProjectPortfolioService {
       worksheet.getCell('G10').value = 'Fase';
       worksheet.getCell('H10').value = '% Completude da Fase';
 
+      const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+      console.log({
+        Data,
+      });
+
+      for (let i = 0; i <= Data.length - 1; i++) {
+        let num = 11;
+
+        worksheet.getCell(`A${String(num + i)}`).value = Data[i].nm_project;
+        worksheet.getCell(`B${String(num + i)}`).value = arr[i];
+        worksheet.getCell(`C${String(num + i)}`).value = arr[i];
+        worksheet.getCell(`D${String(num + i)}`).value = arr[i];
+        worksheet.getCell(`E${String(num + i)}`).value = arr[i];
+        worksheet.getCell(`F${String(num + i)}`).value = arr[i];
+        worksheet.getCell(`G${String(num + i)}`).value = arr[i];
+        worksheet.getCell(`H${String(num + i)}`).value = arr[i];
+
+        num++;
+      }
+
       const colA = worksheet.getColumn('A');
       const colB = worksheet.getColumn('B');
       const colC = worksheet.getColumn('C');
