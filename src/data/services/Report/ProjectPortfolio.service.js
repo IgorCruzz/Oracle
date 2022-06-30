@@ -1,3 +1,4 @@
+import Sequelize, { Op } from 'sequelize';
 import {
   Project,
   Project_phase,
@@ -21,24 +22,73 @@ export class ProjectPortfolioService {
         {
           model: Project_phase,
           as: 'project_phase',
-          include: [
-            {
-              model: Product,
-              as: 'product',
-              include: [
-                {
-                  model: Product_history,
-                  as: 'product_history',
-                },
-              ],
-            },
-          ],
+          attributes: ['id_project_phase', 'nu_order', 'nm_project_phase'],
         },
       ],
     });
 
-    const projectsData = projects.rows.map(project => {
-      return { ...project.dataValues };
+    const projectsData = projects.rows.map(async project => {
+      const ID_PROJECT_PHASES = project.dataValues.project_phase.map(
+        project2 => project2.dataValues.id_project_phase
+      );
+
+      const products = await Product.findAll({
+        where: {
+          id_project_phase: {
+            [Op.in]: ID_PROJECT_PHASES,
+          },
+        },
+      });
+
+      const ID_PRODUCTS = products.map(
+        product => product.dataValues.id_product
+      );
+
+      const findLastRecord = await Product_history.findAll({
+        attributes: [
+          [
+            Sequelize.fn('MAX', Sequelize.col('id_product_history')),
+            'id_product_history',
+          ],
+        ],
+        group: Sequelize.col('id_product'),
+        raw: true,
+        having: {
+          id_product: {
+            [Op.in]: ID_PRODUCTS,
+          },
+        },
+      });
+
+      const values = findLastRecord.map(
+        ({ id_product_history }) => id_product_history
+      );
+
+      const productHistories = await Product_history.findAll({
+        where: {
+          id_product_history: {
+            [Op.in]: values,
+          },
+        },
+        include: [
+          {
+            model: Product,
+            as: 'product',
+          },
+        ],
+      });
+
+      const prfkrrfr = productHistories.map(ph => ({
+        PROJECT_PHASE_ID: ph.dataValues.product.dataValues.id_project_phase,
+        PRODUCT_ID: ph.dataValues.product.id_product,
+      }));
+
+      console.log({
+        project_phase_que_possui_status: prfkrrfr,
+        ID_PROJECT_PHASES,
+      });
+
+      return { value: project.dataValues.vl_contract, ...project.dataValues };
     });
 
     return {
