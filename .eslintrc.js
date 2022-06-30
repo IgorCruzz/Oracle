@@ -27,6 +27,8 @@ module.exports = {
     "prefer-spread": "off",
     "no-nested-ternary": "off",
     "prefer-destructuring": "off",
-    "import/named": "off"    
+    "import/named": "off",
+    "no-bitwise": "off",
+    "no-plusplus": "off"    
   },
 };
