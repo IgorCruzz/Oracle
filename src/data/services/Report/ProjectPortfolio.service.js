@@ -348,15 +348,40 @@ export class ProjectPortfolioService {
           Data[i].cd_sei || 'Não Possui';
         worksheet.getCell(`C${String(num + i)}`).value = Data[i].city.nm_city;
         worksheet.getCell(`D${String(num + i)}`).value =
-          (Data[i].cd_priority === '1' && 'Baixa') ||
-          (Data[i].cd_priority === '2' && 'Média') ||
-          (Data[i].cd_priority === '3' && 'Alta');
+          (Data[i].cd_priority === 1 && 'Baixa') ||
+          (Data[i].cd_priority === 2 && 'Média') ||
+          (Data[i].cd_priority === 3 && 'Alta');
         worksheet.getCell(`E${String(num + i)}`).value = Data[i].value;
         worksheet.getCell(`F${String(num + i)}`).value =
           Data[i].qt_m2 || 'Não Possui';
         worksheet.getCell(`G${String(num + i)}`).value = Data[i].project_phase;
         worksheet.getCell(`H${String(num + i)}`).value =
           Data[i].phaseCompletion;
+
+        worksheet.getCell(`A${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`B${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`C${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`D${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`E${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`F${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`G${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`H${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
 
         num++;
       }
@@ -386,12 +411,12 @@ export class ProjectPortfolioService {
         ? await Region.findByPk(id_region).dataValues.nm_region
         : 'Filtro não informado.';
       worksheet.getCell('B7').value = id_city
-        ? await Region.findByPk(id_city).dataValues.nm_region
+        ? await City.findByPk(id_city).dataValues.nm_city
         : 'Filtro não informado.';
       worksheet.getCell('B8').value = cd_priority
-        ? (cd_priority === 1 && 'Baixa') ||
-          (cd_priority === 2 && 'Média') ||
-          (cd_priority === 3 && 'Alta')
+        ? (cd_priority === '1' && 'Baixa') ||
+          (cd_priority === '2' && 'Média') ||
+          (cd_priority === '3' && 'Alta')
         : 'Filtro não informado.';
 
       buffer = await workbook.xlsx.writeBuffer();
