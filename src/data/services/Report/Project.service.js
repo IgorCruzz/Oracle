@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import ExcelJS from 'exceljs';
 import { format } from 'date-fns';
 import {
@@ -7,18 +8,14 @@ import {
   City,
   Region,
   Category,
+  Product_history,
+  Professional,
+  Allocation_period,
+  Allocation,
 } from '../../database/models';
 
 export class ProjectService {
-  async execute({
-    page,
-    limit,
-    id_region,
-    id_city,
-    cd_priority,
-    download,
-    id_project,
-  }) {
+  async execute({ page, limit, id_region, id_city, download, id_project }) {
     const projects = await Project.findAndCountAll({
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
@@ -73,6 +70,22 @@ export class ProjectService {
             {
               model: Product,
               as: 'product',
+              include: [
+                {
+                  model: Product_history,
+                  as: 'product_history',
+                  include: [
+                    {
+                      model: Professional,
+                      as: 'professional',
+                    },
+                    {
+                      model: Allocation_period,
+                      as: 'allocation',
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },
@@ -87,12 +100,69 @@ export class ProjectService {
           vl_contract,
           vl_bid,
           vl_estimated,
-          ...rest
+          project_phase,
+          nm_project,
+          cd_sei,
+          city,
+          category,
+          qt_m2,
         } = project.dataValues;
 
+        const idProjectPhases = project_phase.map(
+          project_phase2 => project_phase2.dataValues.id_project_phase
+        );
+
+        const products = await Product.findAll({
+          where: {
+            id_project_phase: {
+              [Op.in]: idProjectPhases,
+            },
+          },
+
+          include: [
+            {
+              model: Project_phase,
+              as: 'project_phase',
+            },
+            {
+              model: Allocation,
+              as: 'allocation',
+            },
+            {
+              model: Product_history,
+              as: 'product_history',
+              include: [
+                {
+                  model: Allocation_period,
+                  as: 'allocation',
+                },
+                {
+                  model: Professional,
+                  as: 'professional',
+                },
+              ],
+            },
+          ],
+        });
+
+        console.log({
+          idProjectPhases,
+          products: [
+            ...new Set(products.map(a => a.project_phase.id_project_phase)),
+          ],
+        });
+
         Data.push({
-          value: vl_contract || vl_bid || vl_estimated,
-          ...rest,
+          project: {
+            nm_project,
+            cd_sei,
+            city: city.nm_city,
+            category: category.nm_category,
+            value: vl_contract || vl_bid || vl_estimated,
+            qt_m2,
+          },
+          products,
+          project_phase,
         });
       })
     );
@@ -102,6 +172,13 @@ export class ProjectService {
     if (download) {
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet('ExampleSheet');
+
+      const [
+        {
+          project: { nm_project, cd_sei, city, category, value, qt_m2 },
+          products,
+        },
+      ] = Data;
 
       worksheet.getCell('A2').value = 'RELATÓRIO:';
       worksheet.getCell('A2').font = {
@@ -113,74 +190,164 @@ export class ProjectService {
         bold: true,
       };
 
-      worksheet.getCell('A5').value = 'FILTROS:';
-      worksheet.getCell('A5').font = {
-        bold: true,
-      };
+      worksheet.getCell('B2').value = 'Portfolio de Projetos';
+      worksheet.getCell('B3').value = format(new Date(), 'dd/MM/yyyy');
 
-      worksheet.getCell('A6').value = 'Região:';
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('A6').value = 'PROJETO:';
       worksheet.getCell('A6').font = {
         bold: true,
       };
-      worksheet.getCell('A7').value = 'Município:';
+
+      worksheet.getCell('B6').value = nm_project;
+      worksheet.getCell('B6').alignment = {
+        horizontal: 'left',
+      };
+      // /////////////////////////////////////////////////////////
+
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('A7').value = 'SEI:';
       worksheet.getCell('A7').font = {
         bold: true,
       };
-      worksheet.getCell('A8').value = 'Prioridade:';
-      worksheet.getCell('A8').font = {
+
+      worksheet.getCell('B7').value = cd_sei || 'Não Possui';
+      worksheet.getCell('B7').alignment = {
+        horizontal: 'left',
+      };
+      // /////////////////////////////////////////////////////////
+
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('C6').value = 'MUNICÍPIO:';
+      worksheet.getCell('C6').font = {
         bold: true,
       };
 
-      worksheet.getCell('A10').value = 'Nome do Projeto';
+      worksheet.getCell('D6').value = city;
+      worksheet.getCell('D6').alignment = {
+        horizontal: 'left',
+      };
+      // /////////////////////////////////////////////////////////
+
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('C7').value = 'CATEGORIA:';
+      worksheet.getCell('C7').font = {
+        bold: true,
+      };
+      worksheet.getCell('D7').value = category;
+      worksheet.getCell('D7').alignment = {
+        horizontal: 'left',
+      };
+      // /////////////////////////////////////////////////////////
+
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('E6').value = 'VALOR:';
+      worksheet.getCell('E6').font = {
+        bold: true,
+      };
+      worksheet.getCell('F6').value = value;
+      worksheet.getCell('F6').alignment = {
+        horizontal: 'left',
+      };
+      // /////////////////////////////////////////////////////////
+
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('E7').value = 'ÁREA (m2):';
+      worksheet.getCell('E7').font = {
+        bold: true,
+      };
+      worksheet.getCell('F7').value = qt_m2 || 'Não Possui';
+      worksheet.getCell('F7').alignment = {
+        horizontal: 'left',
+      };
+      // /////////////////////////////////////////////////////////
+
+      worksheet.getCell('A10').value = 'Fase';
       worksheet.getCell('A10').font = {
         bold: true,
       };
-      worksheet.getCell('B10').value = 'Número SEI';
+      worksheet.getCell('B10').value = 'Produto';
       worksheet.getCell('B10').font = {
         bold: true,
       };
-      worksheet.getCell('C10').value = 'Município';
+      worksheet.getCell('C10').value = 'Périodo de PTI';
       worksheet.getCell('C10').font = {
         bold: true,
       };
-      worksheet.getCell('D10').value = 'Prioridade';
+      worksheet.getCell('D10').value = 'Responsável';
       worksheet.getCell('D10').font = {
         bold: true,
       };
-      worksheet.getCell('E10').value = 'Valor';
+      worksheet.getCell('E10').value = 'Status do produto';
       worksheet.getCell('E10').font = {
         bold: true,
       };
-      worksheet.getCell('F10').value = 'M2';
-      worksheet.getCell('F10').font = {
-        bold: true,
-      };
-      worksheet.getCell('G10').value = 'Fase';
-      worksheet.getCell('G10').font = {
-        bold: true,
-      };
-      worksheet.getCell('H10').value = '% Completude da Fase';
-      worksheet.getCell('H10').font = {
-        bold: true,
-      };
 
-      for (let i = 0; i <= Data.length - 1; i++) {
+      const colA = worksheet.getColumn('A');
+      const colB = worksheet.getColumn('B');
+      const colC = worksheet.getColumn('C');
+      const colD = worksheet.getColumn('D');
+      const colE = worksheet.getColumn('E');
+      const colF = worksheet.getColumn('F');
+
+      colA.width = 20;
+      colB.width = 20;
+      colC.width = 20;
+      colD.width = 20;
+      colE.width = 20;
+      colF.width = 20;
+
+      for (let i = 0; i <= products.length - 1; i++) {
         let num = 11;
 
-        worksheet.getCell(`A${String(num + i)}`).value = Data[i].nm_project;
-        worksheet.getCell(`B${String(num + i)}`).value =
-          Data[i].cd_sei || 'Não Possui';
-        worksheet.getCell(`C${String(num + i)}`).value = Data[i].city.nm_city;
+        worksheet.getCell(`A${String(num + i)}`).value =
+          products[i].project_phase.nm_project_phase;
+        worksheet.getCell(`B${String(num + i)}`).value = products[i].nm_product;
+        worksheet.getCell(`C${String(num + i)}`).value =
+          // ///////////////
+          `${format(
+            new Date(
+              products[i].product_history[
+                products[i].product_history.length - 1
+              ].allocation.dt_start_allocation
+            ),
+            'dd/MM/yyyy'
+          )} - ${format(
+            new Date(
+              products[i].product_history[
+                products[i].product_history.length - 1
+              ].allocation.dt_end_allocation
+            ),
+            'dd/MM/yyyy'
+          )} (${
+            products[i].product_history[products[i].product_history.length - 1]
+              .allocation.qt_business_hours
+          }h)`;
+        // //////////
+
         worksheet.getCell(`D${String(num + i)}`).value =
-          (Data[i].cd_priority === 1 && 'Baixa') ||
-          (Data[i].cd_priority === 2 && 'Média') ||
-          (Data[i].cd_priority === 3 && 'Alta');
-        worksheet.getCell(`E${String(num + i)}`).value = Data[i].value;
-        worksheet.getCell(`F${String(num + i)}`).value =
-          Data[i].qt_m2 || 'Não Possui';
-        worksheet.getCell(`G${String(num + i)}`).value = Data[i].project_phase;
-        worksheet.getCell(`H${String(num + i)}`).value =
-          Data[i].phaseCompletion;
+          products[i].product_history[
+            products[i].product_history.length - 1
+          ].professional.nm_professional;
+        worksheet.getCell(`E${String(num + i)}`).value =
+          (products[i].product_history[products[i].product_history.length - 1]
+            .cd_status === 0 &&
+            'Ag. Alocação') ||
+          (products[i].product_history[products[i].product_history.length - 1]
+            .cd_status === 1 &&
+            'Em Produção') ||
+          (products[i].product_history[products[i].product_history.length - 1]
+            .cd_status === 2 &&
+            'Em Análise') ||
+          (products[i].product_history[products[i].product_history.length - 1]
+            .cd_status === 3 &&
+            'Em Correção') ||
+          (products[i].product_history[products[i].product_history.length - 1]
+            .cd_status === 4 &&
+            'Em Análise de Correção') ||
+          (products[i].product_history[products[i].product_history.length - 1]
+            .cd_status === 5 &&
+            'Concluído');
 
         worksheet.getCell(`A${String(num + i)}`).alignment = {
           horizontal: 'left',
@@ -197,51 +364,9 @@ export class ProjectService {
         worksheet.getCell(`E${String(num + i)}`).alignment = {
           horizontal: 'left',
         };
-        worksheet.getCell(`F${String(num + i)}`).alignment = {
-          horizontal: 'left',
-        };
-        worksheet.getCell(`G${String(num + i)}`).alignment = {
-          horizontal: 'left',
-        };
-        worksheet.getCell(`H${String(num + i)}`).alignment = {
-          horizontal: 'left',
-        };
 
         num++;
       }
-
-      const colA = worksheet.getColumn('A');
-      const colB = worksheet.getColumn('B');
-      const colC = worksheet.getColumn('C');
-      const colD = worksheet.getColumn('D');
-      const colE = worksheet.getColumn('E');
-      const colF = worksheet.getColumn('F');
-      const colG = worksheet.getColumn('G');
-      const colH = worksheet.getColumn('H');
-
-      colA.width = 20;
-      colB.width = 20;
-      colC.width = 20;
-      colD.width = 20;
-      colE.width = 20;
-      colF.width = 20;
-      colG.width = 20;
-      colH.width = 20;
-
-      worksheet.getCell('B2').value = 'Portfolio de Projetos';
-      worksheet.getCell('B3').value = format(new Date(), 'dd/MM/yyyy');
-
-      worksheet.getCell('B6').value = id_region
-        ? await Region.findByPk(id_region).dataValues.nm_region
-        : 'Filtro não informado.';
-      worksheet.getCell('B7').value = id_city
-        ? await City.findByPk(id_city).dataValues.nm_city
-        : 'Filtro não informado.';
-      worksheet.getCell('B8').value = cd_priority
-        ? (cd_priority === '1' && 'Baixa') ||
-          (cd_priority === '2' && 'Média') ||
-          (cd_priority === '3' && 'Alta')
-        : 'Filtro não informado.';
 
       buffer = await workbook.xlsx.writeBuffer();
     }
