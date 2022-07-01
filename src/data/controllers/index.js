@@ -210,3 +210,4 @@ export * from './Analysis/UndoCorrection.controller';
 
 // REPORT
 export * from './Report/ProjectPortfolio.controller';
+export * from './Report/Project.controller';

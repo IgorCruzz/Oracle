@@ -210,3 +210,4 @@ export * from './Analysis/UndoCorrection.service';
 
 // REPORT
 export * from './Report/ProjectPortfolio.service';
+export * from './Report/Project.service';
