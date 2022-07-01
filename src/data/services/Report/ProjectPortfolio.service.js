@@ -1,5 +1,6 @@
 import Sequelize, { Op } from 'sequelize';
 import ExcelJS from 'exceljs';
+import { format } from 'date-fns';
 import {
   Project,
   Project_phase,
@@ -279,40 +280,83 @@ export class ProjectPortfolioService {
       const worksheet = workbook.addWorksheet('ExampleSheet');
 
       worksheet.getCell('A2').value = 'RELATÓRIO:';
+      worksheet.getCell('A2').font = {
+        bold: true,
+      };
+
       worksheet.getCell('A3').value = 'DATA:';
+      worksheet.getCell('A3').font = {
+        bold: true,
+      };
 
       worksheet.getCell('A5').value = 'FILTROS:';
+      worksheet.getCell('A5').font = {
+        bold: true,
+      };
 
       worksheet.getCell('A6').value = 'Região:';
+      worksheet.getCell('A6').font = {
+        bold: true,
+      };
       worksheet.getCell('A7').value = 'Município:';
+      worksheet.getCell('A7').font = {
+        bold: true,
+      };
       worksheet.getCell('A8').value = 'Prioridade:';
+      worksheet.getCell('A8').font = {
+        bold: true,
+      };
 
       worksheet.getCell('A10').value = 'Nome do Projeto';
+      worksheet.getCell('A10').font = {
+        bold: true,
+      };
       worksheet.getCell('B10').value = 'Número SEI';
+      worksheet.getCell('B10').font = {
+        bold: true,
+      };
       worksheet.getCell('C10').value = 'Município';
+      worksheet.getCell('C10').font = {
+        bold: true,
+      };
       worksheet.getCell('D10').value = 'Prioridade';
+      worksheet.getCell('D10').font = {
+        bold: true,
+      };
       worksheet.getCell('E10').value = 'Valor';
+      worksheet.getCell('E10').font = {
+        bold: true,
+      };
       worksheet.getCell('F10').value = 'M2';
+      worksheet.getCell('F10').font = {
+        bold: true,
+      };
       worksheet.getCell('G10').value = 'Fase';
+      worksheet.getCell('G10').font = {
+        bold: true,
+      };
       worksheet.getCell('H10').value = '% Completude da Fase';
-
-      const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-      console.log({
-        Data,
-      });
+      worksheet.getCell('H10').font = {
+        bold: true,
+      };
 
       for (let i = 0; i <= Data.length - 1; i++) {
         let num = 11;
 
         worksheet.getCell(`A${String(num + i)}`).value = Data[i].nm_project;
-        worksheet.getCell(`B${String(num + i)}`).value = arr[i];
-        worksheet.getCell(`C${String(num + i)}`).value = arr[i];
-        worksheet.getCell(`D${String(num + i)}`).value = arr[i];
-        worksheet.getCell(`E${String(num + i)}`).value = arr[i];
-        worksheet.getCell(`F${String(num + i)}`).value = arr[i];
-        worksheet.getCell(`G${String(num + i)}`).value = arr[i];
-        worksheet.getCell(`H${String(num + i)}`).value = arr[i];
+        worksheet.getCell(`B${String(num + i)}`).value =
+          Data[i].cd_sei || 'Não Possui';
+        worksheet.getCell(`C${String(num + i)}`).value = Data[i].city.nm_city;
+        worksheet.getCell(`D${String(num + i)}`).value =
+          (Data[i].cd_priority === '1' && 'Baixa') ||
+          (Data[i].cd_priority === '2' && 'Média') ||
+          (Data[i].cd_priority === '3' && 'Alta');
+        worksheet.getCell(`E${String(num + i)}`).value = Data[i].value;
+        worksheet.getCell(`F${String(num + i)}`).value =
+          Data[i].qt_m2 || 'Não Possui';
+        worksheet.getCell(`G${String(num + i)}`).value = Data[i].project_phase;
+        worksheet.getCell(`H${String(num + i)}`).value =
+          Data[i].phaseCompletion;
 
         num++;
       }
@@ -326,24 +370,29 @@ export class ProjectPortfolioService {
       const colG = worksheet.getColumn('G');
       const colH = worksheet.getColumn('H');
 
-      colA.width = 500;
-      colB.width = 500;
-      colC.width = 500;
-      colD.width = 500;
-      colE.width = 500;
-      colF.width = 500;
-      colG.width = 500;
-      colH.width = 500;
+      colA.width = 20;
+      colB.width = 20;
+      colC.width = 20;
+      colD.width = 20;
+      colE.width = 20;
+      colF.width = 20;
+      colG.width = 20;
+      colH.width = 20;
 
       worksheet.getCell('B2').value = 'Portfolio de Projetos';
-      worksheet.getCell('B3').value = new Date();
+      worksheet.getCell('B3').value = format(new Date(), 'dd/MM/yyyy -- HH:mm');
 
-      worksheet.getCell('B6').value =
-        'exibir Todas caso não tenha sido informada ou a região informada';
-      worksheet.getCell('B7').value =
-        'exibir Todas caso não tenha sido informada ou a região informada';
-      worksheet.getCell('B8').value =
-        'exibir Todas caso não tenha sido informada ou a região informada';
+      worksheet.getCell('B6').value = id_region
+        ? await Region.findByPk(id_region).dataValues.nm_region
+        : 'Filtro não informado.';
+      worksheet.getCell('B7').value = id_city
+        ? await Region.findByPk(id_city).dataValues.nm_region
+        : 'Filtro não informado.';
+      worksheet.getCell('B8').value = cd_priority
+        ? (cd_priority === 1 && 'Baixa') ||
+          (cd_priority === 2 && 'Média') ||
+          (cd_priority === 3 && 'Alta')
+        : 'Filtro não informado.';
 
       buffer = await workbook.xlsx.writeBuffer();
     }
