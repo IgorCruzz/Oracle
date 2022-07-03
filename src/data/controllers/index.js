@@ -211,3 +211,5 @@ export * from './Analysis/UndoCorrection.controller';
 // REPORT
 export * from './Report/ProjectPortfolio.controller';
 export * from './Report/Project.controller';
+export * from './Report/ReportPti.controller';
+export * from './Report/ReportProfessional.controller';
