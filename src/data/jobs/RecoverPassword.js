@@ -16,6 +16,7 @@ export default {
         context: {
           token,
           email,
+          host: process.env.HOST,
         },
       };
 

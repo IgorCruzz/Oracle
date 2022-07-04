@@ -15,6 +15,7 @@ export default {
         template: 'newAccount',
         context: {
           password,
+          host: process.env.HOST,
         },
       };
 

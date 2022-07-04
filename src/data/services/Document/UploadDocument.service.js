@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import utf8 from 'utf8';
 import { DocumentRepository } from '../../database/repositories';
 
@@ -29,7 +30,7 @@ export class UploadDocumentService {
 
     return {
       message: 'Upload realizado com sucesso!',
-      document: `http://143.198.191.56:3030/documents/${filename}`,
+      document: `${process.env.HOST}/documents/${filename}`,
     };
   }
 }
