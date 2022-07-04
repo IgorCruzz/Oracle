@@ -1,16 +1,22 @@
 import Sequelize, { Op } from 'sequelize';
 import { format, parseISO, differenceInDays } from 'date-fns';
+import ExcelJS from 'exceljs';
 import {
   Product_history,
   Allocation_period,
   Product,
   Project_phase,
   Project,
+  Professional,
+  Role_grade,
+  Role,
+  Grade,
+  Sector,
 } from '../../database/models';
 import { calculateHour } from '../../../utils/calculateHour';
 
 export class ReportProfessionalService {
-  async execute({ page, limit, id_professional }) {
+  async execute({ page, limit, id_professional, download }) {
     const findLastRecord = await Product_history.findAll({
       attributes: [
         [
@@ -195,10 +201,221 @@ export class ReportProfessionalService {
       })
     );
 
+    let buffer;
+
+    if (download) {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet('ExampleSheet');
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('A4').value = 'RELATÓRIO:';
+      worksheet.getCell('A4').font = {
+        bold: true,
+      };
+      worksheet.getCell('B4').value = 'Histórico do Colaborador';
+      // /////////////////////////////////////////////////////////
+
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('A5').value = 'DATA:';
+      worksheet.getCell('A5').font = {
+        bold: true,
+      };
+      worksheet.getCell('B5').value = format(new Date(), 'dd/MM/yyyy');
+      // /////////////////////////////////////////////////////////
+
+      // /////////////////////////////////////////////////////////
+      const getProfessionalData = await Professional.findOne({
+        where: {
+          id_professional,
+        },
+        include: [
+          {
+            model: Role_grade,
+            as: 'coustHH',
+            include: [
+              { model: Role, as: 'role' },
+              { model: Grade, as: 'grade' },
+            ],
+          },
+          {
+            model: Sector,
+            as: 'sector',
+          },
+        ],
+      });
+
+      worksheet.getCell('A8').value = 'Nome:';
+      worksheet.getCell('A8').font = {
+        bold: true,
+      };
+      worksheet.getCell('B8').value = getProfessionalData.nm_professional;
+      worksheet.getCell('B8').alignment = {
+        horizontal: 'left',
+      };
+      // /////////////////////////////////////////////////////////
+
+      // /////////////////////////////////////////////////////////
+
+      worksheet.getCell('A9').value = 'Setor:';
+      worksheet.getCell('A9').font = {
+        bold: true,
+      };
+      worksheet.getCell('B9').value = getProfessionalData.sector.nm_sector;
+      worksheet.getCell('B9').alignment = {
+        horizontal: 'left',
+      };
+      // /////////////////////////////////////////////////////////
+
+      // /////////////////////////////////////////////////////////
+
+      worksheet.getCell('C8').value = 'Função:';
+      worksheet.getCell('C8').font = {
+        bold: true,
+      };
+      worksheet.getCell('D8').value = getProfessionalData.coustHH.role.nm_role;
+      worksheet.getCell('D8').alignment = {
+        horizontal: 'left',
+      };
+      // /////////////////////////////////////////////////////////
+
+      // /////////////////////////////////////////////////////////
+
+      worksheet.getCell('C9').value = 'Cargo:';
+      worksheet.getCell('C9').font = {
+        bold: true,
+      };
+      worksheet.getCell('D9').value =
+        getProfessionalData.coustHH.grade.nm_grade;
+      worksheet.getCell('D9').alignment = {
+        horizontal: 'left',
+      };
+      // /////////////////////////////////////////////////////////
+
+      worksheet.getCell('A12').value = 'Período da PTI';
+      worksheet.getCell('A12').font = {
+        bold: true,
+      };
+      worksheet.getCell('B12').value = 'Projeto';
+      worksheet.getCell('B12').font = {
+        bold: true,
+      };
+      worksheet.getCell('C12').value = 'Produto';
+      worksheet.getCell('C12').font = {
+        bold: true,
+      };
+      worksheet.getCell('D12').value = 'Horas';
+      worksheet.getCell('D12').font = {
+        bold: true,
+      };
+      worksheet.getCell('E12').value = 'Ação';
+      worksheet.getCell('E12').font = {
+        bold: true,
+      };
+      worksheet.getCell('F12').value = 'Previsão de Entrega';
+      worksheet.getCell('F12').font = {
+        bold: true,
+      };
+      worksheet.getCell('G12').value = 'Última Entrega';
+      worksheet.getCell('G12').font = {
+        bold: true,
+      };
+      worksheet.getCell('H12').value = 'Atraso';
+      worksheet.getCell('H12').font = {
+        bold: true,
+      };
+      worksheet.getCell('I12').value = 'Necessário Correção';
+      worksheet.getCell('I12').font = {
+        bold: true,
+      };
+      worksheet.getCell('J12').value = 'Status do produto';
+      worksheet.getCell('J12').font = {
+        bold: true,
+      };
+
+      const colA = worksheet.getColumn('A');
+      const colB = worksheet.getColumn('B');
+      const colC = worksheet.getColumn('C');
+      const colD = worksheet.getColumn('D');
+      const colE = worksheet.getColumn('E');
+      const colF = worksheet.getColumn('F');
+      const colG = worksheet.getColumn('G');
+      const colH = worksheet.getColumn('H');
+      const colI = worksheet.getColumn('I');
+      const colJ = worksheet.getColumn('J');
+
+      colA.width = 20;
+      colB.width = 20;
+      colC.width = 20;
+      colD.width = 20;
+      colE.width = 20;
+      colF.width = 20;
+      colG.width = 20;
+      colH.width = 20;
+      colI.width = 20;
+      colJ.width = 20;
+
+      const list = await response;
+
+      for (let i = 0; i <= list.length - 1; i++) {
+        let num = 13;
+
+        worksheet.getCell(`A${String(num + i)}`).value =
+          list[i].allocation_period;
+        worksheet.getCell(`B${String(num + i)}`).value = list[i].nm_project;
+        worksheet.getCell(`C${String(num + i)}`).value = list[i].nm_product;
+        worksheet.getCell(`D${String(num + i)}`).value = list[i].hour;
+        worksheet.getCell(`E${String(num + i)}`).value =
+          list[i].tp_required_action;
+        worksheet.getCell(`F${String(num + i)}`).value =
+          list[i].delivery_forecast;
+        worksheet.getCell(`G${String(num + i)}`).value = list[i].last_delivery;
+        worksheet.getCell(`H${String(num + i)}`).value = list[i].delay;
+        worksheet.getCell(`I${String(num + i)}`).value =
+          list[i].correction_needed;
+        worksheet.getCell(`J${String(num + i)}`).value = list[i].cd_status;
+
+        worksheet.getCell(`A${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`B${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`C${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`D${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`E${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`F${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`G${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`H${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+
+        worksheet.getCell(`I${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`J${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+
+        num++;
+      }
+
+      buffer = await workbook.xlsx.writeBuffer();
+    }
+
     return {
       projects: {
-        count: 'Data.length',
+        count: response.length,
         rows: await response,
+        buffer,
       },
     };
   }

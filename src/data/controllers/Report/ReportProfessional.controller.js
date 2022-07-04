@@ -3,7 +3,7 @@ import { ReportProfessionalService } from '../../services';
 export class ReportProfessionalController {
   async handle(req, res) {
     try {
-      const { page, limit, id_professional } = req.query;
+      const { page, limit, id_professional, download } = req.query;
 
       const service = new ReportProfessionalService();
 
@@ -11,6 +11,7 @@ export class ReportProfessionalController {
         page,
         limit,
         id_professional,
+        download,
       });
 
       if (response.error)
