@@ -213,3 +213,9 @@ export * from './Report/ProjectPortfolio.controller';
 export * from './Report/Project.controller';
 export * from './Report/ReportPti.controller';
 export * from './Report/ReportProfessional.controller';
+
+// POWER BI
+export * from './PowerBi/PowerBiPortfolio.controller';
+export * from './PowerBi/PowerBiProfessional.controller';
+export * from './PowerBi/PowerBiProject.controller';
+export * from './PowerBi/PowerBiSurvey.controller';

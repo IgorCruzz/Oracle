@@ -31,8 +31,10 @@ import MediaTimelapse from './MediaTimelapse/MediaTimelapse.routes';
 import Delivery from './Delivery/Delivery.routes';
 import Analysis from './Analysis/Analysis.routes';
 import Report from './Report/Report.routes';
+import PowerBi from './PowerBi/PowerBi.routes';
 
 const routes = [
+  PowerBi,
   Report,
   Analysis,
   Delivery,

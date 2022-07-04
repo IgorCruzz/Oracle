@@ -213,3 +213,9 @@ export * from './Report/ProjectPortfolio.service';
 export * from './Report/Project.service';
 export * from './Report/ReportPti.service';
 export * from './Report/ReportProfessional.service';
+
+// POWER BI
+export * from './PowerBi/PowerBiPortfolio.service';
+export * from './PowerBi/PowerBiProfessional.service';
+export * from './PowerBi/PowerBiProject.service';
+export * from './PowerBi/PowerBiSurvey.service';
