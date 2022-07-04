@@ -1,28 +1,16 @@
-import { ProjectService } from '../../services';
+import { ReportProfessionalService } from '../../services';
 
-export class ProjectController {
+export class ReportProfessionalController {
   async handle(req, res) {
     try {
-      const {
-        page,
-        limit,
-        id_region,
-        id_city,
-        cd_priority,
-        download,
-        id_project,
-      } = req.query;
+      const { page, limit, id_professional } = req.query;
 
-      const service = new ProjectService();
+      const service = new ReportProfessionalService();
 
       const response = await service.execute({
         page,
         limit,
-        id_region,
-        id_city,
-        cd_priority,
-        download,
-        id_project,
+        id_professional,
       });
 
       if (response.error)

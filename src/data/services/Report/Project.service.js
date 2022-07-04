@@ -145,13 +145,6 @@ export class ProjectService {
           ],
         });
 
-        console.log({
-          idProjectPhases,
-          products: [
-            ...new Set(products.map(a => a.project_phase.id_project_phase)),
-          ],
-        });
-
         Data.push({
           project: {
             nm_project,
