@@ -218,4 +218,4 @@ export * from './Report/ReportProfessional.service';
 export * from './PowerBi/PowerBiPortfolio.service';
 export * from './PowerBi/PowerBiProfessional.service';
 export * from './PowerBi/PowerBiProject.service';
-export * from './PowerBi/PowerBiSurvey.service';
+export * from './PowerBi/PowerBiInspection.service';

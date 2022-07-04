@@ -4,7 +4,7 @@ import {
   PowerBiPortfolioController,
   PowerBiProfessionalController,
   PowerBiProjectController,
-  PowerBiSurveyController,
+  PowerBiInspectionController,
 } from '../../data/controllers';
 
 const routes = Router();
@@ -15,6 +15,6 @@ routes.get('/powerBI/professional', new PowerBiProfessionalController().handle);
 
 routes.get('/powerBI/project', new PowerBiProjectController().handle);
 
-routes.get('/powerBI/survey', new PowerBiSurveyController().handle);
+routes.get('/powerBI/inspection', new PowerBiInspectionController().handle);
 
 export default routes;

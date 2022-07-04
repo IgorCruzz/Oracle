@@ -218,4 +218,4 @@ export * from './Report/ReportProfessional.controller';
 export * from './PowerBi/PowerBiPortfolio.controller';
 export * from './PowerBi/PowerBiProfessional.controller';
 export * from './PowerBi/PowerBiProject.controller';
-export * from './PowerBi/PowerBiSurvey.controller';
+export * from './PowerBi/PowerBiInspection.controller';
