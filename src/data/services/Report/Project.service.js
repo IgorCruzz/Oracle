@@ -154,8 +154,50 @@ export class ProjectService {
             value: vl_contract || vl_bid || vl_estimated,
             qt_m2,
           },
-          products,
-          project_phase,
+          products: products.map(product => ({
+            nm_project_phase: product.project_phase.nm_project_phase,
+            nm_product: product.nm_product,
+            allocation_period: `${format(
+              new Date(
+                product.product_history[
+                  product.product_history.length - 1
+                ].allocation.dt_start_allocation
+              ),
+              'dd/MM/yyyy'
+            )} - ${format(
+              new Date(
+                product.product_history[
+                  product.product_history.length - 1
+                ].allocation.dt_end_allocation
+              ),
+              'dd/MM/yyyy'
+            )} (${
+              product.product_history[product.product_history.length - 1]
+                .allocation.qt_business_hours
+            }h)`,
+            nm_professional:
+              product.product_history[product.product_history.length - 1]
+                .professional.nm_professional,
+            cd_status:
+              (product.product_history[product.product_history.length - 1]
+                .cd_status === 0 &&
+                'Ag. Alocação') ||
+              (product.product_history[product.product_history.length - 1]
+                .cd_status === 1 &&
+                'Em Produção') ||
+              (product.product_history[product.product_history.length - 1]
+                .cd_status === 2 &&
+                'Em Análise') ||
+              (product.product_history[product.product_history.length - 1]
+                .cd_status === 3 &&
+                'Em Correção') ||
+              (product.product_history[product.product_history.length - 1]
+                .cd_status === 4 &&
+                'Em Análise de Correção') ||
+              (product.product_history[product.product_history.length - 1]
+                .cd_status === 5 &&
+                'Concluído'),
+          })),
         });
       })
     );
@@ -297,50 +339,10 @@ export class ProjectService {
           products[i].project_phase.nm_project_phase;
         worksheet.getCell(`B${String(num + i)}`).value = products[i].nm_product;
         worksheet.getCell(`C${String(num + i)}`).value =
-          // ///////////////
-          `${format(
-            new Date(
-              products[i].product_history[
-                products[i].product_history.length - 1
-              ].allocation.dt_start_allocation
-            ),
-            'dd/MM/yyyy'
-          )} - ${format(
-            new Date(
-              products[i].product_history[
-                products[i].product_history.length - 1
-              ].allocation.dt_end_allocation
-            ),
-            'dd/MM/yyyy'
-          )} (${
-            products[i].product_history[products[i].product_history.length - 1]
-              .allocation.qt_business_hours
-          }h)`;
-        // //////////
-
+          products[i].allocation_period;
         worksheet.getCell(`D${String(num + i)}`).value =
-          products[i].product_history[
-            products[i].product_history.length - 1
-          ].professional.nm_professional;
-        worksheet.getCell(`E${String(num + i)}`).value =
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 0 &&
-            'Ag. Alocação') ||
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 1 &&
-            'Em Produção') ||
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 2 &&
-            'Em Análise') ||
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 3 &&
-            'Em Correção') ||
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 4 &&
-            'Em Análise de Correção') ||
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 5 &&
-            'Concluído');
+          products[i].nm_professional;
+        worksheet.getCell(`E${String(num + i)}`).value = products[i].cd_status;
 
         worksheet.getCell(`A${String(num + i)}`).alignment = {
           horizontal: 'left',
