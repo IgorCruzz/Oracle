@@ -32,7 +32,7 @@ export class ProjectPortfolioService {
           ? {
               model: City,
               as: 'city',
-              where: { id_city },
+              where: id_city ? { id_city } : {},
               attributes: ['nm_city'],
               include: [
                 {
@@ -259,6 +259,10 @@ export class ProjectPortfolioService {
         Data.push({
           value: vl_contract || vl_bid || vl_estimated,
           ...rest,
+          cd_priority:
+            (project.dataValues.cd_priority === 1 && 'Baixa') ||
+            (project.dataValues.cd_priority === 2 && 'Média') ||
+            (project.dataValues.cd_priority === 3 && 'Alta'),
           project_phase:
             project.dataValues.project_phase.length > 0
               ? project_phase.dataValues.nm_project_phase

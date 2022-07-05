@@ -125,7 +125,7 @@ export class ReportPtiService {
               cd_sei:
                 alloc.dataValues.product.dataValues.project_phase.dataValues
                   .project.dataValues.cd_sei || 'Não Possui',
-              nm_professiona: prof.nm_professional,
+              nm_professional: prof.nm_professional,
               nm_city:
                 alloc.dataValues.product.dataValues.project_phase.dataValues
                   .project.dataValues.city.dataValues.nm_city,
@@ -271,7 +271,7 @@ export class ReportPtiService {
         worksheet.getCell(`C${String(num + i)}`).value =
           professionalList[i].nm_city;
         worksheet.getCell(`D${String(num + i)}`).value =
-          professionalList[i].nm_professiona;
+          professionalList[i].nm_professional;
         worksheet.getCell(`E${String(num + i)}`).value =
           professionalList[i].nm_product;
         worksheet.getCell(`F${String(num + i)}`).value =
