@@ -1,4 +1,3 @@
-import Sequelize, { Op } from 'sequelize';
 import {
   Project,
   Project_phase,
@@ -8,6 +7,7 @@ import {
   Location,
   Product_history,
 } from '../../database/models';
+import { calculateHour } from '../../../utils/calculateHour';
 
 export class PowerBiProjectService {
   async execute() {
@@ -45,6 +45,45 @@ export class PowerBiProjectService {
         {
           model: Project_phase,
           as: 'project_phase',
+          include: [
+            {
+              model: Project,
+              as: 'project',
+            },
+            {
+              model: Product,
+              as: 'product',
+              include: [
+                {
+                  model: Product_history,
+                  as: 'product_history',
+                },
+                {
+                  model: Project_phase,
+                  as: 'project_phase',
+                  include: [
+                    {
+                      model: Project,
+                      as: 'project',
+                      include: [
+                        {
+                          model: City,
+                          as: 'city',
+                          include: [
+                            {
+                              model: Region,
+                              as: 'region',
+                              attributes: ['nm_region'],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
       ],
     });
@@ -53,107 +92,100 @@ export class PowerBiProjectService {
 
     await Promise.all(
       projects.map(async project => {
-        // PEGAR FASES DO PROJETOS
-        const ID_PROJECT_PHASES = project.project_phase.map(
-          project2 => project2.dataValues.id_project_phase
-        );
+        project.dataValues.project_phase.map(result => {
+          const product_result = result.dataValues.product.map(product => {
+            return Data.push({
+              nm_project:
+                product.dataValues.project_phase.dataValues.project.dataValues
+                  .nm_project,
+              nm_city:
+                product.dataValues.project_phase.dataValues.project.dataValues
+                  .city.dataValues.nm_city,
+              cd_priority:
+                product.dataValues.project_phase.dataValues.project.cd_priority,
+              cd_complexity:
+                product.dataValues.project_phase.dataValues.project
+                  .cd_complexity,
+              nm_region:
+                product.dataValues.project_phase.dataValues.project.dataValues
+                  .city.dataValues.region.dataValues.nm_region,
+              cd_sei:
+                product.dataValues.project_phase.dataValues.project.dataValues
+                  .cd_sei || '',
+              tx_description:
+                product.dataValues.project_phase.dataValues.project.dataValues
+                  .tx_description || '',
+              phase_type_code:
+                product.dataValues.project_phase.tp_project_phase || '',
+              phase_type_name: product.dataValues.project_phase.tp_project_phase
+                ? (product.dataValues.project_phase.tp_project_phase === 10 &&
+                    'Concepção') ||
+                  (product.dataValues.project_phase.tp_project_phase === 20 &&
+                    'Priorização') ||
+                  (product.dataValues.project_phase.tp_project_phase === 30 &&
+                    'Desenvolvimento') ||
+                  (product.dataValues.project_phase.tp_project_phase === 40 &&
+                    'Licitação') ||
+                  (product.dataValues.project_phase.tp_project_phase === 50 &&
+                    'Execução') ||
+                  (product.dataValues.project_phase.tp_project_phase === 60 &&
+                    'Encerrado em Garantia')
+                : '',
+              nm_project_phase:
+                product.dataValues.project_phase.nm_project_phase,
+              nm_product: product.dataValues.nm_product,
+              tp_required_action: product.dataValues.tp_required_action,
+              hours: calculateHour({
+                max: product.dataValues.qt_maximum_hours,
+                min: product.dataValues.qt_minimum_hours,
+                prov: product.dataValues.qt_probable_hours,
+                value: product.dataValues.tp_required_action,
+              }),
+            });
+          });
 
-        // PEGAR TODOS OS PRODUTOS REFERENTE AS FASES DE PROJETO
-        const products = await Product.findAll({
-          where:
-            ID_PROJECT_PHASES.length > 0
-              ? {
-                  id_project_phase: {
-                    [Op.in]: ID_PROJECT_PHASES,
-                  },
-                }
-              : {},
+          if (product_result.length === 0) {
+            Data.push({
+              nm_project: project.dataValues.nm_project,
+              nm_city: project.dataValues.city.dataValues.nm_city,
+              cd_priority: project.dataValues.cd_priority,
+              cd_complexity: project.cd_complexity,
+              nm_region: project.city.dataValues.region.dataValues.nm_region,
+              cd_sei: project.dataValues.cd_sei || '',
+              tx_description: project.dataValues.tx_description || '',
+              phase_type_code: result.dataValues.tp_project_phase || '',
+              phase_type_name: result.dataValues.tp_project_phase
+                ? (result.dataValues.tp_project_phase === 10 && 'Concepção') ||
+                  (result.dataValues.tp_project_phase === 20 &&
+                    'Priorização') ||
+                  (result.dataValues.tp_project_phase === 30 &&
+                    'Desenvolvimento') ||
+                  (result.dataValues.tp_project_phase === 40 && 'Licitação') ||
+                  (result.dataValues.tp_project_phase === 50 && 'Execução') ||
+                  (result.dataValues.tp_project_phase === 60 &&
+                    'Encerrado em Garantia')
+                : '',
+              nm_project_phase: result.dataValues.nm_project_phase,
+              nm_product: '',
+            });
+          }
         });
-        const ID_PRODUCTS = products.map(
-          product => product.dataValues.id_product
-        );
 
-        const findLastRecord = await Product_history.findAll({
-          attributes: [
-            [
-              Sequelize.fn('MAX', Sequelize.col('id_product_history')),
-              'id_product_history',
-            ],
-          ],
-          group: Sequelize.col('id_product'),
-          raw: true,
-          having: {
-            id_product: {
-              [Op.in]: ID_PRODUCTS,
-            },
-          },
-        });
-
-        const values = findLastRecord.map(
-          ({ id_product_history }) => id_product_history
-        );
-
-        const productHistories = await Product_history.findAll({
-          where: {
-            [Op.and]: {
-              id_product_history: {
-                [Op.in]: values,
-              },
-              cd_status: {
-                [Op.gt]: 0,
-              },
-            },
-          },
-          include: [
-            {
-              model: Product,
-              as: 'product',
-            },
-          ],
-        });
-
-        const projectPhaseWithHistories = productHistories.map(
-          ph => ph.dataValues.product.dataValues.id_project_phase
-        );
-
-        const reducedArray = projectPhaseWithHistories.reduce((acc, curr) => {
-          if (acc.length === 0) acc.push({ id_project_phase: curr, count: 1 });
-          else if (acc.findIndex(f => f.id_project_phase === curr) === -1)
-            acc.push({ id_project_phase: curr, count: 1 });
-          else ++acc[acc.findIndex(f => f.id_project_phase === curr)].count;
-          return acc;
-        }, []);
-
-        const sort = reducedArray.sort((a, b) => b.count - a.count);
-
-        const project_phase_details =
-          sort.length > 0 &&
-          (await Project_phase.findByPk(sort[0].id_project_phase));
-
-        Data.push({
-          nm_project: project.dataValues.nm_project,
-          nm_city: project.dataValues.city.dataValues.nm_city,
-          cd_priority: project.dataValues.cd_priority,
-          cd_complexity: project.cd_complexity,
-          nm_region: project.city.dataValues.region.dataValues.nm_region,
-          cd_sei: project.dataValues.cd_sei || 'Não Possui',
-          tx_description: project.dataValues.tx_description || 'Não Possui',
-          phase_type_code:
-            project_phase_details.tp_project_phase || 'Não Possui',
-          phase_type_name: project_phase_details.tp_project_phase
-            ? (project_phase_details.tp_project_phase === 10 && 'Concepção') ||
-              (project_phase_details.tp_project_phase === 20 &&
-                'Priorização') ||
-              (project_phase_details.tp_project_phase === 30 &&
-                'Desenvolvimento') ||
-              (project_phase_details.tp_project_phase === 40 && 'Licitação') ||
-              (project_phase_details.tp_project_phase === 50 && 'Execução') ||
-              (project_phase_details.tp_project_phase === 60 &&
-                'Encerrado em Garantia')
-            : 'Não Possui',
-          nm_project_phase:
-            project_phase_details.nm_project_phase || 'Não Possui',
-        });
+        if (project.project_phase.length === 0) {
+          Data.push({
+            nm_project: project.dataValues.nm_project,
+            nm_city: project.dataValues.city.dataValues.nm_city,
+            cd_priority: project.dataValues.cd_priority,
+            cd_complexity: project.dataValues.cd_complexity,
+            nm_region: project.city.dataValues.region.dataValues.nm_region,
+            cd_sei: project.dataValues.cd_sei || '',
+            tx_description: project.dataValues.tx_description || '',
+            phase_type_code: '',
+            phase_type_name: '',
+            nm_project_phase: '',
+            nm_product: '',
+          });
+        }
       })
     );
 
