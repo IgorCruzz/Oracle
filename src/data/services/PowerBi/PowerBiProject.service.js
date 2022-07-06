@@ -1,25 +1,18 @@
-import { Op } from 'sequelize';
-import ExcelJS from 'exceljs';
-import { format } from 'date-fns';
+import Sequelize, { Op } from 'sequelize';
 import {
   Project,
   Project_phase,
-  Product,
   City,
   Region,
-  Category,
+  Product,
+  Location,
   Product_history,
-  Professional,
-  Allocation_period,
-  Allocation,
 } from '../../database/models';
+import { calculateHour } from '../../../utils/calculateHour';
 
-export class ProjectService {
-  async execute({ page, limit, id_region, id_city, download, id_project }) {
-    const projects = await Project.findAndCountAll({
-      limit: limit !== 'all' ? Number(limit) : null,
-      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
-      where: id_project ? { id_project } : {},
+export class PowerBiProjectService {
+  async execute() {
+    const projects = await Project.findAll({
       attributes: [
         'id_project',
         'nm_project',
@@ -29,65 +22,30 @@ export class ProjectService {
         'vl_estimated',
         'vl_bid',
         'vl_contract',
+        'cd_complexity',
+        'tx_description',
       ],
+
       include: [
-        id_city || id_region
-          ? {
-              model: City,
-              as: 'city',
-              where: { id_city },
-              attributes: ['nm_city'],
-              include: [
-                {
-                  model: Region,
-                  as: 'region',
-                  attributes: ['nm_region'],
-                  where: { id_region },
-                },
-              ],
-            }
-          : {
-              model: City,
-              as: 'city',
-              attributes: ['nm_city'],
-              include: [
-                {
-                  model: Region,
-                  as: 'region',
-                  attributes: ['nm_region'],
-                },
-              ],
-            },
         {
-          model: Category,
-          as: 'category',
+          model: City,
+          as: 'city',
+          attributes: ['nm_city'],
+          include: [
+            {
+              model: Region,
+              as: 'region',
+              attributes: ['nm_region'],
+            },
+          ],
+        },
+        {
+          model: Location,
+          as: 'location',
         },
         {
           model: Project_phase,
           as: 'project_phase',
-          attributes: ['id_project_phase', 'nu_order', 'nm_project_phase'],
-          include: [
-            {
-              model: Product,
-              as: 'product',
-              include: [
-                {
-                  model: Product_history,
-                  as: 'product_history',
-                  include: [
-                    {
-                      model: Professional,
-                      as: 'professional',
-                    },
-                    {
-                      model: Allocation_period,
-                      as: 'allocation',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
         },
       ],
     });
@@ -95,281 +53,155 @@ export class ProjectService {
     const Data = [];
 
     await Promise.all(
-      projects.rows.map(async project => {
-        const {
-          vl_contract,
-          vl_bid,
-          vl_estimated,
-          project_phase,
-          nm_project,
-          cd_sei,
-          city,
-          category,
-          qt_m2,
-        } = project.dataValues;
-
-        const idProjectPhases = project_phase.map(
-          project_phase2 => project_phase2.dataValues.id_project_phase
+      projects.map(async project => {
+        // PEGAR FASES DO PROJETOS
+        const ID_PROJECT_PHASES = project.project_phase.map(
+          project2 => project2.dataValues.id_project_phase
         );
 
+        // PEGAR TODOS OS PRODUTOS REFERENTE AS FASES DE PROJETO
         const products = await Product.findAll({
-          where: {
-            id_project_phase: {
-              [Op.in]: idProjectPhases,
+          where:
+            ID_PROJECT_PHASES.length > 0
+              ? {
+                  id_project_phase: {
+                    [Op.in]: ID_PROJECT_PHASES,
+                  },
+                }
+              : {},
+        });
+        const ID_PRODUCTS = products.map(
+          product => product.dataValues.id_product
+        );
+
+        const findLastRecord = await Product_history.findAll({
+          attributes: [
+            [
+              Sequelize.fn('MAX', Sequelize.col('id_product_history')),
+              'id_product_history',
+            ],
+          ],
+          group: Sequelize.col('id_product'),
+          raw: true,
+          having: {
+            id_product: {
+              [Op.in]: ID_PRODUCTS,
             },
           },
+        });
 
+        const values = findLastRecord.map(
+          ({ id_product_history }) => id_product_history
+        );
+
+        const productHistories = await Product_history.findAll({
+          where: {
+            [Op.and]: {
+              id_product_history: {
+                [Op.in]: values,
+              },
+              cd_status: {
+                [Op.gt]: 0,
+              },
+            },
+          },
           include: [
             {
-              model: Project_phase,
-              as: 'project_phase',
-            },
-            {
-              model: Allocation,
-              as: 'allocation',
-            },
-            {
-              model: Product_history,
-              as: 'product_history',
-              include: [
-                {
-                  model: Allocation_period,
-                  as: 'allocation',
-                },
-                {
-                  model: Professional,
-                  as: 'professional',
-                },
-              ],
+              model: Product,
+              as: 'product',
             },
           ],
         });
 
+        const projectPhaseWithHistories = productHistories.map(
+          ph => ph.dataValues.product.dataValues.id_project_phase
+        );
+
+        const reducedArray = projectPhaseWithHistories.reduce((acc, curr) => {
+          if (acc.length === 0) acc.push({ id_project_phase: curr, count: 1 });
+          else if (acc.findIndex(f => f.id_project_phase === curr) === -1)
+            acc.push({ id_project_phase: curr, count: 1 });
+          else ++acc[acc.findIndex(f => f.id_project_phase === curr)].count;
+          return acc;
+        }, []);
+
+        const sort = reducedArray.sort((a, b) => b.count - a.count);
+
+        const project_phase_details =
+          sort.length > 0 &&
+          (await Project_phase.findByPk(sort[0].id_project_phase));
+
+        const getProductsFromProjectPhase =
+          sort.length > 0 &&
+          (await Product.findAll({
+            where: {
+              id_project_phase: sort[0].id_project_phase,
+            },
+          }));
+
+        const getDuration =
+          getProductsFromProjectPhase.length > 0 &&
+          getProductsFromProjectPhase.map(product => ({
+            duration: calculateHour({
+              max: product.qt_maximum_hours,
+              min: product.qt_minimum_hours,
+              prov: product.qt_probable_hours,
+              value: product.tp_required_action,
+            }),
+          }));
+
+        const productSumDuration =
+          getDuration.length > 0 &&
+          getDuration.reduce((acc, curr) => {
+            return acc + curr.duration;
+          }, 0);
+
         Data.push({
-          project: {
-            nm_project,
-            cd_sei,
-            city: city.nm_city,
-            category: category.nm_category,
-            value: vl_contract || vl_bid || vl_estimated,
-            qt_m2,
-          },
-          products,
-          project_phase,
+          nm_project: project.dataValues.nm_project,
+          nm_city: project.dataValues.city.dataValues.nm_city,
+          cd_priority: project.dataValues.cd_priority,
+          cd_complexity: project.cd_complexity,
+          nm_region: project.city.dataValues.region.dataValues.nm_region,
+          cd_sei: project.dataValues.cd_sei || 'Não Possui',
+          tx_description: project.dataValues.tx_description || 'Não Possui',
+          phase_type_code:
+            project_phase_details.tp_project_phase || 'Não Possui',
+          phase_type_name: project_phase_details.tp_project_phase
+            ? (project_phase_details.tp_project_phase === 10 && 'Concepção') ||
+              (project_phase_details.tp_project_phase === 20 &&
+                'Priorização') ||
+              (project_phase_details.tp_project_phase === 30 &&
+                'Desenvolvimento') ||
+              (project_phase_details.tp_project_phase === 40 && 'Licitação') ||
+              (project_phase_details.tp_project_phase === 50 && 'Execução') ||
+              (project_phase_details.tp_project_phase === 60 &&
+                'Encerrado em Garantia')
+            : 'Não Possui',
+          nm_project_phase:
+            project_phase_details.nm_project_phase || 'Não Possui',
+          phaseCompletion: productSumDuration,
+          ds_district:
+            project.dataValues.location.length > 0
+              ? project.dataValues.location[0].ds_district
+              : 'Não Possui',
+          ds_address:
+            project.dataValues.location.length > 0
+              ? project.dataValues.location[0].ds_address
+              : 'Não Possui',
+          nu_latitude:
+            project.dataValues.location.length > 0
+              ? project.dataValues.location[0].nu_latitude
+              : 'Não Possui',
+          nu_longitude:
+            project.dataValues.location.length > 0
+              ? project.dataValues.location[0].nu_longitude
+              : 'Não Possui',
         });
       })
     );
 
-    let buffer;
-
-    if (download) {
-      const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet('ExampleSheet');
-
-      const [
-        {
-          project: { nm_project, cd_sei, city, category, value, qt_m2 },
-          products,
-        },
-      ] = Data;
-
-      worksheet.getCell('A2').value = 'RELATÓRIO:';
-      worksheet.getCell('A2').font = {
-        bold: true,
-      };
-
-      worksheet.getCell('A3').value = 'DATA:';
-      worksheet.getCell('A3').font = {
-        bold: true,
-      };
-
-      worksheet.getCell('B2').value = 'Portfolio de Projetos';
-      worksheet.getCell('B3').value = format(new Date(), 'dd/MM/yyyy');
-
-      // /////////////////////////////////////////////////////////
-      worksheet.getCell('A6').value = 'PROJETO:';
-      worksheet.getCell('A6').font = {
-        bold: true,
-      };
-
-      worksheet.getCell('B6').value = nm_project;
-      worksheet.getCell('B6').alignment = {
-        horizontal: 'left',
-      };
-      // /////////////////////////////////////////////////////////
-
-      // /////////////////////////////////////////////////////////
-      worksheet.getCell('A7').value = 'SEI:';
-      worksheet.getCell('A7').font = {
-        bold: true,
-      };
-
-      worksheet.getCell('B7').value = cd_sei || 'Não Possui';
-      worksheet.getCell('B7').alignment = {
-        horizontal: 'left',
-      };
-      // /////////////////////////////////////////////////////////
-
-      // /////////////////////////////////////////////////////////
-      worksheet.getCell('C6').value = 'MUNICÍPIO:';
-      worksheet.getCell('C6').font = {
-        bold: true,
-      };
-
-      worksheet.getCell('D6').value = city;
-      worksheet.getCell('D6').alignment = {
-        horizontal: 'left',
-      };
-      // /////////////////////////////////////////////////////////
-
-      // /////////////////////////////////////////////////////////
-      worksheet.getCell('C7').value = 'CATEGORIA:';
-      worksheet.getCell('C7').font = {
-        bold: true,
-      };
-      worksheet.getCell('D7').value = category;
-      worksheet.getCell('D7').alignment = {
-        horizontal: 'left',
-      };
-      // /////////////////////////////////////////////////////////
-
-      // /////////////////////////////////////////////////////////
-      worksheet.getCell('E6').value = 'VALOR:';
-      worksheet.getCell('E6').font = {
-        bold: true,
-      };
-      worksheet.getCell('F6').value = value;
-      worksheet.getCell('F6').alignment = {
-        horizontal: 'left',
-      };
-      // /////////////////////////////////////////////////////////
-
-      // /////////////////////////////////////////////////////////
-      worksheet.getCell('E7').value = 'ÁREA (m2):';
-      worksheet.getCell('E7').font = {
-        bold: true,
-      };
-      worksheet.getCell('F7').value = qt_m2 || 'Não Possui';
-      worksheet.getCell('F7').alignment = {
-        horizontal: 'left',
-      };
-      // /////////////////////////////////////////////////////////
-
-      worksheet.getCell('A10').value = 'Fase';
-      worksheet.getCell('A10').font = {
-        bold: true,
-      };
-      worksheet.getCell('B10').value = 'Produto';
-      worksheet.getCell('B10').font = {
-        bold: true,
-      };
-      worksheet.getCell('C10').value = 'Périodo de PTI';
-      worksheet.getCell('C10').font = {
-        bold: true,
-      };
-      worksheet.getCell('D10').value = 'Responsável';
-      worksheet.getCell('D10').font = {
-        bold: true,
-      };
-      worksheet.getCell('E10').value = 'Status do produto';
-      worksheet.getCell('E10').font = {
-        bold: true,
-      };
-
-      const colA = worksheet.getColumn('A');
-      const colB = worksheet.getColumn('B');
-      const colC = worksheet.getColumn('C');
-      const colD = worksheet.getColumn('D');
-      const colE = worksheet.getColumn('E');
-      const colF = worksheet.getColumn('F');
-
-      colA.width = 20;
-      colB.width = 20;
-      colC.width = 20;
-      colD.width = 20;
-      colE.width = 20;
-      colF.width = 20;
-
-      for (let i = 0; i <= products.length - 1; i++) {
-        let num = 11;
-
-        worksheet.getCell(`A${String(num + i)}`).value =
-          products[i].project_phase.nm_project_phase;
-        worksheet.getCell(`B${String(num + i)}`).value = products[i].nm_product;
-        worksheet.getCell(`C${String(num + i)}`).value =
-          // ///////////////
-          `${format(
-            new Date(
-              products[i].product_history[
-                products[i].product_history.length - 1
-              ].allocation.dt_start_allocation
-            ),
-            'dd/MM/yyyy'
-          )} - ${format(
-            new Date(
-              products[i].product_history[
-                products[i].product_history.length - 1
-              ].allocation.dt_end_allocation
-            ),
-            'dd/MM/yyyy'
-          )} (${
-            products[i].product_history[products[i].product_history.length - 1]
-              .allocation.qt_business_hours
-          }h)`;
-        // //////////
-
-        worksheet.getCell(`D${String(num + i)}`).value =
-          products[i].product_history[
-            products[i].product_history.length - 1
-          ].professional.nm_professional;
-        worksheet.getCell(`E${String(num + i)}`).value =
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 0 &&
-            'Ag. Alocação') ||
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 1 &&
-            'Em Produção') ||
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 2 &&
-            'Em Análise') ||
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 3 &&
-            'Em Correção') ||
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 4 &&
-            'Em Análise de Correção') ||
-          (products[i].product_history[products[i].product_history.length - 1]
-            .cd_status === 5 &&
-            'Concluído');
-
-        worksheet.getCell(`A${String(num + i)}`).alignment = {
-          horizontal: 'left',
-        };
-        worksheet.getCell(`B${String(num + i)}`).alignment = {
-          horizontal: 'left',
-        };
-        worksheet.getCell(`C${String(num + i)}`).alignment = {
-          horizontal: 'left',
-        };
-        worksheet.getCell(`D${String(num + i)}`).alignment = {
-          horizontal: 'left',
-        };
-        worksheet.getCell(`E${String(num + i)}`).alignment = {
-          horizontal: 'left',
-        };
-
-        num++;
-      }
-
-      buffer = await workbook.xlsx.writeBuffer();
-    }
-
     return {
-      projects: {
-        count: Data.length,
-        rows: Data,
-        buffer,
-      },
+      projects: Data,
     };
   }
 }
