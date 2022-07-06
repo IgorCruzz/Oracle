@@ -8,7 +8,6 @@ import {
   Location,
   Product_history,
 } from '../../database/models';
-import { calculateHour } from '../../../utils/calculateHour';
 
 export class PowerBiProjectService {
   async execute() {
@@ -131,31 +130,6 @@ export class PowerBiProjectService {
           sort.length > 0 &&
           (await Project_phase.findByPk(sort[0].id_project_phase));
 
-        const getProductsFromProjectPhase =
-          sort.length > 0 &&
-          (await Product.findAll({
-            where: {
-              id_project_phase: sort[0].id_project_phase,
-            },
-          }));
-
-        const getDuration =
-          getProductsFromProjectPhase.length > 0 &&
-          getProductsFromProjectPhase.map(product => ({
-            duration: calculateHour({
-              max: product.qt_maximum_hours,
-              min: product.qt_minimum_hours,
-              prov: product.qt_probable_hours,
-              value: product.tp_required_action,
-            }),
-          }));
-
-        const productSumDuration =
-          getDuration.length > 0 &&
-          getDuration.reduce((acc, curr) => {
-            return acc + curr.duration;
-          }, 0);
-
         Data.push({
           nm_project: project.dataValues.nm_project,
           nm_city: project.dataValues.city.dataValues.nm_city,
@@ -179,23 +153,6 @@ export class PowerBiProjectService {
             : 'Não Possui',
           nm_project_phase:
             project_phase_details.nm_project_phase || 'Não Possui',
-          phaseCompletion: productSumDuration,
-          ds_district:
-            project.dataValues.location.length > 0
-              ? project.dataValues.location[0].ds_district
-              : 'Não Possui',
-          ds_address:
-            project.dataValues.location.length > 0
-              ? project.dataValues.location[0].ds_address
-              : 'Não Possui',
-          nu_latitude:
-            project.dataValues.location.length > 0
-              ? project.dataValues.location[0].nu_latitude
-              : 'Não Possui',
-          nu_longitude:
-            project.dataValues.location.length > 0
-              ? project.dataValues.location[0].nu_longitude
-              : 'Não Possui',
         });
       })
     );
