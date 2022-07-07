@@ -5,6 +5,8 @@ export class FindProfessionalsController {
     try {
       const {
         id_role_grade,
+        id_role,
+        id_grade,
         id_sector,
         id_user,
         in_delivery_analyst,
@@ -29,6 +31,8 @@ export class FindProfessionalsController {
         page,
         ds_email_login,
         has_no_association,
+        id_role,
+        id_grade,
       });
 
       if (response.error)
@@ -45,6 +49,7 @@ export class FindProfessionalsController {
         professionals: rows,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });

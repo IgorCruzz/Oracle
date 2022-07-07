@@ -12,6 +12,8 @@ export class FindProfessionalsService {
     page,
     ds_email_login,
     has_no_association,
+    id_role,
+    id_grade,
   }) {
     const repository = new ProfessionalRepository();
 
@@ -26,6 +28,8 @@ export class FindProfessionalsService {
       page,
       ds_email_login,
       has_no_association,
+      id_role,
+      id_grade,
     });
 
     if (findProfessionals.length === 0)

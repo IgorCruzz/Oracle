@@ -140,6 +140,8 @@ export class ReportProfessionalService {
         });
 
         return {
+          id_professional,
+
           allocation_period: `${format(
             new Date(productHistory['allocation.dt_start_allocation']),
             'dd/MM/yyyy'

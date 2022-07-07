@@ -86,6 +86,8 @@ export class ProfessionalRepository {
     in_active,
     ds_email_login,
     has_no_association,
+    id_role,
+    id_grade,
   }) {
     let searchQuery;
 
@@ -122,17 +124,23 @@ export class ProfessionalRepository {
       order: [['nm_professional', 'ASC']],
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       include: [
-        id_role_grade
+        id_role_grade || id_role || id_grade
           ? {
               model: Role_grade,
               as: 'coustHH',
               include: [
-                { model: Role, as: 'role' },
-                { model: Grade, as: 'grade' },
+                { model: Role, as: 'role', where: id_role ? { id_role } : {} },
+                {
+                  model: Grade,
+                  as: 'grade',
+                  where: id_grade ? { id_grade } : {},
+                },
               ],
-              where: {
-                id_role_grade,
-              },
+              where: id_role_grade
+                ? {
+                    id_role_grade,
+                  }
+                : {},
             }
           : {
               include: [
