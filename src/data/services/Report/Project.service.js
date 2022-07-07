@@ -400,8 +400,10 @@ export class ProjectService {
       for (let i = 0; i <= products.length - 1; i++) {
         let num = 11;
 
+        console.log({ products: products[i] });
+
         worksheet.getCell(`A${String(num + i)}`).value =
-          'products[i].project_phase.nm_project_phase';
+          products[i].nm_project_phase || 'Não Possui';
         worksheet.getCell(`B${String(num + i)}`).value = products[i].nm_product;
         worksheet.getCell(`C${String(num + i)}`).value =
           products[i].allocation_period;
