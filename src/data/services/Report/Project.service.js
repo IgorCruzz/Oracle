@@ -188,7 +188,7 @@ export class ProjectService {
                 };
               });
 
-              ProductList.push(LIST[0]);
+              ProductList.push(LIST);
             } else {
               ProductList.push({
                 nm_project_phase: project_phase2.dataValues.nm_project_phase,
