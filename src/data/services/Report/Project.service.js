@@ -127,68 +127,49 @@ export class ProjectService {
           project_phase.map(async project_phase2 => {
             if (project_phase2.product.length > 0) {
               const LIST = project_phase2.product.map(RESULTADO => {
-                return {
-                  nm_project_phase: RESULTADO.project_phase.nm_project_phase,
-                  nm_product: RESULTADO.nm_product,
-                  allocation_period: RESULTADO.product_history[
-                    RESULTADO.product_history.length - 1
-                  ].allocation
+                return RESULTADO.project_phase.map(project_phase_res => ({
+                  nm_project_phase: project_phase_res.nm_project_phase,
+                  nm_product: project_phase_res.nm_product,
+                  allocation_period: project_phase_res.product_history
+                    .allocation
                     ? `${format(
                         new Date(
-                          RESULTADO.product_history[
-                            RESULTADO.product_history.length - 1
-                          ].allocation.dt_start_allocation
+                          project_phase_res.product_history.allocation.dt_start_allocation
                         ),
                         'dd/MM/yyyy'
                       )} - ${format(
                         new Date(
-                          RESULTADO.product_history[
-                            RESULTADO.product_history.length - 1
-                          ].allocation.dt_end_allocation
+                          project_phase_res.product_history.allocation.dt_end_allocation
                         ),
                         'dd/MM/yyyy'
                       )} (${
-                        RESULTADO.product_history[
-                          RESULTADO.product_history.length - 1
-                        ].allocation.qt_business_hours
+                        project_phase_res.product_history.allocation
+                          .qt_business_hours
                       }h)`
                     : '',
-                  nm_professional: RESULTADO.product_history[
-                    RESULTADO.product_history.length - 1
-                  ].allocation
-                    ? RESULTADO.product_history[
-                        RESULTADO.product_history.length - 1
-                      ].professional.nm_professional
+                  nm_professional: project_phase_res.product_history.allocation
+                    ? project_phase_res.product_history.professional
+                        .nm_professional
                     : '',
                   cd_status:
-                    (RESULTADO.product_history[
-                      RESULTADO.product_history.length - 1
-                    ].cd_status === 0 &&
+                    (project_phase_res.product_history.cd_status === 0 &&
                       'Ag. Alocação') ||
-                    (RESULTADO.product_history[
-                      RESULTADO.product_history.length - 1
-                    ].cd_status === 1 &&
+                    (project_phase_res.product_history.cd_status === 1 &&
                       'Em Produção') ||
-                    (RESULTADO.product_history[
-                      RESULTADO.product_history.length - 1
-                    ].cd_status === 2 &&
+                    (project_phase_res.product_history.cd_status === 2 &&
                       'Em Análise') ||
-                    (RESULTADO.product_history[
-                      RESULTADO.product_history.length - 1
-                    ].cd_status === 3 &&
+                    (project_phase_res.product_history.cd_status === 3 &&
                       'Em Correção') ||
-                    (RESULTADO.product_history[
-                      RESULTADO.product_history.length - 1
-                    ].cd_status === 4 &&
+                    (project_phase_res.product_history.cd_status === 4 &&
                       'Em Análise de Correção') ||
-                    (RESULTADO.product_history[
-                      RESULTADO.product_history.length - 1
-                    ].cd_status === 5 &&
+                    (project_phase_res.product_history.cd_status === 5 &&
                       'Concluído'),
-                };
+                }));
               });
 
-              ProductList.push(LIST);
+              console.log({ LIST });
+
+              ProductList.push(LIST[0]);
             } else {
               ProductList.push({
                 nm_project_phase: project_phase2.dataValues.nm_project_phase,
