@@ -108,97 +108,119 @@ export class ProjectService {
           qt_m2,
         } = project.dataValues;
 
-        const idProjectPhases = project_phase.map(
-          project_phase2 => project_phase2.dataValues.id_project_phase
-        );
+        if (project_phase.length === 0) {
+          Data.push({
+            project: {
+              nm_project,
+              cd_sei,
+              city: city.nm_city,
+              category: category.nm_category,
+              value: vl_contract || vl_bid || vl_estimated,
+              qt_m2,
+            },
+            products: [
+              {
+                nm_project_phase: 'Não Possui',
+                nm_product: 'Não Possui',
+                allocation_period: 'Não Possui',
+                nm_professional: 'Não Possui',
+                cd_status: 'Não Possui',
+              },
+            ],
+          });
+        } else {
+          const idProjectPhases = project_phase.map(
+            project_phase2 => project_phase2.dataValues.id_project_phase
+          );
 
-        const products = await Product.findAll({
-          where: {
-            id_project_phase: {
-              [Op.in]: idProjectPhases,
+          const products = await Product.findAll({
+            where: {
+              id_project_phase: {
+                [Op.in]: idProjectPhases,
+              },
             },
-          },
 
-          include: [
-            {
-              model: Project_phase,
-              as: 'project_phase',
-            },
-            {
-              model: Allocation,
-              as: 'allocation',
-            },
-            {
-              model: Product_history,
-              as: 'product_history',
-              include: [
-                {
-                  model: Allocation_period,
-                  as: 'allocation',
-                },
-                {
-                  model: Professional,
-                  as: 'professional',
-                },
-              ],
-            },
-          ],
-        });
+            include: [
+              {
+                model: Project_phase,
+                as: 'project_phase',
+              },
+              {
+                model: Allocation,
+                as: 'allocation',
+              },
+              {
+                model: Product_history,
+                as: 'product_history',
+                include: [
+                  {
+                    model: Allocation_period,
+                    as: 'allocation',
+                  },
+                  {
+                    model: Professional,
+                    as: 'professional',
+                  },
+                ],
+              },
+            ],
+          });
 
-        Data.push({
-          project: {
-            nm_project,
-            cd_sei,
-            city: city.nm_city,
-            category: category.nm_category,
-            value: vl_contract || vl_bid || vl_estimated,
-            qt_m2,
-          },
-          products: products.map(product => ({
-            nm_project_phase: product.project_phase.nm_project_phase,
-            nm_product: product.nm_product,
-            allocation_period: `${format(
-              new Date(
-                product.product_history[
-                  product.product_history.length - 1
-                ].allocation.dt_start_allocation
-              ),
-              'dd/MM/yyyy'
-            )} - ${format(
-              new Date(
-                product.product_history[
-                  product.product_history.length - 1
-                ].allocation.dt_end_allocation
-              ),
-              'dd/MM/yyyy'
-            )} (${
-              product.product_history[product.product_history.length - 1]
-                .allocation.qt_business_hours
-            }h)`,
-            nm_professional:
-              product.product_history[product.product_history.length - 1]
-                .professional.nm_professional,
-            cd_status:
-              (product.product_history[product.product_history.length - 1]
-                .cd_status === 0 &&
-                'Ag. Alocação') ||
-              (product.product_history[product.product_history.length - 1]
-                .cd_status === 1 &&
-                'Em Produção') ||
-              (product.product_history[product.product_history.length - 1]
-                .cd_status === 2 &&
-                'Em Análise') ||
-              (product.product_history[product.product_history.length - 1]
-                .cd_status === 3 &&
-                'Em Correção') ||
-              (product.product_history[product.product_history.length - 1]
-                .cd_status === 4 &&
-                'Em Análise de Correção') ||
-              (product.product_history[product.product_history.length - 1]
-                .cd_status === 5 &&
-                'Concluído'),
-          })),
-        });
+          Data.push({
+            project: {
+              nm_project,
+              cd_sei,
+              city: city.nm_city,
+              category: category.nm_category,
+              value: vl_contract || vl_bid || vl_estimated,
+              qt_m2,
+            },
+            products: products.map(product => ({
+              nm_project_phase: product.project_phase.nm_project_phase,
+              nm_product: product.nm_product,
+              allocation_period: `${format(
+                new Date(
+                  product.product_history[
+                    product.product_history.length - 1
+                  ].allocation.dt_start_allocation
+                ),
+                'dd/MM/yyyy'
+              )} - ${format(
+                new Date(
+                  product.product_history[
+                    product.product_history.length - 1
+                  ].allocation.dt_end_allocation
+                ),
+                'dd/MM/yyyy'
+              )} (${
+                product.product_history[product.product_history.length - 1]
+                  .allocation.qt_business_hours
+              }h)`,
+              nm_professional:
+                product.product_history[product.product_history.length - 1]
+                  .professional.nm_professional,
+              cd_status:
+                (product.product_history[product.product_history.length - 1]
+                  .cd_status === 0 &&
+                  'Ag. Alocação') ||
+                (product.product_history[product.product_history.length - 1]
+                  .cd_status === 1 &&
+                  'Em Produção') ||
+                (product.product_history[product.product_history.length - 1]
+                  .cd_status === 2 &&
+                  'Em Análise') ||
+                (product.product_history[product.product_history.length - 1]
+                  .cd_status === 3 &&
+                  'Em Correção') ||
+                (product.product_history[product.product_history.length - 1]
+                  .cd_status === 4 &&
+                  'Em Análise de Correção') ||
+                (product.product_history[product.product_history.length - 1]
+                  .cd_status === 5 &&
+                  'Concluído'),
+            })),
+          });
+        }
       })
     );
 
