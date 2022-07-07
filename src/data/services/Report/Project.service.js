@@ -1,4 +1,3 @@
-import { Op } from 'sequelize';
 import ExcelJS from 'exceljs';
 import { format } from 'date-fns';
 import {
@@ -11,7 +10,6 @@ import {
   Product_history,
   Professional,
   Allocation_period,
-  Allocation,
 } from '../../database/models';
 
 export class ProjectService {
@@ -119,11 +117,11 @@ export class ProjectService {
 
         if (project_phase.length === 0) {
           ProductList.push({
-            nm_project_phase: 'Não Possui',
-            nm_product: 'Não Possui',
-            allocation_period: 'Não Possui',
-            nm_professional: 'Não Possui',
-            cd_status: 'Não Possui',
+            nm_project_phase: '',
+            nm_product: '',
+            allocation_period: '',
+            nm_professional: '',
+            cd_status: '',
           });
         } else {
           project_phase.map(async project_phase2 => {
@@ -154,14 +152,14 @@ export class ProjectService {
                           RESULTADO.product_history.length - 1
                         ].allocation.qt_business_hours
                       }h)`
-                    : 'Não Possui',
+                    : '',
                   nm_professional: RESULTADO.product_history[
                     RESULTADO.product_history.length - 1
                   ].allocation
                     ? RESULTADO.product_history[
                         RESULTADO.product_history.length - 1
                       ].professional.nm_professional
-                    : 'Não Possui',
+                    : '',
                   cd_status:
                     (RESULTADO.product_history[
                       RESULTADO.product_history.length - 1
@@ -194,10 +192,10 @@ export class ProjectService {
             } else {
               ProductList.push({
                 nm_project_phase: project_phase2.dataValues.nm_project_phase,
-                nm_product: 'Não Possui',
-                allocation_period: 'Não Possui',
-                nm_professional: 'Não Possui',
-                cd_status: 'Não Possui',
+                nm_product: '',
+                allocation_period: '',
+                nm_professional: '',
+                cd_status: '',
               });
             }
           });
@@ -261,7 +259,7 @@ export class ProjectService {
         bold: true,
       };
 
-      worksheet.getCell('B7').value = cd_sei || 'Não Possui';
+      worksheet.getCell('B7').value = cd_sei || '';
       worksheet.getCell('B7').alignment = {
         horizontal: 'left',
       };
@@ -306,7 +304,7 @@ export class ProjectService {
       worksheet.getCell('E7').font = {
         bold: true,
       };
-      worksheet.getCell('F7').value = qt_m2 || 'Não Possui';
+      worksheet.getCell('F7').value = qt_m2 || '';
       worksheet.getCell('F7').alignment = {
         horizontal: 'left',
       };
@@ -353,7 +351,7 @@ export class ProjectService {
         console.log({ products: products[i] });
 
         worksheet.getCell(`A${String(num + i)}`).value =
-          products[i].nm_project_phase || 'Não Possui';
+          products[i].nm_project_phase || '';
         worksheet.getCell(`B${String(num + i)}`).value = products[i].nm_product;
         worksheet.getCell(`C${String(num + i)}`).value =
           products[i].allocation_period;

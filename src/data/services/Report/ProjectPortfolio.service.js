@@ -82,7 +82,7 @@ export class ProjectPortfolioService {
             nm_project: project.dataValues.nm_project,
             cd_sei: project.dataValues.cd_sei,
             nm_city: project.dataValues.city.nm_city,
-            qt_m2: project.dataValues.qt_m2 || 'Não Possui',
+            qt_m2: project.dataValues.qt_m2 || '',
             cd_priority:
               (project.dataValues.cd_priority === 1 && 'Baixa') ||
               (project.dataValues.cd_priority === 2 && 'Média') ||
@@ -91,9 +91,9 @@ export class ProjectPortfolioService {
               project.dataValues.vl_contract ||
               project.dataValues.vl_bid ||
               project.dataValues.vl_estimated ||
-              'Não Possui',
-            project_phase: 'Não Possui',
-            phaseCompletion: 'Não Possui',
+              '',
+            project_phase: '',
+            phaseCompletion: '',
           });
         } else {
           const products = await Product.findAll({
@@ -244,7 +244,7 @@ export class ProjectPortfolioService {
                 nm_project: project.dataValues.nm_project,
                 cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
-                qt_m2: project.dataValues.qt_m2 || 'Não Possui',
+                qt_m2: project.dataValues.qt_m2 || '',
                 cd_priority:
                   (project.dataValues.cd_priority === 1 && 'Baixa') ||
                   (project.dataValues.cd_priority === 2 && 'Média') ||
@@ -253,7 +253,7 @@ export class ProjectPortfolioService {
                   project.dataValues.vl_contract ||
                   project.dataValues.vl_bid ||
                   project.dataValues.vl_estimated ||
-                  'Não Possui',
+                  '',
                 project_phase: project_phase.dataValues.nm_project_phase,
                 phaseCompletion: `${(
                   (productHistoriesConcluded3 / productSumDuration) *
@@ -265,7 +265,7 @@ export class ProjectPortfolioService {
                 nm_project: project.dataValues.nm_project,
                 cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
-                qt_m2: project.dataValues.qt_m2 || 'Não Possui',
+                qt_m2: project.dataValues.qt_m2 || '',
                 cd_priority:
                   (project.dataValues.cd_priority === 1 && 'Baixa') ||
                   (project.dataValues.cd_priority === 2 && 'Média') ||
@@ -274,9 +274,9 @@ export class ProjectPortfolioService {
                   project.dataValues.vl_contract ||
                   project.dataValues.vl_bid ||
                   project.dataValues.vl_estimated ||
-                  'Não Possui',
-                project_phase: 'Não Possui',
-                phaseCompletion: 'Não Possui',
+                  '',
+                project_phase: '',
+                phaseCompletion: '',
               });
             }
           } else {
@@ -284,7 +284,7 @@ export class ProjectPortfolioService {
               nm_project: project.dataValues.nm_project,
               cd_sei: project.dataValues.cd_sei,
               nm_city: project.dataValues.city.nm_city,
-              qt_m2: project.dataValues.qt_m2 || 'Não Possui',
+              qt_m2: project.dataValues.qt_m2 || '',
               cd_priority:
                 (project.dataValues.cd_priority === 1 && 'Baixa') ||
                 (project.dataValues.cd_priority === 2 && 'Média') ||
@@ -293,9 +293,9 @@ export class ProjectPortfolioService {
                 project.dataValues.vl_contract ||
                 project.dataValues.vl_bid ||
                 project.dataValues.vl_estimated ||
-                'Não Possui',
-              project_phase: 'Não Possui',
-              phaseCompletion: 'Não Possui',
+                '',
+              project_phase: '',
+              phaseCompletion: '',
             });
           }
         }
@@ -373,13 +373,11 @@ export class ProjectPortfolioService {
         let num = 11;
 
         worksheet.getCell(`A${String(num + i)}`).value = Data[i].nm_project;
-        worksheet.getCell(`B${String(num + i)}`).value =
-          Data[i].cd_sei || 'Não Possui';
+        worksheet.getCell(`B${String(num + i)}`).value = Data[i].cd_sei || '';
         worksheet.getCell(`C${String(num + i)}`).value = Data[i].nm_city;
         worksheet.getCell(`D${String(num + i)}`).value = Data[i].cd_priority;
         worksheet.getCell(`E${String(num + i)}`).value = Data[i].value;
-        worksheet.getCell(`F${String(num + i)}`).value =
-          Data[i].qt_m2 || 'Não Possui';
+        worksheet.getCell(`F${String(num + i)}`).value = Data[i].qt_m2 || '';
         worksheet.getCell(`G${String(num + i)}`).value = Data[i].project_phase;
         worksheet.getCell(`H${String(num + i)}`).value =
           Data[i].phaseCompletion;

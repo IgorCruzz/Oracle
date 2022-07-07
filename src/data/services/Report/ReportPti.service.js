@@ -124,7 +124,7 @@ export class ReportPtiService {
                   .project.dataValues.nm_project,
               cd_sei:
                 alloc.dataValues.product.dataValues.project_phase.dataValues
-                  .project.dataValues.cd_sei || 'Não Possui',
+                  .project.dataValues.cd_sei || '',
               nm_professional: prof.nm_professional,
               nm_city:
                 alloc.dataValues.product.dataValues.project_phase.dataValues

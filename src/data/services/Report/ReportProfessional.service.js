@@ -179,7 +179,7 @@ export class ReportProfessionalService {
                   parseISO(testeee[testeee.length - 1].dt_status),
                   'dd/MM/yyyy'
                 )
-              : 'Não Possui',
+              : '',
           delay:
             testeee.length > 0
               ? differenceInDays(
@@ -190,7 +190,7 @@ export class ReportProfessionalService {
                   parseISO(testeee[testeee.length - 1].dt_status),
                   new Date(productHistory['allocation.dt_end_allocation'])
                 )} dias`
-              : 'Não Possui',
+              : '',
           correction_needed: corretion.length > 0 ? 'Sim' : 'Não',
           cd_status:
             (status.cd_status === 0 && 'Ag. Alocação') ||
