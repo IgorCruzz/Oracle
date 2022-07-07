@@ -65,7 +65,7 @@ export class ProjectService {
         {
           model: Project_phase,
           as: 'project_phase',
-          attributes: ['id_project_phase', 'nu_order', 'nm_project_phase'],
+
           include: [
             {
               model: Product,
@@ -166,60 +166,103 @@ export class ProjectService {
             ],
           });
 
-          Data.push({
-            project: {
-              nm_project,
-              cd_sei,
-              city: city.nm_city,
-              category: category.nm_category,
-              value: vl_contract || vl_bid || vl_estimated,
-              qt_m2,
+          const ID_PROJECT_PHASES = project_phase.map(
+            result => result.dataValues.id_project_phase
+          );
+
+          const verifyIsHasProducts = await Product.findAll({
+            where: {
+              id_project_phase: {
+                [Op.in]: ID_PROJECT_PHASES,
+              },
             },
-            products: products.map(product => ({
-              nm_project_phase: product.project_phase.nm_project_phase,
-              nm_product: product.nm_product,
-              allocation_period: `${format(
-                new Date(
-                  product.product_history[
-                    product.product_history.length - 1
-                  ].allocation.dt_start_allocation
-                ),
-                'dd/MM/yyyy'
-              )} - ${format(
-                new Date(
-                  product.product_history[
-                    product.product_history.length - 1
-                  ].allocation.dt_end_allocation
-                ),
-                'dd/MM/yyyy'
-              )} (${
-                product.product_history[product.product_history.length - 1]
-                  .allocation.qt_business_hours
-              }h)`,
-              nm_professional:
-                product.product_history[product.product_history.length - 1]
-                  .professional.nm_professional,
-              cd_status:
-                (product.product_history[product.product_history.length - 1]
-                  .cd_status === 0 &&
-                  'Ag. Alocação') ||
-                (product.product_history[product.product_history.length - 1]
-                  .cd_status === 1 &&
-                  'Em Produção') ||
-                (product.product_history[product.product_history.length - 1]
-                  .cd_status === 2 &&
-                  'Em Análise') ||
-                (product.product_history[product.product_history.length - 1]
-                  .cd_status === 3 &&
-                  'Em Correção') ||
-                (product.product_history[product.product_history.length - 1]
-                  .cd_status === 4 &&
-                  'Em Análise de Correção') ||
-                (product.product_history[product.product_history.length - 1]
-                  .cd_status === 5 &&
-                  'Concluído'),
-            })),
           });
+
+          if (verifyIsHasProducts.length === 0) {
+            Data.push({
+              project: {
+                nm_project,
+                cd_sei,
+                city: city.nm_city,
+                category: category.nm_category,
+                value: vl_contract || vl_bid || vl_estimated,
+                qt_m2,
+              },
+              products: project_phase.map(res => ({
+                nm_project_phase: res.dataValues.nm_project_phase,
+                nm_product: 'Não Possui',
+                allocation_period: 'Não Possui',
+                nm_professional: 'Não Possui',
+                cd_status: 'Não Possui',
+              })),
+            });
+          } else {
+            Data.push({
+              project: {
+                nm_project,
+                cd_sei,
+                city: city.nm_city,
+                category: category.nm_category,
+                value: vl_contract || vl_bid || vl_estimated,
+                qt_m2,
+              },
+              products: products.map(product => {
+                return {
+                  nm_project_phase: product.project_phase.nm_project_phase,
+                  nm_product: product.nm_product,
+                  allocation_period: product.product_history[
+                    product.product_history.length - 1
+                  ].allocation
+                    ? `${format(
+                        new Date(
+                          product.product_history[
+                            product.product_history.length - 1
+                          ].allocation.dt_start_allocation
+                        ),
+                        'dd/MM/yyyy'
+                      )} - ${format(
+                        new Date(
+                          product.product_history[
+                            product.product_history.length - 1
+                          ].allocation.dt_end_allocation
+                        ),
+                        'dd/MM/yyyy'
+                      )} (${
+                        product.product_history[
+                          product.product_history.length - 1
+                        ].allocation.qt_business_hours
+                      }h)`
+                    : 'Não Possui',
+                  nm_professional: product.product_history[
+                    product.product_history.length - 1
+                  ].allocation
+                    ? product.product_history[
+                        product.product_history.length - 1
+                      ].professional.nm_professional
+                    : 'Não Possui',
+                  cd_status:
+                    (product.product_history[product.product_history.length - 1]
+                      .cd_status === 0 &&
+                      'Ag. Alocação') ||
+                    (product.product_history[product.product_history.length - 1]
+                      .cd_status === 1 &&
+                      'Em Produção') ||
+                    (product.product_history[product.product_history.length - 1]
+                      .cd_status === 2 &&
+                      'Em Análise') ||
+                    (product.product_history[product.product_history.length - 1]
+                      .cd_status === 3 &&
+                      'Em Correção') ||
+                    (product.product_history[product.product_history.length - 1]
+                      .cd_status === 4 &&
+                      'Em Análise de Correção') ||
+                    (product.product_history[product.product_history.length - 1]
+                      .cd_status === 5 &&
+                      'Concluído'),
+                };
+              }),
+            });
+          }
         }
       })
     );
@@ -358,7 +401,7 @@ export class ProjectService {
         let num = 11;
 
         worksheet.getCell(`A${String(num + i)}`).value =
-          products[i].project_phase.nm_project_phase;
+          'products[i].project_phase.nm_project_phase';
         worksheet.getCell(`B${String(num + i)}`).value = products[i].nm_product;
         worksheet.getCell(`C${String(num + i)}`).value =
           products[i].allocation_period;
