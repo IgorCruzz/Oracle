@@ -1,6 +1,6 @@
 import Sequelize, { Op } from 'sequelize';
 import ExcelJS from 'exceljs';
-import { format } from 'date-fns';
+import { format, addDays } from 'date-fns';
 import {
   Allocation,
   Professional,
@@ -201,10 +201,10 @@ export class ReportPtiService {
       };
 
       worksheet.getCell('B6').value = `${format(
-        new Date(getAllocation.dt_start_allocation),
+        addDays(new Date(getAllocation.dt_start_allocation), 1),
         'dd/MM/yyyy'
       )} - ${format(
-        new Date(getAllocation.dt_end_allocation),
+        addDays(new Date(getAllocation.dt_end_allocation), 1),
         'dd/MM/yyyy'
       )} (${getAllocation.qt_business_hours}h)`;
 
