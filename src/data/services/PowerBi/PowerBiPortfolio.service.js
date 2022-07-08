@@ -5,14 +5,20 @@ import {
   City,
   Region,
   Product,
-  Location,
   Product_history,
+  Category,
 } from '../../database/models';
 import { calculateHour } from '../../../utils/calculateHour';
 
+const formatValue = value =>
+  value.toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
 export class PowerBiPortfolioService {
   async execute() {
-    const projects = await Project.findAll({
+    const projects = await Project.findAndCountAll({
       attributes: [
         'id_project',
         'nm_project',
@@ -23,10 +29,12 @@ export class PowerBiPortfolioService {
         'vl_bid',
         'vl_contract',
         'cd_complexity',
-        'tx_description',
       ],
-
       include: [
+        {
+          model: Category,
+          as: 'category',
+        },
         {
           model: City,
           as: 'city',
@@ -40,12 +48,15 @@ export class PowerBiPortfolioService {
           ],
         },
         {
-          model: Location,
-          as: 'location',
-        },
-        {
           model: Project_phase,
           as: 'project_phase',
+          attributes: ['id_project_phase', 'nu_order', 'nm_project_phase'],
+          include: [
+            {
+              model: Product,
+              as: 'product',
+            },
+          ],
         },
       ],
     });
@@ -53,150 +64,251 @@ export class PowerBiPortfolioService {
     const Data = [];
 
     await Promise.all(
-      projects.map(async project => {
-        // PEGAR FASES DO PROJETOS
-        const ID_PROJECT_PHASES = project.project_phase.map(
-          project2 => project2.dataValues.id_project_phase
+      projects.rows.map(async project => {
+        const ID_PROJECT_PHASES = project.dataValues.project_phase.map(
+          result => result.dataValues.id_project_phase
         );
 
-        // PEGAR TODOS OS PRODUTOS REFERENTE AS FASES DE PROJETO
-        const products = await Product.findAll({
-          where:
-            ID_PROJECT_PHASES.length > 0
-              ? {
-                  id_project_phase: {
-                    [Op.in]: ID_PROJECT_PHASES,
-                  },
-                }
-              : {},
-        });
-        const ID_PRODUCTS = products.map(
-          product => product.dataValues.id_product
-        );
-
-        const findLastRecord = await Product_history.findAll({
-          attributes: [
-            [
-              Sequelize.fn('MAX', Sequelize.col('id_product_history')),
-              'id_product_history',
-            ],
-          ],
-          group: Sequelize.col('id_product'),
-          raw: true,
-          having: {
-            id_product: {
-              [Op.in]: ID_PRODUCTS,
-            },
-          },
-        });
-
-        const values = findLastRecord.map(
-          ({ id_product_history }) => id_product_history
-        );
-
-        const productHistories = await Product_history.findAll({
-          where: {
-            [Op.and]: {
-              id_product_history: {
-                [Op.in]: values,
-              },
-              cd_status: {
-                [Op.gt]: 0,
-              },
-            },
-          },
-          include: [
-            {
-              model: Product,
-              as: 'product',
-            },
-          ],
-        });
-
-        const projectPhaseWithHistories = productHistories.map(
-          ph => ph.dataValues.product.dataValues.id_project_phase
-        );
-
-        const reducedArray = projectPhaseWithHistories.reduce((acc, curr) => {
-          if (acc.length === 0) acc.push({ id_project_phase: curr, count: 1 });
-          else if (acc.findIndex(f => f.id_project_phase === curr) === -1)
-            acc.push({ id_project_phase: curr, count: 1 });
-          else ++acc[acc.findIndex(f => f.id_project_phase === curr)].count;
-          return acc;
-        }, []);
-
-        const sort = reducedArray.sort((a, b) => b.count - a.count);
-
-        const project_phase_details =
-          sort.length > 0 &&
-          (await Project_phase.findByPk(sort[0].id_project_phase));
-
-        const getProductsFromProjectPhase =
-          sort.length > 0 &&
-          (await Product.findAll({
+        if (ID_PROJECT_PHASES.length === 0) {
+          Data.push({
+            nm_project: project.dataValues.nm_project,
+            cd_sei: project.dataValues.cd_sei,
+            nm_city: project.dataValues.city.nm_city,
+            qt_m2: project.dataValues.qt_m2 || '',
+            cd_priority:
+              (project.dataValues.cd_priority === 1 && 'Baixa') ||
+              (project.dataValues.cd_priority === 2 && 'Média') ||
+              (project.dataValues.cd_priority === 3 && 'Alta'),
+            value:
+              (project.dataValues.vl_contract &&
+                formatValue(project.dataValues.vl_contract)) ||
+              (project.dataValues.vl_bid &&
+                formatValue(project.dataValues.vl_bid)) ||
+              (project.dataValues.vl_estimated &&
+                formatValue(project.dataValues.vl_estimated)) ||
+              '',
+            project_phase: '',
+            phaseCompletion: '',
+          });
+        } else {
+          const products = await Product.findAll({
             where: {
-              id_project_phase: sort[0].id_project_phase,
+              id_project_phase: {
+                [Op.in]: ID_PROJECT_PHASES,
+              },
             },
-          }));
+          });
 
-        const getDuration =
-          getProductsFromProjectPhase.length > 0 &&
-          getProductsFromProjectPhase.map(product => ({
-            duration: calculateHour({
-              max: product.qt_maximum_hours,
-              min: product.qt_minimum_hours,
-              prov: product.qt_probable_hours,
-              value: product.tp_required_action,
-            }),
-          }));
+          if (products.length > 0) {
+            const ID_PRODUCTS = products.map(
+              product => product.dataValues.id_product
+            );
 
-        const productSumDuration =
-          getDuration.length > 0 &&
-          getDuration.reduce((acc, curr) => {
-            return acc + curr.duration;
-          }, 0);
+            const findLastRecord = await Product_history.findAll({
+              attributes: [
+                [
+                  Sequelize.fn('MAX', Sequelize.col('id_product_history')),
+                  'id_product_history',
+                ],
+              ],
+              group: Sequelize.col('id_product'),
+              raw: true,
+              having: {
+                id_product: {
+                  [Op.in]: ID_PRODUCTS,
+                },
+              },
+            });
 
-        Data.push({
-          nm_project: project.dataValues.nm_project,
-          nm_city: project.dataValues.city.dataValues.nm_city,
-          cd_priority: project.dataValues.cd_priority,
-          cd_complexity: project.cd_complexity,
-          nm_region: project.city.dataValues.region.dataValues.nm_region,
-          cd_sei: project.dataValues.cd_sei || 'Não Possui',
-          tx_description: project.dataValues.tx_description || 'Não Possui',
-          phase_type_code:
-            project_phase_details.tp_project_phase || 'Não Possui',
-          phase_type_name: project_phase_details.tp_project_phase
-            ? (project_phase_details.tp_project_phase === 10 && 'Concepção') ||
-              (project_phase_details.tp_project_phase === 20 &&
-                'Priorização') ||
-              (project_phase_details.tp_project_phase === 30 &&
-                'Desenvolvimento') ||
-              (project_phase_details.tp_project_phase === 40 && 'Licitação') ||
-              (project_phase_details.tp_project_phase === 50 && 'Execução') ||
-              (project_phase_details.tp_project_phase === 60 &&
-                'Encerrado em Garantia')
-            : 'Não Possui',
-          nm_project_phase:
-            project_phase_details.nm_project_phase || 'Não Possui',
-          phaseCompletion: productSumDuration,
-          ds_district:
-            project.dataValues.location.length > 0
-              ? project.dataValues.location[0].ds_district
-              : 'Não Possui',
-          ds_address:
-            project.dataValues.location.length > 0
-              ? project.dataValues.location[0].ds_address
-              : 'Não Possui',
-          nu_latitude:
-            project.dataValues.location.length > 0
-              ? project.dataValues.location[0].nu_latitude
-              : 'Não Possui',
-          nu_longitude:
-            project.dataValues.location.length > 0
-              ? project.dataValues.location[0].nu_longitude
-              : 'Não Possui',
-        });
+            const values = findLastRecord.map(
+              ({ id_product_history }) => id_product_history
+            );
+
+            const productHistories = await Product_history.findAll({
+              where: {
+                [Op.and]: {
+                  id_product_history: {
+                    [Op.in]: values,
+                  },
+                  cd_status: {
+                    [Op.gt]: 0,
+                  },
+                },
+              },
+              include: [
+                {
+                  model: Product,
+                  as: 'product',
+                },
+              ],
+            });
+
+            if (productHistories.length > 0) {
+              const projectPhaseWithHistories = productHistories.map(
+                ph => ph.dataValues.product.dataValues.id_project_phase
+              );
+
+              const reducedArray = projectPhaseWithHistories.reduce(
+                (acc, curr) => {
+                  if (acc.length === 0)
+                    acc.push({ id_project_phase: curr, count: 1 });
+                  else if (
+                    acc.findIndex(f => f.id_project_phase === curr) === -1
+                  )
+                    acc.push({ id_project_phase: curr, count: 1 });
+                  else
+                    ++acc[acc.findIndex(f => f.id_project_phase === curr)]
+                      .count;
+                  return acc;
+                },
+                []
+              );
+
+              const sort = reducedArray.sort((a, b) => b.count - a.count);
+
+              const project_phase = await Project_phase.findByPk(
+                sort[0].id_project_phase
+              );
+
+              const getProductsFromProjectPhase =
+                sort.length > 0 &&
+                (await Product.findAll({
+                  where: {
+                    id_project_phase: sort[0].id_project_phase,
+                  },
+                }));
+
+              const productsZ = getProductsFromProjectPhase.map(product => ({
+                id_product: product.id_product,
+                product_name: product.nm_product,
+                duration: calculateHour({
+                  max: product.qt_maximum_hours,
+                  min: product.qt_minimum_hours,
+                  prov: product.qt_probable_hours,
+                  value: product.tp_required_action,
+                }),
+              }));
+
+              const productSumDuration =
+                productsZ.length > 0 &&
+                productsZ.reduce((acc, curr) => {
+                  return acc + curr.duration;
+                }, 0);
+
+              const productHistoriesConcluded = await Product_history.findAll({
+                where: {
+                  [Op.and]: {
+                    id_product_history: {
+                      [Op.in]: values,
+                    },
+                    cd_status: {
+                      [Op.eq]: 5,
+                    },
+                  },
+                },
+                attributes: ['id_product'],
+                include: [
+                  {
+                    model: Product,
+                    as: 'product',
+                  },
+                ],
+              });
+
+              const productHistoriesConcluded2 = productHistoriesConcluded.map(
+                productHistory => ({
+                  id_product: productHistory.dataValues.product.id_product,
+                  product_name: productHistory.dataValues.product.nm_product,
+                  duration: calculateHour({
+                    max: productHistory.dataValues.product.qt_maximum_hours,
+                    min: productHistory.dataValues.product.qt_minimum_hours,
+                    prov: productHistory.dataValues.product.qt_probable_hours,
+                    value: productHistory.dataValues.product.tp_required_action,
+                  }),
+                })
+              );
+
+              const productHistoriesConcluded3 = productHistoriesConcluded2.reduce(
+                (acc, curr) => {
+                  return acc + curr.duration;
+                },
+                0
+              );
+
+              Data.push({
+                nm_project: project.dataValues.nm_project,
+                cd_sei: project.dataValues.cd_sei,
+                nm_city: project.dataValues.city.nm_city,
+                qt_m2: project.dataValues.qt_m2 || '',
+                cd_priority:
+                  (project.dataValues.cd_priority === 1 && 'Baixa') ||
+                  (project.dataValues.cd_priority === 2 && 'Média') ||
+                  (project.dataValues.cd_priority === 3 && 'Alta'),
+                value:
+                  (project.dataValues.vl_contract &&
+                    formatValue(project.dataValues.vl_contract)) ||
+                  (project.dataValues.vl_bid &&
+                    formatValue(project.dataValues.vl_bid)) ||
+                  (project.dataValues.vl_estimated &&
+                    formatValue(project.dataValues.vl_estimated)) ||
+                  '',
+                project_phase: project_phase.dataValues.nm_project_phase,
+                phaseCompletion: `${(
+                  (productHistoriesConcluded3 / productSumDuration) *
+                  100
+                ).toFixed(2)}%`,
+              });
+            } else {
+              Data.push({
+                nm_project: project.dataValues.nm_project,
+                cd_sei: project.dataValues.cd_sei,
+                nm_city: project.dataValues.city.nm_city,
+                qt_m2: project.dataValues.qt_m2 || '',
+                cd_priority:
+                  (project.dataValues.cd_priority === 1 && 'Baixa') ||
+                  (project.dataValues.cd_priority === 2 && 'Média') ||
+                  (project.dataValues.cd_priority === 3 && 'Alta'),
+                value:
+                  (project.dataValues.vl_contract &&
+                    formatValue(project.dataValues.vl_contract)) ||
+                  (project.dataValues.vl_bid &&
+                    formatValue(project.dataValues.vl_bid)) ||
+                  (project.dataValues.vl_estimated &&
+                    formatValue(project.dataValues.vl_estimated)) ||
+                  '',
+                project_phase: '',
+                phaseCompletion: '',
+              });
+            }
+          } else {
+            Data.push({
+              nm_project: project.dataValues.nm_project,
+              nm_city: project.dataValues.city.nm_city,
+              cd_priority:
+                (project.dataValues.cd_priority === 1 && 'Baixa') ||
+                (project.dataValues.cd_priority === 2 && 'Média') ||
+                (project.dataValues.cd_priority === 3 && 'Alta'),
+              qt_m2: project.dataValues.qt_m2 || '',
+              nm_category: project.dataValues.category.nm_category,
+              cd_complexity: project.dataValues.cd_complexity,
+              nm_region:
+                project.dataValues.city.dataValues.region.dataValues.nm_region,
+              cd_sei: project.dataValues.cd_sei,
+              tx_description: project.dataValues.tx_description || '',
+              vl_estimated: project.dataValues.vl_estimated,
+              vl_bid: project.dataValues.vl_bid || '',
+              vl_contract: project.dataValues.vl_contract || '',
+              tp_project_phase_code: '',
+              tp_project_phase: '',
+              nm_project_phase: '',
+              nm_product: '',
+              tp_required_action: '',
+              pti: '',
+              nm_professional: '',
+              cd_status: '',
+            });
+          }
+        }
       })
     );
 
