@@ -127,6 +127,9 @@ export class ProjectService {
           project_phase.map(async project_phase2 => {
             if (project_phase2.product.length > 0) {
               const LIST = project_phase2.product.map(RESULTADO => {
+                console.log({
+                  AAAAAAAAAA: RESULTADO.project_phase,
+                });
                 return RESULTADO.project_phase.map(project_phase_res => ({
                   nm_project_phase: project_phase_res.nm_project_phase,
                   nm_product: project_phase_res.nm_product,
@@ -166,8 +169,6 @@ export class ProjectService {
                       'Concluído'),
                 }));
               });
-
-              console.log({ LIST });
 
               ProductList.push(LIST[0]);
             } else {
