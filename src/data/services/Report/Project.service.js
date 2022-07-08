@@ -346,8 +346,6 @@ export class ProjectService {
       for (let i = 0; i <= products.length - 1; i++) {
         let num = 11;
 
-        console.log({ products: products[i] });
-
         worksheet.getCell(`A${String(num + i)}`).value =
           products[i].nm_project_phase || '';
         worksheet.getCell(`B${String(num + i)}`).value = products[i].nm_product;
