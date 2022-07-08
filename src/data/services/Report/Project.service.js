@@ -126,51 +126,67 @@ export class ProjectService {
         } else {
           project_phase.map(async project_phase2 => {
             if (project_phase2.product.length > 0) {
-              const LIST = project_phase2.product.map(RESULTADO => {
-                console.log({
-                  AAAAAAAAAA: RESULTADO.project_phase,
-                });
-                return RESULTADO.project_phase.map(project_phase_res => ({
-                  nm_project_phase: project_phase_res.nm_project_phase,
-                  nm_product: project_phase_res.nm_product,
-                  allocation_period: project_phase_res.product_history
-                    .allocation
+              project_phase2.product.map(RESULTADO => {
+                ProductList.push({
+                  nm_project_phase: RESULTADO.project_phase.nm_project_phase,
+                  nm_product: RESULTADO.nm_product,
+                  allocation_period: RESULTADO.product_history[
+                    RESULTADO.product_history.length - 1
+                  ].allocation
                     ? `${format(
                         new Date(
-                          project_phase_res.product_history.allocation.dt_start_allocation
+                          RESULTADO.product_history[
+                            RESULTADO.product_history.length - 1
+                          ].allocation.dt_start_allocation
                         ),
                         'dd/MM/yyyy'
                       )} - ${format(
                         new Date(
-                          project_phase_res.product_history.allocation.dt_end_allocation
+                          RESULTADO.product_history[
+                            RESULTADO.product_history.length - 1
+                          ].allocation.dt_end_allocation
                         ),
                         'dd/MM/yyyy'
                       )} (${
-                        project_phase_res.product_history.allocation
-                          .qt_business_hours
+                        RESULTADO.product_history[
+                          RESULTADO.product_history.length - 1
+                        ].allocation.qt_business_hours
                       }h)`
                     : '',
-                  nm_professional: project_phase_res.product_history.allocation
-                    ? project_phase_res.product_history.professional
-                        .nm_professional
+                  nm_professional: RESULTADO.product_history[
+                    RESULTADO.product_history.length - 1
+                  ].allocation
+                    ? RESULTADO.product_history[
+                        RESULTADO.product_history.length - 1
+                      ].professional.nm_professional
                     : '',
                   cd_status:
-                    (project_phase_res.product_history.cd_status === 0 &&
+                    (RESULTADO.product_history[
+                      RESULTADO.product_history.length - 1
+                    ].cd_status === 0 &&
                       'Ag. Alocação') ||
-                    (project_phase_res.product_history.cd_status === 1 &&
+                    (RESULTADO.product_history[
+                      RESULTADO.product_history.length - 1
+                    ].cd_status === 1 &&
                       'Em Produção') ||
-                    (project_phase_res.product_history.cd_status === 2 &&
+                    (RESULTADO.product_history[
+                      RESULTADO.product_history.length - 1
+                    ].cd_status === 2 &&
                       'Em Análise') ||
-                    (project_phase_res.product_history.cd_status === 3 &&
+                    (RESULTADO.product_history[
+                      RESULTADO.product_history.length - 1
+                    ].cd_status === 3 &&
                       'Em Correção') ||
-                    (project_phase_res.product_history.cd_status === 4 &&
+                    (RESULTADO.product_history[
+                      RESULTADO.product_history.length - 1
+                    ].cd_status === 4 &&
                       'Em Análise de Correção') ||
-                    (project_phase_res.product_history.cd_status === 5 &&
+                    (RESULTADO.product_history[
+                      RESULTADO.product_history.length - 1
+                    ].cd_status === 5 &&
                       'Concluído'),
-                }));
+                });
               });
-
-              ProductList.push(LIST[0]);
             } else {
               ProductList.push({
                 nm_project_phase: project_phase2.dataValues.nm_project_phase,
