@@ -11,6 +11,12 @@ import {
 } from '../../database/models';
 import { calculateHour } from '../../../utils/calculateHour';
 
+const formatValue = value =>
+  value.toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
 export class ProjectPortfolioService {
   async execute({ page, limit, id_region, id_city, cd_priority, download }) {
     const projects = await Project.findAndCountAll({
@@ -88,9 +94,12 @@ export class ProjectPortfolioService {
               (project.dataValues.cd_priority === 2 && 'Média') ||
               (project.dataValues.cd_priority === 3 && 'Alta'),
             value:
-              project.dataValues.vl_contract ||
-              project.dataValues.vl_bid ||
-              project.dataValues.vl_estimated ||
+              (project.dataValues.vl_contract &&
+                formatValue(project.dataValues.vl_contract)) ||
+              (project.dataValues.vl_bid &&
+                formatValue(project.dataValues.vl_bid)) ||
+              (project.dataValues.vl_estimated &&
+                formatValue(project.dataValues.vl_estimated)) ||
               '',
             project_phase: '',
             phaseCompletion: '',
@@ -250,9 +259,12 @@ export class ProjectPortfolioService {
                   (project.dataValues.cd_priority === 2 && 'Média') ||
                   (project.dataValues.cd_priority === 3 && 'Alta'),
                 value:
-                  project.dataValues.vl_contract ||
-                  project.dataValues.vl_bid ||
-                  project.dataValues.vl_estimated ||
+                  (project.dataValues.vl_contract &&
+                    formatValue(project.dataValues.vl_contract)) ||
+                  (project.dataValues.vl_bid &&
+                    formatValue(project.dataValues.vl_bid)) ||
+                  (project.dataValues.vl_estimated &&
+                    formatValue(project.dataValues.vl_estimated)) ||
                   '',
                 project_phase: project_phase.dataValues.nm_project_phase,
                 phaseCompletion: `${(
@@ -271,9 +283,12 @@ export class ProjectPortfolioService {
                   (project.dataValues.cd_priority === 2 && 'Média') ||
                   (project.dataValues.cd_priority === 3 && 'Alta'),
                 value:
-                  project.dataValues.vl_contract ||
-                  project.dataValues.vl_bid ||
-                  project.dataValues.vl_estimated ||
+                  (project.dataValues.vl_contract &&
+                    formatValue(project.dataValues.vl_contract)) ||
+                  (project.dataValues.vl_bid &&
+                    formatValue(project.dataValues.vl_bid)) ||
+                  (project.dataValues.vl_estimated &&
+                    formatValue(project.dataValues.vl_estimated)) ||
                   '',
                 project_phase: '',
                 phaseCompletion: '',
@@ -290,9 +305,12 @@ export class ProjectPortfolioService {
                 (project.dataValues.cd_priority === 2 && 'Média') ||
                 (project.dataValues.cd_priority === 3 && 'Alta'),
               value:
-                project.dataValues.vl_contract ||
-                project.dataValues.vl_bid ||
-                project.dataValues.vl_estimated ||
+                (project.dataValues.vl_contract &&
+                  formatValue(project.dataValues.vl_contract)) ||
+                (project.dataValues.vl_bid &&
+                  formatValue(project.dataValues.vl_bid)) ||
+                (project.dataValues.vl_estimated &&
+                  formatValue(project.dataValues.vl_estimated)) ||
                 '',
               project_phase: '',
               phaseCompletion: '',
