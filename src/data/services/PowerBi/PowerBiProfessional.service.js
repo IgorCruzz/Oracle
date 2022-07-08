@@ -41,9 +41,7 @@ export class PowerBiProfessionalService {
       nm_role: professional.coustHH.role.nm_role,
       nm_grade: professional.coustHH.grade.nm_grade,
       nm_sector: professional.sector.nm_sector,
-      ds_email_login: professional.user
-        ? professional.user.ds_email_login
-        : 'Não Possui',
+      ds_email_login: professional.user ? professional.user.ds_email_login : '',
       in_delivery_analyst: professional.in_delivery_analyst,
       in_active: professional.in_active,
     }));
