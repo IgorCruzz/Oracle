@@ -10,6 +10,7 @@ export class ProjectPortfolioController {
         id_city,
         cd_priority,
         download,
+        order_by,
       } = req.query;
 
       const service = new ProjectPortfolioService();
@@ -21,6 +22,7 @@ export class ProjectPortfolioController {
         id_city,
         cd_priority,
         download,
+        order_by,
       });
 
       if (response.error)
@@ -39,11 +41,52 @@ export class ProjectPortfolioController {
         return res.status(200).send(buffer);
       }
 
+      let sortByNameCity;
+      let sortByCdPriority;
+      let sortByNameProject;
+
+      if (order_by === 'nm_city') {
+        sortByNameCity = rows.sort((a, b) => {
+          if (a.nm_city < b.nm_city) {
+            return -1;
+          }
+          if (a.nm_city > b.nm_city) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
+      if (order_by === 'cd_priority') {
+        sortByCdPriority = rows.sort((a, b) => {
+          if (a.cd_priority < b.cd_priority) {
+            return -1;
+          }
+          if (a.cd_priority > b.cd_priority) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
+      if (order_by === 'nm_project') {
+        sortByNameProject = rows.sort((a, b) => {
+          if (a.nm_project < b.nm_project) {
+            return -1;
+          }
+          if (a.nm_project > b.nm_project) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
       return res.status(200).json({
         count,
         page,
         limit,
-        projects: rows,
+        projects:
+          sortByNameCity || sortByNameProject || sortByCdPriority || rows,
       });
     } catch (err) {
       console.log(err);

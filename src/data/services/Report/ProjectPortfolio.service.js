@@ -18,7 +18,15 @@ const formatValue = value =>
   });
 
 export class ProjectPortfolioService {
-  async execute({ page, limit, id_region, id_city, cd_priority, download }) {
+  async execute({
+    page,
+    limit,
+    id_region,
+    id_city,
+    cd_priority,
+    download,
+    order_by,
+  }) {
     const projects = await Project.findAndCountAll({
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
@@ -387,7 +395,50 @@ export class ProjectPortfolioService {
         bold: true,
       };
 
-      for (let i = 0; i <= Data.length - 1; i++) {
+      let sortByNameCity;
+      let sortByCdPriority;
+      let sortByNameProject;
+
+      if (order_by === 'nm_city') {
+        sortByNameCity = Data.sort((a, b) => {
+          if (a.nm_city < b.nm_city) {
+            return -1;
+          }
+          if (a.nm_city > b.nm_city) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
+      if (order_by === 'cd_priority') {
+        sortByCdPriority = Data.sort((a, b) => {
+          if (a.cd_priority < b.cd_priority) {
+            return -1;
+          }
+          if (a.cd_priority > b.cd_priority) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
+      if (order_by === 'nm_project') {
+        sortByNameProject = Data.sort((a, b) => {
+          if (a.nm_project < b.nm_project) {
+            return -1;
+          }
+          if (a.nm_project > b.nm_project) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
+      const portfolioList =
+        sortByNameCity || sortByNameProject || sortByCdPriority || Data;
+
+      for (let i = 0; i <= portfolioList.length - 1; i++) {
         let num = 11;
 
         worksheet.getCell(`A${String(num + i)}`).value = Data[i].nm_project;
