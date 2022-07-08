@@ -178,29 +178,38 @@ export class PowerBiProjectService {
                   prov: product.dataValues.qt_probable_hours,
                   value: product.dataValues.tp_required_action,
                 }),
-                pti: `${format(
-                  new Date(
-                    product.dataValues.product_history[
-                      product.dataValues.product_history.length - 1
-                    ].allocation.dt_start_allocation
-                  ),
-                  'dd/MM/yyyy'
-                )}-${format(
-                  new Date(
-                    product.dataValues.product_history[
-                      product.dataValues.product_history.length - 1
-                    ].allocation.dt_end_allocation
-                  ),
-                  'dd/MM/yyyy'
-                )}(${
+                pti:
                   product.dataValues.product_history[
                     product.dataValues.product_history.length - 1
-                  ].allocation.qt_business_hours
-                }h)`,
+                  ].cd_status > 0
+                    ? `${format(
+                        new Date(
+                          product.dataValues.product_history[
+                            product.dataValues.product_history.length - 1
+                          ].allocation.dt_start_allocation
+                        ),
+                        'dd/MM/yyyy'
+                      )}-${format(
+                        new Date(
+                          product.dataValues.product_history[
+                            product.dataValues.product_history.length - 1
+                          ].allocation.dt_end_allocation
+                        ),
+                        'dd/MM/yyyy'
+                      )}(${
+                        product.dataValues.product_history[
+                          product.dataValues.product_history.length - 1
+                        ].allocation.qt_business_hours
+                      }h)`
+                    : '',
                 nm_professional:
                   product.dataValues.product_history[
                     product.dataValues.product_history.length - 1
-                  ].professional.nm_professional,
+                  ].cd_status > 0
+                    ? product.dataValues.product_history[
+                        product.dataValues.product_history.length - 1
+                      ].professional.nm_professional
+                    : 0,
                 cd_status:
                   (product.dataValues.product_history[
                     product.dataValues.product_history.length - 1
