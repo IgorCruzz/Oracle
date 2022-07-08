@@ -167,6 +167,8 @@ export class PowerBiProjectService {
                 : '',
               nm_project_phase: result.dataValues.nm_project_phase,
               nm_product: '',
+              tp_required_action: '',
+              hours: '',
             });
           }
         });
@@ -184,6 +186,8 @@ export class PowerBiProjectService {
             phase_type_name: '',
             nm_project_phase: '',
             nm_product: '',
+            tp_required_action: '',
+            hours: '',
           });
         }
       })
