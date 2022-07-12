@@ -8,9 +8,11 @@ export const updateInspectionValidator = async (req, res, next) => {
     });
 
     const SchemaBody = Yup.object().shape({
+/*
       vl_new_cost: Yup.number()
         .required('O valor efetivo precisa estar preenchido')
         .typeError('Valor efetivo inválido'),
+*/
       dt_inspection	: Yup.string().nullable(),
       dt_new_end : Yup.string().nullable(),
       tp_inspection: Yup.number()
