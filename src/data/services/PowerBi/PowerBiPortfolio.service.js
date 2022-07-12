@@ -7,6 +7,7 @@ import {
   Product,
   Product_history,
   Category,
+  Location,
 } from '../../database/models';
 import { calculateHour } from '../../../utils/calculateHour';
 
@@ -58,6 +59,10 @@ export class PowerBiPortfolioService {
             },
           ],
         },
+        {
+          model: Location,
+          as: 'location',
+        },
       ],
     });
 
@@ -72,23 +77,46 @@ export class PowerBiPortfolioService {
         if (ID_PROJECT_PHASES.length === 0) {
           Data.push({
             nm_project: project.dataValues.nm_project,
-            cd_sei: project.dataValues.cd_sei,
             nm_city: project.dataValues.city.nm_city,
-            qt_m2: project.dataValues.qt_m2 || '',
             cd_priority:
               (project.dataValues.cd_priority === 1 && 'Baixa') ||
               (project.dataValues.cd_priority === 2 && 'Média') ||
               (project.dataValues.cd_priority === 3 && 'Alta'),
-            value:
-              (project.dataValues.vl_contract &&
-                formatValue(project.dataValues.vl_contract)) ||
-              (project.dataValues.vl_bid &&
-                formatValue(project.dataValues.vl_bid)) ||
-              (project.dataValues.vl_estimated &&
-                formatValue(project.dataValues.vl_estimated)) ||
-              '',
-            project_phase: '',
+            qt_m2: project.dataValues.qt_m2 || '',
+            nm_category: project.dataValues.category.nm_category,
+            cd_complexity: project.dataValues.cd_complexity,
+            nm_region: project.dataValues.city.dataValues.region.nm_region,
+            cd_sei: project.dataValues.cd_sei || '',
+            tx_description: project.dataValues.tx_description || '',
+            vl_estimated: project.dataValues.vl_estimated
+              ? formatValue(project.dataValues.vl_estimated)
+              : '',
+            vl_bid: project.dataValues.vl_bid
+              ? formatValue(project.dataValues.vl_bid)
+              : '',
+            vl_contract: project.dataValues.vl_contract
+              ? formatValue(project.dataValues.vl_contract)
+              : '',
+            tp_project_phase_code: '',
+            tp_project_phase: '',
+            nm_project_phase: '',
             phaseCompletion: '',
+            ds_district:
+              project.dataValues.location.length > 0
+                ? project.dataValues.location[0].ds_district
+                : '',
+            ds_address:
+              project.dataValues.location.length > 0
+                ? project.dataValues.location[0].ds_address
+                : '',
+            nu_latitude:
+              project.dataValues.location.length > 0
+                ? project.dataValues.location[0].nu_latitude
+                : '',
+            nu_longitude:
+              project.dataValues.location.length > 0
+                ? project.dataValues.location[0].nu_longitude
+                : '',
           });
         } else {
           const products = await Product.findAll({
@@ -237,47 +265,106 @@ export class PowerBiPortfolioService {
 
               Data.push({
                 nm_project: project.dataValues.nm_project,
-                cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
-                qt_m2: project.dataValues.qt_m2 || '',
                 cd_priority:
                   (project.dataValues.cd_priority === 1 && 'Baixa') ||
                   (project.dataValues.cd_priority === 2 && 'Média') ||
                   (project.dataValues.cd_priority === 3 && 'Alta'),
-                value:
-                  (project.dataValues.vl_contract &&
-                    formatValue(project.dataValues.vl_contract)) ||
-                  (project.dataValues.vl_bid &&
-                    formatValue(project.dataValues.vl_bid)) ||
-                  (project.dataValues.vl_estimated &&
-                    formatValue(project.dataValues.vl_estimated)) ||
-                  '',
-                project_phase: project_phase.dataValues.nm_project_phase,
+                qt_m2: project.dataValues.qt_m2 || '',
+                nm_category: project.dataValues.category.nm_category,
+                cd_complexity: project.dataValues.cd_complexity,
+                nm_region: project.dataValues.city.dataValues.region.nm_region,
+                cd_sei: project.dataValues.cd_sei || '',
+                tx_description: project.dataValues.tx_description || '',
+                vl_estimated: project.dataValues.vl_estimated
+                  ? formatValue(project.dataValues.vl_estimated)
+                  : '',
+                vl_bid: project.dataValues.vl_bid
+                  ? formatValue(project.dataValues.vl_bid)
+                  : '',
+                vl_contract: project.dataValues.vl_contract
+                  ? formatValue(project.dataValues.vl_contract)
+                  : '',
+
+                tp_project_phase_code:
+                  (project_phase.dataValues.tp_project_phase === 10 &&
+                    'Concepção') ||
+                  (project_phase.dataValues.tp_project_phase === 20 &&
+                    'Priorização') ||
+                  (project_phase.dataValues.tp_project_phase === 30 &&
+                    'Desenvolvimento') ||
+                  (project_phase.dataValues.tp_project_phase === 40 &&
+                    'Licitação') ||
+                  (project_phase.dataValues.tp_project_phase === 50 &&
+                    'Execução') ||
+                  (project_phase.dataValues.tp_project_phase === 60 &&
+                    'Encerrado em Garantia'),
+                tp_project_phase: project_phase.dataValues.tp_project_phase,
+                nm_project_phase: project_phase.dataValues.nm_project_phase,
                 phaseCompletion: `${(
                   (productHistoriesConcluded3 / productSumDuration) *
                   100
                 ).toFixed(2)}%`,
+                ds_district:
+                  project.dataValues.location.length > 0
+                    ? project.dataValues.location[0].ds_district
+                    : '',
+                ds_address:
+                  project.dataValues.location.length > 0
+                    ? project.dataValues.location[0].ds_address
+                    : '',
+                nu_latitude:
+                  project.dataValues.location.length > 0
+                    ? project.dataValues.location[0].nu_latitude
+                    : '',
+                nu_longitude:
+                  project.dataValues.location.length > 0
+                    ? project.dataValues.location[0].nu_longitude
+                    : '',
               });
             } else {
               Data.push({
                 nm_project: project.dataValues.nm_project,
-                cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
-                qt_m2: project.dataValues.qt_m2 || '',
                 cd_priority:
                   (project.dataValues.cd_priority === 1 && 'Baixa') ||
                   (project.dataValues.cd_priority === 2 && 'Média') ||
                   (project.dataValues.cd_priority === 3 && 'Alta'),
-                value:
-                  (project.dataValues.vl_contract &&
-                    formatValue(project.dataValues.vl_contract)) ||
-                  (project.dataValues.vl_bid &&
-                    formatValue(project.dataValues.vl_bid)) ||
-                  (project.dataValues.vl_estimated &&
-                    formatValue(project.dataValues.vl_estimated)) ||
-                  '',
-                project_phase: '',
+                qt_m2: project.dataValues.qt_m2 || '',
+                nm_category: project.dataValues.category.nm_category,
+                cd_complexity: project.dataValues.cd_complexity,
+                nm_region: project.dataValues.city.dataValues.region.nm_region,
+                cd_sei: project.dataValues.cd_sei || '',
+                tx_description: project.dataValues.tx_description || '',
+                vl_estimated: project.dataValues.vl_estimated
+                  ? formatValue(project.dataValues.vl_estimated)
+                  : '',
+                vl_bid: project.dataValues.vl_bid
+                  ? formatValue(project.dataValues.vl_bid)
+                  : '',
+                vl_contract: project.dataValues.vl_contract
+                  ? formatValue(project.dataValues.vl_contract)
+                  : '',
+                tp_project_phase_code: '',
+                tp_project_phase: '',
+                nm_project_phase: '',
                 phaseCompletion: '',
+                ds_district:
+                  project.dataValues.location.length > 0
+                    ? project.dataValues.location[0].ds_district
+                    : '',
+                ds_address:
+                  project.dataValues.location.length > 0
+                    ? project.dataValues.location[0].ds_address
+                    : '',
+                nu_latitude:
+                  project.dataValues.location.length > 0
+                    ? project.dataValues.location[0].nu_latitude
+                    : '',
+                nu_longitude:
+                  project.dataValues.location.length > 0
+                    ? project.dataValues.location[0].nu_longitude
+                    : '',
               });
             }
           } else {
@@ -291,21 +378,38 @@ export class PowerBiPortfolioService {
               qt_m2: project.dataValues.qt_m2 || '',
               nm_category: project.dataValues.category.nm_category,
               cd_complexity: project.dataValues.cd_complexity,
-              nm_region:
-                project.dataValues.city.dataValues.region.dataValues.nm_region,
-              cd_sei: project.dataValues.cd_sei,
+              nm_region: project.dataValues.city.dataValues.region.nm_region,
+              cd_sei: project.dataValues.cd_sei || '',
               tx_description: project.dataValues.tx_description || '',
-              vl_estimated: project.dataValues.vl_estimated,
-              vl_bid: project.dataValues.vl_bid || '',
-              vl_contract: project.dataValues.vl_contract || '',
+              vl_estimated: project.dataValues.vl_estimated
+                ? formatValue(project.dataValues.vl_estimated)
+                : '',
+              vl_bid: project.dataValues.vl_bid
+                ? formatValue(project.dataValues.vl_bid)
+                : '',
+              vl_contract: project.dataValues.vl_contract
+                ? formatValue(project.dataValues.vl_contract)
+                : '',
               tp_project_phase_code: '',
               tp_project_phase: '',
               nm_project_phase: '',
-              nm_product: '',
-              tp_required_action: '',
-              pti: '',
-              nm_professional: '',
-              cd_status: '',
+              phaseCompletion: '',
+              ds_district:
+                project.dataValues.location.length > 0
+                  ? project.dataValues.location[0].ds_district
+                  : '',
+              ds_address:
+                project.dataValues.location.length > 0
+                  ? project.dataValues.location[0].ds_address
+                  : '',
+              nu_latitude:
+                project.dataValues.location.length > 0
+                  ? project.dataValues.location[0].nu_latitude
+                  : '',
+              nu_longitude:
+                project.dataValues.location.length > 0
+                  ? project.dataValues.location[0].nu_longitude
+                  : '',
             });
           }
         }
