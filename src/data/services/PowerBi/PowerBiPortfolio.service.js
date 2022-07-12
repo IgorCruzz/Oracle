@@ -78,7 +78,10 @@ export class PowerBiPortfolioService {
               (project.dataValues.cd_priority === 3 && 'Alta'),
             qt_m2: project.dataValues.qt_m2 || '',
             nm_category: project.dataValues.category.nm_category,
-            cd_complexity: project.dataValues.cd_complexity,
+            cd_complexity:
+              (project.dataValues.cd_complexity === 1 && 'Baixa') ||
+              (project.dataValues.cd_complexity === 2 && 'Média') ||
+              (project.dataValues.cd_complexity === 3 && 'Alta'),
             nm_region: project.dataValues.city.dataValues.region.nm_region,
             cd_sei: project.dataValues.cd_sei || '',
             tx_description: project.dataValues.tx_description || '',
@@ -260,7 +263,11 @@ export class PowerBiPortfolioService {
                   (project.dataValues.cd_priority === 3 && 'Alta'),
                 qt_m2: project.dataValues.qt_m2 || '',
                 nm_category: project.dataValues.category.nm_category,
-                cd_complexity: project.dataValues.cd_complexity,
+                cd_complexity:
+                  (project.dataValues.cd_complexity === 1 && 'Baixa') ||
+                  (project.dataValues.cd_complexity === 2 && 'Média') ||
+                  (project.dataValues.cd_complexity === 3 && 'Alta'),
+
                 nm_region: project.dataValues.city.dataValues.region.nm_region,
                 cd_sei: project.dataValues.cd_sei || '',
                 tx_description: project.dataValues.tx_description || '',
@@ -314,7 +321,10 @@ export class PowerBiPortfolioService {
                   (project.dataValues.cd_priority === 3 && 'Alta'),
                 qt_m2: project.dataValues.qt_m2 || '',
                 nm_category: project.dataValues.category.nm_category,
-                cd_complexity: project.dataValues.cd_complexity,
+                cd_complexity:
+                  (project.dataValues.cd_complexity === 1 && 'Baixa') ||
+                  (project.dataValues.cd_complexity === 2 && 'Média') ||
+                  (project.dataValues.cd_complexity === 3 && 'Alta'),
                 nm_region: project.dataValues.city.dataValues.region.nm_region,
                 cd_sei: project.dataValues.cd_sei || '',
                 tx_description: project.dataValues.tx_description || '',
@@ -353,7 +363,10 @@ export class PowerBiPortfolioService {
                 (project.dataValues.cd_priority === 3 && 'Alta'),
               qt_m2: project.dataValues.qt_m2 || '',
               nm_category: project.dataValues.category.nm_category,
-              cd_complexity: project.dataValues.cd_complexity,
+              cd_complexity:
+                (project.dataValues.cd_complexity === 1 && 'Baixa') ||
+                (project.dataValues.cd_complexity === 2 && 'Média') ||
+                (project.dataValues.cd_complexity === 3 && 'Alta'),
               nm_region: project.dataValues.city.dataValues.region.nm_region,
               cd_sei: project.dataValues.cd_sei || '',
               tx_description: project.dataValues.tx_description || '',
