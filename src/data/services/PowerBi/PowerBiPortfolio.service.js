@@ -11,12 +11,6 @@ import {
 } from '../../database/models';
 import { calculateHour } from '../../../utils/calculateHour';
 
-const formatValue = value =>
-  value.toLocaleString('pt-BR', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-
 export class PowerBiPortfolioService {
   async execute() {
     const projects = await Project.findAndCountAll({
@@ -88,15 +82,9 @@ export class PowerBiPortfolioService {
             nm_region: project.dataValues.city.dataValues.region.nm_region,
             cd_sei: project.dataValues.cd_sei || '',
             tx_description: project.dataValues.tx_description || '',
-            vl_estimated: project.dataValues.vl_estimated
-              ? formatValue(project.dataValues.vl_estimated)
-              : '',
-            vl_bid: project.dataValues.vl_bid
-              ? formatValue(project.dataValues.vl_bid)
-              : '',
-            vl_contract: project.dataValues.vl_contract
-              ? formatValue(project.dataValues.vl_contract)
-              : '',
+            vl_estimated: project.dataValues.vl_estimated || '',
+            vl_bid: project.dataValues.vl_bid || '',
+            vl_contract: project.dataValues.vl_contract || '',
             tp_project_phase_code: '',
             tp_project_phase: '',
             nm_project_phase: '',
@@ -276,15 +264,9 @@ export class PowerBiPortfolioService {
                 nm_region: project.dataValues.city.dataValues.region.nm_region,
                 cd_sei: project.dataValues.cd_sei || '',
                 tx_description: project.dataValues.tx_description || '',
-                vl_estimated: project.dataValues.vl_estimated
-                  ? formatValue(project.dataValues.vl_estimated)
-                  : '',
-                vl_bid: project.dataValues.vl_bid
-                  ? formatValue(project.dataValues.vl_bid)
-                  : '',
-                vl_contract: project.dataValues.vl_contract
-                  ? formatValue(project.dataValues.vl_contract)
-                  : '',
+                vl_estimated: project.dataValues.vl_estimated || '',
+                vl_bid: project.dataValues.vl_bid || '',
+                vl_contract: project.dataValues.vl_contract || '',
 
                 tp_project_phase_code:
                   (project_phase.dataValues.tp_project_phase === 10 &&
@@ -336,15 +318,9 @@ export class PowerBiPortfolioService {
                 nm_region: project.dataValues.city.dataValues.region.nm_region,
                 cd_sei: project.dataValues.cd_sei || '',
                 tx_description: project.dataValues.tx_description || '',
-                vl_estimated: project.dataValues.vl_estimated
-                  ? formatValue(project.dataValues.vl_estimated)
-                  : '',
-                vl_bid: project.dataValues.vl_bid
-                  ? formatValue(project.dataValues.vl_bid)
-                  : '',
-                vl_contract: project.dataValues.vl_contract
-                  ? formatValue(project.dataValues.vl_contract)
-                  : '',
+                vl_estimated: project.dataValues.vl_estimated || '',
+                vl_bid: project.dataValues.vl_bid || '',
+                vl_contract: project.dataValues.vl_contract || '',
                 tp_project_phase_code: '',
                 tp_project_phase: '',
                 nm_project_phase: '',
@@ -381,15 +357,9 @@ export class PowerBiPortfolioService {
               nm_region: project.dataValues.city.dataValues.region.nm_region,
               cd_sei: project.dataValues.cd_sei || '',
               tx_description: project.dataValues.tx_description || '',
-              vl_estimated: project.dataValues.vl_estimated
-                ? formatValue(project.dataValues.vl_estimated)
-                : '',
-              vl_bid: project.dataValues.vl_bid
-                ? formatValue(project.dataValues.vl_bid)
-                : '',
-              vl_contract: project.dataValues.vl_contract
-                ? formatValue(project.dataValues.vl_contract)
-                : '',
+              vl_estimated: project.dataValues.vl_estimated || '',
+              vl_bid: project.dataValues.vl_bid || '',
+              vl_contract: project.dataValues.vl_contract || '',
               tp_project_phase_code: '',
               tp_project_phase: '',
               nm_project_phase: '',
