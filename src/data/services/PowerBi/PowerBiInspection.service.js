@@ -23,21 +23,41 @@ export class PowerBiInspectionService {
         tp_inspection,
         nm_professional,
         dt_new_end,
+        vl_new_cost,
       }) => ({
         nm_project: nm_project || '',
         nm_city: nm_city || '',
         nm_category: nm_category || '',
         qt_m2: qt_m2 || '',
-        cd_priority: cd_priority || '',
-        tp_project_phase: tp_project_phase || '',
+        cd_priority:
+          (cd_priority === 1 && 'Baixa') ||
+          (cd_priority === 2 && 'Média') ||
+          (cd_priority === 3 && 'Alta'),
+        tp_project_phase_code: tp_project_phase,
+        tp_project_phase:
+          (tp_project_phase === 10 && 'Concepção') ||
+          (tp_project_phase === 20 && 'Priorização') ||
+          (tp_project_phase === 30 && 'Desenvolvimento') ||
+          (tp_project_phase === 40 && 'Licitação') ||
+          (tp_project_phase === 50 && 'Execução') ||
+          (tp_project_phase === 60 && 'Encerrado em Garantia'),
         nm_project_phase: nm_project_phase || '',
-        dt_planned_start: dt_planned_start || '',
-        dt_planned_end: dt_planned_end || '',
+        dt_planned_start: dt_planned_start
+          ? format(new Date(dt_planned_start), 'dd/MM/yyyy')
+          : '',
+        dt_planned_end: dt_planned_end
+          ? format(new Date(dt_planned_end), 'dd/MM/yyyy')
+          : '',
         vl_phase: vl_phase || '',
+        dt_inspection: dt_inspection
+          ? format(new Date(dt_inspection), 'dd/MM/yyyy')
+          : '',
         tp_inspection: tp_inspection || '',
         nm_professional: nm_professional || '',
-        dt_inspection: format(new Date(dt_inspection), 'dd/MM/yyyy'),
-        dt_new_end: format(new Date(dt_new_end), 'dd/MM/yyyy'),
+        dt_new_end: dt_new_end
+          ? format(new Date(dt_new_end), 'dd/MM/yyyy')
+          : '',
+        vl_new_cost: vl_new_cost || '',
       })
     );
 
