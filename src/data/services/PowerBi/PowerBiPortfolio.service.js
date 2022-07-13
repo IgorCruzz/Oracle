@@ -274,8 +274,9 @@ export class PowerBiPortfolioService {
                 vl_estimated: project.dataValues.vl_estimated || '',
                 vl_bid: project.dataValues.vl_bid || '',
                 vl_contract: project.dataValues.vl_contract || '',
-
                 tp_project_phase_code:
+                  project_phase.dataValues.tp_project_phase,
+                tp_project_phase:
                   (project_phase.dataValues.tp_project_phase === 10 &&
                     'Concepção') ||
                   (project_phase.dataValues.tp_project_phase === 20 &&
@@ -288,7 +289,6 @@ export class PowerBiPortfolioService {
                     'Execução') ||
                   (project_phase.dataValues.tp_project_phase === 60 &&
                     'Encerrado em Garantia'),
-                tp_project_phase: project_phase.dataValues.tp_project_phase,
                 nm_project_phase: project_phase.dataValues.nm_project_phase,
                 phaseCompletion: `${(
                   (productHistoriesConcluded3 / productSumDuration) *
