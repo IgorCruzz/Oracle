@@ -31,8 +31,8 @@ export class PowerBiInspectionService {
         nm_category: nm_category || '',
         qt_m2: qt_m2 || '',
         cd_priority,
-        tp_project_phase,
         tp_project_phase_code,
+        tp_project_phase,
         nm_project_phase: nm_project_phase || '',
         dt_planned_start: dt_planned_start
           ? format(new Date(dt_planned_start), 'dd/MM/yyyy')
