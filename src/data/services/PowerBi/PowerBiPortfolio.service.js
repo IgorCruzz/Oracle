@@ -11,12 +11,6 @@ import {
 } from '../../database/models';
 import { calculateHour } from '../../../utils/calculateHour';
 
-const formatValue = value =>
-  value.toLocaleString('pt-BR', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-
 export class PowerBiPortfolioService {
   async execute() {
     const projects = await Project.findAndCountAll({
@@ -91,12 +85,9 @@ export class PowerBiPortfolioService {
             nm_region: project.dataValues.city.dataValues.region.nm_region,
             cd_sei: project.dataValues.cd_sei || '',
             value:
-              (project.dataValues.vl_contract &&
-                formatValue(project.dataValues.vl_contract)) ||
-              (project.dataValues.vl_bid &&
-                formatValue(project.dataValues.vl_bid)) ||
-              (project.dataValues.vl_estimated &&
-                formatValue(project.dataValues.vl_estimated)) ||
+              project.dataValues.vl_contract ||
+              project.dataValues.vl_bid ||
+              project.dataValues.vl_estimated ||
               '',
             tx_description: project.dataValues.tx_description || '',
             vl_estimated: project.dataValues.vl_estimated || '',
@@ -285,12 +276,9 @@ export class PowerBiPortfolioService {
                 nm_region: project.dataValues.city.dataValues.region.nm_region,
                 cd_sei: project.dataValues.cd_sei || '',
                 value:
-                  (project.dataValues.vl_contract &&
-                    formatValue(project.dataValues.vl_contract)) ||
-                  (project.dataValues.vl_bid &&
-                    formatValue(project.dataValues.vl_bid)) ||
-                  (project.dataValues.vl_estimated &&
-                    formatValue(project.dataValues.vl_estimated)) ||
+                  project.dataValues.vl_contract ||
+                  project.dataValues.vl_bid ||
+                  project.dataValues.vl_estimated ||
                   '',
                 tx_description: project.dataValues.tx_description || '',
                 vl_estimated: project.dataValues.vl_estimated || '',
@@ -350,12 +338,9 @@ export class PowerBiPortfolioService {
                 nm_region: project.dataValues.city.dataValues.region.nm_region,
                 cd_sei: project.dataValues.cd_sei || '',
                 value:
-                  (project.dataValues.vl_contract &&
-                    formatValue(project.dataValues.vl_contract)) ||
-                  (project.dataValues.vl_bid &&
-                    formatValue(project.dataValues.vl_bid)) ||
-                  (project.dataValues.vl_estimated &&
-                    formatValue(project.dataValues.vl_estimated)) ||
+                  project.dataValues.vl_contract ||
+                  project.dataValues.vl_bid ||
+                  project.dataValues.vl_estimated ||
                   '',
                 tx_description: project.dataValues.tx_description || '',
                 vl_estimated: project.dataValues.vl_estimated || '',
@@ -400,12 +385,9 @@ export class PowerBiPortfolioService {
               nm_region: project.dataValues.city.dataValues.region.nm_region,
               cd_sei: project.dataValues.cd_sei || '',
               value:
-                (project.dataValues.vl_contract &&
-                  formatValue(project.dataValues.vl_contract)) ||
-                (project.dataValues.vl_bid &&
-                  formatValue(project.dataValues.vl_bid)) ||
-                (project.dataValues.vl_estimated &&
-                  formatValue(project.dataValues.vl_estimated)) ||
+                project.dataValues.vl_contract ||
+                project.dataValues.vl_bid ||
+                project.dataValues.vl_estimated ||
                 '',
               tx_description: project.dataValues.tx_description || '',
               vl_estimated: project.dataValues.vl_estimated || '',
