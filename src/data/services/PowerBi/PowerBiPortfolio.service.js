@@ -84,7 +84,7 @@ export class PowerBiPortfolioService {
               (project.dataValues.cd_complexity === 3 && 'Alta'),
             nm_region: project.dataValues.city.dataValues.region.nm_region,
             cd_sei: project.dataValues.cd_sei || '',
-            value:
+            project_value:
               project.dataValues.vl_contract ||
               project.dataValues.vl_bid ||
               project.dataValues.vl_estimated ||
@@ -275,7 +275,7 @@ export class PowerBiPortfolioService {
 
                 nm_region: project.dataValues.city.dataValues.region.nm_region,
                 cd_sei: project.dataValues.cd_sei || '',
-                value:
+                project_value:
                   project.dataValues.vl_contract ||
                   project.dataValues.vl_bid ||
                   project.dataValues.vl_estimated ||
@@ -337,7 +337,7 @@ export class PowerBiPortfolioService {
                   (project.dataValues.cd_complexity === 3 && 'Alta'),
                 nm_region: project.dataValues.city.dataValues.region.nm_region,
                 cd_sei: project.dataValues.cd_sei || '',
-                value:
+                project_value:
                   project.dataValues.vl_contract ||
                   project.dataValues.vl_bid ||
                   project.dataValues.vl_estimated ||
@@ -384,7 +384,7 @@ export class PowerBiPortfolioService {
                 (project.dataValues.cd_complexity === 3 && 'Alta'),
               nm_region: project.dataValues.city.dataValues.region.nm_region,
               cd_sei: project.dataValues.cd_sei || '',
-              value:
+              project_value:
                 project.dataValues.vl_contract ||
                 project.dataValues.vl_bid ||
                 project.dataValues.vl_estimated ||
