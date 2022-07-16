@@ -28,10 +28,12 @@ import {
   Inspection,
   Inspection_document,
   Timelapse_Coordinates,
-  Media_timelapse
+  Media_timelapse,
+  Bi_configuration,
 } from './models';
 
 const models = [
+  Bi_configuration,
   Category,
   Program,
   Region,
@@ -58,7 +60,7 @@ const models = [
   Inspection,
   Inspection_document,
   Timelapse_Coordinates,
-  Media_timelapse
+  Media_timelapse,
 ];
 
 export const sequelize = new Sequelize(databaseConfig);
