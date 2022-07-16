@@ -27,3 +27,4 @@ export * from './Inspection_document';
 export * from './Timelapse_Coordinates';
 export * from './Media_timelapse';
 export * from './Bi_configuration';
+export * from './Bi_log';

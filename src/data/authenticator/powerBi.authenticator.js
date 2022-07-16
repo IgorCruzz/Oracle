@@ -1,7 +1,14 @@
 import { Op } from 'sequelize';
-import { Bi_configuration } from '../database/models/Bi_configuration';
+import getIP from 'ipware';
+import { Bi_configuration, Bi_log } from '../database/models';
 
-const checkToken = async ({ authorization, nm_bi, next, res }) => {
+const checkToken = async ({
+  authorization,
+  nm_bi,
+  nu_ip_request,
+  next,
+  res,
+}) => {
   const [, cd_bi_token] = authorization.split(' ');
 
   const token = await Bi_configuration.findOne({
@@ -14,6 +21,14 @@ const checkToken = async ({ authorization, nm_bi, next, res }) => {
     return res.status(401).json({ error: 'Token inválido.' });
   }
 
+  const { id_bi_configuration } = token;
+
+  await Bi_log.create({
+    dt_request: new Date(),
+    nu_ip_request,
+    id_bi_configuration,
+  });
+
   next();
 };
 
@@ -24,6 +39,8 @@ export const powerBIAuthenticator = ({ service }) => async (req, res, next) => {
     return res.status(401).json({ error: 'Insira o token para prosseguir.' });
   }
 
+  const getIp = getIP().get_trusted_ip(req);
+
   const services = {
     Portfolio: 'Portfolio',
     Produto: 'Produto',
@@ -33,6 +50,7 @@ export const powerBIAuthenticator = ({ service }) => async (req, res, next) => {
 
   if (services[service]) {
     checkToken({
+      nu_ip_request: getIp.clientIp,
       authorization,
       nm_bi: service,
       next,

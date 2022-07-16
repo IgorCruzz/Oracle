@@ -30,9 +30,11 @@ import {
   Timelapse_Coordinates,
   Media_timelapse,
   Bi_configuration,
+  Bi_log,
 } from './models';
 
 const models = [
+  Bi_log,
   Bi_configuration,
   Category,
   Program,
