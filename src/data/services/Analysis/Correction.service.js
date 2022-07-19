@@ -98,6 +98,8 @@ export class CorrectionService {
                 id_professional,
                 id_analyst_user: userId,
                 transaction: t,
+                nm_original_file: originalname,
+                nm_file: filename,
               });
             }
           }

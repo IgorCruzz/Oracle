@@ -28,3 +28,5 @@ export * from './Timelapse_Coordinates';
 export * from './Media_timelapse';
 export * from './Bi_configuration';
 export * from './Bi_log';
+export * from './Contact_history';
+export * from './Contact';

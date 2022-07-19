@@ -212,6 +212,7 @@ export class FindAnalysisService {
             ((product.cd_status === 2 || product.cd_status === 4) &&
               format(new Date(product.dt_created_at), 'dd/MM/yyyy')) ||
             'Não possui',
+          nm_original_file: product.nm_original_file,
           cd_status:
             (product.cd_status === 0 && 'Ag. Alocação') ||
             (product.cd_status === 1 && 'Em Produção') ||

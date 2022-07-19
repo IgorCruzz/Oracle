@@ -31,9 +31,13 @@ import {
   Media_timelapse,
   Bi_configuration,
   Bi_log,
+  Contact,
+  Contact_history,
 } from './models';
 
 const models = [
+  Contact,
+  Contact_history,
   Bi_log,
   Bi_configuration,
   Category,
