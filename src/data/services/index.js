@@ -219,3 +219,10 @@ export * from './PowerBi/PowerBiPortfolio.service';
 export * from './PowerBi/PowerBiProfessional.service';
 export * from './PowerBi/PowerBiProject.service';
 export * from './PowerBi/PowerBiInspection.service';
+
+// CONTACT
+export * from './Contact/CreateContact.service';
+export * from './Contact/DeleteContact.service';
+export * from './Contact/FindContact.service';
+export * from './Contact/FindContacts.service';
+export * from './Contact/UpdateContact.service';
