@@ -25,3 +25,4 @@ export * from './Inspection/Inspection.repository';
 export * from './InspectionDocument/InspectionDocument.repository';
 export * from './Timelapse/Timelapse.repository';
 export * from './MediaTimelapse/MediaTimelapse.repository';
+export * from './Contact/Contact.repository';

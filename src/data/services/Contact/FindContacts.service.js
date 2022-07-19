@@ -1,10 +1,10 @@
-import { SectorRepository } from '../../database/repositories';
+import { ContactRepository } from '../../database/repositories';
 
 export class FindContactsService {
   async execute({ page, limit, nm_sector }) {
-    const repository = new SectorRepository();
+    const repository = new ContactRepository();
 
-    const findSectories = await repository.findSectories({
+    const findSectories = await repository.findContacts({
       limit,
       page,
       nm_sector,

@@ -1,11 +1,11 @@
 import {
-  SectorRepository,
+  ContactRepository,
   ProfessionalRepository,
 } from '../../database/repositories';
 
 export class DeleteContactService {
   async execute({ id_sector }) {
-    const repository = new SectorRepository();
+    const repository = new ContactRepository();
     const professionalRepository = new ProfessionalRepository();
 
     const verifySectorExists = await repository.findSectorById({
@@ -28,7 +28,7 @@ export class DeleteContactService {
       };
     }
 
-    await repository.deleteSector({
+    await repository.deleteContact({
       id_sector,
     });
 
