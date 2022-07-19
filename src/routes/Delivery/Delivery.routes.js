@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import multer from 'multer';
 import {
   FindDeliveryController,
   CreateDeliveryController,
@@ -7,17 +8,23 @@ import {
 } from '../../data/controllers';
 import authenticator from '../../data/authenticator/jwt.authenticator';
 
+import { storage } from '../../config/multer';
+
 const routes = Router();
+
+const upload = multer({ storage });
 
 routes.delete(
   '/deliveries',
   authenticator,
+  upload.single('file'),
   new UndoDeliveryController().handle
 );
 
 routes.post(
   '/deliveries',
   authenticator,
+  upload.single('file'),
   new CreateDeliveryController().handle
 );
 

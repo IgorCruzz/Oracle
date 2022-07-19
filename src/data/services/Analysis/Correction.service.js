@@ -6,12 +6,24 @@ import { Product_history } from '../../database/models';
 
 export class CorrectionService {
   async execute(data, userId) {
+    const { filename, size, mimetype, originalname } = data;
+
+    const analysis = JSON.parse(data.analysis);
+
+    console.log({
+      analysis,
+      filename,
+      size,
+      mimetype,
+      originalname,
+    });
+
     const t = await sequelize.transaction();
 
     const productHistoryRepository = new ProductHistoryRepository();
 
     try {
-      const verifyStatus = data.analysis.filter(value =>
+      const verifyStatus = analysis.filter(value =>
         value.cd_status.match(
           /(Ag. Alocação|Em Produção|Em Correção|Concluído)/
         )
@@ -25,7 +37,7 @@ export class CorrectionService {
       }
 
       await Promise.all(
-        await data.analysis.map(
+        await analysis.map(
           async ({ id_allocation_period, id_product, tx_remark }) => {
             const findLastRecord = await Product_history.findAll({
               attributes: [

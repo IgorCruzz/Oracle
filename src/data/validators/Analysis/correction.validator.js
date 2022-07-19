@@ -25,7 +25,10 @@ export const correctionValidator = async (req, res, next) => {
         .required('Campo Alocação é obrigatório'),
     });
 
-    await Schema.validate(req.body, { abortEarly: false });
+    await Schema.validate(
+      { analysis: JSON.parse(req.body.analysis) },
+      { abortEarly: false }
+    );
 
     return next();
   } catch (e) {

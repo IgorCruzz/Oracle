@@ -4,8 +4,15 @@ export class CreateDeliveryController {
   async handle(req, res) {
     try {
       const service = new CreateDeliveryService();
+      const { filename, size, mimetype, originalname } = req.file;
 
-      const response = await service.execute(req.body);
+      const response = await service.execute({
+        ...req.body,
+        filename,
+        size,
+        mimetype,
+        originalname,
+      });
 
       if (response.error)
         return res.status(400).json({
