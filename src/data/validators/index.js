@@ -191,3 +191,10 @@ export * from './Analysis/accept.validator';
 export * from './Analysis/undoAccept.validator';
 export * from './Analysis/correction.validator';
 export * from './Analysis/undoCorrection.validator';
+
+// CONTACT
+export * from './Contact/createContact.validator';
+export * from './Contact/deleteContact.validator';
+export * from './Contact/findContact.validator';
+export * from './Contact/findContacts.validator';
+export * from './Contact/updateContact.validator';

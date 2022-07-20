@@ -14,6 +14,8 @@ export class Product_history extends Model {
         tx_remark: DataTypes.DECIMAL(20, 2),
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
+        nm_original_file: DataTypes.STRING(1000),
+        nm_file: DataTypes.STRING(1000),
       },
       {
         tableName: 'product_history',
