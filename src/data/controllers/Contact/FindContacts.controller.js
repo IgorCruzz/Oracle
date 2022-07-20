@@ -3,11 +3,11 @@ import { FindContactsService } from '../../services';
 export class FindContactsController {
   async handle(req, res) {
     try {
-      const { page, limit } = req.query;
+      const { page, limit, id_project } = req.query;
 
       const service = new FindContactsService();
 
-      const response = await service.execute({ page, limit });
+      const response = await service.execute({ page, limit, id_project });
 
       if (response.error)
         return res.status(400).json({

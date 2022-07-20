@@ -19,8 +19,9 @@ export class ContactRepository {
     });
   }
 
-  async findContacts({ page, limit }) {
+  async findContacts({ page, limit, id_project }) {
     return await Contact.findAndCountAll({
+      where: { id_project },
       limit: limit !== 'all' ? Number(limit) : null,
       order: [['nm_contact', 'ASC']],
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,

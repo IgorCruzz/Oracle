@@ -3,11 +3,11 @@ import { FindContactHistoriesService } from '../../services';
 export class FindContactHistoriesController {
   async handle(req, res) {
     try {
-      const { page, limit } = req.query;
+      const { page, limit, id_contact } = req.query;
 
       const service = new FindContactHistoriesService();
 
-      const response = await service.execute({ page, limit });
+      const response = await service.execute({ page, limit, id_contact });
 
       if (response.error)
         return res.status(400).json({
