@@ -5,12 +5,16 @@ import { Product_history } from '../../database/models';
 
 export class UndoDeliveryService {
   async execute(data) {
+    const { filename, originalname } = data;
+
+    const deliveries = JSON.parse(data.deliveries);
+
     const t = await sequelize.transaction();
 
     const productHistoryRepository = new ProductHistoryRepository();
 
     try {
-      const verifyStatus = data.deliveries.filter(value =>
+      const verifyStatus = deliveries.filter(value =>
         value.cd_status.match(
           /(Ag. Alocação|Em Produção|Em Correção|Concluído)/
         )
@@ -24,7 +28,7 @@ export class UndoDeliveryService {
       }
 
       await Promise.all(
-        await data.deliveries.map(
+        await deliveries.map(
           async ({ id_allocation_period, id_product, tx_remark }) => {
             const findLastRecord = await Product_history.findAll({
               attributes: [
@@ -86,6 +90,8 @@ export class UndoDeliveryService {
                   id_professional,
                   id_analyst_user: null,
                   transaction: t,
+                  nm_original_file: originalname,
+                  nm_file: filename,
                 });
               }
             }
@@ -118,6 +124,8 @@ export class UndoDeliveryService {
                 id_professional,
                 id_analyst_user: null,
                 transaction: t,
+                nm_original_file: originalname,
+                nm_file: filename,
               });
             }
           }

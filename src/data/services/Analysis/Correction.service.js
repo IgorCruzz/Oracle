@@ -6,7 +6,7 @@ import { Product_history } from '../../database/models';
 
 export class CorrectionService {
   async execute(data, userId) {
-    const { filename, size, mimetype, originalname } = data;
+    const { filename, originalname } = data;
 
     const analysis = JSON.parse(data.analysis);
 
