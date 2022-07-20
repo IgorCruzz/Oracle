@@ -37,10 +37,10 @@ export class ContactRepository {
         });
   }
 
-  async findContact({ nm_contact }) {
+  async findContact({ nm_contact, id_project }) {
     return await Contact.findOne({
       where: {
-        nm_contact: nm_contact.trim(),
+        [Op.and]: [{ nm_contact: nm_contact.trim() }, { id_project }],
       },
       raw: true,
     });

@@ -1,39 +1,22 @@
-import {
-  ContactRepository,
-  ProfessionalRepository,
-} from '../../database/repositories';
+import { ContactRepository } from '../../database/repositories';
 
 export class DeleteContactService {
-  async execute({ id_sector }) {
+  async execute({ id_contact }) {
     const repository = new ContactRepository();
-    const professionalRepository = new ProfessionalRepository();
 
-    const verifySectorExists = await repository.findSectorById({
-      id_sector,
+    const verifyContactExists = await repository.findContactById({
+      id_contact,
     });
 
-    if (!verifySectorExists)
-      return { error: `Não existe um Setor com este ID -> ${id_sector}.` };
-
-    const verifyFkFromProfessional = await professionalRepository.verifyRelationSector(
-      {
-        id_sector,
-      }
-    );
-
-    if (verifyFkFromProfessional.length > 0) {
-      return {
-        error:
-          'Não foi possível excluir o Setor pois existem Colaboradores associados.',
-      };
-    }
+    if (!verifyContactExists)
+      return { error: `Não existe um Contato com este ID -> ${id_contact}.` };
 
     await repository.deleteContact({
-      id_sector,
+      id_contact,
     });
 
     return {
-      message: 'Setor excluído com sucesso!',
+      message: 'Contato excluído com sucesso!',
     };
   }
 }

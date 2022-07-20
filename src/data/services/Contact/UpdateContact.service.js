@@ -1,30 +1,33 @@
 import { ContactRepository } from '../../database/repositories';
 
 export class UpdateContactService {
-  async execute(id_sector, data) {
+  async execute(id_contact, data) {
     const { nm_sector } = data;
 
     const repository = new ContactRepository();
 
-    const verifySectorExists = await repository.findContactById({
-      id_sector,
+    const verifyContactExists = await repository.findContactById({
+      id_contact,
     });
 
-    if (!verifySectorExists)
-      return { error: `Não existe um Setor com este ID -> ${id_sector}.` };
+    if (!verifyContactExists)
+      return { error: `Não existe um Contato com este ID -> ${id_contact}.` };
 
-    const verifySectorName = await repository.findContact({
+    const verifyContactName = await repository.findContact({
       nm_sector,
     });
 
-    if (verifySectorName && verifySectorName.id_sector !== Number(id_sector))
-      return { error: 'Já existe um Setor registrado com este nome.' };
+    if (
+      verifyContactName &&
+      verifyContactName.id_contact !== Number(id_contact)
+    )
+      return { error: 'Já existe um Contato registrado com este nome.' };
 
-    const sectorUpdated = await repository.updateContact(id_sector, data);
+    const contactUpdated = await repository.updateContact(id_contact, data);
 
     return {
-      message: 'Setor atualizado com sucesso!',
-      contact: sectorUpdated,
+      message: 'Contato atualizado com sucesso!',
+      contact: contactUpdated,
     };
   }
 }

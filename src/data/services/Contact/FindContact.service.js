@@ -1,18 +1,18 @@
 import { ContactRepository } from '../../database/repositories';
 
 export class FindContactService {
-  async execute({ id_sector }) {
+  async execute({ id_contact }) {
     const repository = new ContactRepository();
 
-    const findSector = await repository.findContactById({
-      id_sector,
+    const findContact = await repository.findContactById({
+      id_contact,
     });
 
-    if (!findSector)
-      return { error: `Não existe um Setor com este ID -> ${id_sector}.` };
+    if (!findContact)
+      return { error: `Não existe um Contato com este ID -> ${id_contact}.` };
 
     return {
-      contact: findSector,
+      contact: findContact,
     };
   }
 }
