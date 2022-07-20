@@ -1,13 +1,12 @@
 import { ContactRepository } from '../../database/repositories';
 
 export class FindContactsService {
-  async execute({ page, limit, nm_sector }) {
+  async execute({ page, limit }) {
     const repository = new ContactRepository();
 
     const findContacts = await repository.findContacts({
       limit,
       page,
-      nm_sector,
     });
 
     if (findContacts.length === 0)
