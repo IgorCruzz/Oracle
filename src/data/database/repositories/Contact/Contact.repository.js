@@ -19,25 +19,13 @@ export class ContactRepository {
     });
   }
 
-  async findContacts({ page, limit, nm_contact }) {
-    return nm_contact
-      ? await Contact.findAndCountAll({
-          where: {
-            nm_contact: {
-              [Op.like]: `%${nm_contact.trim()}%`,
-            },
-          },
-          order: [['nm_contact', 'ASC']],
-          limit: limit !== 'all' ? Number(limit) : null,
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
-          raw: true,
-        })
-      : await Contact.findAndCountAll({
-          limit: limit !== 'all' ? Number(limit) : null,
-          order: [['nm_contact', 'ASC']],
-          offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
-          raw: true,
-        });
+  async findContacts({ page, limit }) {
+    return await Contact.findAndCountAll({
+      limit: limit !== 'all' ? Number(limit) : null,
+      order: [['nm_contact', 'ASC']],
+      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+      raw: true,
+    });
   }
 
   async findContact({ nm_contact, id_project }) {
