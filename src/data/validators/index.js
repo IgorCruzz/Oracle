@@ -198,3 +198,10 @@ export * from './Contact/deleteContact.validator';
 export * from './Contact/findContact.validator';
 export * from './Contact/findContacts.validator';
 export * from './Contact/updateContact.validator';
+
+// CONTACT HISTORY
+export * from './ContactHistory/createContactHistory.validator';
+export * from './ContactHistory/deleteContactHistory.validator';
+export * from './ContactHistory/findContactHistories.validator';
+export * from './ContactHistory/findContactHistory.validator';
+export * from './ContactHistory/updateContactHistory.validator';

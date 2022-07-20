@@ -226,3 +226,10 @@ export * from './Contact/DeleteContact.controller';
 export * from './Contact/FindContact.controller';
 export * from './Contact/FindContacts.controller';
 export * from './Contact/UpdateContact.controller';
+
+// CONTACT HISTORY
+export * from './ContactHistory/CreateContactHistory.controller';
+export * from './ContactHistory/DeleteContactHistory.controller';
+export * from './ContactHistory/FindContactHistories.controller';
+export * from './ContactHistory/FindContactHistory.controller';
+export * from './ContactHistory/UpdateContactHistory.controller';

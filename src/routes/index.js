@@ -34,8 +34,10 @@ import Report from './Report/Report.routes';
 import PowerBi from './PowerBi/PowerBi.routes';
 import ProductHistory from './ProductHistory/ProductHistory.routes';
 import Contact from './Contact/Contact.routes';
+import ContactHistory from './ContactHistory/ContactHistory.routes';
 
 const routes = [
+  ContactHistory,
   Contact,
   ProductHistory,
   PowerBi,

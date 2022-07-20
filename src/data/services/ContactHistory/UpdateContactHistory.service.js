@@ -1,33 +1,41 @@
-import { ContactHistoryRepository } from '../../database/repositories';
+import {
+  ContactHistoryRepository,
+  ContactRepository,
+} from '../../database/repositories';
 
 export class UpdateContactHistoryService {
-  async execute(id_contact, data) {
-    const { nm_sector } = data;
+  async execute(id_contact_history, data) {
+    const { id_contact } = data;
 
     const repository = new ContactHistoryRepository();
+    const contactRepository = new ContactRepository();
 
-    const verifyContactExists = await repository.findContactById({
+    const verifyContactExists = await contactRepository.findContactById({
       id_contact,
     });
 
     if (!verifyContactExists)
-      return { error: `Não existe um Contato com este ID -> ${id_contact}.` };
+      return {
+        error: `Não existe um Contato com este ID -> ${id_contact}.`,
+      };
 
-    const verifyContactName = await repository.findContact({
-      nm_sector,
+    const verifyContactHistoryExists = await repository.findContactHistoryById({
+      id_contact_history,
     });
 
-    if (
-      verifyContactName &&
-      verifyContactName.id_contact !== Number(id_contact)
-    )
-      return { error: 'Já existe um Contato registrado com este nome.' };
+    if (!verifyContactHistoryExists)
+      return {
+        error: `Não existe um Histórico de contato com este ID -> ${id_contact_history}.`,
+      };
 
-    const contactUpdated = await repository.updateContact(id_contact, data);
+    const contactUpdated = await repository.updateContactHistory(
+      id_contact_history,
+      data
+    );
 
     return {
-      message: 'Contato atualizado com sucesso!',
-      contact: contactUpdated,
+      message: 'Histórico de Contato atualizado com sucesso!',
+      contactHistory: contactUpdated,
     };
   }
 }
