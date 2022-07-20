@@ -32,8 +32,10 @@ import Delivery from './Delivery/Delivery.routes';
 import Analysis from './Analysis/Analysis.routes';
 import Report from './Report/Report.routes';
 import PowerBi from './PowerBi/PowerBi.routes';
+import ProductHistory from './ProductHistory/ProductHistory.routes';
 
 const routes = [
+  ProductHistory,
   PowerBi,
   Report,
   Analysis,
