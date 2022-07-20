@@ -10,14 +10,6 @@ export class CorrectionService {
 
     const analysis = JSON.parse(data.analysis);
 
-    console.log({
-      analysis,
-      filename,
-      size,
-      mimetype,
-      originalname,
-    });
-
     const t = await sequelize.transaction();
 
     const productHistoryRepository = new ProductHistoryRepository();
