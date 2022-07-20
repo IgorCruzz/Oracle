@@ -2,9 +2,12 @@ import { Op } from 'sequelize';
 import { Contact } from '../../models';
 
 export class ContactRepository {
-  async createContact({ nm_contact }) {
+  async createContact(data) {
+    const { nm_contact } = data;
+
     const createdContact = await Contact.create({
       nm_contact: nm_contact.trim(),
+      ...data,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -62,6 +65,10 @@ export class ContactRepository {
   }
 
   async updateContact(id_contact, data) {
+    console.log({
+      data,
+    });
+
     const { nm_contact } = data;
 
     const contact = await Contact.findOne({
@@ -72,6 +79,7 @@ export class ContactRepository {
 
     await contact.update({
       nm_contact: nm_contact.trim(),
+      ...data,
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 

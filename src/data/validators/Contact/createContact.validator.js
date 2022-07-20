@@ -23,6 +23,9 @@ export const createContactValidator = async (req, res, next) => {
       tx_remark: Yup.string()
         .max(1000, 'O tamanho máximo permitido para o campo observação é 1000')
         .nullable(),
+      id_project: Yup.number()
+        .required('Projeto inválido')
+        .typeError('Projeto inválido'),
     });
 
     await Schema.validate(req.body, { abortEarly: false });

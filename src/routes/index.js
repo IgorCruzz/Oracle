@@ -33,8 +33,10 @@ import Analysis from './Analysis/Analysis.routes';
 import Report from './Report/Report.routes';
 import PowerBi from './PowerBi/PowerBi.routes';
 import ProductHistory from './ProductHistory/ProductHistory.routes';
+import Contact from './Contact/Contact.routes';
 
 const routes = [
+  Contact,
   ProductHistory,
   PowerBi,
   Report,
