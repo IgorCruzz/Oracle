@@ -54,6 +54,8 @@ export class ContactHistoryRepository {
   }
 
   async updateContactHistory(id_contact_history, data) {
+    const { contact: ctc, agreedFeedBack, feedBack } = data;
+
     const contact = await Contact_history.findOne({
       where: {
         id_contact_history,
@@ -62,6 +64,9 @@ export class ContactHistoryRepository {
 
     await contact.update({
       ...data,
+      dt_contatct: ctc || null,
+      dt_agreed_feedback: agreedFeedBack || null,
+      dt_feedback: feedBack || null,
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
