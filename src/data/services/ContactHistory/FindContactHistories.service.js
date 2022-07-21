@@ -17,14 +17,15 @@ export class FindContactHistoriesService {
     const getRows = findContacts.rows.map(data => ({
       ...data,
       dt_feedback: data.dt_feedback
-        ? format(new Date(data.dt_feedback), 'dd/MM/yyyy')
+        ? format(new Date(data.dt_feedback), 'yyyy-MM-dd')
         : null,
       dt_agreed_feedback: data.dt_agreed_feedback
-        ? format(new Date(data.dt_agreed_feedback), 'dd/MM/yyyy')
+        ? format(new Date(data.dt_agreed_feedback), 'yyyy-MM-dd')
         : null,
       dt_contatct: data.dt_contatct
-        ? format(new Date(data.dt_contatct), 'dd/MM/yyyy')
+        ? format(new Date(data.dt_contatct), 'yyyy-MM-dd')
         : null,
+      hr_contact: data.hr_contact.slice(0, 5),
     }));
 
     return {
