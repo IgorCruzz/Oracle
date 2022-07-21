@@ -5,8 +5,8 @@ import { Product_history } from '../../data/database/models';
 
 const routes = Router();
 
-routes.get('/product_history/download/:filename', async (req, res) => {
-  const { filename } = req.params;
+routes.get('/product_history/download', async (req, res) => {
+  const { filename } = req.query;
 
   const getFilename = await Product_history.findOne({
     where: {

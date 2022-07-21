@@ -16,15 +16,15 @@ const upload = multer({ storage });
 
 routes.post(
   '/undoDeliveries',
-  authenticator,
   upload.single('file'),
+  authenticator,
   new UndoDeliveryController().handle
 );
 
 routes.post(
   '/deliveries',
-  authenticator,
   upload.single('file'),
+  authenticator,
   new CreateDeliveryController().handle
 );
 
