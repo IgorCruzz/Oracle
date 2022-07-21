@@ -1,4 +1,4 @@
-import { Contact_history } from '../../models';
+import { Contact_history, Contact } from '../../models';
 
 export class ContactHistoryRepository {
   async createContactHistory(data) {
@@ -17,6 +17,19 @@ export class ContactHistoryRepository {
       where: {
         id_contact_history: createdContact.dataValues.id_contact_history,
       },
+    });
+  }
+
+  async verifyRelation({ id_contact }) {
+    return await Contact_history.findAll({
+      where: { id_contact },
+      include: [
+        {
+          model: Contact,
+          as: 'contact',
+          where: { id_contact },
+        },
+      ],
     });
   }
 
