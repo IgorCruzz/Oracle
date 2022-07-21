@@ -2,8 +2,13 @@ import { Contact_history } from '../../models';
 
 export class ContactHistoryRepository {
   async createContactHistory(data) {
+    const { contact, agreedFeedBack, feedBack } = data;
+
     const createdContact = await Contact_history.create({
       ...data,
+      dt_contatct: contact || null,
+      dt_agreed_feedback: agreedFeedBack || null,
+      dt_feedback: feedBack || null,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

@@ -16,6 +16,10 @@ export class FindContactHistoriesController {
 
       const { count, rows } = response.contactHistories;
 
+      console.log({
+        rows,
+      });
+
       return res.status(200).json({
         count,
         page,
