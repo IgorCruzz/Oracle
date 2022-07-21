@@ -13,6 +13,7 @@ export class Contact_history extends Model {
         hr_contact: DataTypes.TIME,
         ds_contact: DataTypes.STRING,
         dt_agreed_feedback: DataTypes.DATE,
+        dt_feedback: DataTypes.DATE,
 
         dt_created_at: DataTypes.DATE,
         dt_updated_at: DataTypes.DATE,
