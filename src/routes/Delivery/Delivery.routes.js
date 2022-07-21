@@ -14,8 +14,8 @@ const routes = Router();
 
 const upload = multer({ storage });
 
-routes.delete(
-  '/deliveries',
+routes.post(
+  '/undoDeliveries',
   authenticator,
   upload.single('file'),
   new UndoDeliveryController().handle
