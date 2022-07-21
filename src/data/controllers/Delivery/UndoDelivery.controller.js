@@ -5,15 +5,7 @@ export class UndoDeliveryController {
     try {
       const service = new UndoDeliveryService();
 
-      const { filename, size, mimetype, originalname } = req.file;
-
-      const response = await service.execute({
-        ...req.body,
-        filename,
-        size,
-        mimetype,
-        originalname,
-      });
+      const response = await service.execute({ ...req.body, ...req.file });
 
       if (response.error)
         return res.status(400).json({

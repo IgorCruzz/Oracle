@@ -6,10 +6,8 @@ export class CorrectionController {
       const service = new CorrectionService();
       const { userId } = req;
 
-      const { filename, size, mimetype, originalname } = req.file;
-
       const response = await service.execute(
-        { ...req.body, filename, size, mimetype, originalname },
+        { ...req.body, ...req.file },
         userId
       );
 
