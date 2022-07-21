@@ -8,7 +8,7 @@ import {
 } from '../../data/controllers';
 import authenticator from '../../data/authenticator/jwt.authenticator';
 
-import { storage } from '../../config/multer';
+import { storage } from '../../config/multer_product_history';
 
 const routes = Router();
 
