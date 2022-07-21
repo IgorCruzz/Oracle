@@ -6,15 +6,17 @@ import { Product_history } from '../../data/database/models';
 const routes = Router();
 
 routes.get('/product_history/download', async (req, res) => {
-  const { filename } = req.query;
+  const { nm_file } = req.query;
 
   const getFilename = await Product_history.findOne({
     where: {
-      [Op.and]: [{ nm_original_file: filename }],
+      [Op.and]: [{ nm_file }],
     },
   });
 
-  const { nm_file } = getFilename;
+  if (!getFilename) {
+    return res.status(400).json({ error: 'Não há arquivo com este nome!' });
+  }
 
   const file = resolve(
     __dirname,
@@ -26,7 +28,7 @@ routes.get('/product_history/download', async (req, res) => {
     nm_file
   );
 
-  return res.download(file, filename);
+  return res.download(file, nm_file);
 });
 
 export default routes;
