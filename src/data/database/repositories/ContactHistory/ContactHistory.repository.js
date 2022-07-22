@@ -36,6 +36,10 @@ export class ContactHistoryRepository {
   async findContactHistories({ page, limit, id_contact }) {
     return await Contact_history.findAndCountAll({
       where: { id_contact },
+      order: [
+        ['dt_contatct', 'ASC'],
+        ['hr_contact', 'ASC'],
+      ],
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       raw: true,
