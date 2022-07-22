@@ -36,7 +36,7 @@ export const powerBIAuthenticator = ({ service }) => async (req, res, next) => {
 
   const services = {
     Portfolio: 'Portfolio',
-    Produto: 'Produto',
+    Projeto: 'Projeto',
     Colaborador: 'Colaborador',
     Vistoria: 'Vistoria',
   };
