@@ -358,6 +358,7 @@ export class FindDeliveriesService {
         return {
           id_product_history: product.id_product_history,
           nm_file: product.nm_file,
+          nm_original_file: product.nm_original_file,
           hasDocuments: countDocuments,
           tx_remark: product.tx_remark || 'Não possui',
           documents,
