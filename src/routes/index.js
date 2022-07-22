@@ -87,7 +87,7 @@ router.get('/ip', (req, res) => {
 
   return res.send({
     ip: req.ip,
-    ssip: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+    ssip: ip,
   });
 });
 
