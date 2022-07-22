@@ -78,7 +78,12 @@ const router = Router();
 
 router.get('/ping', (req, res) => res.status(200).json({ data: 'PONG' }));
 
-router.get('/ip', (req, res) => res.send({ ip: req.ip }));
+router.get('/ip', (req, res) =>
+  res.send({
+    ip: req.ip,
+    ssip: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+  })
+);
 
 export const exposeRoutes = routes.map(routerMap =>
   router.use('/v1/api/ger-obras', routerMap)
