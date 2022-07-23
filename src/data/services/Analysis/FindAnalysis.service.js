@@ -64,7 +64,7 @@ export class FindAnalysisService {
       ({ id_product_history }) => id_product_history
     );
 
-    const productHistories = await Product_history.findAll({
+    const productHistories = await Product_history.findAndCountAll({
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       raw: true,
@@ -97,6 +97,48 @@ export class FindAnalysisService {
                 },
               }
             : {},
+          nm_product
+            ? {
+                ...(nm_product && {
+                  '$product.nm_product$': {
+                    [Op.like]: `%${nm_product.trim()}%`,
+                  },
+                }),
+              }
+            : {
+                [Op.or]: [
+                  {
+                    '$product.tp_required_action$': 1,
+                  },
+                  {
+                    '$product.tp_required_action$': 2,
+                  },
+                ],
+              },
+          id_project_phase
+            ? {
+                ...(id_project_phase && {
+                  '$product.project_phase.id_project_phase$': id_project_phase,
+                }),
+              }
+            : null,
+          id_project
+            ? {
+                ...(id_project && {
+                  '$product.project_phase.project.id_project$': id_project,
+                }),
+              }
+            : null,
+          id_professional
+            ? {
+                '$professional.id_professional$': id_professional,
+              }
+            : null,
+          id_allocation_period
+            ? {
+                '$allocation.id_allocation_period$': id_allocation_period,
+              }
+            : null,
         ],
       },
       include: [
@@ -104,22 +146,6 @@ export class FindAnalysisService {
           model: Product,
           as: 'product',
           required: id_project || id_project_phase || nm_product,
-          where: nm_product
-            ? {
-                ...(nm_product && {
-                  nm_product: { [Op.like]: `%${nm_product.trim()}%` },
-                }),
-              }
-            : {
-                [Op.or]: [
-                  {
-                    tp_required_action: 1,
-                  },
-                  {
-                    tp_required_action: 2,
-                  },
-                ],
-              },
           include: [
             {
               model: Role,
@@ -129,21 +155,12 @@ export class FindAnalysisService {
               model: Project_phase,
               as: 'project_phase',
               required: id_project || id_project_phase,
-              where: id_project_phase
-                ? {
-                    ...(id_project_phase && { id_project_phase }),
-                  }
-                : null,
+
               include: [
                 {
                   model: Project,
                   as: 'project',
                   required: id_project,
-                  where: id_project
-                    ? {
-                        ...(id_project && { id_project }),
-                      }
-                    : null,
                 },
               ],
             },
@@ -155,11 +172,6 @@ export class FindAnalysisService {
 
           attributes: ['nm_professional'],
           required: id_professional,
-          where: id_professional
-            ? {
-                id_professional,
-              }
-            : null,
         },
         {
           model: Allocation_period,
@@ -171,17 +183,12 @@ export class FindAnalysisService {
             'dt_end_allocation',
             'qt_business_hours',
           ],
-          where: id_allocation_period
-            ? {
-                id_allocation_period,
-              }
-            : null,
         },
       ],
     });
 
     const getRows = await Promise.all(
-      await productHistories.map(async product => {
+      productHistories.rows.map(async product => {
         const getDocuments = await Document.count({
           where: {
             id_product: product.id_product,
@@ -236,7 +243,7 @@ export class FindAnalysisService {
 
     return {
       analysis: {
-        count: getRows.length,
+        count: productHistories.count,
         rows: getRows,
       },
     };
