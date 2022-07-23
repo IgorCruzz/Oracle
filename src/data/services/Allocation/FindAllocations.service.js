@@ -29,23 +29,23 @@ export class FindAllocationsService {
     in_analisysCorretion,
     concluded,
   }) {
-    if (
-      !cd_priority &&
-      !id_project &&
-      !id_project_phase &&
-      !nm_product &&
-      !id_suggested_role &&
-      !id_professional &&
-      !id_allocation_period &&
-      !wt_alocation &&
-      !on_production &&
-      !in_correction &&
-      !in_analisys &&
-      !in_analisysCorretion &&
-      !concluded
-    ) {
-      return { error: 'Selecione, pelo menos, uma opção de filtro.' };
-    }
+    // if (
+    //   !cd_priority &&
+    //   !id_project &&
+    //   !id_project_phase &&
+    //   !nm_product &&
+    //   !id_suggested_role &&
+    //   !id_professional &&
+    //   !id_allocation_period &&
+    //   !wt_alocation &&
+    //   !on_production &&
+    //   !in_correction &&
+    //   !in_analisys &&
+    //   !in_analisysCorretion &&
+    //   !concluded
+    // ) {
+    //   return { error: 'Selecione, pelo menos, uma opção de filtro.' };
+    // }
 
     const havingValues = [
       wt_alocation && { value: 0 },
@@ -71,7 +71,7 @@ export class FindAllocationsService {
       ({ id_product_history }) => id_product_history
     );
 
-    const productHistories = await Product_history.findAll({
+    const productHistories = await Product_history.findAndCountAll({
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       raw: true,
@@ -99,6 +99,61 @@ export class FindAllocationsService {
                 },
               }
             : {},
+          nm_product
+            ? {
+                ...(nm_product && {
+                  '$product.nm_product$': {
+                    [Op.like]: `%${nm_product.trim()}%`,
+                  },
+                }),
+              }
+            : {
+                [Op.or]: [
+                  {
+                    '$product.tp_required_action$': 1,
+                  },
+                  {
+                    '$product.tp_required_action$': 2,
+                  },
+                ],
+              },
+          id_suggested_role
+            ? {
+                ...(id_suggested_role && {
+                  '$product.suggested_role.id_role$': id_suggested_role,
+                }),
+              }
+            : null,
+          id_project_phase
+            ? {
+                ...(id_project_phase && {
+                  '$product.project_phase.id_project_phase$': id_project_phase,
+                }),
+              }
+            : null,
+          cd_priority || id_project
+            ? {
+                ...(cd_priority && {
+                  '$product.project_phase.project.cd_priority$': cd_priority,
+                }),
+                ...(id_project && {
+                  '$product.project_phase.project.id_project$': id_project,
+                }),
+                '$product.project_phase.project.nm_deleted_by$': {
+                  [Op.is]: null,
+                },
+              }
+            : null,
+          id_professional
+            ? {
+                '$professional.id_professional$': id_professional,
+              }
+            : null,
+          id_allocation_period
+            ? {
+                '$allocation.id_allocation_period$': id_allocation_period,
+              }
+            : null,
         ],
       },
       include: [
@@ -106,57 +161,21 @@ export class FindAllocationsService {
           model: Product,
           as: 'product',
           required: cd_priority || id_project || id_project_phase || nm_product,
-          where: nm_product
-            ? {
-                ...(nm_product && {
-                  nm_product: { [Op.like]: `%${nm_product.trim()}%` },
-                }),
-              }
-            : {
-                [Op.or]: [
-                  {
-                    tp_required_action: 1,
-                  },
-                  {
-                    tp_required_action: 2,
-                  },
-                ],
-              },
           include: [
             {
               model: Role,
               required: id_suggested_role,
               as: 'suggested_role',
-              where: id_suggested_role
-                ? {
-                    ...(id_suggested_role && { id_role: id_suggested_role }),
-                  }
-                : null,
             },
             {
               model: Project_phase,
               as: 'project_phase',
               required: cd_priority || id_project || id_project_phase,
-              where: id_project_phase
-                ? {
-                    ...(id_project_phase && { id_project_phase }),
-                  }
-                : null,
               include: [
                 {
                   model: Project,
                   as: 'project',
                   required: true,
-                  where:
-                    cd_priority || id_project
-                      ? {
-                          ...(cd_priority && { cd_priority }),
-                          ...(id_project && { id_project }),
-                          nm_deleted_by: {
-                            [Op.is]: null,
-                          },
-                        }
-                      : null,
                 },
               ],
             },
@@ -168,11 +187,6 @@ export class FindAllocationsService {
 
           attributes: ['nm_professional'],
           required: id_professional,
-          where: id_professional
-            ? {
-                id_professional,
-              }
-            : null,
         },
         {
           model: Allocation_period,
@@ -183,16 +197,11 @@ export class FindAllocationsService {
             'dt_end_allocation',
             'qt_business_hours',
           ],
-          where: id_allocation_period
-            ? {
-                id_allocation_period,
-              }
-            : null,
         },
       ],
     });
 
-    const getRows = productHistories.map(product => ({
+    const getRows = productHistories.rows.map(product => ({
       duration: calculateHour({
         max: product['product.qt_maximum_hours'],
         min: product['product.qt_minimum_hours'],
@@ -244,7 +253,7 @@ export class FindAllocationsService {
 
     return {
       allocations: {
-        count: getRows.length,
+        count: productHistories.count,
         rows: getRows,
       },
     };
