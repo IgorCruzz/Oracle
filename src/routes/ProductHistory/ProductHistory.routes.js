@@ -18,6 +18,8 @@ routes.get('/product_history/download', async (req, res) => {
     return res.status(400).json({ error: 'Não há arquivo com este nome!' });
   }
 
+  const { nm_original_file } = getFilename;
+
   const file = resolve(
     __dirname,
     '..',
@@ -28,7 +30,7 @@ routes.get('/product_history/download', async (req, res) => {
     nm_file
   );
 
-  return res.download(file, nm_file);
+  return res.download(file, nm_original_file);
 });
 
 export default routes;
