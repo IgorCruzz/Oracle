@@ -5,6 +5,7 @@ import {
   ProjectController,
   ReportPtiController,
   ReportProfessionalController,
+  ReportContactController,
 } from '../../data/controllers';
 
 const routes = Router();
@@ -13,6 +14,8 @@ routes.get(
   '/report/projectPortfolios',
   new ProjectPortfolioController().handle
 );
+
+routes.get('/report/contacts', new ReportContactController().handle);
 
 routes.get('/report/projects', new ProjectController().handle);
 

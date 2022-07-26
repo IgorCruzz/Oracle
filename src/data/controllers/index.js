@@ -213,6 +213,7 @@ export * from './Report/ProjectPortfolio.controller';
 export * from './Report/Project.controller';
 export * from './Report/ReportPti.controller';
 export * from './Report/ReportProfessional.controller';
+export * from './Report/ReportContact.controller';
 
 // POWER BI
 export * from './PowerBi/PowerBiPortfolio.controller';

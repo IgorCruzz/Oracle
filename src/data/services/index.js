@@ -213,6 +213,7 @@ export * from './Report/ProjectPortfolio.service';
 export * from './Report/Project.service';
 export * from './Report/ReportPti.service';
 export * from './Report/ReportProfessional.service';
+export * from './Report/ReportContact.service';
 
 // POWER BI
 export * from './PowerBi/PowerBiPortfolio.service';
