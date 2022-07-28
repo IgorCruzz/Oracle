@@ -3,15 +3,26 @@ import { ReportContactService } from '../../services';
 export class ReportContactController {
   async handle(req, res) {
     try {
-      const { page, limit, id_allocation_period, download } = req.query;
+      const {
+        page,
+        limit,
+        download,
+        dt_contatct,
+        id_project,
+        dt_feedback,
+        no_feedback,
+      } = req.query;
 
       const service = new ReportContactService();
 
       const response = await service.execute({
         page,
         limit,
-        id_allocation_period,
         download,
+        dt_contatct,
+        id_project,
+        dt_feedback,
+        no_feedback,
       });
 
       if (response.error)

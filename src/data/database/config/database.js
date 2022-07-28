@@ -9,7 +9,7 @@ module.exports = {
   options: {
     requestTimeout: 3000,
   },
-  logging: false,
+  logging: true,
   define: {
     timestamps: false,
     freezeTableName: true,
