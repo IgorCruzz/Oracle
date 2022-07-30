@@ -16,7 +16,7 @@ export default {
         context: {
           token,
           email,
-          host: process.env.HOST,
+          host: `${process.env.HOST}/redefinirSenha?codigo=${token}&email=${email}`,
         },
       };
 
