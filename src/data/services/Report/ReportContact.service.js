@@ -48,8 +48,13 @@ export class ReportContactService {
           ? `dt_feedback is NULL`
           : '(dt_feedback is NULL || dt_feedback = dt_feedback)'
       }
-      ${limit !== 'all' &&
-        `LIMIT ${limit} OFFSET ${(Number(page) - 1) * Number(limit)}`} `
+      ORDER BY dt_contatct ASC, hr_contact ASC
+      ${
+        limit !== 'all'
+          ? `LIMIT ${limit} OFFSET ${(Number(page) - 1) * Number(limit)}`
+          : ''
+      }
+       `
     );
 
     const [count] = await sequelize.query(
