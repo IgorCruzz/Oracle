@@ -164,7 +164,7 @@ export class ReportContactService {
       worksheet.getCell('H12').font = {
         bold: true,
       };
-      worksheet.getCell('I12').value = 'Retono';
+      worksheet.getCell('I12').value = 'Retorno';
       worksheet.getCell('I12').font = {
         bold: true,
       };
