@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import ExcelJS from 'exceljs';
 import { sequelize } from '../../database';
 
 export class ReportContactService {
@@ -9,6 +10,7 @@ export class ReportContactService {
     dt_contatct,
     dt_agreed_feedback,
     no_return,
+    download,
   }) {
     const [results] = await sequelize.query(
       `SELECT 
@@ -110,11 +112,148 @@ export class ReportContactService {
       }
     );
 
+    let buffer;
+
+    if (download) {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet('ExampleSheet');
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('A4').value = 'RELATÓRIO:';
+      worksheet.getCell('A4').font = {
+        bold: true,
+      };
+      worksheet.getCell('B4').value = 'Acompanhamento de Contatos';
+      // /////////////////////////////////////////////////////////
+
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('A5').value = 'DATA:';
+      worksheet.getCell('A5').font = {
+        bold: true,
+      };
+      worksheet.getCell('B5').value = format(new Date(), 'dd/MM/yyyy');
+
+      worksheet.getCell('A12').value = 'Projeto';
+      worksheet.getCell('A12').font = {
+        bold: true,
+      };
+      worksheet.getCell('B12').value = 'Município';
+      worksheet.getCell('B12').font = {
+        bold: true,
+      };
+      worksheet.getCell('C12').value = 'Data do contato';
+      worksheet.getCell('C12').font = {
+        bold: true,
+      };
+      worksheet.getCell('D12').value = 'Hora do contato';
+      worksheet.getCell('D12').font = {
+        bold: true,
+      };
+      worksheet.getCell('E12').value = 'Descrição';
+      worksheet.getCell('E12').font = {
+        bold: true,
+      };
+      worksheet.getCell('F12').value = 'Nome do Contato';
+      worksheet.getCell('F12').font = {
+        bold: true,
+      };
+      worksheet.getCell('G12').value = 'Telefone';
+      worksheet.getCell('G12').font = {
+        bold: true,
+      };
+      worksheet.getCell('H12').value = 'Retorno Previsto';
+      worksheet.getCell('H12').font = {
+        bold: true,
+      };
+      worksheet.getCell('I12').value = 'Retono';
+      worksheet.getCell('I12').font = {
+        bold: true,
+      };
+
+      const colA = worksheet.getColumn('A');
+      const colB = worksheet.getColumn('B');
+      const colC = worksheet.getColumn('C');
+      const colD = worksheet.getColumn('D');
+      const colE = worksheet.getColumn('E');
+      const colF = worksheet.getColumn('F');
+      const colG = worksheet.getColumn('G');
+      const colH = worksheet.getColumn('H');
+      const colI = worksheet.getColumn('I');
+
+      colA.width = 20;
+      colB.width = 20;
+      colC.width = 20;
+      colD.width = 20;
+      colE.width = 20;
+      colF.width = 20;
+      colG.width = 20;
+      colH.width = 20;
+      colI.width = 20;
+
+      for (let i = 0; i <= formattedValues.length - 1; i++) {
+        let num = 13;
+
+        worksheet.getCell(`A${String(num + i)}`).value =
+          formattedValues[i].nm_project;
+        worksheet.getCell(`B${String(num + i)}`).value =
+          formattedValues[i].nm_city;
+        worksheet.getCell(`C${String(num + i)}`).value =
+          formattedValues[i].dt_contatct;
+        worksheet.getCell(`D${String(num + i)}`).value =
+          formattedValues[i].hr_contact;
+        worksheet.getCell(`E${String(num + i)}`).value =
+          formattedValues[i].ds_contact;
+        worksheet.getCell(`F${String(num + i)}`).value =
+          formattedValues[i].nm_contact;
+        worksheet.getCell(`G${String(num + i)}`).value =
+          formattedValues[i].nu_phone;
+        worksheet.getCell(`H${String(num + i)}`).value =
+          formattedValues[i].dt_agreed_feedback;
+        worksheet.getCell(`I${String(num + i)}`).value =
+          formattedValues[i].dt_feedback;
+
+        worksheet.getCell(`A${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`B${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`C${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`D${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`E${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`F${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`G${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`H${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+
+        worksheet.getCell(`I${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`J${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+
+        num++;
+      }
+
+      buffer = await workbook.xlsx.writeBuffer();
+    }
+
     return {
       contacts: {
         count: count[0].count,
         rows: formattedValues,
-        buffer: false,
+        buffer,
       },
     };
   }
