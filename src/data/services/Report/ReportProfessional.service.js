@@ -32,10 +32,11 @@ export class ReportProfessionalService {
       ({ id_product_history }) => id_product_history
     );
 
-    const productHistories = await Product_history.findAll({
+    const productHistories = await Product_history.findAndCountAll({
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       raw: true,
+      distinct: true,
       where: {
         [Op.and]: [
           {
@@ -78,7 +79,7 @@ export class ReportProfessionalService {
     });
 
     const response = Promise.all(
-      productHistories.map(async productHistory => {
+      productHistories.rows.map(async productHistory => {
         const testeee = await Product_history.findAll({
           raw: true,
           where: {
@@ -415,7 +416,7 @@ export class ReportProfessionalService {
 
     return {
       projects: {
-        count: response.length,
+        count: productHistories.count,
         rows: await response,
         buffer,
       },
