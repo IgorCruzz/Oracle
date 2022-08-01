@@ -12,6 +12,10 @@ export class ReportContactService {
     no_return,
     download,
   }) {
+    if (!id_project && !dt_contatct && !dt_agreed_feedback && !no_return) {
+      return { error: 'Informe pelo menos uma opção de filtro!' };
+    }
+
     const [results] = await sequelize.query(
       `SELECT 
       project.id_project, 
