@@ -1,45 +1,124 @@
-import ExcelJS from 'exceljs';
 import { format } from 'date-fns';
+import ExcelJS from 'exceljs';
 import { sequelize } from '../../database';
 
 export class ReportContactService {
   async execute({
     page,
     limit,
-    download,
-    dt_contatct,
     id_project,
-    dt_feedback,
-    no_feedback,
+    dt_contatct,
+    dt_agreed_feedback,
+    no_return,
+    download,
   }) {
+    if (!id_project && !dt_contatct && !dt_agreed_feedback && !no_return) {
+      return { error: 'Informe pelo menos uma opção de filtro!' };
+    }
+
     const [results] = await sequelize.query(
-      `SELECT *  FROM (SELECT nm_project, nm_city, dt_contatct, hr_contact, ds_contact, nm_contact, nu_phone, dt_agreed_feedback, dt_feedback 
-        FROM gerobras.project LEFT JOIN gerobras.city ON gerobras.city.id_city = gerobras.project.id_city 
-        LEFT JOIN gerobras.contact ON gerobras.contact.id_project = gerobras.project.id_project 
-        LEFT JOIN gerobras.contact_history ON gerobras.contact_history.id_contact = gerobras.contact.id_contact) AS contact  
-       
-        WHERE 
-        ${
-          dt_contatct
-            ? `dt_contatct > ${dt_contatct} AND`
-            : 'dt_contatct = dt_contatct AND'
-        } 
-        ${
-          id_project
-            ? `id_project > ${id_project} AND`
-            : `id_project = id_project AND`
-        } 
-        ${
-          dt_feedback
-            ? `dt_feedback > ${dt_feedback}`
-            : `id_project = id_project AND`
-        } 
-        ${no_feedback ? `dt_feedback is NULL` : `id_project = id_project`}
-        ${limit !== 'all' ? `LIMIT ${limit} OFFSET ${page}` : ''}`
+      `SELECT 
+      project.id_project, 
+      nm_project, 
+      nm_city, 
+      dt_contatct, 
+      hr_contact, 
+      ds_contact, nm_contact, nu_phone, dt_agreed_feedback, dt_feedback FROM gerobras.project 
+      INNER JOIN gerobras.city ON gerobras.city.id_city = gerobras.project.id_city
+      INNER JOIN gerobras.contact ON gerobras.contact.id_project = gerobras.project.id_project 
+      INNER JOIN gerobras.contact_history ON gerobras.contact.id_contact = gerobras.contact_history.id_contact 
+      WHERE 
+      ${
+        id_project
+          ? `project.id_project = "${id_project}"`
+          : '(project.id_project = project.id_project || project.id_project is NULL)'
+      } AND
+      ${
+        dt_contatct
+          ? `dt_contatct >= "${dt_contatct}"`
+          : '(dt_contatct = dt_contatct || dt_contatct is NULL)'
+      } AND
+      ${
+        dt_agreed_feedback
+          ? `dt_agreed_feedback >= "${dt_agreed_feedback}"`
+          : '(dt_agreed_feedback = dt_agreed_feedback || dt_agreed_feedback is NULL)'
+      } AND
+      ${
+        no_return
+          ? `dt_feedback is NULL`
+          : '(dt_feedback is NULL || dt_feedback = dt_feedback)'
+      }
+      ORDER BY dt_contatct ASC, hr_contact ASC
+      ${
+        limit !== 'all'
+          ? `LIMIT ${limit} OFFSET ${(Number(page) - 1) * Number(limit)}`
+          : ''
+      }
+       `
     );
 
     const [count] = await sequelize.query(
-      'SELECT COUNT(nm_project) AS count FROM (SELECT nm_project, nm_city, dt_contatct, hr_contact, ds_contact, nm_contact, nu_phone, dt_agreed_feedback, dt_feedback FROM gerobras.project LEFT JOIN gerobras.city ON gerobras.city.id_city = gerobras.project.id_city LEFT JOIN gerobras.contact ON gerobras.contact.id_project = gerobras.project.id_project LEFT JOIN gerobras.contact_history ON gerobras.contact_history.id_contact = gerobras.contact.id_contact) AS contact'
+      `SELECT 
+     COUNT(*) as count FROM gerobras.project 
+      INNER JOIN gerobras.city ON gerobras.city.id_city = gerobras.project.id_city
+      INNER JOIN gerobras.contact ON gerobras.contact.id_project = gerobras.project.id_project 
+      INNER JOIN gerobras.contact_history ON gerobras.contact.id_contact = gerobras.contact_history.id_contact 
+      WHERE 
+      ${
+        id_project
+          ? `project.id_project = "${id_project}"`
+          : '(project.id_project = project.id_project || project.id_project is NULL)'
+      } AND
+      ${
+        dt_contatct
+          ? `dt_contatct >= "${dt_contatct}"`
+          : '(dt_contatct = dt_contatct || dt_contatct is NULL)'
+      } AND
+      ${
+        dt_agreed_feedback
+          ? `dt_agreed_feedback >= "${dt_agreed_feedback}"`
+          : '(dt_agreed_feedback = dt_agreed_feedback || dt_agreed_feedback is NULL)'
+      } AND
+      ${
+        no_return
+          ? `dt_feedback is NULL`
+          : '(dt_feedback is NULL || dt_feedback = dt_feedback)'
+      }
+   `
+    );
+
+    const formattedValues = results.map(
+      ({
+        id_project: idProject,
+        nm_project,
+        nm_city,
+        dt_contatct: dtContatct,
+        hr_contact,
+        ds_contact,
+        nm_contact,
+        nu_phone,
+        dt_agreed_feedback: dtAgreedFeedback,
+        dt_feedback,
+      }) => {
+        return {
+          id_project: idProject,
+          nm_project,
+          nm_city,
+          dt_contatct: dtContatct
+            ? format(new Date(dtContatct), 'dd/MM/yyyy')
+            : '',
+          hr_contact: hr_contact.slice(0, -3),
+          ds_contact,
+          nm_contact,
+          nu_phone,
+          dt_agreed_feedback: dtAgreedFeedback
+            ? format(new Date(dtAgreedFeedback), 'dd/MM/yyyy')
+            : '',
+          dt_feedback: dt_feedback
+            ? format(new Date(dt_feedback), 'dd/MM/yyyy')
+            : '',
+        };
+      }
     );
 
     let buffer;
@@ -47,50 +126,55 @@ export class ReportContactService {
     if (download) {
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet('ExampleSheet');
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('A4').value = 'RELATÓRIO:';
+      worksheet.getCell('A4').font = {
+        bold: true,
+      };
+      worksheet.getCell('B4').value = 'Acompanhamento de Contatos';
+      // /////////////////////////////////////////////////////////
 
-      worksheet.getCell('A2').value = 'RELATÓRIO:';
-      worksheet.getCell('A2').font = {
+      // /////////////////////////////////////////////////////////
+      worksheet.getCell('A5').value = 'DATA:';
+      worksheet.getCell('A5').font = {
         bold: true,
       };
+      worksheet.getCell('B5').value = format(new Date(), 'dd/MM/yyyy');
 
-      worksheet.getCell('A3').value = 'DATA:';
-      worksheet.getCell('A3').font = {
+      worksheet.getCell('A12').value = 'Projeto';
+      worksheet.getCell('A12').font = {
         bold: true,
       };
-
-      worksheet.getCell('B2').value = 'Contatos';
-      worksheet.getCell('B3').value = format(new Date(), 'dd/MM/yyyy');
-
-      worksheet.getCell('A10').value = 'Projeto';
-      worksheet.getCell('A10').font = {
+      worksheet.getCell('B12').value = 'Município';
+      worksheet.getCell('B12').font = {
         bold: true,
       };
-      worksheet.getCell('B10').value = 'Município';
-      worksheet.getCell('B10').font = {
+      worksheet.getCell('C12').value = 'Data do contato';
+      worksheet.getCell('C12').font = {
         bold: true,
       };
-      worksheet.getCell('C10').value = 'Data do contato';
-      worksheet.getCell('C10').font = {
+      worksheet.getCell('D12').value = 'Hora do contato';
+      worksheet.getCell('D12').font = {
         bold: true,
       };
-      worksheet.getCell('D10').value = 'Hora do contato';
-      worksheet.getCell('D10').font = {
+      worksheet.getCell('E12').value = 'Descrição';
+      worksheet.getCell('E12').font = {
         bold: true,
       };
-      worksheet.getCell('E10').value = 'Descrição do contato';
-      worksheet.getCell('E10').font = {
+      worksheet.getCell('F12').value = 'Nome do Contato';
+      worksheet.getCell('F12').font = {
         bold: true,
       };
-      worksheet.getCell('F10').value = 'Nome do contato';
-      worksheet.getCell('F10').font = {
+      worksheet.getCell('G12').value = 'Telefone';
+      worksheet.getCell('G12').font = {
         bold: true,
       };
-      worksheet.getCell('G10').value = 'Telefone';
-      worksheet.getCell('G10').font = {
+      worksheet.getCell('H12').value = 'Retorno Previsto';
+      worksheet.getCell('H12').font = {
         bold: true,
       };
-      worksheet.getCell('H10').value = 'Data prevista do feedback';
-      worksheet.getCell('H10').font = {
+      worksheet.getCell('I12').value = 'Retorno';
+      worksheet.getCell('I12').font = {
         bold: true,
       };
       worksheet.getCell('I10').value = 'Data do feedback';
@@ -118,19 +202,27 @@ export class ReportContactService {
       colH.width = 20;
       colI.width = 20;
 
-      for (let i = 0; i <= results.length - 1; i++) {
-        let num = 11;
+      for (let i = 0; i <= formattedValues.length - 1; i++) {
+        let num = 13;
 
-        worksheet.getCell(`A${String(num + i)}`).value = results[i].nm_project;
-        worksheet.getCell(`B${String(num + i)}`).value = results[i].nm_city;
-        worksheet.getCell(`C${String(num + i)}`).value = results[i].dt_contatct;
-        worksheet.getCell(`D${String(num + i)}`).value = results[i].hr_contact;
-        worksheet.getCell(`E${String(num + i)}`).value = results[i].ds_contact;
-        worksheet.getCell(`F${String(num + i)}`).value = results[i].nm_contact;
-        worksheet.getCell(`G${String(num + i)}`).value = results[i].nu_phone;
+        worksheet.getCell(`A${String(num + i)}`).value =
+          formattedValues[i].nm_project;
+        worksheet.getCell(`B${String(num + i)}`).value =
+          formattedValues[i].nm_city;
+        worksheet.getCell(`C${String(num + i)}`).value =
+          formattedValues[i].dt_contatct;
+        worksheet.getCell(`D${String(num + i)}`).value =
+          formattedValues[i].hr_contact;
+        worksheet.getCell(`E${String(num + i)}`).value =
+          formattedValues[i].ds_contact;
+        worksheet.getCell(`F${String(num + i)}`).value =
+          formattedValues[i].nm_contact;
+        worksheet.getCell(`G${String(num + i)}`).value =
+          formattedValues[i].nu_phone;
         worksheet.getCell(`H${String(num + i)}`).value =
-          results[i].dt_agreed_feedback;
-        worksheet.getCell(`I${String(num + i)}`).value = results[i].dt_feedback;
+          formattedValues[i].dt_agreed_feedback;
+        worksheet.getCell(`I${String(num + i)}`).value =
+          formattedValues[i].dt_feedback;
 
         worksheet.getCell(`A${String(num + i)}`).alignment = {
           horizontal: 'left',
@@ -160,6 +252,13 @@ export class ReportContactService {
           horizontal: 'left',
         };
 
+        worksheet.getCell(`I${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`J${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+
         num++;
       }
 
@@ -169,7 +268,7 @@ export class ReportContactService {
     return {
       contacts: {
         count: count[0].count,
-        rows: results,
+        rows: formattedValues,
         buffer,
       },
     };

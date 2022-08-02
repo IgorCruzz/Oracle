@@ -18,7 +18,6 @@ export class ReportPtiService {
       limit: limit !== 'all' ? Number(limit) : null,
       order: [['nm_professional', 'ASC']],
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
-
       include: [
         {
           model: Allocation,

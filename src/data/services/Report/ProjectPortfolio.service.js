@@ -31,6 +31,7 @@ export class ProjectPortfolioService {
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       where: cd_priority ? { cd_priority } : {},
+      distinct: true,
       attributes: [
         'id_project',
         'nm_project',
@@ -535,7 +536,7 @@ export class ProjectPortfolioService {
 
     return {
       projects: {
-        count: Data.length,
+        count: projects.count,
         rows: Data,
         buffer,
       },

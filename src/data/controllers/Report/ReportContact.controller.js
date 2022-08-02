@@ -6,11 +6,11 @@ export class ReportContactController {
       const {
         page,
         limit,
-        download,
-        dt_contatct,
         id_project,
-        dt_feedback,
-        no_feedback,
+        dt_contatct,
+        dt_agreed_feedback,
+        download,
+        no_return,
       } = req.query;
 
       const service = new ReportContactService();
@@ -18,11 +18,11 @@ export class ReportContactController {
       const response = await service.execute({
         page,
         limit,
-        download,
-        dt_contatct,
         id_project,
-        dt_feedback,
-        no_feedback,
+        dt_contatct,
+        dt_agreed_feedback,
+        no_return,
+        download,
       });
 
       if (response.error)
