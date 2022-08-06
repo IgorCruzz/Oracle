@@ -14,12 +14,18 @@ import {
   updateSectorValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
+import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+
+const profiles = [0, 1, 2, 3, 4];
 
 const routes = Router();
 
 routes.post(
   '/sectories',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   createSectorValidator,
   new CreateSectorController().handle
 );
@@ -27,6 +33,9 @@ routes.post(
 routes.delete(
   '/sectories/:id_sector',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteSectorValidator,
   new DeleteSectorController().handle
 );
@@ -34,6 +43,9 @@ routes.delete(
 routes.patch(
   '/sectories/:id_sector',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   updateSectorValidator,
   new UpdateSectorController().handle
 );
@@ -41,6 +53,9 @@ routes.patch(
 routes.get(
   '/sectories',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findSectoriesValidator,
   new FindSectoriesController().handle
 );
@@ -48,6 +63,9 @@ routes.get(
 routes.get(
   '/sector/:id_sector',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findSectorValidator,
   new FindSectorController().handle
 );

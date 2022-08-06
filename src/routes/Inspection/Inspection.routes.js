@@ -14,12 +14,18 @@ import {
   updateInspectionValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
+import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+
+const profiles = [0, 1, 2, 3, 4];
 
 const routes = Router();
 
 routes.post(
   '/inspections',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   createInspectionValidator,
   new CreateInspectionController().handle
 );
@@ -27,6 +33,9 @@ routes.post(
 routes.delete(
   '/inspections/:id_inspection',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteInspectionValidator,
   new DeleteInspectionController().handle
 );
@@ -34,6 +43,9 @@ routes.delete(
 routes.patch(
   '/inspections/:id_inspection',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   updateInspectionValidator,
   new UpdateInspectionController().handle
 );
@@ -41,6 +53,9 @@ routes.patch(
 routes.get(
   '/inspections',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findInspectionsValidator,
   new FindInspectionsController().handle
 );
@@ -48,6 +63,9 @@ routes.get(
 routes.get(
   '/inspections/:id_inspection',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findInspectionValidator,
   new FindInspectionController().handle
 );

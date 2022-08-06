@@ -14,12 +14,18 @@ import {
   findCategoryValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
+import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+
+const profiles = [0, 1, 2, 3, 4];
 
 const routes = Router();
 
 routes.post(
   '/categories',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   createCategoryValidator,
   new CreateCategoryController().handle
 );
@@ -27,6 +33,9 @@ routes.post(
 routes.delete(
   '/categories/:id',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteCategoryValidator,
   new DeleteCategoryController().handle
 );
@@ -34,6 +43,9 @@ routes.delete(
 routes.patch(
   '/categories/:id',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   updateCategoryValidator,
   new UpdateCategoryController().handle
 );
@@ -41,6 +53,9 @@ routes.patch(
 routes.get(
   '/categories',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findCategoriesValidator,
   new FindCategoriesController().handle
 );
@@ -48,6 +63,9 @@ routes.get(
 routes.get(
   '/category/:id',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findCategoryValidator,
   new FindCategoryController().handle
 );

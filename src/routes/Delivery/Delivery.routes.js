@@ -7,6 +7,9 @@ import {
   UndoDeliveryController,
 } from '../../data/controllers';
 import authenticator from '../../data/authenticator/jwt.authenticator';
+import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+
+const profiles = [0, 1, 2, 3, 4];
 
 import { storage } from '../../config/multer_product_history';
 
@@ -18,6 +21,9 @@ routes.post(
   '/undoDeliveries',
   upload.single('file'),
   authenticator,
+// roleAuthenticator({
+  //   profiles,
+  // }),
   new UndoDeliveryController().handle
 );
 
@@ -25,9 +31,15 @@ routes.post(
   '/deliveries',
   upload.single('file'),
   authenticator,
+// roleAuthenticator({
+  //   profiles,
+  // }),
   new CreateDeliveryController().handle
 );
 
-routes.get('/deliveries', authenticator, new FindDeliveryController().handle);
+routes.get('/deliveries', authenticator,
+// roleAuthenticator({
+  //   profiles,
+  // }), new FindDeliveryController().handle);
 
 export default routes;

@@ -18,12 +18,18 @@ import {
   downloadMediaTimelapseValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
+import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+
+const profiles = [0, 1, 2, 3, 4];
 
 const upload = multer({ storage });
 const routes = Router();
 routes.post(
   '/media_timelapse',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   upload.single('file'),
   createMediaTimelapseValidator,
   new CreateMediaTimelapseController().handle
@@ -32,6 +38,9 @@ routes.post(
 routes.delete(
   '/media_timelapse/:id_media_timelapse',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteMediaTimelapseValidator,
   new DeleteMediaTimelapseController().handle
 );
@@ -39,6 +48,9 @@ routes.delete(
 routes.patch(
   '/media_timelapse/:id_media_timelapse',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   upload.single('file'),
   updateMediaTimelapseValidator,
   new UpdateMediaTimelapseController().handle
@@ -47,6 +59,9 @@ routes.patch(
 routes.get(
   '/media_timelapse',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findMediaTimelapsesValidator,
   new FindMediaTimelapsesController().handle
 );
@@ -54,6 +69,9 @@ routes.get(
 routes.get(
   '/media_timelapse/:id_media_timelapse',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findMediaTimelapseValidator,
   new FindMediaTimelapseController().handle
 );
@@ -61,6 +79,9 @@ routes.get(
 routes.get(
   '/media_timelapse/download/:nm_file',
   //	authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   downloadMediaTimelapseValidator,
   new DownloadMediaTimelapseController().handle
 );

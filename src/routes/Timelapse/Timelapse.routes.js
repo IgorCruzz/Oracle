@@ -14,12 +14,18 @@ import {
   updateTimelapseValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
+import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+
+const profiles = [0, 1, 2, 3, 4];
 
 const routes = Router();
 
 routes.post(
   '/timelapses',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   createTimelapseValidator,
   new CreateTimelapseController().handle
 );
@@ -27,6 +33,9 @@ routes.post(
 routes.delete(
   '/timelapses/:id_timelapse_coordinates',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteTimelapseValidator,
   new DeleteTimelapseController().handle
 );
@@ -34,6 +43,9 @@ routes.delete(
 routes.patch(
   '/timelapses/:id_timelapse_coordinates',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   updateTimelapseValidator,
   new UpdateTimelapseController().handle
 );
@@ -41,6 +53,9 @@ routes.patch(
 routes.get(
   '/timelapses',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findTimelapsesValidator,
   new FindTimelapsesController().handle
 );
@@ -48,6 +63,9 @@ routes.get(
 routes.get(
   '/timelapses/:id_timelapse_coordinates',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findTimelapseValidator,
   new FindTimelapseController().handle
 );

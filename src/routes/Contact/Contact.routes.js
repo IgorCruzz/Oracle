@@ -14,12 +14,18 @@ import {
   createContactValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
+import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+
+const profiles = [0, 1, 2, 3, 4];
 
 const routes = Router();
 
 routes.post(
   '/contacts',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   createContactValidator,
   new CreateContactController().handle
 );
@@ -27,6 +33,9 @@ routes.post(
 routes.delete(
   '/contacts/:id_contact',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteContactValidator,
   new DeleteContactController().handle
 );
@@ -34,6 +43,9 @@ routes.delete(
 routes.patch(
   '/contacts/:id_contact',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   updateContactValidator,
   new UpdateContactController().handle
 );
@@ -41,6 +53,9 @@ routes.patch(
 routes.get(
   '/contacts',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findContactsValidator,
   new FindContactsController().handle
 );
@@ -48,6 +63,9 @@ routes.get(
 routes.get(
   '/contact/:id_contact',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findContactValidator,
   new FindContactController().handle
 );

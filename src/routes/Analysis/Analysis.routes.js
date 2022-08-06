@@ -15,18 +15,27 @@ import {
   undoCorrectionValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
+import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+
+const profiles = [0, 1, 2, 3, 4];
 import { storage } from '../../config/multer_product_history';
 
 const upload = multer({ storage });
 
 const routes = Router();
 
-routes.get('/analysis', authenticator, new FindAnalysisController().handle);
+routes.get('/analysis', authenticator,
+// roleAuthenticator({
+  //   profiles,
+  // }), new FindAnalysisController().handle);
 
 routes.post(
   '/analysis/correction',
   upload.single('file'),
   authenticator,
+// roleAuthenticator({
+  //   profiles,
+  // }),
   correctionValidator,
 
   new CorrectionController().handle
@@ -35,6 +44,9 @@ routes.post(
 routes.delete(
   '/analysis/correction/undo',
   authenticator,
+// roleAuthenticator({
+  //   profiles,
+  // }),
   undoCorrectionValidator,
   new UndoCorrectionController().handle
 );
@@ -42,6 +54,9 @@ routes.delete(
 routes.post(
   '/analysis/accept',
   authenticator,
+// roleAuthenticator({
+  //   profiles,
+  // }),
   acceptValidator,
   new AcceptController().handle
 );
@@ -49,6 +64,9 @@ routes.post(
 routes.post(
   '/analysis/accept',
   authenticator,
+// roleAuthenticator({
+  //   profiles,
+  // }),
   acceptValidator,
   new AcceptController().handle
 );
@@ -56,6 +74,9 @@ routes.post(
 routes.delete(
   '/analysis/accept/undo',
   authenticator,
+// roleAuthenticator({
+  //   profiles,
+  // }),
   undoAcceptValidator,
   new UndoAcceptController().handle
 );

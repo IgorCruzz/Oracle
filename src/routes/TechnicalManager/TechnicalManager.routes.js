@@ -14,12 +14,18 @@ import {
   updateTechnicalManagerValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
+import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+
+const profiles = [0, 1, 2, 3, 4];
 
 const routes = Router();
 
 routes.post(
   '/technicalManagers',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   createTechnicalManagerValidator,
   new CreateTechnicalManagerController().handle
 );
@@ -27,6 +33,9 @@ routes.post(
 routes.delete(
   '/technicalManagers/:id_technical_manager',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteTechnicalManagerValidator,
   new DeleteTechnicalManagerController().handle
 );
@@ -34,6 +43,9 @@ routes.delete(
 routes.patch(
   '/technicalManagers/:id_technical_manager',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   updateTechnicalManagerValidator,
   new UpdateTechnicalManagerController().handle
 );
@@ -41,6 +53,9 @@ routes.patch(
 routes.get(
   '/technicalManagers',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findTechnicalManagersValidator,
   new FindTechnicalManagersController().handle
 );
@@ -48,6 +63,9 @@ routes.get(
 routes.get(
   '/technicalManager/:id_technical_manager',
   authenticator,
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findTechnicalManagerValidator,
   new FindTechnicalManagerController().handle
 );
