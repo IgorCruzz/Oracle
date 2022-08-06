@@ -1,7 +1,7 @@
 import { Op } from 'sequelize';
 import { User } from '../database/models';
 
-export const roleAuthenticator = ({ roles }) => async (req, res, next) => {
+export const roleAuthenticator = ({ profiles }) => async (req, res, next) => {
   const { userId } = req;
 
   const checkRole = await User.findOne({
@@ -11,8 +11,8 @@ export const roleAuthenticator = ({ roles }) => async (req, res, next) => {
           id_user: userId,
         },
         {
-          role: {
-            [Op.in]: roles,
+          tp_profile: {
+            [Op.in]: profiles,
           },
         },
       ],
