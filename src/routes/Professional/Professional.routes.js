@@ -16,7 +16,7 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0, 1, 2, 3, 4];
+const profiles = [0, 1];
 
 const routes = Router();
 
@@ -29,9 +29,9 @@ routes.post(
 routes.delete(
   '/professionals/:id_professional',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   deleteProfessionalValidator,
   new DeleteProfessionalController().handle
 );
@@ -39,9 +39,9 @@ routes.delete(
 routes.patch(
   '/professionals/:id_professional',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   updateProfessionalValidator,
   new UpdateProfessionalController().handle
 );
@@ -49,9 +49,9 @@ routes.patch(
 routes.get(
   '/professionals',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findProfessionalsValidator,
   new FindProfessionalsController().handle
 );
@@ -59,9 +59,9 @@ routes.get(
 routes.get(
   '/professional/:id_professional',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findProfessionalValidator,
   new FindProfessionalController().handle
 );
