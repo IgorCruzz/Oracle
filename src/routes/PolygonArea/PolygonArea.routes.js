@@ -16,16 +16,17 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0, 1, 2, 3, 4];
+const profiles = [0, 1];
 
 const routes = Router();
 
 routes.post(
   '/polygonAreas',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+
+  roleAuthenticator({
+    profiles,
+  }),
   createPolygonAreaValidator,
   new CreatePolygonAreaController().handle
 );
@@ -33,9 +34,10 @@ routes.post(
 routes.delete(
   '/polygonAreas/:id_polygon_area',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+
+  roleAuthenticator({
+    profiles,
+  }),
   deletePolygonAreaValidator,
   new DeletePolygonAreaController().handle
 );
@@ -43,9 +45,10 @@ routes.delete(
 routes.patch(
   '/polygonAreas/:id_polygon_area',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+
+  roleAuthenticator({
+    profiles,
+  }),
   updatePolygonAreaValidator,
   new UpdatePolygonAreaController().handle
 );
@@ -53,9 +56,10 @@ routes.patch(
 routes.get(
   '/polygonAreas',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+
+  roleAuthenticator({
+    profiles,
+  }),
   findPolygonAreasValidator,
   new FindPolygonAreasController().handle
 );
@@ -63,9 +67,10 @@ routes.get(
 routes.get(
   '/polygonArea/:id_polygon_area',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+
+  roleAuthenticator({
+    profiles,
+  }),
   findPolygonAreaValidator,
   new FindPolygonAreaController().handle
 );

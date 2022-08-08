@@ -13,10 +13,6 @@ routes.post(
   new PasswordRecoveryController().handle
 );
 
-routes.post(
-  '/recoveryPassword',
-  // recoveryPasswordValidator,
-  new PasswordUpdateController().handle
-);
+routes.post('/recoveryPassword', new PasswordUpdateController().handle);
 
 export default routes;
