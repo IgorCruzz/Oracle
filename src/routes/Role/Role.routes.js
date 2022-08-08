@@ -15,16 +15,16 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0, 1, 2, 3, 4];
+const profiles = [0];
 
 const routes = Router();
 
 routes.post(
   '/roles',
   authenticator,
-// roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   createRoleValidator,
   new CreateRoleController().handle
 );
@@ -32,9 +32,9 @@ routes.post(
 routes.delete(
   '/roles/:id_role',
   authenticator,
-// roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   deleteRoleValidator,
   new DeleteRoleController().handle
 );
@@ -42,24 +42,28 @@ routes.delete(
 routes.patch(
   '/roles/:id_role',
   authenticator,
-// roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   updateRoleValidator,
   new UpdateRoleController().handle
 );
 
-routes.get('/roles', authenticator,
-// roleAuthenticator({
-  //   profiles,
-  // }), new FindRolesController().handle);
+routes.get(
+  '/roles',
+  authenticator,
+  roleAuthenticator({
+    profiles,
+  }),
+  new FindRolesController().handle
+);
 
 routes.get(
   '/role/:id_role',
   authenticator,
-// roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findRoleValidator,
   new FindRoleController().handle
 );

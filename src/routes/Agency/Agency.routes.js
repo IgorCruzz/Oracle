@@ -16,17 +16,16 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0, 1, 2, 3, 4];
+const profiles = [0];
 
 const routes = Router();
 
 routes.post(
   '/agencies',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
-
+  roleAuthenticator({
+    profiles,
+  }),
   createAgencyValidator,
   new CreateAgencyController().handle
 );
@@ -34,12 +33,9 @@ routes.post(
 routes.delete(
   '/agencies/:id',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   deleteAgencyValidator,
   new DeleteAgencyController().handle
 );
@@ -47,12 +43,9 @@ routes.delete(
 routes.patch(
   '/agencies/:id',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   updateAgencyValidator,
   new UpdateAgencyController().handle
 );
@@ -60,12 +53,9 @@ routes.patch(
 routes.get(
   '/agencies',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findAgenciesValidator,
   new FindAgenciesController().handle
 );
@@ -73,12 +63,9 @@ routes.get(
 routes.get(
   '/agency/:id',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findAgencyValidator,
   new FindAgencyController().handle
 );

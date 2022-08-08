@@ -18,7 +18,7 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0, 1, 2, 3, 4];
+const profiles = [0];
 
 const routes = Router();
 
@@ -37,9 +37,9 @@ routes.post(
 routes.delete(
   '/users/:id_user',
   authenticator,
-// roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   deleteUserValidator,
   new DeleteUserController().handle
 );
@@ -47,18 +47,18 @@ routes.delete(
 routes.patch(
   '/user/changePassword',
   authenticator,
-// roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   new UpdatePasswordController().handle
 );
 
 routes.patch(
   '/users/:id_user',
   authenticator,
-// roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   updateUserValidator,
   new UpdateUserController().handle
 );
@@ -66,16 +66,20 @@ routes.patch(
 routes.get(
   '/users',
   authenticator,
-// roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findUsersValidator,
   new FindUsersController().handle
 );
 
-routes.get('/user', authenticator,
-// roleAuthenticator({
-  //   profiles,
-  // }), new FindUserController().handle);
+routes.get(
+  '/user',
+  authenticator,
+  roleAuthenticator({
+    profiles,
+  }),
+  new FindUserController().handle
+);
 
 export default routes;
