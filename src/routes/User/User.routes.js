@@ -37,9 +37,7 @@ routes.post(
 routes.delete(
   '/users/:id_user',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+
   deleteUserValidator,
   new DeleteUserController().handle
 );
@@ -47,18 +45,14 @@ routes.delete(
 routes.patch(
   '/user/changePassword',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+
   new UpdatePasswordController().handle
 );
 
 routes.patch(
   '/users/:id_user',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+
   updateUserValidator,
   new UpdateUserController().handle
 );
@@ -66,9 +60,7 @@ routes.patch(
 routes.get(
   '/users',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+
   findUsersValidator,
   new FindUsersController().handle
 );
@@ -76,9 +68,7 @@ routes.get(
 routes.get(
   '/user',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+
   new FindUserController().handle
 );
 
