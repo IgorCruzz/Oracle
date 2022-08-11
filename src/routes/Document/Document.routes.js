@@ -39,6 +39,92 @@ routes.get('/visualizer/:filename', async (req, res) => {
   const { filename } = req.params;
   let replaceName;
 
+  if (filename.includes('.pptx')) {
+    replaceName = filename.split('.pptx')[0];
+
+    const inputPath = path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'tmp',
+      'documents',
+      filename
+    );
+    const outputPath = path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'tmp',
+      'documents',
+      `${replaceName}.pdf`
+    );
+
+    const docxBuf = await fs.readFile(inputPath);
+
+    const pdfBuf = await libre.convertAsync(docxBuf, '.pdf', undefined);
+
+    await fs.writeFile(outputPath, pdfBuf);
+
+    return res
+      .status(200)
+      .sendFile(
+        path.join(
+          __dirname,
+          '..',
+          '..',
+          '..',
+          'tmp',
+          'documents',
+          `${replaceName}.pdf`
+        )
+      );
+  }
+
+  if (filename.includes('.xlsx')) {
+    replaceName = filename.split('.xlsx')[0];
+
+    const inputPath = path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'tmp',
+      'documents',
+      filename
+    );
+    const outputPath = path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'tmp',
+      'documents',
+      `${replaceName}.pdf`
+    );
+
+    const docxBuf = await fs.readFile(inputPath);
+
+    const pdfBuf = await libre.convertAsync(docxBuf, '.pdf', undefined);
+
+    await fs.writeFile(outputPath, pdfBuf);
+
+    return res
+      .status(200)
+      .sendFile(
+        path.join(
+          __dirname,
+          '..',
+          '..',
+          '..',
+          'tmp',
+          'documents',
+          `${replaceName}.pdf`
+        )
+      );
+  }
+
   if (filename.includes('.docx')) {
     replaceName = filename.split('.docx')[0];
 
