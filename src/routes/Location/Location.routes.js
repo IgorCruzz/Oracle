@@ -23,9 +23,9 @@ const routes = Router();
 routes.post(
   '/locations',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   createLocationValidator,
   new CreateLocationController().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/locations/:id_location',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteLocationValidator,
   new DeleteLocationController().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/locations/:id_location',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   updateLocationValidator,
   new UpdateLocationController().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/locations',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findLocationsValidator,
   new FindLocationsController().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/location/:id_location',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findLocationValidator,
   new FindLocationController().handle
 );

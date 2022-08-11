@@ -23,9 +23,9 @@ const routes = Router();
 routes.post(
   '/technicalManagers',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   createTechnicalManagerValidator,
   new CreateTechnicalManagerController().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/technicalManagers/:id_technical_manager',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteTechnicalManagerValidator,
   new DeleteTechnicalManagerController().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/technicalManagers/:id_technical_manager',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   updateTechnicalManagerValidator,
   new UpdateTechnicalManagerController().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/technicalManagers',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findTechnicalManagersValidator,
   new FindTechnicalManagersController().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/technicalManager/:id_technical_manager',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findTechnicalManagerValidator,
   new FindTechnicalManagerController().handle
 );

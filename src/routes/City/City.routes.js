@@ -23,9 +23,9 @@ const routes = Router();
 routes.post(
   '/cities',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   createCityValidator,
   new CreateCityController().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/cities/:id',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteCityValidator,
   new DeleteCityController().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/cities/:id',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   updateCityValidator,
   new UpdateCityController().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/cities',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   findCitiesValidator,
   new FindCitiesController().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/city/:id',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   findCityValidator,
   new FindCityController().handle
 );

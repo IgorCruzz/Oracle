@@ -23,9 +23,9 @@ const routes = Router();
 routes.post(
   '/contactHistories',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   createContactHistoryValidator,
   new CreateContactHistoryController().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/contactHistories/:id_contact_history',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteContactHistoryValidator,
   new DeleteContactHistoryController().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/contactHistories/:id_contact_history',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   updateContactHistoryValidator,
   new UpdateContactHistoryController().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/contactHistories',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   findContactHistoriesValidator,
   new FindContactHistoriesController().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/contactHistory/:id_contact_history',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   findContactHistoryValidator,
   new FindContactHistoryController().handle
 );

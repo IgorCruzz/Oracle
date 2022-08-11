@@ -21,9 +21,9 @@ routes.post(
   '/undoDeliveries',
   upload.single('file'),
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   new UndoDeliveryController().handle
 );
 
@@ -31,18 +31,18 @@ routes.post(
   '/deliveries',
   upload.single('file'),
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   new CreateDeliveryController().handle
 );
 
 routes.get(
   '/deliveries',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+    // roleAuthenticator({
+  //   profiles,
+  // }),
   new FindDeliveryController().handle
 );
 

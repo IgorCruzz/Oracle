@@ -30,9 +30,9 @@ routes.post(
 routes.post(
   '/projects',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   createProjectValidator,
   new CreateProjectController().handle
 );
@@ -40,9 +40,9 @@ routes.post(
 routes.delete(
   '/projects/:id_project',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteProjectValidator,
   new DeleteProjectController().handle
 );
@@ -50,9 +50,9 @@ routes.delete(
 routes.patch(
   '/projects/:id_project',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   updateProjectValidator,
   new UpdateProjectController().handle
 );
@@ -60,9 +60,9 @@ routes.patch(
 routes.get(
   '/projects',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findProjectsValidator,
   new FindProjectsController().handle
 );
@@ -70,9 +70,9 @@ routes.get(
 routes.get(
   '/project/:id_project',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findProjectValidator,
   new FindProjectController().handle
 );

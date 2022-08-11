@@ -22,9 +22,9 @@ const routes = Router();
 routes.post(
   '/roles',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   createRoleValidator,
   new CreateRoleController().handle
 );
@@ -32,9 +32,9 @@ routes.post(
 routes.delete(
   '/roles/:id_role',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteRoleValidator,
   new DeleteRoleController().handle
 );
@@ -42,9 +42,9 @@ routes.delete(
 routes.patch(
   '/roles/:id_role',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   updateRoleValidator,
   new UpdateRoleController().handle
 );
@@ -52,18 +52,18 @@ routes.patch(
 routes.get(
   '/roles',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   new FindRolesController().handle
 );
 
 routes.get(
   '/role/:id_role',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findRoleValidator,
   new FindRoleController().handle
 );
