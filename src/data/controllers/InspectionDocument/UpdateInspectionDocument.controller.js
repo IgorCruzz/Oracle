@@ -6,7 +6,7 @@ export class UpdateInspectionDocumentController {
       const service = new UpdateInspectionDocumentService();
       const { id_inspection_document } = req.params;
 
-      const response = await service.execute(id_inspection_document, req.file);
+      const response = await service.execute(id_inspection_document, req);
 
       if (response.error)
         return res.status(400).json({

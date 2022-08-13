@@ -9,6 +9,7 @@ import {
 import { InspectionDocumentRepository } from '../InspectionDocument/InspectionDocument.repository';
 
 export class InspectionRepository {
+
   async createInspection(data) {
     const {
       vl_new_cost,

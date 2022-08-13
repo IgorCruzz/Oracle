@@ -180,6 +180,7 @@ export * from './InspectionDocument/DeleteInspectionDocument.service';
 export * from './InspectionDocument/FindInspectionDocument.service';
 export * from './InspectionDocument/FindInspectionDocuments.service';
 export * from './InspectionDocument/UpdateInspectionDocument.service';
+export * from './InspectionDocument/DownloadInspectionDocument.service';
 
 // TIMELAPSE
 export * from './Timelapse/CreateTimelapse.service';

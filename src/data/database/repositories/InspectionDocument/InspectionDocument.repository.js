@@ -2,14 +2,16 @@ import { Op } from 'sequelize';
 import { resolve } from 'path';
 import fs from 'fs';
 import { Inspection, Inspection_document } from '../../models';
-import { folder } from '../../../../config/multer_media_timelapse';
+import { folder } from '../../../../config/multer_inspection_documents';
 
 export class InspectionDocumentRepository {
-  async createInspectionDocument(data) {
-    const { id_inspection, nm_document, nm_file } = data;
+  async createInspectionDocument(req) {
 
     const createdInspectionDocument = await Inspection_document.create({
-      ...data.data,
+      id_inspection: req.body.id_inspection,
+      nm_document: req.body.nm_document,
+      nm_original_file: req.file ? req.file.originalname : '',
+      nm_file: req.file ? req.file.finelane : '',
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -108,21 +110,25 @@ export class InspectionDocumentRepository {
     });
   }
 
-  async updateInspectionDocument(id_inspection_document, file) {
+  async updateInspectionDocument(id_inspection_document, req) {
     const inspection_document = await Inspection_document.findOne({
       where: {
         id_inspection_document,
       },
     });
+    if(req.file){
+      if (inspection_document.nm_file) {
+        const path = resolve(folder, inspection_document.nm_file);
+        fs.existsSync(path) && fs.unlink(path, e => e);
 
-    if (inspection_document.nm_file) {
-      const path = resolve(folder, inspection_document.nm_file);
-      fs.existsSync(path) && fs.unlink(path, e => e);
+      }
+      await inspection_document.update({
+        nm_original_file: req.file.originalname,
+        nm_file: req.file.filename,
+      });
     }
-
     await inspection_document.update({
-      nm_original_file: file.originalname,
-      nm_file: file.filename,
+      nm_document: req.body.nm_document,
     });
 
     return await Inspection_document.findOne({

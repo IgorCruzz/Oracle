@@ -165,6 +165,7 @@ export * from './InspectionDocument/deleteInspectionDocument.validator';
 export * from './InspectionDocument/findInspectionDocument.validator';
 export * from './InspectionDocument/findInspectionDocuments.validator';
 export * from './InspectionDocument/updateInspectionDocument.validator';
+export * from './InspectionDocument/downloadInspectionDocument.validator';
 
 // TIMELAPSE
 export * from './Timelapse/createTimelapse.validator';

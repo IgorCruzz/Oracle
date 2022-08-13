@@ -3,10 +3,10 @@ import { ValidationError } from '../../../utils/validationError';
 
 export const createInspectionDocumentValidator = async (req, res, next) => {
   try {
-    const Schema = Yup.object().shape({
+    const SchemaBody = Yup.object().shape({
       id_inspection: Yup.string()
-        .required('Valor da vistoria inválido')
-        .typeError('Valor da vistoria inválido'),
+        .required('ID da vistoria não pode ser vazio')
+        .typeError('ID da vistoria inválido'),
       nm_document: Yup.string()
         .max(
           255,
@@ -14,7 +14,11 @@ export const createInspectionDocumentValidator = async (req, res, next) => {
         )
         .required('O nome do documento precisa estar preenchido')
         .typeError('Nome do documento inválido'),
-      nm_file: Yup.string()
+    });
+    await SchemaBody.validate(req.body, { abortEarly: false });
+
+    const SchemaFile = Yup.object().shape({
+      nm_original_file: Yup.string()
         .max(
           255,
           "O tamanho máximo permitido para o campo nome do arquivo é 255"
@@ -22,7 +26,8 @@ export const createInspectionDocumentValidator = async (req, res, next) => {
         .nullable()
         .typeError('Arquivo inválido'),
     });
-    await Schema.validate(req.body.data, { abortEarly: false });
+    await SchemaFile.validate(req.nm_original_file, { abortEarly: false });
+
     return next();
   } catch (e) {
     return ValidationError(e, res);

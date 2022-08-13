@@ -4,27 +4,20 @@ import {
 } from '../../database/repositories';
 
 export class CreateInspectionDocumentService {
-  async execute(data) {
-    const {
-      nm_document,
-      nm_file,
-      id_inspection
-    } = data.data;
+  async execute(req) {
     const repository = new InspectionDocumentRepository();
     const inspectionRepository = new InspectionRepository();
 
     const inspectionExists = await inspectionRepository.findInspectionById({
-      id_inspection: id_inspection, 
+      id_inspection: req.body.id_inspection, 
       populate: false
     });
     if (!inspectionExists) {
       return {
-        error: `Não há nenhuma vistoria registrada com este ID -> ${id_inspection}.`,
+        error: `Não há nenhuma vistoria registrada com este ID -> ${req.body.id_inspection}.`,
       };
     }
-    const inspection_document = await repository.createInspectionDocument({
-      ...data,
-    });
+    const inspection_document = await repository.createInspectionDocument(req);
 
     if (inspection_document.error) {
       return { error: inspection_document.error };

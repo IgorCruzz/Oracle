@@ -6,7 +6,6 @@ import { folder } from '../../../../config/multer_media_timelapse';
 
 export class MediaTimelapseRepository {
   async createMediaTimelapse(req) {
-
     const createdMediaTimelapse = await Media_timelapse.create({
       id_timelapse_coordinates: req.body.id,
       dt_media: req.body.dt_media,
@@ -90,12 +89,11 @@ export class MediaTimelapseRepository {
       if (media_timelapse.nm_file) {
         const path = resolve(folder, media_timelapse.nm_file);
         fs.existsSync(path) && fs.unlink(path, e => e);
-
-        await media_timelapse.update({
-          nm_original_file: req.file.originalname,
-          nm_file: req.file.filename,
-        });
       }
+      await media_timelapse.update({
+        nm_original_file: req.file.originalname,
+        nm_file: req.file.filename,
+      });      
     }
     await media_timelapse.update({
       dt_media: req.body.dt_media,

@@ -1,12 +1,13 @@
 import multer from 'multer';
 import { Router } from 'express';
-import { storage } from '../../config/multer_media_timelapse';
+import { storage } from '../../config/multer_inspection_documents';
 import {
   CreateInspectionDocumentController,
   DeleteInspectionDocumentController,
   FindInspectionDocumentController,
   FindInspectionDocumentsController,
   UpdateInspectionDocumentController,
+  DownloadInspectionDocumentController
 } from '../../data/controllers';
 import {
   findInspectionDocumentValidator,
@@ -14,6 +15,7 @@ import {
   deleteInspectionDocumentValidator,
   findInspectionDocumentsValidator,
   updateInspectionDocumentValidator,
+  downloadInspectionDocumentValidator
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
@@ -25,9 +27,6 @@ const routes = Router();
 routes.post(
   '/inspection_documents',
   authenticator,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
   createInspectionDocumentValidator,
   new CreateInspectionDocumentController().handle
 );
@@ -45,9 +44,6 @@ routes.delete(
 routes.patch(
   '/inspection_documents/:id_inspection_document',
   authenticator,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
   upload.single('file'),
   updateInspectionDocumentValidator,
   new UpdateInspectionDocumentController().handle
@@ -73,4 +69,10 @@ routes.get(
   new FindInspectionDocumentController().handle
 );
 
+routes.get(
+	'/inspection_documents/download/:nm_file',
+//	authenticator,
+	downloadInspectionDocumentValidator,
+	new DownloadInspectionDocumentController().handle
+)
 export default routes;
