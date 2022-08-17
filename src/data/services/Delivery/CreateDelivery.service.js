@@ -28,36 +28,54 @@ export class CreateDeliveryService {
         };
       }
 
-      const verifyDocuments = await Document.findAll({
-        where: {
-          id_product: {
-            [Op.and]: deliveries.map(({ id_product }) => id_product),
-          },
-        },
-      });
+      const kek = await Promise.all(
+        deliveries.map(async ({ id_product }) => {
+          const checkDocument = await Document.findAll({
+            where: {
+              id_product,
+            },
+          });
 
-      if (verifyDocuments.length === 0) {
+          return checkDocument.length > 0 ? 'sim' : 'nao';
+        })
+      );
+
+      console.log({ kek });
+
+      const resp = kek.find(item => item === 'nao');
+
+      if (resp === 'nao') {
         return {
           error: 'Não foi possível efetuar a entrega! Há documentos pendentes.',
         };
       }
 
-      const verifyArchives = await Document.findAll({
-        where: {
-          [Op.and]: [
-            {
-              id_product: {
-                [Op.and]: deliveries.map(({ id_product }) => id_product),
-              },
+      const kok = await Promise.all(
+        deliveries.map(async ({ id_product }) => {
+          const verifyArchives = await Document.findAll({
+            where: {
+              [Op.and]: [
+                {
+                  id_product,
+                },
+                {
+                  dt_upload: null,
+                },
+              ],
             },
-            {
-              dt_upload: null,
-            },
-          ],
-        },
-      });
+          });
 
-      if (verifyArchives.length > 0) {
+          console.log({ verifyArchives });
+
+          return verifyArchives.length > 0 ? 'nao' : 'sim';
+        })
+      );
+
+      console.log({ kok });
+
+      const resp2 = kok.find(item => item === 'nao');
+
+      if (resp2 === 'nao') {
         return {
           error: 'Não foi possível efetuar a entrega! Há documentos pendentes.',
         };
