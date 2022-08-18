@@ -23,14 +23,14 @@ export class CreateLocationService {
 
     if (verifyLocationExists) {
       return {
-        error: 'Já existe uma Localização de Canteiro com este endereço.',
+        error: 'Já existe uma Localização da Obra com este endereço.',
       };
     }
 
     const location = await repository.createLocation(data);
 
     return {
-      message: 'Localização de Canteiro registrada com sucesso!',
+      message: 'Localização da Obra registrada com sucesso!',
       location,
     };
   }

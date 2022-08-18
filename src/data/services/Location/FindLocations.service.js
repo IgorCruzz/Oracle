@@ -11,7 +11,7 @@ export class FindLocationsService {
     });
 
     if (findLocations.length === 0)
-      return { error: 'Não há nenhuma Localização de Canteiro registrada.' };
+      return { error: 'Não há nenhuma Localização da Obra registrada.' };
 
     return {
       locations: findLocations,

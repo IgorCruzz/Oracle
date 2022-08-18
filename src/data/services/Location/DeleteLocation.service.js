@@ -14,7 +14,7 @@ export class DeleteLocationService {
 
     if (!verifyLocationExists)
       return {
-        error: `Não há nenhuma Localização de Canteiro registrada com este ID -> ${id_location}.`,
+        error: `Não há nenhuma Localização da Obra registrada com este ID -> ${id_location}.`,
       };
 
     const verifyFk = await polygonAreaRepository.verifyLocation({
@@ -24,7 +24,7 @@ export class DeleteLocationService {
     if (verifyFk.length > 0) {
       return {
         error:
-          'Não foi possível excluir a Localização de Canteiro pois existem Vértices do Polígono da Área associados',
+          'Não foi possível excluir a Localização da Obra pois existem Vértices do Polígono da Área associados',
       };
     }
 
@@ -33,7 +33,7 @@ export class DeleteLocationService {
     });
 
     return {
-      message: 'Localização de Canteiro excluída com sucesso!',
+      message: 'Localização da Obra excluída com sucesso!',
     };
   }
 }

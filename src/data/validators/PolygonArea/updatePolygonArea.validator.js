@@ -23,8 +23,8 @@ export const updatePolygonAreaValidator = async (req, res, next) => {
         .required('O campo vertice de longitude é obrigatório')
         .typeError('O preenchimento da vertice de longitude é obrigatório'),
       id_location: Yup.number()
-        .required('Localização de Canteiro inválida')
-        .typeError('Localização de Canteiro inválida'),
+        .required('Localização da Obra inválida')
+        .typeError('Localização da Obra inválida'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });
