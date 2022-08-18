@@ -40,8 +40,6 @@ export class CreateDeliveryService {
         })
       );
 
-      console.log({ kek });
-
       const resp = kek.find(item => item === 'nao');
 
       if (resp === 'nao') {
@@ -65,13 +63,9 @@ export class CreateDeliveryService {
             },
           });
 
-          console.log({ verifyArchives });
-
           return verifyArchives.length > 0 ? 'nao' : 'sim';
         })
       );
-
-      console.log({ kok });
 
       const resp2 = kok.find(item => item === 'nao');
 
