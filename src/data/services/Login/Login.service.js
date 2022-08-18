@@ -1,11 +1,15 @@
 import jwt from 'jsonwebtoken';
-import { UserRepository } from '../../database/repositories';
+import {
+  UserRepository,
+  ProfessionalRepository,
+} from '../../database/repositories';
 
 export class LoginService {
   async execute(data) {
     const { email, password } = data;
 
     const repository = new UserRepository();
+    const professionalRepository = new ProfessionalRepository();
 
     const verifyEmailExists = await repository.findUserEmail({
       ds_email_login: email,
@@ -32,6 +36,19 @@ export class LoginService {
       return {
         error: 'Redefina a senha para prosseguir com o login.',
       };
+    }
+
+    if (verifyEmailExists.tp_profile === 2) {
+      const verifyAssociation = await professionalRepository.findUser({
+        id_user: verifyEmailExists.id_user,
+      });
+
+      if (!verifyAssociation) {
+        return {
+          error:
+            'Este login deve estar associado a um colaborador. Por favor, contacte o administrador do sistema.',
+        };
+      }
     }
 
     return {
