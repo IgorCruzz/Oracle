@@ -18,7 +18,7 @@ export class ProjectService {
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
       where: id_project ? { id_project } : {},
-      distinct: true,
+
       attributes: [
         'id_project',
         'nm_project',
@@ -380,7 +380,7 @@ export class ProjectService {
 
     return {
       projects: {
-        count: projects.count,
+        count: Data[0].products.length,
         rows: Data,
         buffer,
       },
