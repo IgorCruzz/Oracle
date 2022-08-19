@@ -10,6 +10,7 @@ export class FindProductHistoryPtiService {
     const findProductHistory = await Product.findAndCountAll({
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+
       include: [
         {
           model: Product_history,

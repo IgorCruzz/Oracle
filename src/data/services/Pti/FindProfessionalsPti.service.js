@@ -21,6 +21,7 @@ export class FindProfessionalPtiService {
       where: {
         id_professional,
       },
+      distinct: true,
       include: [
         {
           model: Allocation_period,

@@ -167,7 +167,7 @@ export class FindPeriodPtiService {
 
     return {
       ptis: {
-        count: professionals.count,
+        count: getProfessionals.length,
         rows: { getProfessionals },
       },
     };
