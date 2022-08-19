@@ -27,7 +27,7 @@ export class UpdatePolygonAreaService {
 
       if (!locationExists) {
         return {
-          error: `Não há nenhuma Localização de Canteiros registrado com este ID -> ${id_location}.`,
+          error: `Não há nenhuma Localização da Obras registrado com este ID -> ${id_location}.`,
         };
       }
     }
@@ -39,7 +39,7 @@ export class UpdatePolygonAreaService {
       polygonAreaExists.id_polygon_area !== Number(id_polygon_area)
     ) {
       return {
-        error: `Já existe uma Vértice do polígono da área registrado com estes dados para a Localização de Canteiro com o ID -> ${locationExists.id_location} `,
+        error: `Já existe uma Vértice do polígono da área registrado com estes dados para a Localização da Obra com o ID -> ${locationExists.id_location} `,
       };
     }
 

@@ -28,7 +28,7 @@ export class UpdateLocationService {
 
     if (!verifyLocationId) {
       return {
-        error: `Não há nenhuma Localização de Canteiro registrada com este ID -> ${id_location}.`,
+        error: `Não há nenhuma Localização da Obra registrada com este ID -> ${id_location}.`,
       };
     }
 
@@ -39,14 +39,14 @@ export class UpdateLocationService {
       verifyLocationExists.id_location !== Number(id_location)
     ) {
       return {
-        error: 'Já existe uma Localização de Canteiro com este endereço.',
+        error: 'Já existe uma Localização da Obra com este endereço.',
       };
     }
 
     const LocationUpdated = await repository.updateLocation(id_location, data);
 
     return {
-      message: 'Localização de Canteiro atualizada com sucesso!',
+      message: 'Localização da Obra atualizada com sucesso!',
       location: LocationUpdated,
     };
   }

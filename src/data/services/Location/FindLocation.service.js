@@ -11,7 +11,7 @@ export class FindLocationService {
 
     if (!findLocation)
       return {
-        error: `Não há nenhuma Localização de Canteiro registrada com este ID -> ${id_location}.`,
+        error: `Não há nenhuma Localização da Obra registrada com este ID -> ${id_location}.`,
       };
 
     return {

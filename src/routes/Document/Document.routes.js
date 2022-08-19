@@ -183,6 +183,12 @@ routes.get('/visualizer/:filename', async (req, res) => {
         )
       );
   }
+
+  return res
+    .status(200)
+    .sendFile(
+      path.join(__dirname, '..', '..', '..', 'tmp', 'documents', `${filename}`)
+    );
 });
 
 routes.get('/documents/download/:filename', async (req, res) => {

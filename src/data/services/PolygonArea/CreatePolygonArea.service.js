@@ -16,14 +16,14 @@ export class CreatePolygonAreaService {
 
     if (!verifyLocationExists)
       return {
-        error: `Não há nenhuma Localização de Canteiro registrada com este ID -> ${id_location}.`,
+        error: `Não há nenhuma Localização da Obra registrada com este ID -> ${id_location}.`,
       };
 
     const polygonAreaExists = await repository.findPolygonArea(data);
 
     if (polygonAreaExists) {
       return {
-        error: `Já existe uma Vértice do polígono da área registrado com estes dados para a Localização de Canteiro com o ID -> ${verifyLocationExists.id_location} `,
+        error: `Já existe uma Vértice do polígono da área registrado com estes dados para a Localização da Obra com o ID -> ${verifyLocationExists.id_location} `,
       };
     }
 
