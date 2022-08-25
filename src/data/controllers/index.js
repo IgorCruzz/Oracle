@@ -235,3 +235,6 @@ export * from './ContactHistory/DeleteContactHistory.controller';
 export * from './ContactHistory/FindContactHistories.controller';
 export * from './ContactHistory/FindContactHistory.controller';
 export * from './ContactHistory/UpdateContactHistory.controller';
+
+// MAP
+export * from './Map/GetProjects.controller';

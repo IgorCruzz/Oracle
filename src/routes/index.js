@@ -35,8 +35,10 @@ import PowerBi from './PowerBi/PowerBi.routes';
 import ProductHistory from './ProductHistory/ProductHistory.routes';
 import Contact from './Contact/Contact.routes';
 import ContactHistory from './ContactHistory/ContactHistory.routes';
+import MapRoute from './Map/Map.routes';
 
 const routes = [
+  MapRoute,
   ContactHistory,
   Contact,
   ProductHistory,

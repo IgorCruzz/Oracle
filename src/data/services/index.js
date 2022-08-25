@@ -235,3 +235,6 @@ export * from './ContactHistory/DeleteContactHistory.service';
 export * from './ContactHistory/FindContactHistories.service';
 export * from './ContactHistory/FindContactHistory.service';
 export * from './ContactHistory/UpdateContactHistory.service';
+
+// MAP
+export * from './Map/GetProjects.service';
