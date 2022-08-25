@@ -3,9 +3,15 @@ import { GetProjectsService } from '../../services';
 export class GetProjectsController {
   async handle(req, res) {
     try {
+      const { nm_project, nm_city, nm_category } = req.query;
+
       const service = new GetProjectsService();
 
-      const response = await service.execute();
+      const response = await service.execute({
+        nm_project,
+        nm_city,
+        nm_category,
+      });
 
       if (response.error)
         return res.status(400).json({

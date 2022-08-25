@@ -18,7 +18,7 @@ const formatValue = value =>
   });
 
 export class GetProjectsService {
-  async execute() {
+  async execute({ nm_project, nm_city, nm_category }) {
     const projects = await Project.findAndCountAll({
       distinct: true,
       attributes: [
