@@ -31,6 +31,11 @@ export class GetProjectsService {
         'vl_bid',
         'vl_contract',
       ],
+      where: {
+        ...(nm_city && { '$city.nm_city$': nm_city }),
+        ...(nm_project && { nm_project }),
+        ...(nm_category && { '$category.nm_category$': nm_category }),
+      },
       include: [
         {
           model: City,
