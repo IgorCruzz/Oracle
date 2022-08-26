@@ -32,9 +32,21 @@ export class GetProjectsService {
         'vl_contract',
       ],
       where: {
-        ...(nm_city && { '$city.nm_city$': nm_city }),
-        ...(nm_project && { nm_project }),
-        ...(nm_category && { '$category.nm_category$': nm_category }),
+        ...(nm_city && {
+          '$city.nm_city$': {
+            [Op.like]: `%${nm_city}%`,
+          },
+        }),
+        ...(nm_project && {
+          nm_project: {
+            [Op.like]: `%${nm_project}%`,
+          },
+        }),
+        ...(nm_category && {
+          '$category.nm_category$': {
+            [Op.like]: `%${nm_category}%`,
+          },
+        }),
       },
       include: [
         {
