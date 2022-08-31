@@ -8,6 +8,8 @@ import {
   City,
   Region,
   Location,
+  Polygon_area,
+  Category,
 } from '../../database/models';
 import { calculateHour } from '../../../utils/calculateHour';
 
@@ -18,7 +20,7 @@ const formatValue = value =>
   });
 
 export class GetProjectsService {
-  async execute({ nm_project, nm_city, nm_category }) {
+  async execute({ nm_project, nm_city, id_category, tp_project_phase }) {
     const projects = await Project.findAndCountAll({
       distinct: true,
       attributes: [
@@ -31,24 +33,12 @@ export class GetProjectsService {
         'vl_bid',
         'vl_contract',
       ],
-      where: {
-        ...(nm_city && {
-          '$city.nm_city$': {
-            [Op.like]: `%${nm_city}%`,
-          },
-        }),
-        ...(nm_project && {
-          nm_project: {
-            [Op.like]: `%${nm_project}%`,
-          },
-        }),
-        ...(nm_category && {
-          '$category.nm_category$': {
-            [Op.like]: `%${nm_category}%`,
-          },
-        }),
-      },
+
       include: [
+        {
+          model: Category,
+          as: 'category',
+        },
         {
           model: City,
           as: 'city',
@@ -61,9 +51,16 @@ export class GetProjectsService {
             },
           ],
         },
+
         {
           model: Location,
           as: 'location',
+          include: [
+            {
+              model: Polygon_area,
+              as: 'polygon_area',
+            },
+          ],
         },
 
         {
@@ -94,6 +91,8 @@ export class GetProjectsService {
             cd_sei: project.dataValues.cd_sei,
             nm_city: project.dataValues.city.nm_city,
             qt_m2: project.dataValues.qt_m2 || '',
+            nm_category: project.dataValues.category.nm_category,
+            id_category: project.dataValues.category.id_category,
             cd_priority:
               (project.dataValues.cd_priority === 1 && 'Baixa') ||
               (project.dataValues.cd_priority === 2 && 'Média') ||
@@ -108,6 +107,11 @@ export class GetProjectsService {
               '',
             project_phase: '',
             phaseCompletion: '',
+            location:
+              project.dataValues.location.length > 0
+                ? project.dataValues.location[0]
+                : '',
+            polygon_area: project.dataValues.polygon_area,
           });
         } else {
           const products = await Product.findAll({
@@ -259,6 +263,8 @@ export class GetProjectsService {
                 cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
                 qt_m2: project.dataValues.qt_m2 || '',
+                nm_category: project.dataValues.category.nm_category,
+                id_category: project.dataValues.category.id_category,
                 cd_priority:
                   (project.dataValues.cd_priority === 1 && 'Baixa') ||
                   (project.dataValues.cd_priority === 2 && 'Média') ||
@@ -272,6 +278,8 @@ export class GetProjectsService {
                     formatValue(project.dataValues.vl_estimated)) ||
                   '',
                 project_phase: project_phase.dataValues.nm_project_phase,
+                tp_project_phase: project_phase.dataValues.tp_project_phase,
+
                 phaseCompletion: `${(
                   (productHistoriesConcluded3 / productSumDuration) *
                   100
@@ -280,6 +288,7 @@ export class GetProjectsService {
                   project.dataValues.location.length > 0
                     ? project.dataValues.location[0]
                     : '',
+                polygon_area: project.dataValues.location.polygon_area,
               });
             } else {
               Data.push({
@@ -287,6 +296,8 @@ export class GetProjectsService {
                 cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
                 qt_m2: project.dataValues.qt_m2 || '',
+                nm_category: project.dataValues.category.nm_category,
+                id_category: project.dataValues.category.id_category,
                 cd_priority:
                   (project.dataValues.cd_priority === 1 && 'Baixa') ||
                   (project.dataValues.cd_priority === 2 && 'Média') ||
@@ -300,11 +311,13 @@ export class GetProjectsService {
                     formatValue(project.dataValues.vl_estimated)) ||
                   '',
                 project_phase: '',
+
                 phaseCompletion: '',
                 location:
                   project.dataValues.location.length > 0
                     ? project.dataValues.location[0]
                     : '',
+                polygon_area: project.dataValues.location.polygon_area,
               });
             }
           } else {
@@ -313,6 +326,8 @@ export class GetProjectsService {
               cd_sei: project.dataValues.cd_sei,
               nm_city: project.dataValues.city.nm_city,
               qt_m2: project.dataValues.qt_m2 || '',
+              nm_category: project.dataValues.category.nm_category,
+              id_category: project.dataValues.category.id_category,
               cd_priority:
                 (project.dataValues.cd_priority === 1 && 'Baixa') ||
                 (project.dataValues.cd_priority === 2 && 'Média') ||
@@ -331,6 +346,7 @@ export class GetProjectsService {
                 project.dataValues.location.length > 0
                   ? project.dataValues.location[0]
                   : '',
+              polygon_area: project.dataValues.location.polygon_area,
             });
           }
         }
@@ -339,8 +355,36 @@ export class GetProjectsService {
 
     const res = Data.filter(item => item.location);
 
+    const filter = {
+      ...(nm_project && { nm_project }),
+      ...(nm_city && { nm_city }),
+      ...(id_category && { id_category: Number(id_category) }),
+      ...(tp_project_phase && { tp_project_phase: Number(tp_project_phase) }),
+    };
+
+    const kek = res.filter(item => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const key in filter) {
+        if (!item[key]) return false;
+
+        if (typeof item[key] === 'string') {
+          if (
+            item[key] === undefined ||
+            (item[key] && !item[key].includes(filter[key]))
+          )
+            return false;
+        }
+
+        if (typeof item[key] === 'number') {
+          if (item[key] === undefined || item[key] !== filter[key])
+            return false;
+        }
+      }
+      return true;
+    });
+
     return {
-      projects: res,
+      projects: kek,
     };
   }
 }
