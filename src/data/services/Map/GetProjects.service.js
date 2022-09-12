@@ -10,6 +10,7 @@ import {
   Location,
   Polygon_area,
   Category,
+  Timelapse_Coordinates,
 } from '../../database/models';
 import { calculateHour } from '../../../utils/calculateHour';
 
@@ -69,6 +70,10 @@ export class GetProjectsService {
           attributes: ['id_project_phase', 'nu_order', 'nm_project_phase'],
           include: [
             {
+              model: Timelapse_Coordinates,
+              as: 'timelapse',
+            },
+            {
               model: Product,
               as: 'product',
             },
@@ -106,10 +111,11 @@ export class GetProjectsService {
                 formatValue(project.dataValues.vl_estimated)) ||
               '',
             project_phase: '',
+            timelapse: [],
             phaseCompletion: '',
             location:
               project.dataValues.location.length > 0
-                ? project.dataValues.location[0]
+                ? project.dataValues.location
                 : '',
             polygon_area: project.dataValues.polygon_area,
           });
@@ -189,9 +195,17 @@ export class GetProjectsService {
 
               const sort = reducedArray.sort((a, b) => b.count - a.count);
 
-              const project_phase = await Project_phase.findByPk(
-                sort[0].id_project_phase
-              );
+              const project_phase = await Project_phase.findOne({
+                where: {
+                  id_project_phase: sort[0].id_project_phase,
+                },
+                include: [
+                  {
+                    model: Timelapse_Coordinates,
+                    as: 'timelapse',
+                  },
+                ],
+              });
 
               const getProductsFromProjectPhase =
                 sort.length > 0 &&
@@ -278,6 +292,7 @@ export class GetProjectsService {
                     formatValue(project.dataValues.vl_estimated)) ||
                   '',
                 project_phase: project_phase.dataValues.nm_project_phase,
+                timelapse: project_phase.dataValues.timelapse,
                 tp_project_phase: project_phase.dataValues.tp_project_phase,
 
                 phaseCompletion: `${(
@@ -286,7 +301,7 @@ export class GetProjectsService {
                 ).toFixed(2)}%`,
                 location:
                   project.dataValues.location.length > 0
-                    ? project.dataValues.location[0]
+                    ? project.dataValues.location
                     : '',
                 polygon_area: project.dataValues.location.polygon_area,
               });
@@ -311,11 +326,11 @@ export class GetProjectsService {
                     formatValue(project.dataValues.vl_estimated)) ||
                   '',
                 project_phase: '',
-
+                timelapse: [],
                 phaseCompletion: '',
                 location:
                   project.dataValues.location.length > 0
-                    ? project.dataValues.location[0]
+                    ? project.dataValues.location
                     : '',
                 polygon_area: project.dataValues.location.polygon_area,
               });
@@ -341,10 +356,11 @@ export class GetProjectsService {
                   formatValue(project.dataValues.vl_estimated)) ||
                 '',
               project_phase: '',
+              timelapse: [],
               phaseCompletion: '',
               location:
                 project.dataValues.location.length > 0
-                  ? project.dataValues.location[0]
+                  ? project.dataValues.location
                   : '',
               polygon_area: project.dataValues.location.polygon_area,
             });

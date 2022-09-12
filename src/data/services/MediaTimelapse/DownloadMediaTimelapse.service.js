@@ -6,7 +6,6 @@ import { MediaTimelapseRepository } from '../../database/repositories';
 
 export class DownloadMediaTimelapseService {
   async execute({ nm_file, req, res }) {
-
     const file = `${__dirname}/../../../../tmp/media_timelapses/${nm_file}`;
 
     // Parsing the URL
@@ -35,16 +34,16 @@ export class DownloadMediaTimelapseService {
         contentType = 'image/jpeg';
       }
       const SUPPORTED_FORMATS = {
-        '.jpg' : 'image/jpg',
-        '.jpeg' : 'image/jpeg',
-        '.gif' : 'image/gif',
-        '.png' : 'image/png',
-        '.avi' : 'video/x-msvideo',
-        '.mpeg' : 'video/mpeg',
-        '.ogg' : 'video/ogg',
-        '.webm' : 'video/webm',
-        '.mp4' : 'video/mp4'      
-      };      
+        '.jpg': 'image/jpg',
+        '.jpeg': 'image/jpeg',
+        '.gif': 'image/gif',
+        '.png': 'image/png',
+        '.avi': 'video/x-msvideo',
+        '.mpeg': 'video/mpeg',
+        '.ogg': 'video/ogg',
+        '.webm': 'video/webm',
+        '.mp4': 'video/mp4',
+      };
       // Setting the headers
       res.writeHead(200, {
         'Content-Type': SUPPORTED_FORMATS[ext],
@@ -56,14 +55,5 @@ export class DownloadMediaTimelapseService {
         res.end(content);
       });
     });
-    return;
-    const filename = path.basename(file); // 'IMG0001.JPG';
-    const mimetype = mime.lookup(file);
-
-    res.setHeader('Content-disposition', `attachment; filename=${filename}`);
-    res.setHeader('Content-type', mimetype);
-
-    const filestream = fs.createReadStream(file);
-    filestream.pipe(res);
   }
 }
