@@ -33,6 +33,7 @@ export class GetProjectsService {
         'vl_estimated',
         'vl_bid',
         'vl_contract',
+        'tx_description',
       ],
 
       include: [
@@ -94,6 +95,7 @@ export class GetProjectsService {
           Data.push({
             nm_project: project.dataValues.nm_project,
             cd_sei: project.dataValues.cd_sei,
+            tx_description: project.dataValues.tx_description || '',
             nm_city: project.dataValues.city.nm_city,
             qt_m2: project.dataValues.qt_m2 || '',
             nm_category: project.dataValues.category.nm_category,
@@ -276,6 +278,8 @@ export class GetProjectsService {
                 nm_project: project.dataValues.nm_project,
                 cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
+                tx_description: project.dataValues.tx_description || '',
+
                 qt_m2: project.dataValues.qt_m2 || '',
                 nm_category: project.dataValues.category.nm_category,
                 id_category: project.dataValues.category.id_category,
@@ -310,6 +314,8 @@ export class GetProjectsService {
                 nm_project: project.dataValues.nm_project,
                 cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
+                tx_description: project.dataValues.tx_description || '',
+
                 qt_m2: project.dataValues.qt_m2 || '',
                 nm_category: project.dataValues.category.nm_category,
                 id_category: project.dataValues.category.id_category,
@@ -340,6 +346,8 @@ export class GetProjectsService {
               nm_project: project.dataValues.nm_project,
               cd_sei: project.dataValues.cd_sei,
               nm_city: project.dataValues.city.nm_city,
+              tx_description: project.dataValues.tx_description || '',
+
               qt_m2: project.dataValues.qt_m2 || '',
               nm_category: project.dataValues.category.nm_category,
               id_category: project.dataValues.category.id_category,
