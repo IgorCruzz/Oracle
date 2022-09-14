@@ -5,6 +5,7 @@ import {
   CreateProjectPhaseController,
   DeleteProjectPhaseController,
   UpdateProjectPhaseController,
+  FindProjectPhasesWithTimelapseController,
 } from '../../data/controllers';
 import {
   findProjectPhaseValidator,
@@ -58,6 +59,11 @@ routes.get(
   // }),
   findProjectPhasesValidator,
   new FindProjectPhasesController().handle
+);
+
+routes.get(
+  '/projectPhases/:id_project/timelapses',
+  new FindProjectPhasesWithTimelapseController().handle
 );
 
 routes.get(

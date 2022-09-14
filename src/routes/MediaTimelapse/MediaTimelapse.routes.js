@@ -8,6 +8,7 @@ import {
   FindMediaTimelapsesController,
   UpdateMediaTimelapseController,
   DownloadMediaTimelapseController,
+  GetMediaByCoordinatesController,
 } from '../../data/controllers';
 import {
   findMediaTimelapseValidator,
@@ -54,6 +55,11 @@ routes.patch(
   upload.single('file'),
   updateMediaTimelapseValidator,
   new UpdateMediaTimelapseController().handle
+);
+
+routes.get(
+  '/media_timelapse/:id_timelapse_coordinates/medias',
+  new GetMediaByCoordinatesController().handle
 );
 
 routes.get(

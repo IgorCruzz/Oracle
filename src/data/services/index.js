@@ -75,6 +75,7 @@ export * from './ProjectPhase/DeleteProjectPhase.service';
 export * from './ProjectPhase/FindProjectPhase.service';
 export * from './ProjectPhase/FindProjectPhases.service';
 export * from './ProjectPhase/UpdateProjectPhase.service';
+export * from './ProjectPhase/FindProjectPhasesWithTimelapse.service';
 
 // ROLE
 export * from './Role/CreateRole.service';
@@ -188,6 +189,7 @@ export * from './Timelapse/DeleteTimelapse.service';
 export * from './Timelapse/FindTimelapse.service';
 export * from './Timelapse/FindTimelapses.service';
 export * from './Timelapse/UpdateTimelapse.service';
+export * from './Timelapse/FindCoordinates.service';
 
 // MEDIA TIMELAPSE
 export * from './MediaTimelapse/CreateMediaTimelapse.service';
@@ -196,6 +198,7 @@ export * from './MediaTimelapse/FindMediaTimelapse.service';
 export * from './MediaTimelapse/FindMediaTimelapses.service';
 export * from './MediaTimelapse/UpdateMediaTimelapse.service';
 export * from './MediaTimelapse/DownloadMediaTimelapse.service';
+export * from './MediaTimelapse/GetMediaByCoordinates.service';
 
 // DELIVERY
 export * from './Delivery/FindDeliveries.service';

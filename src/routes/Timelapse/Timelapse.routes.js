@@ -5,6 +5,7 @@ import {
   FindTimelapseController,
   FindTimelapsesController,
   UpdateTimelapseController,
+  FindCoordenatesController,
 } from '../../data/controllers';
 import {
   findTimelapseValidator,
@@ -58,6 +59,11 @@ routes.get(
   // }),
   findTimelapsesValidator,
   new FindTimelapsesController().handle
+);
+
+routes.get(
+  '/timelapses/:id_project_phase/coordinates',
+  new FindCoordenatesController().handle
 );
 
 routes.get(

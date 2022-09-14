@@ -11,6 +11,7 @@ import {
   Polygon_area,
   Category,
   Timelapse_Coordinates,
+  Media_timelapse,
 } from '../../database/models';
 import { calculateHour } from '../../../utils/calculateHour';
 
@@ -23,7 +24,6 @@ const formatValue = value =>
 export class GetProjectsService {
   async execute({ nm_project, nm_city, id_category, tp_project_phase }) {
     const projects = await Project.findAndCountAll({
-      distinct: true,
       attributes: [
         'id_project',
         'nm_project',
@@ -40,6 +40,7 @@ export class GetProjectsService {
         {
           model: Category,
           as: 'category',
+          attributes: ['nm_category', 'id_category'],
         },
         {
           model: City,
@@ -71,10 +72,6 @@ export class GetProjectsService {
           attributes: ['id_project_phase', 'nu_order', 'nm_project_phase'],
           include: [
             {
-              model: Timelapse_Coordinates,
-              as: 'timelapse',
-            },
-            {
               model: Product,
               as: 'product',
             },
@@ -93,6 +90,7 @@ export class GetProjectsService {
 
         if (ID_PROJECT_PHASES.length === 0) {
           Data.push({
+            id_project: project.dataValues.id_project,
             nm_project: project.dataValues.nm_project,
             cd_sei: project.dataValues.cd_sei,
             tx_description: project.dataValues.tx_description || '',
@@ -205,6 +203,12 @@ export class GetProjectsService {
                   {
                     model: Timelapse_Coordinates,
                     as: 'timelapse',
+                    include: [
+                      {
+                        model: Media_timelapse,
+                        as: 'media_timelapse',
+                      },
+                    ],
                   },
                 ],
               });
@@ -275,6 +279,8 @@ export class GetProjectsService {
               );
 
               Data.push({
+                id_project: project.dataValues.id_project,
+
                 nm_project: project.dataValues.nm_project,
                 cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
@@ -311,6 +317,8 @@ export class GetProjectsService {
               });
             } else {
               Data.push({
+                id_project: project.dataValues.id_project,
+
                 nm_project: project.dataValues.nm_project,
                 cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
@@ -343,6 +351,8 @@ export class GetProjectsService {
             }
           } else {
             Data.push({
+              id_project: project.dataValues.id_project,
+
               nm_project: project.dataValues.nm_project,
               cd_sei: project.dataValues.cd_sei,
               nm_city: project.dataValues.city.nm_city,

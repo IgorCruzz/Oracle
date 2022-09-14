@@ -1,4 +1,3 @@
-import { Op } from 'sequelize';
 import { resolve } from 'path';
 import fs from 'fs';
 import { Timelapse_Coordinates, Media_timelapse } from '../../models';
@@ -17,12 +16,7 @@ export class MediaTimelapseRepository {
     return createdMediaTimelapse;
   }
 
-  async findMediaTimelapses({
-    page,
-    limit,
-    id_timelapse_coordinates,
-  }) {
-
+  async findMediaTimelapses({ page, limit, id_timelapse_coordinates }) {
     return await Media_timelapse.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
@@ -39,6 +33,7 @@ export class MediaTimelapseRepository {
       ],
     });
   }
+
   async deleteMediaTimelapse({ id_media_timelapse }) {
     const media_timelapse = await Media_timelapse.findOne({
       where: {
@@ -54,7 +49,20 @@ export class MediaTimelapseRepository {
     await Media_timelapse.destroy({
       where: { id_media_timelapse },
     });
-  }  
+  }
+
+  async findMediaByTimelapseCoordinatesId({ id_timelapse_coordinates }) {
+    return await Media_timelapse.findAll({
+      order: [['dt_media', 'ASC']],
+      include: [
+        {
+          model: Timelapse_Coordinates,
+          as: 'timelapse_coordinates',
+          where: { id_timelapse_coordinates },
+        },
+      ],
+    });
+  }
 
   async findMediaTimelapseById({ id_media_timelapse, populate }) {
     if (populate) {
@@ -78,6 +86,7 @@ export class MediaTimelapseRepository {
       raw: true,
     });
   }
+
   async updateMediaTimelapse(id_media_timelapse, req) {
     const media_timelapse = await Media_timelapse.findOne({
       where: {
@@ -85,7 +94,7 @@ export class MediaTimelapseRepository {
       },
     });
 
-    if(req.file){
+    if (req.file) {
       if (media_timelapse.nm_file) {
         const path = resolve(folder, media_timelapse.nm_file);
         fs.existsSync(path) && fs.unlink(path, e => e);
@@ -93,7 +102,7 @@ export class MediaTimelapseRepository {
       await media_timelapse.update({
         nm_original_file: req.file.originalname,
         nm_file: req.file.filename,
-      });      
+      });
     }
     await media_timelapse.update({
       dt_media: req.body.dt_media,
@@ -105,5 +114,4 @@ export class MediaTimelapseRepository {
       },
     });
   }
-
 }
