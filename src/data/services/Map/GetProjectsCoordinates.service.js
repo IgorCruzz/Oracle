@@ -65,6 +65,16 @@ export class GetProjectsCoordinatesService {
           attributes: ['id_project_phase', 'nu_order', 'nm_project_phase'],
           include: [
             {
+              model: Timelapse_Coordinates,
+              as: 'timelapse',
+              include: [
+                {
+                  model: Media_timelapse,
+                  as: 'media_timelapse',
+                },
+              ],
+            },
+            {
               model: Product,
               as: 'product',
             },
@@ -145,49 +155,69 @@ export class GetProjectsCoordinatesService {
             });
 
             if (productHistories.length > 0) {
-              const projectPhaseWithHistories = productHistories.map(
-                ph => ph.dataValues.product.dataValues.id_project_phase
+              // const projectPhaseWithHistories = productHistories.map(
+              //   ph => ph.dataValues.product.dataValues.id_project_phase
+              // );
+
+              // const reducedArray = projectPhaseWithHistories.reduce(
+              //   (acc, curr) => {
+              //     if (acc.length === 0)
+              //       acc.push({ id_project_phase: curr, count: 1 });
+              //     else if (
+              //       acc.findIndex(f => f.id_project_phase === curr) === -1
+              //     )
+              //       acc.push({ id_project_phase: curr, count: 1 });
+              //     else
+              //       ++acc[acc.findIndex(f => f.id_project_phase === curr)]
+              //         .count;
+              //     return acc;
+              //   },
+              //   []
+              // );
+
+              // const sort = reducedArray.sort((a, b) => b.count - a.count);
+
+              // const project_phase = await Project_phase.findOne({
+              //   where: {
+              //     id_project_phase: sort[0].id_project_phase,
+              //   },
+              //   include: [
+              //     {
+              //       model: Timelapse_Coordinates,
+              //       as: 'timelapse',
+              //       include: [
+              //         {
+              //           model: Media_timelapse,
+              //           as: 'media_timelapse',
+              //         },
+              //       ],
+              //     },
+              //   ],
+              // });
+
+              const getProjectsPhases = project.dataValues.project_phase.map(
+                item => item.id_project_phase
               );
 
-              const reducedArray = projectPhaseWithHistories.reduce(
-                (acc, curr) => {
-                  if (acc.length === 0)
-                    acc.push({ id_project_phase: curr, count: 1 });
-                  else if (
-                    acc.findIndex(f => f.id_project_phase === curr) === -1
-                  )
-                    acc.push({ id_project_phase: curr, count: 1 });
-                  else
-                    ++acc[acc.findIndex(f => f.id_project_phase === curr)]
-                      .count;
-                  return acc;
-                },
-                []
-              );
-
-              const sort = reducedArray.sort((a, b) => b.count - a.count);
-
-              const project_phase = await Project_phase.findOne({
+              const getMedias = await Timelapse_Coordinates.findAll({
                 where: {
-                  id_project_phase: sort[0].id_project_phase,
+                  id_project_phase: {
+                    [Op.in]: getProjectsPhases,
+                  },
                 },
                 include: [
                   {
-                    model: Timelapse_Coordinates,
-                    as: 'timelapse',
-                    include: [
-                      {
-                        model: Media_timelapse,
-                        as: 'media_timelapse',
-                      },
-                    ],
+                    required: true,
+                    model: Media_timelapse,
+                    as: 'media_timelapse',
                   },
                 ],
               });
 
               Data.push({
                 id_project: project.dataValues.id_project,
-                timelapse: project_phase.dataValues.timelapse,
+                // timelapse: project_phase.dataValues.timelapse,
+                timelapse: getMedias,
                 location:
                   project.dataValues.location.length > 0
                     ? project.dataValues.location
