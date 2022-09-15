@@ -241,3 +241,6 @@ export * from './ContactHistory/UpdateContactHistory.service';
 
 // MAP
 export * from './Map/GetProjects.service';
+export * from './Map/GetProjectsCoordinates.service';
+export * from './Map/GetProjectsDataLocation.service';
+export * from './Map/GetProjectsDataTimelapse.service';
