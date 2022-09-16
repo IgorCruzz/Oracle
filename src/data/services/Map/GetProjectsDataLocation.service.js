@@ -10,10 +10,7 @@ import {
   Location,
   Polygon_area,
   Category,
-  Timelapse_Coordinates,
-  Media_timelapse,
 } from '../../database/models';
-import { calculateHour } from '../../../utils/calculateHour';
 
 const formatValue = value =>
   value.toLocaleString('pt-BR', {
@@ -23,12 +20,10 @@ const formatValue = value =>
 
 export class GetProjectsDataLocationService {
   async execute({ id_location }) {
-    const projects = await Project.findAndCountAll({
+    const projects = await Project.findOne({
       attributes: [
         'id_project',
         'nm_project',
-        'cd_priority',
-        'qt_m2',
         'vl_estimated',
         'vl_bid',
         'vl_contract',
@@ -82,289 +77,134 @@ export class GetProjectsDataLocationService {
       ],
     });
 
-    const Data = [];
+    // PEGAR A FASE ATUAL
 
-    await Promise.all(
-      projects.rows.map(async project => {
-        const ID_PROJECT_PHASES = project.dataValues.project_phase.map(
-          result => result.dataValues.id_project_phase
-        );
-
-        if (ID_PROJECT_PHASES.length === 0) {
-          Data.push({
-            id_project: project.dataValues.id_project,
-            nm_project: project.dataValues.nm_project,
-            tx_description: project.dataValues.tx_description || '',
-            nm_city: project.dataValues.city.nm_city,
-            nm_category: project.dataValues.category.nm_category,
-            id_category: project.dataValues.category.id_category,
-            value:
-              (project.dataValues.vl_contract &&
-                formatValue(project.dataValues.vl_contract)) ||
-              (project.dataValues.vl_bid &&
-                formatValue(project.dataValues.vl_bid)) ||
-              (project.dataValues.vl_estimated &&
-                formatValue(project.dataValues.vl_estimated)) ||
-              '',
-            project_phase: '',
-            timelapse: [],
-            phaseCompletion: '',
-            location:
-              project.dataValues.location.length > 0
-                ? project.dataValues.location
-                : '',
-            polygon_area: project.dataValues.polygon_area,
-          });
-        } else {
-          const products = await Product.findAll({
-            where: {
-              id_project_phase: {
-                [Op.in]: ID_PROJECT_PHASES,
-              },
+    const project = await Project.findOne({
+      where: {
+        id_project: projects.dataValues.id_project,
+      },
+      include: [
+        {
+          model: Project_phase,
+          as: 'project_phase',
+          attributes: ['id_project_phase', 'nu_order', 'nm_project_phase'],
+          include: [
+            {
+              model: Product,
+              as: 'product',
             },
-          });
+          ],
+        },
+      ],
+    });
 
-          if (products.length > 0) {
-            const ID_PRODUCTS = products.map(
-              product => product.dataValues.id_product
-            );
+    let project_phase;
 
-            const findLastRecord = await Product_history.findAll({
-              attributes: [
-                [
-                  Sequelize.fn('MAX', Sequelize.col('id_product_history')),
-                  'id_product_history',
-                ],
-              ],
-              group: Sequelize.col('id_product'),
-              raw: true,
-              having: {
-                id_product: {
-                  [Op.in]: ID_PRODUCTS,
-                },
-              },
-            });
+    if (project.dataValues.project_phase.length > 0) {
+      /// SETAR OS ID DAS FASES DO PROJETO EM UM ARRAY
+      const ID_PROJECT_PHASES = project.dataValues.project_phase.map(
+        result => result.dataValues.id_project_phase
+      );
 
-            const values = findLastRecord.map(
-              ({ id_product_history }) => id_product_history
-            );
+      /// PEGAR OS PRODUTOS REFERENTES AS FASES
+      const products = await Product.findAll({
+        where: {
+          id_project_phase: {
+            [Op.in]: ID_PROJECT_PHASES,
+          },
+        },
+      });
 
-            const productHistories = await Product_history.findAll({
-              where: {
-                [Op.and]: {
-                  id_product_history: {
-                    [Op.in]: values,
-                  },
-                  cd_status: {
-                    [Op.gt]: 0,
-                  },
-                },
-              },
-              include: [
-                {
-                  model: Product,
-                  as: 'product',
-                },
-              ],
-            });
+      // SETAR OS ID DOS PRODUTOS EM UM ARRAY
+      const ID_PRODUCTS = products.map(
+        product => product.dataValues.id_product
+      );
 
-            if (productHistories.length > 0) {
-              const projectPhaseWithHistories = productHistories.map(
-                ph => ph.dataValues.product.dataValues.id_project_phase
-              );
+      // BUSCAR PELO STATUS ATUAL DE CADA PRODUTO
+      const findLastRecord = await Product_history.findAll({
+        attributes: [
+          [
+            Sequelize.fn('MAX', Sequelize.col('id_product_history')),
+            'id_product_history',
+          ],
+        ],
+        group: Sequelize.col('id_product'),
+        raw: true,
+        having: {
+          id_product: {
+            [Op.in]: ID_PRODUCTS,
+          },
+        },
+      });
 
-              const reducedArray = projectPhaseWithHistories.reduce(
-                (acc, curr) => {
-                  if (acc.length === 0)
-                    acc.push({ id_project_phase: curr, count: 1 });
-                  else if (
-                    acc.findIndex(f => f.id_project_phase === curr) === -1
-                  )
-                    acc.push({ id_project_phase: curr, count: 1 });
-                  else
-                    ++acc[acc.findIndex(f => f.id_project_phase === curr)]
-                      .count;
-                  return acc;
-                },
-                []
-              );
+      // SETAR OS ID DO HISTORICO DE PRODUTO EM UM ARRAY
+      const ID_PRODUCT_HISTORIES = findLastRecord.map(
+        ({ id_product_history }) => id_product_history
+      );
 
-              const sort = reducedArray.sort((a, b) => b.count - a.count);
+      const productHistories = await Product_history.findAll({
+        where: {
+          [Op.and]: {
+            id_product_history: {
+              [Op.in]: ID_PRODUCT_HISTORIES,
+            },
+            cd_status: {
+              [Op.gt]: 0,
+            },
+          },
+        },
+        include: [
+          {
+            model: Product,
+            as: 'product',
+          },
+        ],
+      });
 
-              const project_phase = await Project_phase.findOne({
-                where: {
-                  id_project_phase: sort[0].id_project_phase,
-                },
-                include: [
-                  {
-                    model: Timelapse_Coordinates,
-                    as: 'timelapse',
-                    include: [
-                      {
-                        model: Media_timelapse,
-                        as: 'media_timelapse',
-                      },
-                    ],
-                  },
-                ],
-              });
+      const projectPhaseWithHistories = productHistories.map(
+        ph => ph.dataValues.product.dataValues.id_project_phase
+      );
 
-              const getProductsFromProjectPhase =
-                sort.length > 0 &&
-                (await Product.findAll({
-                  where: {
-                    id_project_phase: sort[0].id_project_phase,
-                  },
-                }));
+      const reducedArray = projectPhaseWithHistories.reduce((acc, curr) => {
+        if (acc.length === 0) acc.push({ id_project_phase: curr, count: 1 });
+        else if (acc.findIndex(f => f.id_project_phase === curr) === -1)
+          acc.push({ id_project_phase: curr, count: 1 });
+        else ++acc[acc.findIndex(f => f.id_project_phase === curr)].count;
+        return acc;
+      }, []);
 
-              const productsZ = getProductsFromProjectPhase.map(product => ({
-                id_product: product.id_product,
-                product_name: product.nm_product,
-                duration: calculateHour({
-                  max: product.qt_maximum_hours,
-                  min: product.qt_minimum_hours,
-                  prov: product.qt_probable_hours,
-                  value: product.tp_required_action,
-                }),
-              }));
+      const sort = reducedArray.sort((a, b) => b.count - a.count);
 
-              const productSumDuration =
-                productsZ.length > 0 &&
-                productsZ.reduce((acc, curr) => {
-                  return acc + curr.duration;
-                }, 0);
-
-              const productHistoriesConcluded = await Product_history.findAll({
-                where: {
-                  [Op.and]: {
-                    id_product_history: {
-                      [Op.in]: values,
-                    },
-                    cd_status: {
-                      [Op.eq]: 5,
-                    },
-                  },
-                },
-                attributes: ['id_product'],
-                include: [
-                  {
-                    model: Product,
-                    as: 'product',
-                  },
-                ],
-              });
-
-              const productHistoriesConcluded2 = productHistoriesConcluded.map(
-                productHistory => ({
-                  id_product: productHistory.dataValues.product.id_product,
-                  product_name: productHistory.dataValues.product.nm_product,
-                  duration: calculateHour({
-                    max: productHistory.dataValues.product.qt_maximum_hours,
-                    min: productHistory.dataValues.product.qt_minimum_hours,
-                    prov: productHistory.dataValues.product.qt_probable_hours,
-                    value: productHistory.dataValues.product.tp_required_action,
-                  }),
-                })
-              );
-
-              const productHistoriesConcluded3 = productHistoriesConcluded2.reduce(
-                (acc, curr) => {
-                  return acc + curr.duration;
-                },
-                0
-              );
-
-              Data.push({
-                id_project: project.dataValues.id_project,
-
-                nm_project: project.dataValues.nm_project,
-                nm_city: project.dataValues.city.nm_city,
-                tx_description: project.dataValues.tx_description || '',
-
-                nm_category: project.dataValues.category.nm_category,
-                id_category: project.dataValues.category.id_category,
-                value:
-                  (project.dataValues.vl_contract &&
-                    formatValue(project.dataValues.vl_contract)) ||
-                  (project.dataValues.vl_bid &&
-                    formatValue(project.dataValues.vl_bid)) ||
-                  (project.dataValues.vl_estimated &&
-                    formatValue(project.dataValues.vl_estimated)) ||
-                  '',
-                project_phase: project_phase.dataValues.nm_project_phase,
-                timelapse: project_phase.dataValues.timelapse,
-                tp_project_phase: project_phase.dataValues.tp_project_phase,
-
-                phaseCompletion: `${(
-                  (productHistoriesConcluded3 / productSumDuration) *
-                  100
-                ).toFixed(2)}%`,
-                location:
-                  project.dataValues.location.length > 0
-                    ? project.dataValues.location
-                    : '',
-                polygon_area: project.dataValues.location.polygon_area,
-              });
-            } else {
-              Data.push({
-                id_project: project.dataValues.id_project,
-
-                nm_project: project.dataValues.nm_project,
-                nm_city: project.dataValues.city.nm_city,
-                tx_description: project.dataValues.tx_description || '',
-
-                nm_category: project.dataValues.category.nm_category,
-                id_category: project.dataValues.category.id_category,
-                value:
-                  (project.dataValues.vl_contract &&
-                    formatValue(project.dataValues.vl_contract)) ||
-                  (project.dataValues.vl_bid &&
-                    formatValue(project.dataValues.vl_bid)) ||
-                  (project.dataValues.vl_estimated &&
-                    formatValue(project.dataValues.vl_estimated)) ||
-                  '',
-                project_phase: '',
-                timelapse: [],
-                phaseCompletion: '',
-                location:
-                  project.dataValues.location.length > 0
-                    ? project.dataValues.location
-                    : '',
-                polygon_area: project.dataValues.location.polygon_area,
-              });
-            }
-          } else {
-            Data.push({
-              id_project: project.dataValues.id_project,
-              nm_project: project.dataValues.nm_project,
-              nm_city: project.dataValues.city.nm_city,
-              tx_description: project.dataValues.tx_description || '',
-              nm_category: project.dataValues.category.nm_category,
-              id_category: project.dataValues.category.id_category,
-              value:
-                (project.dataValues.vl_contract &&
-                  formatValue(project.dataValues.vl_contract)) ||
-                (project.dataValues.vl_bid &&
-                  formatValue(project.dataValues.vl_bid)) ||
-                (project.dataValues.vl_estimated &&
-                  formatValue(project.dataValues.vl_estimated)) ||
-                '',
-              project_phase: '',
-              timelapse: [],
-              phaseCompletion: '',
-              location:
-                project.dataValues.location.length > 0
-                  ? project.dataValues.location
-                  : '',
-              polygon_area: project.dataValues.location.polygon_area,
-            });
-          }
-        }
-      })
-    );
+      project_phase = await Project_phase.findOne({
+        where: {
+          id_project_phase: sort[0].id_project_phase,
+        },
+      });
+    } else {
+      project_phase = false;
+    }
 
     return {
-      projects: Data,
+      projects: {
+        actual_project_phase: !project_phase
+          ? ''
+          : project_phase.dataValues.nm_project_phase,
+        id_project: projects.dataValues.id_project,
+        tx_description: projects.dataValues.tx_description,
+        nm_project: projects.dataValues.nm_project,
+        nm_category: projects.dataValues.category.dataValues.nm_category,
+        nm_city: projects.dataValues.city.dataValues.nm_city,
+        nu_latitude: projects.dataValues.location[0].dataValues.nu_latitude,
+        nu_longitude: projects.dataValues.location[0].dataValues.nu_longitude,
+        value:
+          (projects.dataValues.vl_contract &&
+            formatValue(projects.dataValues.vl_contract)) ||
+          (projects.dataValues.vl_bid &&
+            formatValue(projects.dataValues.vl_bid)) ||
+          (projects.dataValues.vl_estimated &&
+            formatValue(projects.dataValues.vl_estimated)) ||
+          '',
+      },
     };
   }
 }
