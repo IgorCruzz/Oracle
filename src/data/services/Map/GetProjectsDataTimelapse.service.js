@@ -155,8 +155,11 @@ export class GetProjectsDataTimelapseService {
       projects: {
         id_timelapse_coordinates:
           getTimelapse.dataValues.id_timelapse_coordinates,
+        ds_coordinates: getTimelapse.dataValues.ds_coordinates,
         id_project_phase:
           getTimelapse.dataValues.project_phase.id_project_phase,
+        nm_project_phase:
+          getTimelapse.dataValues.project_phase.nm_project_phase,
         actual_project_phase: project_phase.dataValues.nm_project_phase,
         id_project:
           getTimelapse.dataValues.project_phase.dataValues.project.dataValues
