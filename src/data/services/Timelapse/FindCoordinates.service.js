@@ -9,10 +9,16 @@ export class FindCoordinatesService {
     });
 
     const coordinates = getCoordinates.map(
-      ({ id_timelapse_coordinates, nu_latitude, nu_longitude }) => ({
+      ({
         id_timelapse_coordinates,
         nu_latitude,
         nu_longitude,
+        ds_coordinates,
+      }) => ({
+        id_timelapse_coordinates,
+        nu_latitude,
+        nu_longitude,
+        ds_coordinates,
       })
     );
 
