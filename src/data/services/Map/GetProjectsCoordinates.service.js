@@ -6,15 +6,21 @@ import {
   Location,
   Polygon_area,
   Timelapse_Coordinates,
+  City,
 } from '../../database/models';
 
 export class GetProjectsCoordinatesService {
-  async execute({ nm_project, nm_city, id_category, tp_project_phase }) {
+  async execute({ id_city }) {
     const getLocation = await Project.findAll({
       include: [
         {
           model: Project_phase,
           as: 'project_phase',
+        },
+        {
+          model: City,
+          as: 'city',
+          where: id_city ? { id_city } : {},
         },
       ],
     });

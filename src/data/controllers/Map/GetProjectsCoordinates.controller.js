@@ -3,15 +3,12 @@ import { GetProjectsCoordinatesService } from '../../services';
 export class GetProjectsCoordinatesController {
   async handle(req, res) {
     try {
-      const { nm_project, nm_city, id_category, tp_project_phase } = req.query;
+      const { id_city } = req.query;
 
       const service = new GetProjectsCoordinatesService();
 
       const response = await service.execute({
-        nm_project,
-        nm_city,
-        id_category,
-        tp_project_phase,
+        id_city,
       });
 
       if (response.error)
