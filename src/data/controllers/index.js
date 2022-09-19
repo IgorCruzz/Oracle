@@ -240,7 +240,6 @@ export * from './ContactHistory/FindContactHistory.controller';
 export * from './ContactHistory/UpdateContactHistory.controller';
 
 // MAP
-export * from './Map/GetProjects.controller';
 export * from './Map/GetProjectsCoordinates.controller';
 export * from './Map/GetProjectsDataLocation.controller';
 export * from './Map/GetProjectsDataTimelapse.controller';

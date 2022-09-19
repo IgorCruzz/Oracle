@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
 import {
-  GetProjectsController,
   GetProjectsCoordinatesController,
   GetProjectsDataLocationController,
   GetProjectsDataTimelapseController,
@@ -23,7 +22,5 @@ routes.get(
   '/map/projects/location',
   new GetProjectsDataLocationController().handle
 );
-
-routes.get('/map/projects', new GetProjectsController().handle);
 
 export default routes;
