@@ -32,11 +32,6 @@ export class GetProjectsCoordinatesService {
                 id_category,
               }
             : {},
-          tp_project_phase
-            ? {
-                '$project_phase.tp_project_phase$': tp_project_phase,
-              }
-            : {},
         ],
       },
 
@@ -193,19 +188,46 @@ export class GetProjectsCoordinatesService {
         const { id_project, nm_project: nmProject } = project;
 
         return {
+          tp_project_phase:
+            actual_project_phase &&
+            actual_project_phase.dataValues.tp_project_phase,
           nm_project: nmProject,
           id_project,
           location,
           timelapse,
-          actual_project_phase:
-            actual_project_phase &&
-            actual_project_phase.dataValues.tp_project_phase,
         };
       })
     );
 
+    const filter = {
+      ...(tp_project_phase && { tp_project_phase: Number(tp_project_phase) }),
+    };
+
+    const jejiejfe = await data;
+
+    const kek = jejiejfe.filter(item => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const key in filter) {
+        if (!item[key]) return false;
+
+        if (typeof item[key] === 'string') {
+          if (
+            item[key] === undefined ||
+            (item[key] && !item[key].includes(filter[key]))
+          )
+            return false;
+        }
+
+        if (typeof item[key] === 'number') {
+          if (item[key] === undefined || item[key] !== filter[key])
+            return false;
+        }
+      }
+      return true;
+    });
+
     return {
-      projects: await data,
+      projects: kek,
     };
   }
 }
