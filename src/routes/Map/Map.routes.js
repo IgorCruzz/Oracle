@@ -4,6 +4,7 @@ import {
   GetProjectsCoordinatesController,
   GetProjectsDataLocationController,
   GetProjectsDataTimelapseController,
+  GetProjectsCoordinatesFromCityController,
 } from '../../data/controllers';
 
 const routes = Router();
@@ -21,6 +22,11 @@ routes.get(
 routes.get(
   '/map/projects/location',
   new GetProjectsDataLocationController().handle
+);
+
+routes.get(
+  '/map/projects/:id_city/coordinates',
+  new GetProjectsCoordinatesFromCityController().handle
 );
 
 export default routes;

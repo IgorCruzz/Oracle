@@ -243,3 +243,4 @@ export * from './ContactHistory/UpdateContactHistory.controller';
 export * from './Map/GetProjectsCoordinates.controller';
 export * from './Map/GetProjectsDataLocation.controller';
 export * from './Map/GetProjectsDataTimelapse.controller';
+export * from './Map/GetProjectsCoordinatesFromCity.controller';

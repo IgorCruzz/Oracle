@@ -1,17 +1,14 @@
-import { GetProjectsCoordinatesService } from '../../services';
+import { GetProjectsCoordinatesFromCityService } from '../../services';
 
-export class GetProjectsCoordinatesController {
+export class GetProjectsCoordinatesFromCityController {
   async handle(req, res) {
     try {
-      const { id_city, nm_project, id_category, tp_project_phase } = req.query;
+      const { id_city } = req.query;
 
-      const service = new GetProjectsCoordinatesService();
+      const service = new GetProjectsCoordinatesFromCityService();
 
       const response = await service.execute({
         id_city,
-        nm_project,
-        id_category,
-        tp_project_phase,
       });
 
       if (response.error)
