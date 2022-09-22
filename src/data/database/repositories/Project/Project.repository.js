@@ -11,17 +11,11 @@ import {
 
 export class ProjectRepository {
   async createProject(data) {
-    const {
-      nm_project,
-      ds_official_document,
-      nm_official_document_applicant,
-      dtOfficial,
-    } = data;
+    const { nm_project, nm_official_document_applicant, dtOfficial } = data;
 
     const createdProject = await Project.create({
       ...data,
       nm_project: nm_project.trim(),
-      ds_official_document: ds_official_document && ds_official_document.trim(),
       nm_official_document_applicant:
         nm_official_document_applicant && nm_official_document_applicant.trim(),
       dt_official_document: dtOfficial || null,
@@ -243,7 +237,7 @@ export class ProjectRepository {
     const {
       dtOfficial,
       nm_project,
-      ds_official_document,
+
       nm_official_document_applicant,
     } = data;
 
@@ -256,7 +250,6 @@ export class ProjectRepository {
     await project.update({
       ...data,
       nm_project: nm_project.trim(),
-      ds_official_document: ds_official_document && ds_official_document.trim(),
       nm_official_document_applicant:
         nm_official_document_applicant && nm_official_document_applicant.trim(),
       dt_official_document: dtOfficial || null,
