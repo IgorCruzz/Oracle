@@ -8,7 +8,7 @@
     "copy-template": "cp -r -u ./src/data/templates/* ./deploy/data/templates/",
     "deploy": "sucrase ./src -d ./deploy --transforms imports && npm run copy && npm run copy-template",
     "start": "pm2 start deploy/server.js --name GEROBRAS && pm2 log",
-    "prestart": "npm run sequelize db:migrate",
+    // "prestart": "npm run sequelize db:migrate",
     "dev": "nodemon src/server.js",
     "build": "tsup-node src/data/database/config --format esm --outDir dist/data/database/config && tsup-node src/data/database/migrations --format cjs --outDir dist/data/database/migrations && tsup-node src/data/database/models --format cjs --outDir dist/data/database/models",
     "db-create": "yarn sequelize migration:create",
