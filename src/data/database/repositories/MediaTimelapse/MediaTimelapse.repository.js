@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 import fs from 'fs';
+import utf8 from 'utf8';
 import { Timelapse_Coordinates, Media_timelapse } from '../../models';
 import { folder } from '../../../../config/multer_media_timelapse';
 
@@ -8,7 +9,7 @@ export class MediaTimelapseRepository {
     const createdMediaTimelapse = await Media_timelapse.create({
       id_timelapse_coordinates: req.body.id,
       dt_media: req.body.dt_media,
-      nm_original_file: req.file.originalname,
+      nm_original_file: utf8.decode(req.file.originalname),
       nm_file: req.file.filename,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
