@@ -10,17 +10,12 @@ import { InspectionDocumentRepository } from '../InspectionDocument/InspectionDo
 
 export class InspectionRepository {
   async createInspection(data) {
-    const {
-      vl_new_cost,
-      dt_inspection,
-      dt_new_end,
-      tp_inspection,
-      id_project_phase,
-      id_professional,
-    } = data;
+    const { dtNewEnd, dtInspection } = data;
 
     const createdInspection = await Inspection.create({
       ...data,
+      dt_new_end: dtNewEnd || null,
+      dt_inspection: dtInspection || null,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -127,16 +122,7 @@ export class InspectionRepository {
   }
 
   async updateInspection(id_inspection, data) {
-    console.log(data);
-    const {
-      vl_new_cost,
-      dt_inspection,
-      dt_new_end,
-      tp_inspection,
-      id_project_phase,
-      id_professional,
-    } = data;
-
+    const { dtNewEnd, dtInspection } = data;
     const inspection = await Inspection.findOne({
       where: {
         id_inspection,
@@ -145,6 +131,8 @@ export class InspectionRepository {
 
     await inspection.update({
       ...data,
+      dt_inspection: dtInspection,
+      dt_new_end: dtNewEnd,
     });
 
     return await Inspection.findOne({

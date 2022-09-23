@@ -58,7 +58,10 @@ export class UpdateInspectionService {
       };
     }
 
-    const inspection = await inspectionRepository.updateInspection(id_inspection, data);
+    const inspection = await inspectionRepository.updateInspection(
+      id_inspection,
+      { ...data, dtNewEnd, dtInspection }
+    );
 
     if (inspection.error) {
       return { error: inspection.error };
