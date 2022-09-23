@@ -16,16 +16,16 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0];
+const profiles = [0, 1, 2];
 
 const routes = Router();
 
 routes.post(
   '/regions',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   createRegionValidator,
   new CreateRegionController().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/regions/:id',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   deleteRegionValidator,
   new DeleteRegionController().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/regions/:id',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   updateRegionValidator,
   new UpdateRegionController().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/regions',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findRegionsValidator,
   new FindRegionsController().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/region/:id',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findRegionValidator,
   new FindRegionController().handle
 );

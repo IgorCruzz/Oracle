@@ -28,9 +28,9 @@ const routes = Router();
 routes.post(
   '/media_timelapse',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   upload.single('file'),
   createMediaTimelapseValidator,
   new CreateMediaTimelapseController().handle
@@ -39,9 +39,9 @@ routes.post(
 routes.delete(
   '/media_timelapse/:id_media_timelapse',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   deleteMediaTimelapseValidator,
   new DeleteMediaTimelapseController().handle
 );
@@ -49,9 +49,9 @@ routes.delete(
 routes.patch(
   '/media_timelapse/:id_media_timelapse',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   upload.single('file'),
   updateMediaTimelapseValidator,
   new UpdateMediaTimelapseController().handle
@@ -65,9 +65,9 @@ routes.get(
 routes.get(
   '/media_timelapse',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findMediaTimelapsesValidator,
   new FindMediaTimelapsesController().handle
 );
@@ -75,18 +75,18 @@ routes.get(
 routes.get(
   '/media_timelapse/:id_media_timelapse',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findMediaTimelapseValidator,
   new FindMediaTimelapseController().handle
 );
 
 routes.get(
   '/media_timelapse/download/:nm_file',
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   downloadMediaTimelapseValidator,
   new DownloadMediaTimelapseController().handle
 );

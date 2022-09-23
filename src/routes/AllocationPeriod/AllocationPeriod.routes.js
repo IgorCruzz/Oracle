@@ -16,16 +16,16 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0, 1];
+const profiles = [0, 1, 2];
 
 const routes = Router();
 
 routes.post(
   '/allocationPeriods',
   authenticator,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   createAllocationPeriodValidator,
   new CreateAllocationPeriodController().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/allocationPeriods/:id_allocation_period',
   authenticator,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   deleteAllocationPeriodValidator,
   new DeleteAllocationPeriodController().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/allocationPeriods/:id_allocation_period',
   authenticator,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   updateAllocationPeriodValidator,
   new UpdateAllocationPeriodController().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/allocationPeriods',
   authenticator,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findAllocationPeriodsValidator,
   new FindAllocationPeriodsController().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/allocationPeriod/:id_allocation_period',
   authenticator,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findAllocationPeriodValidator,
   new FindAllocationPeriodController().handle
 );

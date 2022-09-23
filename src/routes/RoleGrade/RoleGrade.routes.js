@@ -16,16 +16,16 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0];
+const profiles = [0, 1, 2];
 
 const routes = Router();
 
 routes.post(
   '/roleGradies',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   createRoleGradeValidator,
   new CreateRoleGradeController().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/roleGradies/:id_role_grade',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   deleteRoleGradeValidator,
   new DeleteRoleGradeController().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/roleGradies/:id_role_grade',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   updateRoleGradeValidator,
   new UpdateRoleGradeController().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/roleGradies',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findRoleGradiesValidator,
   new FindRoleGradiesController().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/roleGrade/:id_role_grade',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findRoleGradeValidator,
   new FindRoleGradeController().handle
 );
