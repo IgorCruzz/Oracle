@@ -53,9 +53,6 @@ routes.patch(
 routes.get(
   '/cities',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
   findCitiesValidator,
   new FindCitiesController().handle
 );

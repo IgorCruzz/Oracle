@@ -53,9 +53,7 @@ routes.patch(
 routes.get(
   '/categories',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+
   findCategoriesValidator,
   new FindCategoriesController().handle
 );
