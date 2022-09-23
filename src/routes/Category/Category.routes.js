@@ -23,7 +23,7 @@ const routes = Router();
 routes.post(
   '/categories',
   authenticator,
-    // roleAuthenticator({
+  // roleAuthenticator({
   //   profiles,
   // }),
   createCategoryValidator,
@@ -33,7 +33,7 @@ routes.post(
 routes.delete(
   '/categories/:id',
   authenticator,
-    // roleAuthenticator({
+  // roleAuthenticator({
   //   profiles,
   // }),
   deleteCategoryValidator,
@@ -43,7 +43,7 @@ routes.delete(
 routes.patch(
   '/categories/:id',
   authenticator,
-    // roleAuthenticator({
+  // roleAuthenticator({
   //   profiles,
   // }),
   updateCategoryValidator,
@@ -53,7 +53,7 @@ routes.patch(
 routes.get(
   '/categories',
   authenticator,
-    // roleAuthenticator({
+  // roleAuthenticator({
   //   profiles,
   // }),
   findCategoriesValidator,
@@ -63,7 +63,7 @@ routes.get(
 routes.get(
   '/category/:id',
   authenticator,
-    // roleAuthenticator({
+  // roleAuthenticator({
   //   profiles,
   // }),
   findCategoryValidator,
