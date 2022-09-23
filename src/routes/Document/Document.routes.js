@@ -24,8 +24,6 @@ import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 import { storage } from '../../config/multer';
 import { Document } from '../../data/database/models';
 
-const profiles = [0, 1, 2];
-
 const path = require('path');
 const fs = require('fs').promises;
 const libre = require('libreoffice-convert');
@@ -215,18 +213,18 @@ routes.get('/documents/download/:filename', async (req, res) => {
 routes.delete(
   '/documents/upload/:id_document',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   new RemoveUploadDocumentController().handle
 );
 
 routes.post(
   '/documents/upload',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   upload.single('file'),
   uploadDocumentValidator,
   new UploadDocumentController().handle
@@ -235,9 +233,9 @@ routes.post(
 routes.post(
   '/documents',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   createDocumentValidator,
   new CreateDocumentController().handle
 );
@@ -245,9 +243,9 @@ routes.post(
 routes.delete(
   '/documents/:id_document',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   deleteDocumentValidator,
   new DeleteDocumentController().handle
 );
@@ -255,9 +253,9 @@ routes.delete(
 routes.patch(
   '/documents/:id_document',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   updateDocumentValidator,
   new UpdateDocumentController().handle
 );
@@ -265,9 +263,9 @@ routes.patch(
 routes.get(
   '/documents',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findDocumentsValidator,
   new FindDocumentsController().handle
 );
@@ -275,9 +273,9 @@ routes.get(
 routes.get(
   '/document/:id_document',
   authenticator,
-  roleAuthenticator({
-    profiles,
-  }),
+  // roleAuthenticator({
+  //   profiles,
+  // }),
   findDocumentValidator,
   new FindDocumentController().handle
 );
