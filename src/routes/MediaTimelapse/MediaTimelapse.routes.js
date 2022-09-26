@@ -19,7 +19,7 @@ import {
   downloadMediaTimelapseValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
-import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+// import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
 const upload = multer({ storage });
 const routes = Router();
