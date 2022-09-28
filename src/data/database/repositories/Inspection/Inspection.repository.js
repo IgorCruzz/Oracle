@@ -33,9 +33,11 @@ export class InspectionRepository {
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
       order: [['dt_inspection', 'ASC']],
-      where: {
-        '$project_phase.id_project$': { [Op.eq]: id_project },
-      },
+      where: id_project
+        ? {
+            '$project_phase.id_project$': { [Op.eq]: id_project },
+          }
+        : {},
       include: [
         id_project_phase
           ? {
