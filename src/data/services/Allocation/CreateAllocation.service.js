@@ -33,7 +33,7 @@ export class CreateAllocationService {
       if (getProducts.length > 0) {
         return {
           error:
-            'Só é possível realizar alocações em produtos que estejam com o tipo de ação necessária INTEGRAL ou PARCIAL.',
+            'Só é possível realizar alocações em produtos que estejam com o tipo de ação necessária PRODUÇÃO INTEGRAL ou PRODUÇÃO PARCIAL.',
         };
       }
 
