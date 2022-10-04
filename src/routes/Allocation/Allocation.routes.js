@@ -17,9 +17,9 @@ import {
   FindProfessionalsFromAllocationValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
-import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+// import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0, 1];
+// const profiles = [0, 1, 2];
 
 const routes = Router();
 

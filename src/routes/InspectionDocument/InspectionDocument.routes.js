@@ -7,7 +7,7 @@ import {
   FindInspectionDocumentController,
   FindInspectionDocumentsController,
   UpdateInspectionDocumentController,
-  DownloadInspectionDocumentController
+  DownloadInspectionDocumentController,
 } from '../../data/controllers';
 import {
   findInspectionDocumentValidator,
@@ -15,12 +15,12 @@ import {
   deleteInspectionDocumentValidator,
   findInspectionDocumentsValidator,
   updateInspectionDocumentValidator,
-  downloadInspectionDocumentValidator
+  downloadInspectionDocumentValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
-import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
+// import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0, 1, 2];
+// const profiles = [0, 1, 2];
 
 const upload = multer({ storage });
 const routes = Router();
@@ -34,7 +34,7 @@ routes.post(
 routes.delete(
   '/inspection_documents/:id_inspection_document',
   authenticator,
-    // roleAuthenticator({
+  // roleAuthenticator({
   //   profiles,
   // }),
   deleteInspectionDocumentValidator,
@@ -52,7 +52,7 @@ routes.patch(
 routes.get(
   '/inspection_documents',
   authenticator,
-    // roleAuthenticator({
+  // roleAuthenticator({
   //   profiles,
   // }),
   findInspectionDocumentsValidator,
@@ -62,7 +62,7 @@ routes.get(
 routes.get(
   '/inspection_documents/:id_inspection_document',
   authenticator,
-    // roleAuthenticator({
+  // roleAuthenticator({
   //   profiles,
   // }),
   findInspectionDocumentValidator,
@@ -70,9 +70,9 @@ routes.get(
 );
 
 routes.get(
-	'/inspection_documents/download/:nm_file',
-//	authenticator,
-	downloadInspectionDocumentValidator,
-	new DownloadInspectionDocumentController().handle
-)
+  '/inspection_documents/download/:nm_file',
+  //	authenticator,
+  downloadInspectionDocumentValidator,
+  new DownloadInspectionDocumentController().handle
+);
 export default routes;

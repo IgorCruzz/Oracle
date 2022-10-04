@@ -32,5 +32,10 @@ export class Location extends Model {
       foreignKey: 'id_project',
       as: 'project',
     });
+
+    Location.hasMany(models.Polygon_area, {
+      foreignKey: 'id_location',
+      as: 'polygon_area',
+    });
   }
 }

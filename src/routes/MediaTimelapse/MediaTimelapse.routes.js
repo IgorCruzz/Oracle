@@ -8,6 +8,7 @@ import {
   FindMediaTimelapsesController,
   UpdateMediaTimelapseController,
   DownloadMediaTimelapseController,
+  GetMediaByCoordinatesController,
 } from '../../data/controllers';
 import {
   findMediaTimelapseValidator,
@@ -18,9 +19,7 @@ import {
   downloadMediaTimelapseValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
-import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
-
-const profiles = [0, 1, 2];
+// import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
 const upload = multer({ storage });
 const routes = Router();
@@ -54,6 +53,11 @@ routes.patch(
   upload.single('file'),
   updateMediaTimelapseValidator,
   new UpdateMediaTimelapseController().handle
+);
+
+routes.get(
+  '/media_timelapse/:id_timelapse_coordinates/medias',
+  new GetMediaByCoordinatesController().handle
 );
 
 routes.get(

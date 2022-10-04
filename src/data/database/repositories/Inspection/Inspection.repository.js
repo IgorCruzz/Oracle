@@ -9,19 +9,13 @@ import {
 import { InspectionDocumentRepository } from '../InspectionDocument/InspectionDocument.repository';
 
 export class InspectionRepository {
-
   async createInspection(data) {
-    const {
-      vl_new_cost,
-      dt_inspection,
-      dt_new_end,
-      tp_inspection,
-      id_project_phase,
-      id_professional,
-    } = data;
+    const { dtNewEnd, dtInspection } = data;
 
     const createdInspection = await Inspection.create({
       ...data,
+      dt_new_end: dtNewEnd || null,
+      dt_inspection: dtInspection || null,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -39,9 +33,11 @@ export class InspectionRepository {
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
       order: [['dt_inspection', 'ASC']],
-      where: {
-        '$project_phase.id_project$': { [Op.eq]: id_project },
-      },
+      where: id_project
+        ? {
+            '$project_phase.id_project$': { [Op.eq]: id_project },
+          }
+        : {},
       include: [
         id_project_phase
           ? {
@@ -128,16 +124,7 @@ export class InspectionRepository {
   }
 
   async updateInspection(id_inspection, data) {
-    console.log(data);
-    const {
-      vl_new_cost,
-      dt_inspection,
-      dt_new_end,
-      tp_inspection,
-      id_project_phase,
-      id_professional,
-    } = data;
-
+    const { dtNewEnd, dtInspection } = data;
     const inspection = await Inspection.findOne({
       where: {
         id_inspection,
@@ -146,6 +133,8 @@ export class InspectionRepository {
 
     await inspection.update({
       ...data,
+      dt_inspection: dtInspection,
+      dt_new_end: dtNewEnd,
     });
 
     return await Inspection.findOne({

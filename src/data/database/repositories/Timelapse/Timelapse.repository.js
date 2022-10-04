@@ -1,21 +1,13 @@
-import { Op } from 'sequelize';
 import {
   Timelapse_Coordinates as Timelapse,
   Project_phase,
   Media_timelapse,
+  Project,
 } from '../../models';
 import { MediaTimelapseRepository } from '../MediaTimelapse/MediaTimelapse.repository';
 
 export class TimelapseRepository {
   async createTimelapse(data) {
-    const {
-      ds_coordinates,
-      tp_media,
-      nu_latitude,
-      nu_longetude,
-      id_project_phase,
-    } = data;
-
     const createdTimelapse = await Timelapse.create({
       ...data,
       dt_created_at: new Date(Date.now()).toISOString(),
@@ -24,11 +16,7 @@ export class TimelapseRepository {
     return createdTimelapse;
   }
 
-  async findTimelapses({
-    page,
-    limit,
-    id_project_phase,
-  }) {
+  async findTimelapses({ page, limit, id_project_phase }) {
     return await Timelapse.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
@@ -45,6 +33,61 @@ export class TimelapseRepository {
       ],
     });
   }
+
+  async findTimelapseByProjectPhaseId({ id_project_phase }) {
+    return await Timelapse.findAll({
+      include: [
+        {
+          required: true,
+          model: Media_timelapse,
+          as: 'media_timelapse',
+        },
+        {
+          required: true,
+          model: Project_phase,
+          as: 'project_phase',
+          where: {
+            id_project_phase,
+          },
+          include: [
+            {
+              required: true,
+              model: Project,
+              as: 'project',
+            },
+          ],
+        },
+      ],
+    });
+  }
+
+  async findTimelapseByProjectId({ id_project }) {
+    return await Timelapse.findAll({
+      include: [
+        {
+          required: true,
+          model: Media_timelapse,
+          as: 'media_timelapse',
+        },
+        {
+          required: true,
+          model: Project_phase,
+          as: 'project_phase',
+          include: [
+            {
+              required: true,
+              model: Project,
+              as: 'project',
+              where: {
+                id_project,
+              },
+            },
+          ],
+        },
+      ],
+    });
+  }
+
   async findTimelapseById({ id_timelapse_coordinates, populate }) {
     if (populate) {
       return await Timelapse.findOne({
@@ -91,11 +134,8 @@ export class TimelapseRepository {
       where: { id_timelapse_coordinates },
     });
   }
-  
-  async updateTimelapse(id_timelapse_coordinates, data) {
-    console.log(data);
-    const { ds_coordinates, tp_media, nu_latitude, nu_longitude } = data;
 
+  async updateTimelapse(id_timelapse_coordinates, data) {
     const timelapse = await Timelapse.findOne({
       where: {
         id_timelapse_coordinates,

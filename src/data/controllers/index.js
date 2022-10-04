@@ -75,6 +75,7 @@ export * from './ProjectPhase/DeleteProjectPhase.controller';
 export * from './ProjectPhase/FindProjectPhase.controller';
 export * from './ProjectPhase/FindProjectPhases.controller';
 export * from './ProjectPhase/UpdateProjectPhase.controller';
+export * from './ProjectPhase/FindProjectPhasesWithTimelapse.controller';
 
 // ROLE
 export * from './Role/CreateRole.controller';
@@ -188,6 +189,7 @@ export * from './Timelapse/DeleteTimelapse.controller';
 export * from './Timelapse/FindTimelapse.controller';
 export * from './Timelapse/FindTimelapses.controller';
 export * from './Timelapse/UpdateTimelapse.controller';
+export * from './Timelapse/FindCoordinates.controller';
 
 // MEDIA TIMELAPSE
 export * from './MediaTimelapse/CreateMediaTimelapse.controller';
@@ -196,6 +198,7 @@ export * from './MediaTimelapse/FindMediaTimelapse.controller';
 export * from './MediaTimelapse/FindMediaTimelapses.controller';
 export * from './MediaTimelapse/UpdateMediaTimelapse.controller';
 export * from './MediaTimelapse/DownloadMediaTimelapse.controller';
+export * from './MediaTimelapse/GetMediaByCoordinates.controller';
 
 // DELIVERY
 export * from './Delivery/FindDelivery.controller';
@@ -235,3 +238,9 @@ export * from './ContactHistory/DeleteContactHistory.controller';
 export * from './ContactHistory/FindContactHistories.controller';
 export * from './ContactHistory/FindContactHistory.controller';
 export * from './ContactHistory/UpdateContactHistory.controller';
+
+// MAP
+export * from './Map/GetProjectsCoordinates.controller';
+export * from './Map/GetProjectsDataLocation.controller';
+export * from './Map/GetProjectsDataTimelapse.controller';
+export * from './Map/GetProjectsCoordinatesFromCity.controller';

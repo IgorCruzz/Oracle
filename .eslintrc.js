@@ -29,6 +29,7 @@ module.exports = {
     "prefer-destructuring": "off",
     "import/named": "off",
     "no-bitwise": "off",
-    "no-plusplus": "off"    
+    "no-plusplus": "off",
+    "guard-for-in": "off"
   },
 };

@@ -16,16 +16,16 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0];
+const profiles = [0, 1, 2];
 
 const routes = Router();
 
 routes.post(
   '/jurisdictions',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   createJurisdictionValidator,
   new CreateJurisdictionController().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/jurisdictions/:id',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   deleteJurisdictionValidator,
   new DeleteJurisdictionontroller().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/jurisdictions/:id',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   updateJurisdictionValidator,
   new UpdateJurisdictionController().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/jurisdictions',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findJurisdictionsValidator,
   new FindJurisdictionsController().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/jurisdiction/:id',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findJurisdictionValidator,
   new FindJurisdictionController().handle
 );

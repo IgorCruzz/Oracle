@@ -30,7 +30,7 @@ export class Media_timelapse extends Model {
         dt_updated_at: DataTypes.DATE,
       },
       {
-        tableName: 'media_timelapse',        
+        tableName: 'media_timelapse',
         sequelize,
       }
     );

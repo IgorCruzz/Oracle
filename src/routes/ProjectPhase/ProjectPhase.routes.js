@@ -5,6 +5,7 @@ import {
   CreateProjectPhaseController,
   DeleteProjectPhaseController,
   UpdateProjectPhaseController,
+  FindProjectPhasesWithTimelapseController,
 } from '../../data/controllers';
 import {
   findProjectPhaseValidator,
@@ -16,16 +17,16 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0, 1];
+const profiles = [0, 1, 2];
 
 const routes = Router();
 
 routes.post(
   '/projectPhases',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   createProjectPhaseValidator,
   new CreateProjectPhaseController().handle
 );
@@ -33,9 +34,9 @@ routes.post(
 routes.delete(
   '/projectPhases/:id_project_phase',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   deleteProjectPhaseValidator,
   new DeleteProjectPhaseController().handle
 );
@@ -43,9 +44,9 @@ routes.delete(
 routes.patch(
   '/projectPhases/:id_project_phase',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   updateProjectPhaseValidator,
   new UpdateProjectPhaseController().handle
 );
@@ -53,19 +54,24 @@ routes.patch(
 routes.get(
   '/projectPhases',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findProjectPhasesValidator,
   new FindProjectPhasesController().handle
 );
 
 routes.get(
+  '/projectPhases/:id_project/timelapses',
+  new FindProjectPhasesWithTimelapseController().handle
+);
+
+routes.get(
   '/projectPhase/:id_project_phase',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findProjectPhaseValidator,
   new FindProjectPhaseController().handle
 );

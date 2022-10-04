@@ -24,8 +24,6 @@ import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 import { storage } from '../../config/multer';
 import { Document } from '../../data/database/models';
 
-const profiles = [0, 1, 2];
-
 const path = require('path');
 const fs = require('fs').promises;
 const libre = require('libreoffice-convert');

@@ -5,6 +5,7 @@ import {
   FindTimelapseController,
   FindTimelapsesController,
   UpdateTimelapseController,
+  FindCoordenatesController,
 } from '../../data/controllers';
 import {
   findTimelapseValidator,
@@ -16,7 +17,7 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0, 1, 2];
+// const profiles = [0, 1, 2];
 
 const routes = Router();
 
@@ -58,6 +59,11 @@ routes.get(
   // }),
   findTimelapsesValidator,
   new FindTimelapsesController().handle
+);
+
+routes.get(
+  '/timelapses/:id_project_phase/coordinates',
+  new FindCoordenatesController().handle
 );
 
 routes.get(

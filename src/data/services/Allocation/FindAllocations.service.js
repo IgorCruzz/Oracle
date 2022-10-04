@@ -28,6 +28,7 @@ export class FindAllocationsService {
     in_analisys,
     in_analisysCorretion,
     concluded,
+    allProducts,
   }) {
     // if (
     //   !cd_priority &&
@@ -107,7 +108,9 @@ export class FindAllocationsService {
                   },
                 }),
               }
-            : {
+            : {},
+          allProducts
+            ? {
                 [Op.or]: [
                   {
                     '$product.tp_required_action$': 1,
@@ -116,7 +119,8 @@ export class FindAllocationsService {
                     '$product.tp_required_action$': 2,
                   },
                 ],
-              },
+              }
+            : {},
           id_suggested_role
             ? {
                 ...(id_suggested_role && {

@@ -23,9 +23,9 @@ const routes = Router();
 routes.post(
   '/inspections',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   createInspectionValidator,
   new CreateInspectionController().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/inspections/:id_inspection',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   deleteInspectionValidator,
   new DeleteInspectionController().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/inspections/:id_inspection',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   updateInspectionValidator,
   new UpdateInspectionController().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/inspections',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findInspectionsValidator,
   new FindInspectionsController().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/inspections/:id_inspection',
   authenticator,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  roleAuthenticator({
+    profiles,
+  }),
   findInspectionValidator,
   new FindInspectionController().handle
 );

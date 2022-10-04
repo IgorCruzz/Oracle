@@ -63,12 +63,7 @@ export const updateProjectValidator = async (req, res, next) => {
           value => `${value}`.match(/^\d*\.?\d*$/) || value === null
         )
         .typeError('O campo m² precisa ser númerico'),
-      ds_official_document: Yup.string()
-        .max(
-          1000,
-          'O tamanho máximo permitido para o campo descrição do ofício é 1000'
-        )
-        .nullable(),
+
       nm_official_document_applicant: Yup.string()
         .max(
           255,
