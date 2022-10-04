@@ -1,9 +1,11 @@
+import { Op } from 'sequelize';
 import {
   AllocationRepository,
   ProductHistoryRepository,
   ProfessionalRepository,
   ProductRepository,
 } from '../../database/repositories';
+import { Product } from '../../database/models/Product';
 import { calculateHour } from '../../../utils/calculateHour';
 import { sequelize } from '../../database';
 
@@ -17,6 +19,24 @@ export class CreateAllocationService {
     const productHistoryRepository = new ProductHistoryRepository();
 
     try {
+      const getProductId = data.allocations.map(({ id_product }) => id_product);
+
+      const getProducts = await Product.findAll({
+        where: {
+          id_product: { [Op.in]: getProductId },
+          tp_required_action: {
+            [Op.notIn]: [1, 2],
+          },
+        },
+      });
+
+      if (getProducts.length > 0) {
+        return {
+          error:
+            'Só é possível realizar alocações em produtos que estejam com o tipo de ação necessária INTEGRAL ou PARCIAL.',
+        };
+      }
+
       await Promise.all(
         await data.allocations.map(
           async ({ id_allocation_period, id_product, id_professional }) => {

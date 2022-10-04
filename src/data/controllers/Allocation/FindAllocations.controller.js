@@ -19,6 +19,7 @@ export class FindAllocationsController {
         in_analisys,
         in_analisysCorretion,
         concluded,
+        allProducts,
       } = req.query;
 
       const service = new FindAllocationsService();
@@ -39,6 +40,7 @@ export class FindAllocationsController {
         in_analisys,
         in_analisysCorretion,
         concluded,
+        allProducts,
       });
 
       if (response.error)
