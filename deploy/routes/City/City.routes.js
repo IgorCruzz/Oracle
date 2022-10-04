@@ -16,16 +16,16 @@ var _validators = require('../../data/validators');
 var _jwtauthenticator = require('../../data/authenticator/jwt.authenticator'); var _jwtauthenticator2 = _interopRequireDefault(_jwtauthenticator);
 var _roleauthenticator = require('../../data/authenticator/role.authenticator');
 
-const profiles = [0];
+const profiles = [0, 1, 2];
 
 const routes = _express.Router.call(void 0, );
 
 routes.post(
   '/cities',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.createCityValidator,
   new (0, _controllers.CreateCityController)().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/cities/:id',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.deleteCityValidator,
   new (0, _controllers.DeleteCityController)().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/cities/:id',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.updateCityValidator,
   new (0, _controllers.UpdateCityController)().handle
 );
@@ -53,9 +53,6 @@ routes.patch(
 routes.get(
   '/cities',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
   _validators.findCitiesValidator,
   new (0, _controllers.FindCitiesController)().handle
 );
@@ -63,9 +60,9 @@ routes.get(
 routes.get(
   '/city/:id',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.findCityValidator,
   new (0, _controllers.FindCityController)().handle
 );

@@ -1,9 +1,11 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});
+"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _sequelize = require('sequelize');
+
 
 
 
 
 var _repositories = require('../../database/repositories');
+var _Product = require('../../database/models/Product');
 var _calculateHour = require('../../../utils/calculateHour');
 var _database = require('../../database');
 
@@ -17,6 +19,24 @@ var _database = require('../../database');
     const productHistoryRepository = new (0, _repositories.ProductHistoryRepository)();
 
     try {
+      const getProductId = data.allocations.map(({ id_product }) => id_product);
+
+      const getProducts = await _Product.Product.findAll({
+        where: {
+          id_product: { [_sequelize.Op.in]: getProductId },
+          tp_required_action: {
+            [_sequelize.Op.notIn]: [1, 2],
+          },
+        },
+      });
+
+      if (getProducts.length > 0) {
+        return {
+          error:
+            'Só é possível realizar alocações em produtos que estejam com o tipo de ação necessária PRODUÇÃO INTEGRAL ou PRODUÇÃO PARCIAL.',
+        };
+      }
+
       await Promise.all(
         await data.allocations.map(
           async ({ id_allocation_period, id_product, id_professional }) => {

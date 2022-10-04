@@ -16,16 +16,16 @@ var _validators = require('../../data/validators');
 var _jwtauthenticator = require('../../data/authenticator/jwt.authenticator'); var _jwtauthenticator2 = _interopRequireDefault(_jwtauthenticator);
 var _roleauthenticator = require('../../data/authenticator/role.authenticator');
 
-const profiles = [0];
+const profiles = [0, 1, 2];
 
 const routes = _express.Router.call(void 0, );
 
 routes.post(
   '/sectories',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.createSectorValidator,
   new (0, _controllers.CreateSectorController)().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/sectories/:id_sector',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.deleteSectorValidator,
   new (0, _controllers.DeleteSectorController)().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/sectories/:id_sector',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.updateSectorValidator,
   new (0, _controllers.UpdateSectorController)().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/sectories',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.findSectoriesValidator,
   new (0, _controllers.FindSectoriesController)().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/sector/:id_sector',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.findSectorValidator,
   new (0, _controllers.FindSectorController)().handle
 );

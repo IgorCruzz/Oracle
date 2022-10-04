@@ -16,16 +16,16 @@ var _validators = require('../../data/validators');
 var _jwtauthenticator = require('../../data/authenticator/jwt.authenticator'); var _jwtauthenticator2 = _interopRequireDefault(_jwtauthenticator);
 var _roleauthenticator = require('../../data/authenticator/role.authenticator');
 
-const profiles = [0, 1];
+const profiles = [0, 1, 2];
 
 const routes = _express.Router.call(void 0, );
 
 routes.post(
   '/locations',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.createLocationValidator,
   new (0, _controllers.CreateLocationController)().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/locations/:id_location',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.deleteLocationValidator,
   new (0, _controllers.DeleteLocationController)().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/locations/:id_location',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.updateLocationValidator,
   new (0, _controllers.UpdateLocationController)().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/locations',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.findLocationsValidator,
   new (0, _controllers.FindLocationsController)().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/location/:id_location',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.findLocationValidator,
   new (0, _controllers.FindLocationController)().handle
 );

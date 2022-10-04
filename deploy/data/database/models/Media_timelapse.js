@@ -30,7 +30,7 @@ var _moment = require('moment'); var _moment2 = _interopRequireDefault(_moment);
         dt_updated_at: _sequelize.DataTypes.DATE,
       },
       {
-        tableName: 'media_timelapse',        
+        tableName: 'media_timelapse',
         sequelize,
       }
     );

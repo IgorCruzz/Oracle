@@ -18,9 +18,9 @@ var _controllers = require('../../data/controllers');
 
 var _validators = require('../../data/validators');
 var _jwtauthenticator = require('../../data/authenticator/jwt.authenticator'); var _jwtauthenticator2 = _interopRequireDefault(_jwtauthenticator);
-var _roleauthenticator = require('../../data/authenticator/role.authenticator');
+// import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-const profiles = [0, 1, 2];
+// const profiles = [0, 1, 2];
 
 const upload = _multer2.default.call(void 0, { storage: _multer_inspection_documents.storage });
 const routes = _express.Router.call(void 0, );
@@ -34,7 +34,7 @@ routes.post(
 routes.delete(
   '/inspection_documents/:id_inspection_document',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
+  // roleAuthenticator({
   //   profiles,
   // }),
   _validators.deleteInspectionDocumentValidator,
@@ -52,7 +52,7 @@ routes.patch(
 routes.get(
   '/inspection_documents',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
+  // roleAuthenticator({
   //   profiles,
   // }),
   _validators.findInspectionDocumentsValidator,
@@ -62,7 +62,7 @@ routes.get(
 routes.get(
   '/inspection_documents/:id_inspection_document',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
+  // roleAuthenticator({
   //   profiles,
   // }),
   _validators.findInspectionDocumentValidator,
@@ -70,9 +70,9 @@ routes.get(
 );
 
 routes.get(
-	'/inspection_documents/download/:nm_file',
-//	authenticator,
-	_validators.downloadInspectionDocumentValidator,
-	new (0, _controllers.DownloadInspectionDocumentController)().handle
-)
+  '/inspection_documents/download/:nm_file',
+  //	authenticator,
+  _validators.downloadInspectionDocumentValidator,
+  new (0, _controllers.DownloadInspectionDocumentController)().handle
+);
 exports. default = routes;

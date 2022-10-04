@@ -24,8 +24,6 @@ var _roleauthenticator = require('../../data/authenticator/role.authenticator');
 var _multer3 = require('../../config/multer');
 var _models = require('../../data/database/models');
 
-const profiles = [0, 1, 2];
-
 const path = require('path');
 const fs = require('fs').promises;
 const libre = require('libreoffice-convert');

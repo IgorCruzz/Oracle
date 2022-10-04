@@ -8,6 +8,7 @@ var _multer_media_timelapse = require('../../config/multer_media_timelapse');
 
 
 
+
 var _controllers = require('../../data/controllers');
 
 
@@ -18,9 +19,7 @@ var _controllers = require('../../data/controllers');
 
 var _validators = require('../../data/validators');
 var _jwtauthenticator = require('../../data/authenticator/jwt.authenticator'); var _jwtauthenticator2 = _interopRequireDefault(_jwtauthenticator);
-var _roleauthenticator = require('../../data/authenticator/role.authenticator');
-
-const profiles = [0, 1, 2];
+// import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
 const upload = _multer2.default.call(void 0, { storage: _multer_media_timelapse.storage });
 const routes = _express.Router.call(void 0, );
@@ -54,6 +53,11 @@ routes.patch(
   upload.single('file'),
   _validators.updateMediaTimelapseValidator,
   new (0, _controllers.UpdateMediaTimelapseController)().handle
+);
+
+routes.get(
+  '/media_timelapse/:id_timelapse_coordinates/medias',
+  new (0, _controllers.GetMediaByCoordinatesController)().handle
 );
 
 routes.get(

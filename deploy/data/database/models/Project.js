@@ -25,9 +25,7 @@ var _moment = require('moment'); var _moment2 = _interopRequireDefault(_moment);
         cd_priority: _sequelize.DataTypes.TINYINT(4),
         cd_complexity: _sequelize.DataTypes.TINYINT(4),
         qt_m2: _sequelize.DataTypes.DECIMAL(20, 2),
-        ds_official_document: {
-          type: _sequelize.DataTypes.STRING(1000),
-        },
+
         nm_official_document_applicant: {
           type: _sequelize.DataTypes.STRING(255),
         },

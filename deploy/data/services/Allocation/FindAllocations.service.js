@@ -28,6 +28,7 @@ var _calculateHour = require('../../../utils/calculateHour');
     in_analisys,
     in_analisysCorretion,
     concluded,
+    allProducts,
   }) {
     // if (
     //   !cd_priority &&
@@ -107,7 +108,9 @@ var _calculateHour = require('../../../utils/calculateHour');
                   },
                 }),
               }
-            : {
+            : {},
+          allProducts
+            ? {
                 [_sequelize.Op.or]: [
                   {
                     '$product.tp_required_action$': 1,
@@ -116,7 +119,8 @@ var _calculateHour = require('../../../utils/calculateHour');
                     '$product.tp_required_action$': 2,
                   },
                 ],
-              },
+              }
+            : {},
           id_suggested_role
             ? {
                 ...(id_suggested_role && {

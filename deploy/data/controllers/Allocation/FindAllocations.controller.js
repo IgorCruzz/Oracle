@@ -19,6 +19,7 @@
         in_analisys,
         in_analisysCorretion,
         concluded,
+        allProducts,
       } = req.query;
 
       const service = new (0, _services.FindAllocationsService)();
@@ -39,6 +40,7 @@
         in_analisys,
         in_analisysCorretion,
         concluded,
+        allProducts,
       });
 
       if (response.error)

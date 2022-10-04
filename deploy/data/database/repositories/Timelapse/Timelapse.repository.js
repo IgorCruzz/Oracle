@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _sequelize = require('sequelize');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true});
 
 
 
@@ -8,14 +8,6 @@ var _MediaTimelapserepository = require('../MediaTimelapse/MediaTimelapse.reposi
 
  class TimelapseRepository {
   async createTimelapse(data) {
-    const {
-      ds_coordinates,
-      tp_media,
-      nu_latitude,
-      nu_longetude,
-      id_project_phase,
-    } = data;
-
     const createdTimelapse = await _models.Timelapse_Coordinates.create({
       ...data,
       dt_created_at: new Date(Date.now()).toISOString(),
@@ -24,11 +16,7 @@ var _MediaTimelapserepository = require('../MediaTimelapse/MediaTimelapse.reposi
     return createdTimelapse;
   }
 
-  async findTimelapses({
-    page,
-    limit,
-    id_project_phase,
-  }) {
+  async findTimelapses({ page, limit, id_project_phase }) {
     return await _models.Timelapse_Coordinates.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
@@ -45,6 +33,61 @@ var _MediaTimelapserepository = require('../MediaTimelapse/MediaTimelapse.reposi
       ],
     });
   }
+
+  async findTimelapseByProjectPhaseId({ id_project_phase }) {
+    return await _models.Timelapse_Coordinates.findAll({
+      include: [
+        {
+          required: true,
+          model: _models.Media_timelapse,
+          as: 'media_timelapse',
+        },
+        {
+          required: true,
+          model: _models.Project_phase,
+          as: 'project_phase',
+          where: {
+            id_project_phase,
+          },
+          include: [
+            {
+              required: true,
+              model: _models.Project,
+              as: 'project',
+            },
+          ],
+        },
+      ],
+    });
+  }
+
+  async findTimelapseByProjectId({ id_project }) {
+    return await _models.Timelapse_Coordinates.findAll({
+      include: [
+        {
+          required: true,
+          model: _models.Media_timelapse,
+          as: 'media_timelapse',
+        },
+        {
+          required: true,
+          model: _models.Project_phase,
+          as: 'project_phase',
+          include: [
+            {
+              required: true,
+              model: _models.Project,
+              as: 'project',
+              where: {
+                id_project,
+              },
+            },
+          ],
+        },
+      ],
+    });
+  }
+
   async findTimelapseById({ id_timelapse_coordinates, populate }) {
     if (populate) {
       return await _models.Timelapse_Coordinates.findOne({
@@ -91,11 +134,8 @@ var _MediaTimelapserepository = require('../MediaTimelapse/MediaTimelapse.reposi
       where: { id_timelapse_coordinates },
     });
   }
-  
-  async updateTimelapse(id_timelapse_coordinates, data) {
-    console.log(data);
-    const { ds_coordinates, tp_media, nu_latitude, nu_longitude } = data;
 
+  async updateTimelapse(id_timelapse_coordinates, data) {
     const timelapse = await _models.Timelapse_Coordinates.findOne({
       where: {
         id_timelapse_coordinates,

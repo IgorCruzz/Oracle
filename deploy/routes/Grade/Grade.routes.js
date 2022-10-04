@@ -16,16 +16,16 @@ var _validators = require('../../data/validators');
 var _jwtauthenticator = require('../../data/authenticator/jwt.authenticator'); var _jwtauthenticator2 = _interopRequireDefault(_jwtauthenticator);
 var _roleauthenticator = require('../../data/authenticator/role.authenticator');
 
-const profiles = [0];
+const profiles = [0, 1, 2];
 
 const routes = _express.Router.call(void 0, );
 
 routes.post(
   '/gradies',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.createGradeValidator,
   new (0, _controllers.CreateGradeController)().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/gradies/:id_grade',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.deleteGradeValidator,
   new (0, _controllers.DeleteGradeController)().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/gradies/:id_grade',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.updateGradeValidator,
   new (0, _controllers.UpdateGradeController)().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/gradies',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.findGradiesValidator,
   new (0, _controllers.FindGradiesController)().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/grade/:id_grade',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.findGradeValidator,
   new (0, _controllers.FindGradeController)().handle
 );

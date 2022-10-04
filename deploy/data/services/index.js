@@ -75,6 +75,7 @@ var _DeleteProjectPhaseservice = require('./ProjectPhase/DeleteProjectPhase.serv
 var _FindProjectPhaseservice = require('./ProjectPhase/FindProjectPhase.service'); _createStarExport(_FindProjectPhaseservice);
 var _FindProjectPhasesservice = require('./ProjectPhase/FindProjectPhases.service'); _createStarExport(_FindProjectPhasesservice);
 var _UpdateProjectPhaseservice = require('./ProjectPhase/UpdateProjectPhase.service'); _createStarExport(_UpdateProjectPhaseservice);
+var _FindProjectPhasesWithTimelapseservice = require('./ProjectPhase/FindProjectPhasesWithTimelapse.service'); _createStarExport(_FindProjectPhasesWithTimelapseservice);
 
 // ROLE
 var _CreateRoleservice = require('./Role/CreateRole.service'); _createStarExport(_CreateRoleservice);
@@ -188,6 +189,7 @@ var _DeleteTimelapseservice = require('./Timelapse/DeleteTimelapse.service'); _c
 var _FindTimelapseservice = require('./Timelapse/FindTimelapse.service'); _createStarExport(_FindTimelapseservice);
 var _FindTimelapsesservice = require('./Timelapse/FindTimelapses.service'); _createStarExport(_FindTimelapsesservice);
 var _UpdateTimelapseservice = require('./Timelapse/UpdateTimelapse.service'); _createStarExport(_UpdateTimelapseservice);
+var _FindCoordinatesservice = require('./Timelapse/FindCoordinates.service'); _createStarExport(_FindCoordinatesservice);
 
 // MEDIA TIMELAPSE
 var _CreateMediaTimelapseservice = require('./MediaTimelapse/CreateMediaTimelapse.service'); _createStarExport(_CreateMediaTimelapseservice);
@@ -196,6 +198,7 @@ var _FindMediaTimelapseservice = require('./MediaTimelapse/FindMediaTimelapse.se
 var _FindMediaTimelapsesservice = require('./MediaTimelapse/FindMediaTimelapses.service'); _createStarExport(_FindMediaTimelapsesservice);
 var _UpdateMediaTimelapseservice = require('./MediaTimelapse/UpdateMediaTimelapse.service'); _createStarExport(_UpdateMediaTimelapseservice);
 var _DownloadMediaTimelapseservice = require('./MediaTimelapse/DownloadMediaTimelapse.service'); _createStarExport(_DownloadMediaTimelapseservice);
+var _GetMediaByCoordinatesservice = require('./MediaTimelapse/GetMediaByCoordinates.service'); _createStarExport(_GetMediaByCoordinatesservice);
 
 // DELIVERY
 var _FindDeliveriesservice = require('./Delivery/FindDeliveries.service'); _createStarExport(_FindDeliveriesservice);
@@ -235,3 +238,9 @@ var _DeleteContactHistoryservice = require('./ContactHistory/DeleteContactHistor
 var _FindContactHistoriesservice = require('./ContactHistory/FindContactHistories.service'); _createStarExport(_FindContactHistoriesservice);
 var _FindContactHistoryservice = require('./ContactHistory/FindContactHistory.service'); _createStarExport(_FindContactHistoryservice);
 var _UpdateContactHistoryservice = require('./ContactHistory/UpdateContactHistory.service'); _createStarExport(_UpdateContactHistoryservice);
+
+// MAP
+var _GetProjectsCoordinatesservice = require('./Map/GetProjectsCoordinates.service'); _createStarExport(_GetProjectsCoordinatesservice);
+var _GetProjectsDataLocationservice = require('./Map/GetProjectsDataLocation.service'); _createStarExport(_GetProjectsDataLocationservice);
+var _GetProjectsDataTimelapseservice = require('./Map/GetProjectsDataTimelapse.service'); _createStarExport(_GetProjectsDataTimelapseservice);
+var _GetProjectsCoordinatesFromCityservice = require('./Map/GetProjectsCoordinatesFromCity.service'); _createStarExport(_GetProjectsCoordinatesFromCityservice);

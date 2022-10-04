@@ -16,16 +16,16 @@ var _validators = require('../../data/validators');
 var _jwtauthenticator = require('../../data/authenticator/jwt.authenticator'); var _jwtauthenticator2 = _interopRequireDefault(_jwtauthenticator);
 var _roleauthenticator = require('../../data/authenticator/role.authenticator');
 
-const profiles = [0, 1];
+const profiles = [0, 1, 2];
 
 const routes = _express.Router.call(void 0, );
 
 routes.post(
   '/contacts',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.createContactValidator,
   new (0, _controllers.CreateContactController)().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/contacts/:id_contact',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.deleteContactValidator,
   new (0, _controllers.DeleteContactController)().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/contacts/:id_contact',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.updateContactValidator,
   new (0, _controllers.UpdateContactController)().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/contacts',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.findContactsValidator,
   new (0, _controllers.FindContactsController)().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/contact/:id_contact',
   _jwtauthenticator2.default,
-    // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.findContactValidator,
   new (0, _controllers.FindContactController)().handle
 );

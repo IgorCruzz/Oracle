@@ -6,7 +6,6 @@ var _repositories = require('../../database/repositories');
 
  class DownloadMediaTimelapseService {
   async execute({ nm_file, req, res }) {
-
     const file = `${__dirname}/../../../../tmp/media_timelapses/${nm_file}`;
 
     // Parsing the URL
@@ -35,16 +34,16 @@ var _repositories = require('../../database/repositories');
         contentType = 'image/jpeg';
       }
       const SUPPORTED_FORMATS = {
-        '.jpg' : 'image/jpg',
-        '.jpeg' : 'image/jpeg',
-        '.gif' : 'image/gif',
-        '.png' : 'image/png',
-        '.avi' : 'video/x-msvideo',
-        '.mpeg' : 'video/mpeg',
-        '.ogg' : 'video/ogg',
-        '.webm' : 'video/webm',
-        '.mp4' : 'video/mp4'      
-      };      
+        '.jpg': 'image/jpg',
+        '.jpeg': 'image/jpeg',
+        '.gif': 'image/gif',
+        '.png': 'image/png',
+        '.avi': 'video/x-msvideo',
+        '.mpeg': 'video/mpeg',
+        '.ogg': 'video/ogg',
+        '.webm': 'video/webm',
+        '.mp4': 'video/mp4',
+      };
       // Setting the headers
       res.writeHead(200, {
         'Content-Type': SUPPORTED_FORMATS[ext],
@@ -56,14 +55,5 @@ var _repositories = require('../../database/repositories');
         res.end(content);
       });
     });
-    return;
-    const filename = _path2.default.basename(file); // 'IMG0001.JPG';
-    const mimetype = _mime2.default.lookup(file);
-
-    res.setHeader('Content-disposition', `attachment; filename=${filename}`);
-    res.setHeader('Content-type', mimetype);
-
-    const filestream = _fs2.default.createReadStream(file);
-    filestream.pipe(res);
   }
 } exports.DownloadMediaTimelapseService = DownloadMediaTimelapseService;

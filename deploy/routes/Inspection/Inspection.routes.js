@@ -23,9 +23,9 @@ const routes = _express.Router.call(void 0, );
 routes.post(
   '/inspections',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.createInspectionValidator,
   new (0, _controllers.CreateInspectionController)().handle
 );
@@ -33,9 +33,9 @@ routes.post(
 routes.delete(
   '/inspections/:id_inspection',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.deleteInspectionValidator,
   new (0, _controllers.DeleteInspectionController)().handle
 );
@@ -43,9 +43,9 @@ routes.delete(
 routes.patch(
   '/inspections/:id_inspection',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.updateInspectionValidator,
   new (0, _controllers.UpdateInspectionController)().handle
 );
@@ -53,9 +53,9 @@ routes.patch(
 routes.get(
   '/inspections',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.findInspectionsValidator,
   new (0, _controllers.FindInspectionsController)().handle
 );
@@ -63,9 +63,9 @@ routes.get(
 routes.get(
   '/inspections/:id_inspection',
   _jwtauthenticator2.default,
-  // roleAuthenticator({
-  //   profiles,
-  // }),
+  _roleauthenticator.roleAuthenticator.call(void 0, {
+    profiles,
+  }),
   _validators.findInspectionValidator,
   new (0, _controllers.FindInspectionController)().handle
 );

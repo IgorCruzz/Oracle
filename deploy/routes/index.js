@@ -35,8 +35,10 @@ var _PowerBiroutes = require('./PowerBi/PowerBi.routes'); var _PowerBiroutes2 = 
 var _ProductHistoryroutes = require('./ProductHistory/ProductHistory.routes'); var _ProductHistoryroutes2 = _interopRequireDefault(_ProductHistoryroutes);
 var _Contactroutes = require('./Contact/Contact.routes'); var _Contactroutes2 = _interopRequireDefault(_Contactroutes);
 var _ContactHistoryroutes = require('./ContactHistory/ContactHistory.routes'); var _ContactHistoryroutes2 = _interopRequireDefault(_ContactHistoryroutes);
+var _Maproutes = require('./Map/Map.routes'); var _Maproutes2 = _interopRequireDefault(_Maproutes);
 
 const routes = [
+  _Maproutes2.default,
   _ContactHistoryroutes2.default,
   _Contactroutes2.default,
   _ProductHistoryroutes2.default,

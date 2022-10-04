@@ -75,6 +75,7 @@ var _DeleteProjectPhasecontroller = require('./ProjectPhase/DeleteProjectPhase.c
 var _FindProjectPhasecontroller = require('./ProjectPhase/FindProjectPhase.controller'); _createStarExport(_FindProjectPhasecontroller);
 var _FindProjectPhasescontroller = require('./ProjectPhase/FindProjectPhases.controller'); _createStarExport(_FindProjectPhasescontroller);
 var _UpdateProjectPhasecontroller = require('./ProjectPhase/UpdateProjectPhase.controller'); _createStarExport(_UpdateProjectPhasecontroller);
+var _FindProjectPhasesWithTimelapsecontroller = require('./ProjectPhase/FindProjectPhasesWithTimelapse.controller'); _createStarExport(_FindProjectPhasesWithTimelapsecontroller);
 
 // ROLE
 var _CreateRolecontroller = require('./Role/CreateRole.controller'); _createStarExport(_CreateRolecontroller);
@@ -188,6 +189,7 @@ var _DeleteTimelapsecontroller = require('./Timelapse/DeleteTimelapse.controller
 var _FindTimelapsecontroller = require('./Timelapse/FindTimelapse.controller'); _createStarExport(_FindTimelapsecontroller);
 var _FindTimelapsescontroller = require('./Timelapse/FindTimelapses.controller'); _createStarExport(_FindTimelapsescontroller);
 var _UpdateTimelapsecontroller = require('./Timelapse/UpdateTimelapse.controller'); _createStarExport(_UpdateTimelapsecontroller);
+var _FindCoordinatescontroller = require('./Timelapse/FindCoordinates.controller'); _createStarExport(_FindCoordinatescontroller);
 
 // MEDIA TIMELAPSE
 var _CreateMediaTimelapsecontroller = require('./MediaTimelapse/CreateMediaTimelapse.controller'); _createStarExport(_CreateMediaTimelapsecontroller);
@@ -196,6 +198,7 @@ var _FindMediaTimelapsecontroller = require('./MediaTimelapse/FindMediaTimelapse
 var _FindMediaTimelapsescontroller = require('./MediaTimelapse/FindMediaTimelapses.controller'); _createStarExport(_FindMediaTimelapsescontroller);
 var _UpdateMediaTimelapsecontroller = require('./MediaTimelapse/UpdateMediaTimelapse.controller'); _createStarExport(_UpdateMediaTimelapsecontroller);
 var _DownloadMediaTimelapsecontroller = require('./MediaTimelapse/DownloadMediaTimelapse.controller'); _createStarExport(_DownloadMediaTimelapsecontroller);
+var _GetMediaByCoordinatescontroller = require('./MediaTimelapse/GetMediaByCoordinates.controller'); _createStarExport(_GetMediaByCoordinatescontroller);
 
 // DELIVERY
 var _FindDeliverycontroller = require('./Delivery/FindDelivery.controller'); _createStarExport(_FindDeliverycontroller);
@@ -235,3 +238,9 @@ var _DeleteContactHistorycontroller = require('./ContactHistory/DeleteContactHis
 var _FindContactHistoriescontroller = require('./ContactHistory/FindContactHistories.controller'); _createStarExport(_FindContactHistoriescontroller);
 var _FindContactHistorycontroller = require('./ContactHistory/FindContactHistory.controller'); _createStarExport(_FindContactHistorycontroller);
 var _UpdateContactHistorycontroller = require('./ContactHistory/UpdateContactHistory.controller'); _createStarExport(_UpdateContactHistorycontroller);
+
+// MAP
+var _GetProjectsCoordinatescontroller = require('./Map/GetProjectsCoordinates.controller'); _createStarExport(_GetProjectsCoordinatescontroller);
+var _GetProjectsDataLocationcontroller = require('./Map/GetProjectsDataLocation.controller'); _createStarExport(_GetProjectsDataLocationcontroller);
+var _GetProjectsDataTimelapsecontroller = require('./Map/GetProjectsDataTimelapse.controller'); _createStarExport(_GetProjectsDataTimelapsecontroller);
+var _GetProjectsCoordinatesFromCitycontroller = require('./Map/GetProjectsCoordinatesFromCity.controller'); _createStarExport(_GetProjectsCoordinatesFromCitycontroller);

@@ -54,6 +54,8 @@ var _verifyDate = require('../../../utils/verifyDate');
 
     const inspection = await repository.createInspection({
       ...data,
+      dtNewEnd,
+      dtInspection,
     });
 
     if (inspection.error) {
