@@ -24,24 +24,12 @@ export class FindPeriodPtiService {
     id_sector,
     user_alocated,
   }) {
-    let searchQuery;
-
-    if (nm_professional) {
-      searchQuery = {
-        ...(nm_professional && {
-          nm_professional: { [Op.like]: `%${nm_professional.trim()}%` },
-        }),
-      };
-    } else {
-      searchQuery = null;
-    }
-
     const professionals = await Professional.findAndCountAll({
-      where: searchQuery
+      where: nm_professional
         ? {
-            [Op.and]: [...(searchQuery ? { searchQuery } : null)],
+            nm_professional: { [Op.like]: `%${nm_professional.trim()}%` },
           }
-        : null,
+        : {},
       limit: limit !== 'all' ? Number(limit) : null,
       order: [['nm_professional', 'ASC']],
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
