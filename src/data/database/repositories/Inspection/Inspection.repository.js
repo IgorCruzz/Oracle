@@ -33,12 +33,13 @@ export class InspectionRepository {
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
       order: [['dt_inspection', 'ASC']],
-      where: id_project
-        ? {
-            '$project_phase.id_project$': { [Op.eq]: id_project },
-          }
-        : {},
+
       include: [
+        {
+          model: Inspection_document,
+          required: false,
+          as: 'inspection_document',
+        },
         id_project_phase
           ? {
               model: Project_phase,
@@ -54,7 +55,17 @@ export class InspectionRepository {
                   : { model: Project, as: 'project' },
               ],
             }
-          : { model: Project_phase, as: 'project_phase' },
+          : {
+              model: Project_phase,
+              as: 'project_phase',
+              include: [
+                {
+                  model: Project,
+                  as: 'project',
+                  where: id_project ? { id_project } : {},
+                },
+              ],
+            },
         id_professional
           ? {
               model: Professional,
