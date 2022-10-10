@@ -15,7 +15,6 @@ import {
   deleteInspectionDocumentValidator,
   findInspectionDocumentsValidator,
   updateInspectionDocumentValidator,
-  downloadInspectionDocumentValidator,
 } from '../../data/validators';
 import authenticator from '../../data/authenticator/jwt.authenticator';
 // import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
@@ -72,8 +71,7 @@ routes.get(
 
 routes.get(
   '/inspection_documents/download/:nm_file',
-  //	authenticator,
-  downloadInspectionDocumentValidator,
+
   new DownloadInspectionDocumentController().handle
 );
 export default routes;
