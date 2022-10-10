@@ -17,7 +17,7 @@ export class DownloadInspectionDocumentService {
     );
 
     const findDocument = await repository.findInspectionDocumentByNmFile({
-      nm_file: file,
+      nm_file,
     });
 
     if (!findDocument) {
