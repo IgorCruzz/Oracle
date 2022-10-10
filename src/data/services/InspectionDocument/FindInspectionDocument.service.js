@@ -9,13 +9,13 @@ export class FindInspectionDocumentService {
       populate: true,
     });
 
-    if (!findInspectionDocument)
+    if (!findInspection)
       return {
         error: `Não há nenhuma documento registrado com este ID -> ${id_inspection_document}.`,
       };
 
     return {
-      inspection_document: findInspectionDocument,
+      inspection_document: findInspection,
     };
   }
 }

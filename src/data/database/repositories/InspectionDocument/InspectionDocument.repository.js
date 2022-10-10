@@ -56,10 +56,18 @@ export class InspectionDocumentRepository {
           ? {
               model: Inspection,
               as: 'inspection',
-              where: { id_inspection },
+              where: { id_inspection: Number(id_inspection) },
             }
           : { model: Inspection, as: 'inspection' },
       ],
+    });
+  }
+
+  async findInspectionDocumentByNmFile({ nm_file }) {
+    return Inspection_document.findOne({
+      where: {
+        nm_file,
+      },
     });
   }
 

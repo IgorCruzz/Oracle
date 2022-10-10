@@ -1,4 +1,5 @@
 import { FindInspectionDocumentService } from '../../services';
+
 export class FindInspectionDocumentController {
   async handle(req, res) {
     try {

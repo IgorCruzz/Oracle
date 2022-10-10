@@ -9,7 +9,7 @@ export class FindInspectionDocumentsController {
         id,
         id_inspection,
         nm_document,
-        nm_file
+        nm_file,
       } = req.query;
 
       const service = new FindInspectionDocumentsService();
@@ -20,7 +20,7 @@ export class FindInspectionDocumentsController {
         id,
         id_inspection,
         nm_document,
-        nm_file
+        nm_file,
       });
 
       if (response.error)
