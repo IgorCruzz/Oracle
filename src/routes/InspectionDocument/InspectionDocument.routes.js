@@ -26,6 +26,7 @@ const upload = multer({ storage });
 const routes = Router();
 routes.post(
   '/inspection_documents',
+  upload.single('file'),
   authenticator,
   createInspectionDocumentValidator,
   new CreateInspectionDocumentController().handle

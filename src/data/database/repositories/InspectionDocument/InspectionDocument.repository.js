@@ -6,12 +6,11 @@ import { folder } from '../../../../config/multer_inspection_documents';
 
 export class InspectionDocumentRepository {
   async createInspectionDocument(req) {
-
     const createdInspectionDocument = await Inspection_document.create({
-      id_inspection: req.body.id_inspection,
-      nm_document: req.body.nm_document,
-      nm_original_file: req.file ? req.file.originalname : '',
-      nm_file: req.file ? req.file.finelane : '',
+      id_inspection: req.id_inspection,
+      nm_document: req.nm_document,
+      nm_original_file: req ? req.originalname : '',
+      nm_file: req ? req.filename : '',
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -116,11 +115,10 @@ export class InspectionDocumentRepository {
         id_inspection_document,
       },
     });
-    if(req.file){
+    if (req.file) {
       if (inspection_document.nm_file) {
         const path = resolve(folder, inspection_document.nm_file);
         fs.existsSync(path) && fs.unlink(path, e => e);
-
       }
       await inspection_document.update({
         nm_original_file: req.file.originalname,

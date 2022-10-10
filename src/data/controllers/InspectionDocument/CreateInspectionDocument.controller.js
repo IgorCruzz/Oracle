@@ -4,7 +4,7 @@ export class CreateInspectionDocumentController {
   async handle(req, res) {
     try {
       const service = new CreateInspectionDocumentService();
-      const response = await service.execute(req);
+      const response = await service.execute({ ...req.body, ...req.file });
 
       if (response.error)
         return res.status(400).json({
