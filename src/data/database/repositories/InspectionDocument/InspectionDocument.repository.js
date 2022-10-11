@@ -123,19 +123,35 @@ export class InspectionDocumentRepository {
         id_inspection_document,
       },
     });
-    if (req.file) {
+
+    if (!req.same_document && !req.filename) {
       if (inspection_document.nm_file) {
         const path = resolve(folder, inspection_document.nm_file);
+        // eslint-disable-next-line no-unused-expressions
+        fs.existsSync(path) && fs.unlink(path, e => e);
+      }
+
+      await inspection_document.update({
+        nm_original_file: null,
+        nm_file: null,
+        nm_document: req.nm_document.trim(),
+      });
+    } else if (!req.same_document && req.filename) {
+      if (inspection_document.nm_file) {
+        const path = resolve(folder, inspection_document.nm_file);
+        // eslint-disable-next-line no-unused-expressions
         fs.existsSync(path) && fs.unlink(path, e => e);
       }
       await inspection_document.update({
-        nm_original_file: req.file.originalname,
-        nm_file: req.file.filename,
+        nm_original_file: req.originalname,
+        nm_file: req.filename,
+        nm_document: req.nm_document.trim(),
+      });
+    } else {
+      await inspection_document.update({
+        nm_document: req.nm_document.trim(),
       });
     }
-    await inspection_document.update({
-      nm_document: req.body.nm_document,
-    });
 
     return await Inspection_document.findOne({
       where: {
