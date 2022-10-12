@@ -63,6 +63,23 @@ export class InspectionDocumentRepository {
     });
   }
 
+  async findInspectionDocumentByNmDocument({ id_inspection, nm_document }) {
+    return Inspection_document.findOne({
+      where: {
+        id_inspection,
+        nm_document,
+      },
+    });
+  }
+
+  async findInspectionDocumentByIdInspection({ id_inspection }) {
+    return Inspection_document.findOne({
+      where: {
+        id_inspection,
+      },
+    });
+  }
+
   async findInspectionDocumentByNmFile({ nm_file }) {
     return Inspection_document.findOne({
       where: {
@@ -80,6 +97,7 @@ export class InspectionDocumentRepository {
 
     if (inspection_document.nm_file) {
       const path = resolve(folder, inspection_document.nm_file);
+      // eslint-disable-next-line no-unused-expressions
       fs.existsSync(path) && fs.unlink(path, e => e);
     }
 

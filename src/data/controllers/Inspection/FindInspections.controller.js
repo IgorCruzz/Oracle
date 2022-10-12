@@ -9,8 +9,10 @@ export class FindInspectionsController {
         id,
         id_project,
         id_project_phase,
-        id_professional
+        id_professional,
       } = req.query;
+
+      const { userId } = req;
 
       const service = new FindInspectionsService();
 
@@ -20,7 +22,8 @@ export class FindInspectionsController {
         id,
         id_project,
         id_project_phase,
-        id_professional
+        id_professional,
+        userId,
       });
 
       if (response.error)
@@ -31,7 +34,7 @@ export class FindInspectionsController {
       const { count, rows } = response.inspections;
 
       return res.status(200).json({
-        count,
+        count: rows.length,
         page,
         limit,
         inspections: rows,

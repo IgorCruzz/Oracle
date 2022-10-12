@@ -29,6 +29,12 @@ export class InspectionRepository {
     id_project_phase,
     id_professional,
   }) {
+    console.log({
+      id_project,
+      id_project_phase,
+      id_professional,
+    });
+
     return await Inspection.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
@@ -70,7 +76,7 @@ export class InspectionRepository {
           ? {
               model: Professional,
               as: 'professional',
-              where: { id_professional },
+              where: { id_professional: Number(id_professional) },
             }
           : { model: Professional, as: 'professional' },
       ],

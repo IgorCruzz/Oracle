@@ -17,6 +17,18 @@ export class CreateInspectionDocumentService {
         error: `Não há nenhuma vistoria registrada com este ID -> ${req.id_inspection}.`,
       };
     }
+
+    const verifyExistsNmDocument = await repository.findInspectionDocumentByNmDocument(
+      {
+        nm_document: req.nm_document,
+        id_inspection: req.id_inspection,
+      }
+    );
+
+    if (verifyExistsNmDocument) {
+      return { error: 'Você já adicionou um documento com este nome!' };
+    }
+
     const inspection_document = await repository.createInspectionDocument(req);
 
     return {
