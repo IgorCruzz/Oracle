@@ -31,7 +31,7 @@ export class InspectionRepository {
     return await Inspection.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
-      order: [['dt_inspection', 'ASC']],
+      order: [['dt_inspection', 'DESC']],
 
       include: [
         {
