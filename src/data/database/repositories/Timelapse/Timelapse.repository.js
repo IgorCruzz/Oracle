@@ -23,6 +23,11 @@ export class TimelapseRepository {
       order: [['dt_created_at', 'ASC']],
       where: { id_project_phase },
       include: [
+        {
+          required: false,
+          model: Media_timelapse,
+          as: 'media_timelapse',
+        },
         id_project_phase
           ? {
               model: Project_phase,
