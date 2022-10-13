@@ -144,7 +144,7 @@ export class InspectionRepository {
     await inspection.update({
       ...data,
       dt_inspection: dtInspection,
-      dt_new_end: dtNewEnd,
+      dt_new_end: dtNewEnd === undefined ? null : dtNewEnd,
     });
 
     return await Inspection.findOne({
