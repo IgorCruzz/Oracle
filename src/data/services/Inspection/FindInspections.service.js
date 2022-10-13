@@ -1,6 +1,7 @@
 import {
   InspectionRepository,
   UserRepository,
+  ProfessionalRepository,
 } from '../../database/repositories';
 
 export class FindInspectionsService {
@@ -15,9 +16,14 @@ export class FindInspectionsService {
   }) {
     const repository = new InspectionRepository();
     const userRepository = new UserRepository();
+    const professionalRepository = new ProfessionalRepository();
 
     const verifyTpProfile = await userRepository.findUserById({
       id_user: userId,
+    });
+
+    const getProfessionalId = await professionalRepository.findUser({
+      id_user: verifyTpProfile.id_user,
     });
 
     const findInspections = await repository.findInspections({
@@ -28,7 +34,7 @@ export class FindInspectionsService {
       id_project_phase,
       id_professional:
         verifyTpProfile.dataValues.tp_profile === 2
-          ? verifyTpProfile.dataValues.tp_profile
+          ? getProfessionalId.dataValues.id_professional
           : id_professional,
     });
 

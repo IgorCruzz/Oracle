@@ -1,4 +1,3 @@
-import { Op } from 'sequelize';
 import {
   Inspection,
   Project_phase,
@@ -29,12 +28,6 @@ export class InspectionRepository {
     id_project_phase,
     id_professional,
   }) {
-    console.log({
-      id_project,
-      id_project_phase,
-      id_professional,
-    });
-
     return await Inspection.findAndCountAll({
       limit: Number(limit),
       offset: (Number(page) - 1) * Number(limit),
