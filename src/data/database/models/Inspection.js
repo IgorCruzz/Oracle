@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import { format } from 'date-fns';
+import moment from 'moment';
 
 export class Inspection extends Model {
   static init(sequelize) {
@@ -17,7 +17,9 @@ export class Inspection extends Model {
 
             return value === null
               ? null
-              : format(new Date(value), 'yyyy-MM-dd');
+              : moment
+                  .utc(this.getDataValue('dt_inspection'))
+                  .format('YYYY-MM-DD');
           },
         },
         tp_inspection: DataTypes.TINYINT(4),
@@ -28,7 +30,9 @@ export class Inspection extends Model {
 
             return value === null
               ? null
-              : format(new Date(value), 'yyyy-MM-dd');
+              : moment
+                  .utc(this.getDataValue('dt_new_end'))
+                  .format('YYYY-MM-DD');
           },
         },
         vl_new_cost: DataTypes.DECIMAL(20, 2),
