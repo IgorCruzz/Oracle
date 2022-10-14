@@ -31,8 +31,6 @@ export class FindAllocationsService {
     allProducts,
     id_city,
   }) {
-    console.log({ id_city });
-
     // if (
     //   !cd_priority &&
     //   !id_project &&
