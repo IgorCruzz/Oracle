@@ -25,6 +25,7 @@ export class FindAnalysisService {
     in_analisys,
     in_analisysCorretion,
     concluded,
+    id_city,
   }) {
     if (
       !id_professional &&
@@ -36,7 +37,8 @@ export class FindAnalysisService {
       !in_correction &&
       !in_analisys &&
       !in_analisysCorretion &&
-      !concluded
+      !concluded &&
+      !id_city
     ) {
       return { error: 'Informe pelo menos uma opção de filtro!' };
     }
@@ -122,10 +124,13 @@ export class FindAnalysisService {
                 }),
               }
             : null,
-          id_project
+          id_project || id_city
             ? {
                 ...(id_project && {
                   '$product.project_phase.project.id_project$': id_project,
+                }),
+                ...(id_city && {
+                  '$product.project_phase.project.id_city$': id_city,
                 }),
               }
             : null,

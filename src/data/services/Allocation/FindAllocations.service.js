@@ -29,7 +29,10 @@ export class FindAllocationsService {
     in_analisysCorretion,
     concluded,
     allProducts,
+    id_city,
   }) {
+    console.log({ id_city });
+
     // if (
     //   !cd_priority &&
     //   !id_project &&
@@ -135,7 +138,7 @@ export class FindAllocationsService {
                 }),
               }
             : null,
-          cd_priority || id_project
+          cd_priority || id_project || id_city
             ? {
                 ...(cd_priority && {
                   '$product.project_phase.project.cd_priority$': cd_priority,
@@ -146,6 +149,9 @@ export class FindAllocationsService {
                 '$product.project_phase.project.nm_deleted_by$': {
                   [Op.is]: null,
                 },
+                ...(id_city && {
+                  '$product.project_phase.project.id_city$': id_city,
+                }),
               }
             : null,
           id_professional

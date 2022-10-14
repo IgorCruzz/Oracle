@@ -17,6 +17,7 @@ export class FindDeliveryController {
         in_analisys,
         in_analisysCorretion,
         concluded,
+        id_city,
       } = req.query;
 
       const { userId } = req;
@@ -38,6 +39,7 @@ export class FindDeliveryController {
         in_analisysCorretion,
         concluded,
         userId,
+        id_city,
       });
 
       if (response.error)

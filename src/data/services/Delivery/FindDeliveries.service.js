@@ -27,7 +27,12 @@ export class FindDeliveriesService {
     in_analisysCorretion,
     concluded,
     userId,
+    id_city,
   }) {
+    console.log({
+      id_city,
+    });
+
     if (
       !id_professional &&
       !id_project &&
@@ -38,7 +43,8 @@ export class FindDeliveriesService {
       !in_correction &&
       !in_analisys &&
       !in_analisysCorretion &&
-      !concluded
+      !concluded &&
+      !id_city
     ) {
       return { error: 'Informe pelo menos uma opção de filtro!' };
     }
@@ -141,10 +147,13 @@ export class FindDeliveriesService {
                       }),
                     }
                   : null,
-                id_project
+                id_project || id_city
                   ? {
                       ...(id_project && {
                         '$product.project_phase.project.id_project$': id_project,
+                      }),
+                      ...(id_city && {
+                        '$product.project_phase.project.id_city$': id_city,
                       }),
                     }
                   : null,
@@ -258,10 +267,13 @@ export class FindDeliveriesService {
                       }),
                     }
                   : null,
-                id_project
+                id_project || id_city
                   ? {
                       ...(id_project && {
                         '$product.project_phase.project.id_project$': id_project,
+                      }),
+                      ...(id_city && {
+                        '$product.project_phase.project.id_city$': id_city,
                       }),
                     }
                   : null,
