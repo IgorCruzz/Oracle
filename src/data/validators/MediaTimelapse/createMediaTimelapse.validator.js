@@ -18,7 +18,7 @@ export const createMediaTimelapseValidator = async (req, res, next) => {
       'video/mpeg',
       'video/ogg',
       'video/webm',
-      'video/mp4'
+      'video/mp4',
     ];
     const SchemaFile = Yup.object().shape({
       size: Yup.number()

@@ -101,7 +101,7 @@ export class MediaTimelapseRepository {
         fs.existsSync(path) && fs.unlink(path, e => e);
       }
       await media_timelapse.update({
-        nm_original_file: req.file.originalname,
+        nm_original_file: utf8.decode(req.file.originalname),
         nm_file: req.file.filename,
       });
     }
