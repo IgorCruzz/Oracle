@@ -68,6 +68,11 @@ export class Project extends Model {
       as: 'location',
     });
 
+    Project.belongsTo(models.Project_status, {
+      foreignKey: 'id_status',
+      as: 'status',
+    });
+
     Project.belongsTo(models.City, {
       foreignKey: 'id_city',
       as: 'city',

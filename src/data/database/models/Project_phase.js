@@ -67,5 +67,9 @@ export class Project_phase extends Model {
       foreignKey: 'id_project_phase',
       as: 'timelapse',
     });
+    Project_phase.belongsTo(models.Phase_status, {
+      foreignKey: 'id_status',
+      as: 'status',
+    });
   }
 }
