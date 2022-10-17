@@ -244,3 +244,17 @@ export * from './Map/GetProjectsCoordinates.controller';
 export * from './Map/GetProjectsDataLocation.controller';
 export * from './Map/GetProjectsDataTimelapse.controller';
 export * from './Map/GetProjectsCoordinatesFromCity.controller';
+
+// PROJECT STATUS
+export * from './ProjectStatus/CreateProjectStatus.controller';
+export * from './ProjectStatus/DeleteProjectStatus.controller';
+export * from './ProjectStatus/FindProjectStatus.controller';
+export * from './ProjectStatus/FindProjectsStatus.controller';
+export * from './ProjectStatus/UpdateProjectStatus.controller';
+
+// PHASE STATUS
+export * from './PhaseStatus/CreatePhaseStatus.controller';
+export * from './PhaseStatus/DeletePhaseStatus.controller';
+export * from './PhaseStatus/FindPhaseStatus.controller';
+export * from './PhaseStatus/FindPhasesStatus.controller';
+export * from './PhaseStatus/UpdatePhaseStatus.controller';

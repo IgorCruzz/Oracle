@@ -244,3 +244,17 @@ export * from './Map/GetProjectsCoordinates.service';
 export * from './Map/GetProjectsDataLocation.service';
 export * from './Map/GetProjectsDataTimelapse.service';
 export * from './Map/GetProjectsCoordinatesFromCity.service';
+
+// STATUS FASE
+export * from './PhaseStatus/CreatePhaseStatus.service';
+export * from './PhaseStatus/DeletePhaseStatus.service';
+export * from './PhaseStatus/FindPhaseStatus.service';
+export * from './PhaseStatus/FindPhasesStatus.service';
+export * from './PhaseStatus/UpdatePhaseStatus.service';
+
+// STATUS PROJETO
+export * from './ProjectStatus/CreateProjectStatus.service';
+export * from './ProjectStatus/DeleteProjectStatus.service';
+export * from './ProjectStatus/FindProjectStatus.service';
+export * from './ProjectStatus/FindProjectsStatus.service';
+export * from './ProjectStatus/UpdateProjectStatus.service';

@@ -206,3 +206,17 @@ export * from './ContactHistory/deleteContactHistory.validator';
 export * from './ContactHistory/findContactHistories.validator';
 export * from './ContactHistory/findContactHistory.validator';
 export * from './ContactHistory/updateContactHistory.validator';
+
+// PROJECT STATUS
+export * from './ProjectStatus/createProjectStatus.validator';
+export * from './ProjectStatus/deleteProjectStatus.validator';
+export * from './ProjectStatus/findProjectStatus.validator';
+export * from './ProjectStatus/findProjectsStatus.validator';
+export * from './ProjectStatus/updateProjectStatus.validator';
+
+// PHASE STATUS
+export * from './PhaseStatus/createPhaseStatus.validator';
+export * from './PhaseStatus/deletePhaseStatus.validator';
+export * from './PhaseStatus/findPhaseStatus.validator';
+export * from './PhaseStatus/findPhasesStatus.validator';
+export * from './PhaseStatus/updatePhaseStatus.validator';

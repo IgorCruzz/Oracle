@@ -36,8 +36,12 @@ import ProductHistory from './ProductHistory/ProductHistory.routes';
 import Contact from './Contact/Contact.routes';
 import ContactHistory from './ContactHistory/ContactHistory.routes';
 import MapRoute from './Map/Map.routes';
+import ProjectStatus from './ProjectStatus/ProjectStatus.routes';
+import PhaseStatus from './PhaseStatus/PhaseStatus.routes';
 
 const routes = [
+  PhaseStatus,
+  ProjectStatus,
   MapRoute,
   ContactHistory,
   Contact,
