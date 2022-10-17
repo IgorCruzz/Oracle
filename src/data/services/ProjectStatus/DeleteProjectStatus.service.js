@@ -1,39 +1,22 @@
-import {
-  SectorRepository,
-  ProfessionalRepository,
-} from '../../database/repositories';
+import { ProjectStatusRepository } from '../../database/repositories/ProjectStatus/ProjectStatus.repository';
 
 export class DeleteProjectStatusService {
-  async execute({ id_sector }) {
-    const repository = new SectorRepository();
-    const professionalRepository = new ProfessionalRepository();
+  async execute({ id_status }) {
+    const repository = new ProjectStatusRepository();
 
-    const verifySectorExists = await repository.findSectorById({
-      id_sector,
+    const verifyStatusExists = await repository.findPhaseStatusById({
+      id_status,
     });
 
-    if (!verifySectorExists)
-      return { error: `Não existe um Setor com este ID -> ${id_sector}.` };
+    if (!verifyStatusExists)
+      return { error: `Não existe um Status com este ID -> ${id_status}.` };
 
-    const verifyFkFromProfessional = await professionalRepository.verifyRelationSector(
-      {
-        id_sector,
-      }
-    );
-
-    if (verifyFkFromProfessional.length > 0) {
-      return {
-        error:
-          'Não foi possível excluir o Setor pois existem Colaboradores associados.',
-      };
-    }
-
-    await repository.deleteSector({
-      id_sector,
+    await repository.deletePhaseStatus({
+      id_status,
     });
 
     return {
-      message: 'Setor excluído com sucesso!',
+      message: 'Status excluído com sucesso!',
     };
   }
 }

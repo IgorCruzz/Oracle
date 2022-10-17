@@ -4,14 +4,17 @@ import { ValidationError } from '../../../utils/validationError';
 export const updatePhaseStatusValidator = async (req, res, next) => {
   try {
     const SchemaParam = Yup.object().shape({
-      id_sector: Yup.string().required('O campo id é obrigatório'),
+      id_status: Yup.string().required('O campo id é obrigatório'),
     });
 
     const SchemaBody = Yup.object().shape({
-      nm_sector: Yup.string()
-        .max(255, 'O tamanho máximo permitido para o campo nome do setor é 255')
-        .required('O campo nome do setor é obrigatório')
-        .typeError('O preenchimento do nome do setor é obrigatório'),
+      ds_status: Yup.string()
+        .max(
+          255,
+          'O tamanho máximo permitido para o campo descrição do status  é 255'
+        )
+        .required('O campo descrição do status  é obrigatório')
+        .typeError('O preenchimento do descrição do status  é obrigatório'),
     });
 
     await SchemaParam.validate(req.params, { abortEarly: false });

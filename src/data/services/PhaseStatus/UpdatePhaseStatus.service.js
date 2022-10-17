@@ -1,30 +1,30 @@
-import { SectorRepository } from '../../database/repositories';
+import { PhaseStatusRepository } from '../../database/repositories/PhaseStatus/PhaseStatus.repository';
 
 export class UpdatePhaseStatusService {
-  async execute(id_sector, data) {
-    const { nm_sector } = data;
+  async execute(id_status, data) {
+    const { ds_status } = data;
 
-    const repository = new SectorRepository();
+    const repository = new PhaseStatusRepository();
 
-    const verifySectorExists = await repository.findSectorById({
-      id_sector,
+    const verifyStatusExists = await repository.findPhaseStatusById({
+      id_status,
     });
 
-    if (!verifySectorExists)
-      return { error: `Não existe um Setor com este ID -> ${id_sector}.` };
+    if (!verifyStatusExists)
+      return { error: `Não existe um Status com este ID -> ${id_status}.` };
 
-    const verifySectorName = await repository.findSector({
-      nm_sector,
+    const verifyDsStatus = await repository.findPhaseStatus({
+      ds_status,
     });
 
-    if (verifySectorName && verifySectorName.id_sector !== Number(id_sector))
-      return { error: 'Já existe um Setor registrado com este nome.' };
+    if (verifyDsStatus && verifyDsStatus.id_status !== Number(id_status))
+      return { error: 'Já existe um Status registrado com este nome.' };
 
-    const sectorUpdated = await repository.updateSector(id_sector, data);
+    const statusUpdated = await repository.updatePhaseStatus(id_status, data);
 
     return {
-      message: 'Setor atualizado com sucesso!',
-      sector: sectorUpdated,
+      message: 'Status atualizado com sucesso!',
+      status: statusUpdated,
     };
   }
 }

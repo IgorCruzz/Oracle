@@ -1,21 +1,21 @@
-import { SectorRepository } from '../../database/repositories';
+import { PhaseStatusRepository } from '../../database/repositories/PhaseStatus/PhaseStatus.repository';
 
 export class CreatePhaseStatusService {
-  async execute({ nm_sector }) {
-    const repository = new SectorRepository();
+  async execute({ ds_status }) {
+    const repository = new PhaseStatusRepository();
 
-    const verifySectorExists = await repository.findSector({
-      nm_sector,
+    const verifyStatusExists = await repository.findPhaseStatus({
+      ds_status,
     });
 
-    if (verifySectorExists)
-      return { error: 'Já existe um Setor registrado com este nome.' };
+    if (verifyStatusExists)
+      return { error: 'Já existe um Status registrado com este nome.' };
 
-    const sector = await repository.createSector({ nm_sector });
+    const status = await repository.createPhaseStatus({ ds_status });
 
     return {
-      message: 'Setor registrado com sucesso!',
-      sector: sector.dataValues,
+      message: 'Status registrado com sucesso!',
+      status: status.dataValues,
     };
   }
 }

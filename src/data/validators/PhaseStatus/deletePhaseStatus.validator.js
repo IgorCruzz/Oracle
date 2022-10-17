@@ -4,7 +4,7 @@ import { ValidationError } from '../../../utils/validationError';
 export const deletePhaseStatusValidator = async (req, res, next) => {
   try {
     const Schema = Yup.object().shape({
-      id_sector: Yup.string().required('O campo id é obrigatório'),
+      id_status: Yup.string().required('O campo id é obrigatório'),
     });
 
     await Schema.validate(req.params, { abortEarly: false });

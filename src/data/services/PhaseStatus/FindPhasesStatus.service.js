@@ -1,20 +1,20 @@
-import { SectorRepository } from '../../database/repositories';
+import { PhaseStatusRepository } from '../../database/repositories/PhaseStatus/PhaseStatus.repository';
 
 export class FindPhasesStatusService {
-  async execute({ page, limit, nm_sector }) {
-    const repository = new SectorRepository();
+  async execute({ page, limit, ds_status }) {
+    const repository = new PhaseStatusRepository();
 
-    const findSectories = await repository.findSectories({
+    const findStatus = await repository.findPhasesStatus({
       limit,
       page,
-      nm_sector,
+      ds_status,
     });
 
-    if (findSectories.length === 0)
-      return { error: 'Não há nenhum Setor registrado.' };
+    if (findStatus.length === 0)
+      return { error: 'Não há nenhum Status registrado.' };
 
     return {
-      sectories: findSectories,
+      status: findStatus,
     };
   }
 }

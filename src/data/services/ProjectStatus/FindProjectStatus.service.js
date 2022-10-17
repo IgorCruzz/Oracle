@@ -1,18 +1,18 @@
-import { SectorRepository } from '../../database/repositories';
+import { ProjectStatusRepository } from '../../database/repositories/ProjectStatus/ProjectStatus.repository';
 
 export class FindProjectStatusService {
-  async execute({ id_sector }) {
-    const repository = new SectorRepository();
+  async execute({ id_status }) {
+    const repository = new ProjectStatusRepository();
 
-    const findSector = await repository.findSectorById({
-      id_sector,
+    const findStatus = await repository.findPhaseStatusById({
+      id_status,
     });
 
-    if (!findSector)
-      return { error: `Não existe um Setor com este ID -> ${id_sector}.` };
+    if (!findStatus)
+      return { error: `Não existe um Status com este ID -> ${id_status}.` };
 
     return {
-      sector: findSector,
+      status: findStatus,
     };
   }
 }
