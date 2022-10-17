@@ -1,13 +1,13 @@
-import { FindSectorService } from '../../services';
+import { FindPhaseStatusService } from '../../services';
 
 export class FindPhaseStatusController {
   async handle(req, res) {
     try {
-      const { id_sector } = req.params;
+      const { id_status } = req.params;
 
-      const service = new FindSectorService();
+      const service = new FindPhaseStatusService();
 
-      const response = await service.execute({ id_sector });
+      const response = await service.execute({ id_status });
 
       if (response.error)
         return res.status(400).json({
@@ -15,7 +15,7 @@ export class FindPhaseStatusController {
         });
 
       return res.status(200).json({
-        sector: response.sector,
+        status: response.status,
       });
     } catch (err) {
       return res.status(500).json({

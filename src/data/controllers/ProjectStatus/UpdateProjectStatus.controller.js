@@ -5,9 +5,9 @@ export class UpdateProjectStatusController {
     try {
       const service = new UpdateSectorService();
 
-      const { id_sector } = req.params;
+      const { id_status } = req.params;
 
-      const response = await service.execute(id_sector, req.body);
+      const response = await service.execute(id_status, req.body);
 
       if (response.error)
         return res.status(400).json({
@@ -16,7 +16,7 @@ export class UpdateProjectStatusController {
 
       return res.status(200).json({
         message: response.message,
-        sector: response.sector,
+        status: response.status,
       });
     } catch (err) {
       return res.status(500).json({

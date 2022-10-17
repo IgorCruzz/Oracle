@@ -30,3 +30,5 @@ export * from './Bi_configuration';
 export * from './Bi_log';
 export * from './Contact_history';
 export * from './Contact';
+export * from './Project_status';
+export * from './Phase_status';

@@ -4,9 +4,9 @@ export class DeleteProjectStatusController {
   async handle(req, res) {
     try {
       const service = new DeleteSectorService();
-      const { id_sector } = req.params;
+      const { id_status } = req.params;
 
-      const response = await service.execute({ id_sector });
+      const response = await service.execute({ id_status });
 
       if (response.error)
         return res.status(400).json({

@@ -33,9 +33,13 @@ import {
   Bi_log,
   Contact,
   Contact_history,
+  Phase_status,
+  Project_status,
 } from './models';
 
 const models = [
+  Phase_status,
+  Project_status,
   Contact,
   Contact_history,
   Bi_log,
