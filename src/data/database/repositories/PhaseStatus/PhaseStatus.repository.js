@@ -1,83 +1,83 @@
 import { Op } from 'sequelize';
-import { Sector } from '../../models';
+import { Phase_status } from '../../models';
 
 export class PhaseStatusRepository {
-  async createPhaseStatus({ nm_sector }) {
-    const createdSector = await Sector.create({
-      nm_sector: nm_sector.trim(),
+  async createPhaseStatus({ ds_status }) {
+    const createdStatus = await Phase_status.create({
+      ds_status: ds_status.trim(),
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
-    return await Sector.findOne({
+    return await Phase_status.findOne({
       where: {
-        nm_sector: createdSector.dataValues.nm_sector,
+        ds_status: createdStatus.dataValues.ds_status,
       },
     });
   }
 
-  async findPhasesStatus({ page, limit, nm_sector }) {
-    return nm_sector
-      ? await Sector.findAndCountAll({
+  async findPhasesStatus({ page, limit, ds_status }) {
+    return ds_status
+      ? await Phase_status.findAndCountAll({
           where: {
-            nm_sector: {
-              [Op.like]: `%${nm_sector.trim()}%`,
+            ds_status: {
+              [Op.like]: `%${ds_status.trim()}%`,
             },
           },
-          order: [['nm_sector', 'ASC']],
+          order: [['ds_status', 'ASC']],
           limit: limit !== 'all' ? Number(limit) : null,
           offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           raw: true,
         })
-      : await Sector.findAndCountAll({
+      : await Phase_status.findAndCountAll({
           limit: limit !== 'all' ? Number(limit) : null,
-          order: [['nm_sector', 'ASC']],
+          order: [['ds_status', 'ASC']],
           offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
           raw: true,
         });
   }
 
-  async findPhaseStatus({ nm_sector }) {
-    return await Sector.findOne({
+  async findPhaseStatus({ ds_status }) {
+    return await Phase_status.findOne({
       where: {
-        nm_sector: nm_sector.trim(),
+        ds_status: ds_status.trim(),
       },
       raw: true,
     });
   }
 
-  async findPhaseStatusById({ id_sector }) {
-    return await Sector.findOne({
+  async findPhaseStatusById({ id_status }) {
+    return await Phase_status.findOne({
       where: {
-        id_sector,
+        id_status,
       },
       raw: true,
     });
   }
 
-  async deletePhaseStatus({ id_sector }) {
-    await Sector.destroy({
-      where: { id_sector },
+  async deletePhaseStatus({ id_status }) {
+    await Phase_status.destroy({
+      where: { id_status },
     });
   }
 
-  async updatePhaseStatus(id_sector, data) {
-    const { nm_sector } = data;
+  async updatePhaseStatus(id_status, data) {
+    const { ds_status } = data;
 
-    const sector = await Sector.findOne({
+    const phase_status = await Phase_status.findOne({
       where: {
-        id_sector,
+        id_status,
       },
     });
 
-    await sector.update({
-      nm_sector: nm_sector.trim(),
+    await phase_status.update({
+      ds_status: ds_status.trim(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
 
-    return await Sector.findOne({
+    return await Phase_status.findOne({
       where: {
-        nm_sector: sector.dataValues.nm_sector,
+        ds_status: phase_status.dataValues.ds_status,
       },
       raw: true,
     });
