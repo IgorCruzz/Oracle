@@ -56,7 +56,7 @@ routes.get(
   roleAuthenticator({
     profiles,
   }),
-  findPhaseStatusValidator,
+  findPhasesStatusValidator,
   new FindPhasesStatusController().handle
 );
 
@@ -66,7 +66,7 @@ routes.get(
   roleAuthenticator({
     profiles,
   }),
-  findPhasesStatusValidator,
+  findPhaseStatusValidator,
   new FindPhaseStatusController().handle
 );
 

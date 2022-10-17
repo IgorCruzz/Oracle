@@ -7,14 +7,21 @@ import {
   Program,
   Region,
   Jurisdiction,
+  Project_status,
 } from '../../models';
 
 export class ProjectRepository {
   async createProject(data) {
-    const { nm_project, nm_official_document_applicant, dtOfficial } = data;
+    const {
+      nm_project,
+      nm_official_document_applicant,
+      dtOfficial,
+      id_status,
+    } = data;
 
     const createdProject = await Project.create({
       ...data,
+      id_status: id_status || null,
       nm_project: nm_project.trim(),
       nm_official_document_applicant:
         nm_official_document_applicant && nm_official_document_applicant.trim(),
@@ -93,6 +100,7 @@ export class ProjectRepository {
     id_agency,
     cd_sei,
     nm_project,
+    id_status,
   }) {
     let searchQuery;
 
@@ -154,6 +162,16 @@ export class ProjectRepository {
               where: { id_agency },
             }
           : { model: Agency, as: 'agency' },
+        id_status
+          ? {
+              model: Project_status,
+              as: 'status',
+              where: { id_status },
+            }
+          : {
+              model: Project_status,
+              as: 'status',
+            },
       ],
     });
   }
@@ -204,6 +222,10 @@ export class ProjectRepository {
           { model: Category, as: 'category' },
           { model: Program, as: 'program' },
           {
+            model: Project_status,
+            as: 'status',
+          },
+          {
             model: Agency,
             as: 'agency',
             include: [{ model: Jurisdiction, as: 'jurisdiction' }],
@@ -237,7 +259,7 @@ export class ProjectRepository {
     const {
       dtOfficial,
       nm_project,
-
+      id_status,
       nm_official_document_applicant,
     } = data;
 
@@ -249,6 +271,7 @@ export class ProjectRepository {
 
     await project.update({
       ...data,
+      id_status: id_status || null,
       nm_project: nm_project.trim(),
       nm_official_document_applicant:
         nm_official_document_applicant && nm_official_document_applicant.trim(),

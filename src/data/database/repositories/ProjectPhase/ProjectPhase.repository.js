@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { Project_phase, Project } from '../../models';
+import { Project_phase, Project, Phase_status } from '../../models';
 
 export class ProjectPhaseRepository {
   async createManyProjectPhases(data) {
@@ -16,6 +16,7 @@ export class ProjectPhaseRepository {
       id_project,
       vl_phase,
       tp_project_phase,
+      id_status,
     } = data;
 
     const findProject = await Project_phase.findAll({
@@ -51,6 +52,7 @@ export class ProjectPhaseRepository {
       tp_project_phase,
       nu_order: maior,
       id_project,
+      id_status: id_status || null,
       vl_phase,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
@@ -119,6 +121,11 @@ export class ProjectPhaseRepository {
                   dt_deleted_at: null,
                 },
               },
+
+          {
+            model: Phase_status,
+            as: 'status',
+          },
         ],
       });
     }
@@ -172,6 +179,10 @@ export class ProjectPhaseRepository {
               dt_deleted_at: null,
             },
           },
+          {
+            model: Phase_status,
+            as: 'status',
+          },
         ],
       });
     }
@@ -187,6 +198,10 @@ export class ProjectPhaseRepository {
           where: {
             dt_deleted_at: null,
           },
+        },
+        {
+          model: Phase_status,
+          as: 'status',
         },
       ],
     });
@@ -205,6 +220,7 @@ export class ProjectPhaseRepository {
       nm_project_phase,
       nu_order,
       vl_phase,
+      id_status,
       tp_project_phase,
     } = data;
 
@@ -219,6 +235,7 @@ export class ProjectPhaseRepository {
       dt_planned_end: dtPlannedEnd || null,
       nm_project_phase: nm_project_phase.trim(),
       tp_project_phase,
+      id_status: id_status || null,
       nu_order,
       vl_phase: vl_phase || null,
       dt_updated_at: new Date(Date.now()).toISOString(),
