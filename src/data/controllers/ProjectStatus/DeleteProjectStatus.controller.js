@@ -1,9 +1,9 @@
-import { DeleteSectorService } from '../../services';
+import { DeleteProjectStatusService } from '../../services';
 
 export class DeleteProjectStatusController {
   async handle(req, res) {
     try {
-      const service = new DeleteSectorService();
+      const service = new DeleteProjectStatusService();
       const { id_status } = req.params;
 
       const response = await service.execute({ id_status });

@@ -31,7 +31,7 @@ routes.post(
 );
 
 routes.delete(
-  '/projectStatus/:id_sector',
+  '/projectStatus/:id_status',
   authenticator,
   roleAuthenticator({
     profiles,
@@ -41,7 +41,7 @@ routes.delete(
 );
 
 routes.patch(
-  '/projectStatus/:id_sector',
+  '/projectStatus/:id_status',
   authenticator,
   roleAuthenticator({
     profiles,
@@ -57,17 +57,17 @@ routes.get(
     profiles,
   }),
   findProjectsStatusValidator,
-  new FindProjectStatusController().handle
+  new FindProjectsStatusController().handle
 );
 
 routes.get(
-  '/projectStatus/:id_sector',
+  '/projectStatus/:id_status',
   authenticator,
   roleAuthenticator({
     profiles,
   }),
   findProjectStatusValidator,
-  new FindProjectsStatusController().handle
+  new FindProjectStatusController().handle
 );
 
 export default routes;

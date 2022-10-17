@@ -1,11 +1,11 @@
-import { FindSectoriesService } from '../../services';
+import { FindProjectsStatusService } from '../../services';
 
 export class FindProjectsStatusController {
   async handle(req, res) {
     try {
       const { page, limit, ds_status } = req.query;
 
-      const service = new FindSectoriesService();
+      const service = new FindProjectsStatusService();
 
       const response = await service.execute({ page, limit, ds_status });
 
@@ -23,6 +23,7 @@ export class FindProjectsStatusController {
         status: rows,
       });
     } catch (err) {
+      console.log({ err });
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });

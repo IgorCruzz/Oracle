@@ -1,6 +1,6 @@
 import { ProjectStatusRepository } from '../../database/repositories/ProjectStatus/ProjectStatus.repository';
 
-export class CreatePhaseStatusService {
+export class CreateProjectStatusService {
   async execute({ ds_status }) {
     const repository = new ProjectStatusRepository();
 

@@ -31,7 +31,7 @@ routes.post(
 );
 
 routes.delete(
-  '/phaseStatus/:id_sector',
+  '/phaseStatus/:id_status',
   authenticator,
   roleAuthenticator({
     profiles,
@@ -41,7 +41,7 @@ routes.delete(
 );
 
 routes.patch(
-  '/phaseStatus/:id_sector',
+  '/phaseStatus/:id_status',
   authenticator,
   roleAuthenticator({
     profiles,
@@ -61,7 +61,7 @@ routes.get(
 );
 
 routes.get(
-  '/phaseStatus/:id_sector',
+  '/phaseStatus/:id_status',
   authenticator,
   roleAuthenticator({
     profiles,

@@ -1,9 +1,9 @@
-import { UpdateSectorService } from '../../services';
+import { UpdateProjectStatusService } from '../../services';
 
 export class UpdateProjectStatusController {
   async handle(req, res) {
     try {
-      const service = new UpdateSectorService();
+      const service = new UpdateProjectStatusService();
 
       const { id_status } = req.params;
 
@@ -19,6 +19,9 @@ export class UpdateProjectStatusController {
         status: response.status,
       });
     } catch (err) {
+      console.log({
+        err,
+      });
       return res.status(500).json({
         error: 'Ocorreu um problema interno',
       });
