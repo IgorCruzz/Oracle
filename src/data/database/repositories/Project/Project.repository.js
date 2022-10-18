@@ -43,6 +43,18 @@ export class ProjectRepository {
     });
   }
 
+  async verifyRelationStatus({ id_status }) {
+    return await Project.findAll({
+      include: [
+        {
+          model: Project_status,
+          as: 'status',
+          where: { id_status },
+        },
+      ],
+    });
+  }
+
   async verifyRelationAgency({ id_agency }) {
     return await Project.findAll({
       include: [
