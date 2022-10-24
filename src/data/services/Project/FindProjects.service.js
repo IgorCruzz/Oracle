@@ -11,6 +11,7 @@ export class FindProjectsService {
     cd_sei,
     nm_project,
     id_status,
+    no_status,
   }) {
     const repository = new ProjectRepository();
 
@@ -24,6 +25,7 @@ export class FindProjectsService {
       cd_sei,
       nm_project,
       id_status,
+      no_status,
     });
 
     if (findProjects.length === 0)
