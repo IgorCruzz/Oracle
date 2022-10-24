@@ -26,11 +26,18 @@ export class ProjectPortfolioService {
     cd_priority,
     download,
     order_by,
+    id_status,
   }) {
     const projects = await Project.findAndCountAll({
       limit: limit !== 'all' ? Number(limit) : null,
       offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
-      where: cd_priority ? { cd_priority } : {},
+      where: {
+        ...(cd_priority ? { cd_priority } : {}),
+        ...(id_status ? { id_status } : {}),
+        nm_deleted_by: {
+          [Op.is]: null,
+        },
+      },
       distinct: true,
       attributes: [
         'id_project',
