@@ -8,6 +8,8 @@ import {
   Product_history,
   City,
   Region,
+  Phase_status,
+  Project_status,
 } from '../../database/models';
 import { calculateHour } from '../../../utils/calculateHour';
 
@@ -50,6 +52,10 @@ export class ProjectPortfolioService {
         'vl_contract',
       ],
       include: [
+        {
+          model: Project_status,
+          as: 'status',
+        },
         id_city || id_region
           ? {
               model: City,
@@ -102,6 +108,7 @@ export class ProjectPortfolioService {
         if (ID_PROJECT_PHASES.length === 0) {
           Data.push({
             nm_project: project.dataValues.nm_project,
+            status: project.dataValues.status,
             cd_sei: project.dataValues.cd_sei,
             nm_city: project.dataValues.city.nm_city,
             qt_m2: project.dataValues.qt_m2 || '',
@@ -196,9 +203,17 @@ export class ProjectPortfolioService {
 
               const sort = reducedArray.sort((a, b) => b.count - a.count);
 
-              const project_phase = await Project_phase.findByPk(
-                sort[0].id_project_phase
-              );
+              const project_phase = await Project_phase.findOne({
+                where: {
+                  id_project_phase: sort[0].id_project_phase,
+                },
+                include: [
+                  {
+                    model: Phase_status,
+                    as: 'status',
+                  },
+                ],
+              });
 
               const getProductsFromProjectPhase =
                 sort.length > 0 &&
@@ -267,6 +282,7 @@ export class ProjectPortfolioService {
 
               Data.push({
                 nm_project: project.dataValues.nm_project,
+                status: project.dataValues.status,
                 cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
                 qt_m2: project.dataValues.qt_m2 || '',
@@ -283,6 +299,7 @@ export class ProjectPortfolioService {
                     formatValue(project.dataValues.vl_estimated)) ||
                   '',
                 project_phase: project_phase.dataValues.nm_project_phase,
+                project_phase_status: project_phase.dataValues.status,
                 phaseCompletion: `${(
                   (productHistoriesConcluded3 / productSumDuration) *
                   100
@@ -291,6 +308,7 @@ export class ProjectPortfolioService {
             } else {
               Data.push({
                 nm_project: project.dataValues.nm_project,
+                status: project.dataValues.status,
                 cd_sei: project.dataValues.cd_sei,
                 nm_city: project.dataValues.city.nm_city,
                 qt_m2: project.dataValues.qt_m2 || '',
@@ -313,6 +331,7 @@ export class ProjectPortfolioService {
           } else {
             Data.push({
               nm_project: project.dataValues.nm_project,
+              status: project.dataValues.status,
               cd_sei: project.dataValues.cd_sei,
               nm_city: project.dataValues.city.nm_city,
               qt_m2: project.dataValues.qt_m2 || '',
@@ -374,32 +393,42 @@ export class ProjectPortfolioService {
       worksheet.getCell('A10').font = {
         bold: true,
       };
-      worksheet.getCell('B10').value = 'Número SEI';
+
+      worksheet.getCell('B10').value = 'Status do Projeto';
       worksheet.getCell('B10').font = {
         bold: true,
       };
-      worksheet.getCell('C10').value = 'Município';
+
+      worksheet.getCell('C10').value = 'Número SEI';
       worksheet.getCell('C10').font = {
         bold: true,
       };
-      worksheet.getCell('D10').value = 'Prioridade';
+      worksheet.getCell('D10').value = 'Município';
       worksheet.getCell('D10').font = {
         bold: true,
       };
-      worksheet.getCell('E10').value = 'Valor';
+      worksheet.getCell('E10').value = 'Prioridade';
       worksheet.getCell('E10').font = {
         bold: true,
       };
-      worksheet.getCell('F10').value = 'M2';
+      worksheet.getCell('F10').value = 'Valor';
       worksheet.getCell('F10').font = {
         bold: true,
       };
-      worksheet.getCell('G10').value = 'Fase';
+      worksheet.getCell('G10').value = 'M2';
       worksheet.getCell('G10').font = {
         bold: true,
       };
-      worksheet.getCell('H10').value = '% Completude da Fase';
+      worksheet.getCell('H10').value = 'Fase';
       worksheet.getCell('H10').font = {
+        bold: true,
+      };
+      worksheet.getCell('I10').value = 'Status da Fase';
+      worksheet.getCell('I10').font = {
+        bold: true,
+      };
+      worksheet.getCell('J10').value = '% Completude da Fase';
+      worksheet.getCell('J10').font = {
         bold: true,
       };
 
@@ -450,13 +479,20 @@ export class ProjectPortfolioService {
         let num = 11;
 
         worksheet.getCell(`A${String(num + i)}`).value = Data[i].nm_project;
-        worksheet.getCell(`B${String(num + i)}`).value = Data[i].cd_sei || '';
-        worksheet.getCell(`C${String(num + i)}`).value = Data[i].nm_city;
-        worksheet.getCell(`D${String(num + i)}`).value = Data[i].cd_priority;
-        worksheet.getCell(`E${String(num + i)}`).value = Data[i].value;
-        worksheet.getCell(`F${String(num + i)}`).value = Data[i].qt_m2 || '';
-        worksheet.getCell(`G${String(num + i)}`).value = Data[i].project_phase;
-        worksheet.getCell(`H${String(num + i)}`).value =
+        worksheet.getCell(`B${String(num + i)}`).value = Data[i].status
+          ? Data[i].status.dataValues.ds_status
+          : '';
+        worksheet.getCell(`C${String(num + i)}`).value = Data[i].cd_sei || '';
+        worksheet.getCell(`D${String(num + i)}`).value = Data[i].nm_city;
+        worksheet.getCell(`E${String(num + i)}`).value = Data[i].cd_priority;
+        worksheet.getCell(`F${String(num + i)}`).value = Data[i].value;
+        worksheet.getCell(`G${String(num + i)}`).value = Data[i].qt_m2 || '';
+        worksheet.getCell(`H${String(num + i)}`).value = Data[i].project_phase;
+        worksheet.getCell(`I${String(num + i)}`).value = Data[i]
+          .project_phase_status
+          ? Data[i].project_phase_status.dataValues.ds_status
+          : '';
+        worksheet.getCell(`J${String(num + i)}`).value =
           Data[i].phaseCompletion;
 
         worksheet.getCell(`A${String(num + i)}`).alignment = {
@@ -483,6 +519,12 @@ export class ProjectPortfolioService {
         worksheet.getCell(`H${String(num + i)}`).alignment = {
           horizontal: 'left',
         };
+        worksheet.getCell(`I${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
+        worksheet.getCell(`J${String(num + i)}`).alignment = {
+          horizontal: 'left',
+        };
 
         num++;
       }
@@ -495,6 +537,7 @@ export class ProjectPortfolioService {
       const colF = worksheet.getColumn('F');
       const colG = worksheet.getColumn('G');
       const colH = worksheet.getColumn('H');
+      const colI = worksheet.getColumn('I');
 
       colA.width = 20;
       colB.width = 20;
@@ -504,6 +547,7 @@ export class ProjectPortfolioService {
       colF.width = 20;
       colG.width = 20;
       colH.width = 20;
+      colI.width = 20;
 
       worksheet.getCell('B2').value = 'Portfolio de Projetos';
       worksheet.getCell('B3').value = format(new Date(), 'dd/MM/yyyy');
