@@ -10,7 +10,7 @@ export class MediaTimelapseRepository {
       id_timelapse_coordinates: req.body.id,
       dt_media: req.body.dt_media,
       nm_original_file: utf8.decode(req.file.originalname),
-      nm_file: req.file.filename,
+      nm_file: req.file.key,
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });

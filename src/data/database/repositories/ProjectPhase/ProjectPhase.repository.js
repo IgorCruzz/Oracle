@@ -65,6 +65,18 @@ export class ProjectPhaseRepository {
     });
   }
 
+  async verifyRelationStatus({ id_status }) {
+    return await Project_phase.findAll({
+      include: [
+        {
+          model: Phase_status,
+          as: 'status',
+          where: { id_status },
+        },
+      ],
+    });
+  }
+
   async verifyProjectLogicDeleted({ id_project }) {
     return await Project_phase.findAll({
       include: [

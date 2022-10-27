@@ -43,6 +43,18 @@ export class ProjectRepository {
     });
   }
 
+  async verifyRelationStatus({ id_status }) {
+    return await Project.findAll({
+      include: [
+        {
+          model: Project_status,
+          as: 'status',
+          where: { id_status },
+        },
+      ],
+    });
+  }
+
   async verifyRelationAgency({ id_agency }) {
     return await Project.findAll({
       include: [
@@ -101,16 +113,20 @@ export class ProjectRepository {
     cd_sei,
     nm_project,
     id_status,
+    no_status,
   }) {
     let searchQuery;
 
-    if (cd_sei || nm_project) {
+    if (cd_sei || nm_project || no_status) {
       searchQuery = {
         ...(cd_sei && {
           cd_sei: { [Op.like]: `%${cd_sei.trim()}%` },
         }),
         ...(nm_project && {
           nm_project: { [Op.like]: `%${nm_project.trim()}%` },
+        }),
+        ...(no_status && {
+          id_status: null,
         }),
       };
     } else {
