@@ -1,4 +1,4 @@
-// import multer from 'multer';
+import multer from 'multer';
 import { Router } from 'express';
 import { storage } from '../../config/multer_media_timelapse';
 import {
@@ -21,7 +21,7 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 // import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 
-// const upload = multer({ storage });
+const upload = multer({ storage });
 const routes = Router();
 routes.post(
   '/media_timelapse',
@@ -29,7 +29,7 @@ routes.post(
   // roleAuthenticator({
   //   profiles,
   // }),
-  storage.single('file'),
+  upload.single('file'),
   createMediaTimelapseValidator,
   new CreateMediaTimelapseController().handle
 );
@@ -50,7 +50,7 @@ routes.patch(
   // roleAuthenticator({
   //   profiles,
   // }),
-  storage.single('file'),
+  upload.single('file'),
   updateMediaTimelapseValidator,
   new UpdateMediaTimelapseController().handle
 );
