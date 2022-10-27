@@ -10,6 +10,7 @@ import {
   Product_history,
   Professional,
   Allocation_period,
+  Phase_status,
 } from '../../database/models';
 
 export class ProjectService {
@@ -67,12 +68,22 @@ export class ProjectService {
 
           include: [
             {
+              model: Phase_status,
+              as: 'status',
+            },
+            {
               model: Product,
               as: 'product',
               include: [
                 {
                   model: Project_phase,
                   as: 'project_phase',
+                  include: [
+                    {
+                      model: Phase_status,
+                      as: 'status',
+                    },
+                  ],
                 },
                 {
                   model: Product_history,
