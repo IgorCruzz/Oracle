@@ -10,6 +10,7 @@ import {
   Product_history,
   Professional,
   Allocation_period,
+  Phase_status,
 } from '../../database/models';
 
 export class ProjectService {
@@ -67,12 +68,22 @@ export class ProjectService {
 
           include: [
             {
+              model: Phase_status,
+              as: 'status',
+            },
+            {
               model: Product,
               as: 'product',
               include: [
                 {
                   model: Project_phase,
                   as: 'project_phase',
+                  include: [
+                    {
+                      model: Phase_status,
+                      as: 'status',
+                    },
+                  ],
                 },
                 {
                   model: Product_history,
@@ -130,6 +141,9 @@ export class ProjectService {
               project_phase2.product.map(RESULTADO => {
                 ProductList.push({
                   nm_project_phase: RESULTADO.project_phase.nm_project_phase,
+                  project_phase_status:
+                    RESULTADO.project_phase.dataValues.status,
+
                   nm_product: RESULTADO.nm_product,
                   allocation_period: RESULTADO.product_history[
                     RESULTADO.product_history.length - 1
@@ -191,6 +205,7 @@ export class ProjectService {
             } else {
               ProductList.push({
                 nm_project_phase: project_phase2.dataValues.nm_project_phase,
+                project_phase_status: project_phase2.dataValues.status,
                 nm_product: '',
                 allocation_period: '',
                 nm_professional: '',
