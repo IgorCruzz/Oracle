@@ -13,6 +13,7 @@ export class FindProjectsController {
         cd_sei,
         nm_project,
         id_status,
+        no_status,
       } = req.query;
 
       const service = new FindProjectsService();
@@ -27,6 +28,7 @@ export class FindProjectsController {
         cd_sei,
         nm_project,
         id_status,
+        no_status,
       });
 
       if (response.error)

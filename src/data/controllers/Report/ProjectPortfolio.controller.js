@@ -11,6 +11,7 @@ export class ProjectPortfolioController {
         cd_priority,
         download,
         order_by,
+        id_status,
       } = req.query;
 
       const service = new ProjectPortfolioService();
@@ -23,6 +24,7 @@ export class ProjectPortfolioController {
         cd_priority,
         download,
         order_by,
+        id_status,
       });
 
       if (response.error)
