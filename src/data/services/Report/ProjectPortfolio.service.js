@@ -388,6 +388,10 @@ export class ProjectPortfolioService {
       worksheet.getCell('A8').font = {
         bold: true,
       };
+      worksheet.getCell('A9').value = 'Status:';
+      worksheet.getCell('A9').font = {
+        bold: true,
+      };
 
       worksheet.getCell('A10').value = 'Nome do Projeto';
       worksheet.getCell('A10').font = {
@@ -570,6 +574,15 @@ export class ProjectPortfolioService {
           })
         : false;
 
+      const status = id_status
+        ? await Project_status.findOne({
+            where: {
+              id_status: Number(id_status),
+            },
+            raw: true,
+          })
+        : false;
+
       worksheet.getCell('B6').value = region
         ? region.nm_region
         : 'Filtro não informado.';
@@ -580,6 +593,9 @@ export class ProjectPortfolioService {
         ? (cd_priority === '1' && 'Baixa') ||
           (cd_priority === '2' && 'Média') ||
           (cd_priority === '3' && 'Alta')
+        : 'Filtro não informado.';
+      worksheet.getCell('B9').value = status
+        ? status.ds_status
         : 'Filtro não informado.';
 
       buffer = await workbook.xlsx.writeBuffer();
