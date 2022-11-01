@@ -10,15 +10,12 @@ import {
   Product_history,
   Professional,
   Allocation_period,
-  Phase_status,
-  Project_status,
 } from '../../database/models';
 
 export class ProjectService {
   async execute({ page, limit, id_region, id_city, download, id_project }) {
     const projects = await Project.findAndCountAll({
-      limit: limit !== 'all' ? Number(limit) : null,
-      offset: limit !== 'all' ? (Number(page) - 1) * Number(limit) : null,
+      // limit: limit !== 'all' ? Number(limit) : null,
       where: id_project ? { id_project } : {},
 
       attributes: [
@@ -32,10 +29,6 @@ export class ProjectService {
         'vl_contract',
       ],
       include: [
-        {
-          model: Project_status,
-          as: 'status',
-        },
         id_city || id_region
           ? {
               model: City,
@@ -73,22 +66,12 @@ export class ProjectService {
 
           include: [
             {
-              model: Phase_status,
-              as: 'status',
-            },
-            {
               model: Product,
               as: 'product',
               include: [
                 {
                   model: Project_phase,
                   as: 'project_phase',
-                  include: [
-                    {
-                      model: Phase_status,
-                      as: 'status',
-                    },
-                  ],
                 },
                 {
                   model: Product_history,
@@ -130,7 +113,6 @@ export class ProjectService {
           city,
           category,
           qt_m2,
-          status,
         } = project.dataValues;
 
         if (project_phase.length === 0) {
@@ -147,9 +129,6 @@ export class ProjectService {
               project_phase2.product.map(RESULTADO => {
                 ProductList.push({
                   nm_project_phase: RESULTADO.project_phase.nm_project_phase,
-                  project_phase_status:
-                    RESULTADO.project_phase.dataValues.status,
-
                   nm_product: RESULTADO.nm_product,
                   allocation_period: RESULTADO.product_history[
                     RESULTADO.product_history.length - 1
@@ -211,7 +190,6 @@ export class ProjectService {
             } else {
               ProductList.push({
                 nm_project_phase: project_phase2.dataValues.nm_project_phase,
-                project_phase_status: project_phase2.dataValues.status,
                 nm_product: '',
                 allocation_period: '',
                 nm_professional: '',
@@ -229,7 +207,6 @@ export class ProjectService {
             category: category.nm_category,
             value: vl_contract || vl_bid || vl_estimated,
             qt_m2,
-            status,
           },
           products: ProductList,
         });
@@ -244,7 +221,7 @@ export class ProjectService {
 
       const [
         {
-          project: { nm_project, cd_sei, city, category, value, qt_m2, status },
+          project: { nm_project, cd_sei, city, category, value, qt_m2 },
           products,
         },
       ] = Data;
@@ -287,25 +264,13 @@ export class ProjectService {
       // /////////////////////////////////////////////////////////
 
       // /////////////////////////////////////////////////////////
-      worksheet.getCell('C6').value = 'STATUS:';
+      worksheet.getCell('C6').value = 'MUNICÍPIO:';
       worksheet.getCell('C6').font = {
         bold: true,
       };
 
-      worksheet.getCell('D6').value = status ? status.ds_status : '';
+      worksheet.getCell('D6').value = city;
       worksheet.getCell('D6').alignment = {
-        horizontal: 'left',
-      };
-      // /////////////////////////////////////////////////////////
-
-      // /////////////////////////////////////////////////////////
-      worksheet.getCell('E6').value = 'MUNICÍPIO:';
-      worksheet.getCell('E6').font = {
-        bold: true,
-      };
-
-      worksheet.getCell('F6').value = city;
-      worksheet.getCell('F6').alignment = {
         horizontal: 'left',
       };
       // /////////////////////////////////////////////////////////
@@ -322,12 +287,12 @@ export class ProjectService {
       // /////////////////////////////////////////////////////////
 
       // /////////////////////////////////////////////////////////
-      worksheet.getCell('G6').value = 'VALOR:';
-      worksheet.getCell('G6').font = {
+      worksheet.getCell('E6').value = 'VALOR:';
+      worksheet.getCell('E6').font = {
         bold: true,
       };
-      worksheet.getCell('H6').value = value;
-      worksheet.getCell('H6').alignment = {
+      worksheet.getCell('F6').value = value;
+      worksheet.getCell('F6').alignment = {
         horizontal: 'left',
       };
       // /////////////////////////////////////////////////////////
@@ -347,26 +312,20 @@ export class ProjectService {
       worksheet.getCell('A10').font = {
         bold: true,
       };
-
-      worksheet.getCell('B10').value = 'Status da Fase';
+      worksheet.getCell('B10').value = 'Produto';
       worksheet.getCell('B10').font = {
         bold: true,
       };
-
-      worksheet.getCell('C10').value = 'Produto';
+      worksheet.getCell('C10').value = 'Périodo de PTI';
       worksheet.getCell('C10').font = {
         bold: true,
       };
-      worksheet.getCell('D10').value = 'Périodo de PTI';
+      worksheet.getCell('D10').value = 'Responsável';
       worksheet.getCell('D10').font = {
         bold: true,
       };
-      worksheet.getCell('E10').value = 'Responsável';
+      worksheet.getCell('E10').value = 'Status do produto';
       worksheet.getCell('E10').font = {
-        bold: true,
-      };
-      worksheet.getCell('F10').value = 'Status do produto';
-      worksheet.getCell('F10').font = {
         bold: true,
       };
 
@@ -389,16 +348,12 @@ export class ProjectService {
 
         worksheet.getCell(`A${String(num + i)}`).value =
           products[i].nm_project_phase || '';
-        worksheet.getCell(`B${String(num + i)}`).value = products[i]
-          .project_phase_status
-          ? products[i].project_phase_status.ds_status
-          : '';
-        worksheet.getCell(`C${String(num + i)}`).value = products[i].nm_product;
-        worksheet.getCell(`D${String(num + i)}`).value =
+        worksheet.getCell(`B${String(num + i)}`).value = products[i].nm_product;
+        worksheet.getCell(`C${String(num + i)}`).value =
           products[i].allocation_period;
-        worksheet.getCell(`E${String(num + i)}`).value =
+        worksheet.getCell(`D${String(num + i)}`).value =
           products[i].nm_professional;
-        worksheet.getCell(`F${String(num + i)}`).value = products[i].cd_status;
+        worksheet.getCell(`E${String(num + i)}`).value = products[i].cd_status;
 
         worksheet.getCell(`A${String(num + i)}`).alignment = {
           horizontal: 'left',
@@ -415,9 +370,6 @@ export class ProjectService {
         worksheet.getCell(`E${String(num + i)}`).alignment = {
           horizontal: 'left',
         };
-        worksheet.getCell(`F${String(num + i)}`).alignment = {
-          horizontal: 'left',
-        };
 
         num++;
       }
@@ -425,10 +377,24 @@ export class ProjectService {
       buffer = await workbook.xlsx.writeBuffer();
     }
 
+    function paginate(array, page_size, page_number) {
+      return array.slice(
+        (page_number - 1) * page_size,
+        page_number * page_size
+      );
+    }
+
+    const res = Data.map(response => {
+      return {
+        project: response,
+        products: paginate(Data[0].products, limit, page),
+      };
+    });
+
     return {
       projects: {
         count: Data[0].products.length,
-        rows: Data,
+        rows: res,
         buffer,
       },
     };
