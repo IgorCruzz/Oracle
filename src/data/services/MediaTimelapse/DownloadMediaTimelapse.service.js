@@ -1,59 +1,28 @@
-import mime from 'mime';
-import fs from 'fs';
-import path from 'path';
-import url from 'url';
-import { MediaTimelapseRepository } from '../../database/repositories';
+import aws from 'aws-sdk';
+
+const spacesEndpoint = new aws.Endpoint('sfo3.digitaloceanspaces.com');
+
+aws.config.update({
+  accessKeyId: 'DO0098U9A8D6HJZNNT6R',
+  secretAccessKey: '83GJZKHnCH57T3obii3FW6qFcGTKS2a3FgumIM7GcZs',
+});
+
+const s3 = new aws.S3({
+  endpoint: spacesEndpoint,
+});
 
 export class DownloadMediaTimelapseService {
-  async execute({ nm_file, req, res }) {
-    const file = `${__dirname}/../../../../tmp/media_timelapses/${nm_file}`;
+  async execute({ nm_file, res }) {
+    s3.getObject(
+      {
+        Bucket: 'gerobras-development',
+        Key: `media_timelapses/${nm_file}`,
+      },
+      (err, data) => {
+        if (err) return console.log(err);
 
-    // Parsing the URL
-    const request = url.parse(req.url, true);
-
-    // Extracting the path of file
-    const action = request.pathname;
-    fs.exists(file, function(exists) {
-      if (!exists) {
-        res.writeHead(404, {
-          'Content-Type': 'text/plain',
-        });
-        res.end('404 Not Found');
-        return;
+        res.end(data.Body);
       }
-
-      // Extracting file extension
-      const ext = path.extname(action);
-
-      // Setting default Content-Type
-      let contentType = 'text/plain';
-
-      // Checking if the extension of
-      // image is '.png'
-      if (ext === '.jpg') {
-        contentType = 'image/jpeg';
-      }
-      const SUPPORTED_FORMATS = {
-        '.jpg': 'image/jpg',
-        '.jpeg': 'image/jpeg',
-        '.gif': 'image/gif',
-        '.png': 'image/png',
-        '.avi': 'video/x-msvideo',
-        '.mpeg': 'video/mpeg',
-        '.ogg': 'video/ogg',
-        '.webm': 'video/webm',
-        '.mp4': 'video/mp4',
-      };
-      // Setting the headers
-      res.writeHead(200, {
-        'Content-Type': SUPPORTED_FORMATS[ext],
-      });
-
-      // Reading the file
-      fs.readFile(file, function(err, content) {
-        // Serving the image
-        res.end(content);
-      });
-    });
+    );
   }
 }

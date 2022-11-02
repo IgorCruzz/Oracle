@@ -1,8 +1,20 @@
 import { resolve } from 'path';
 import fs from 'fs';
 import utf8 from 'utf8';
+import aws from 'aws-sdk';
 import { Timelapse_Coordinates, Media_timelapse } from '../../models';
 import { folder } from '../../../../config/multer_media_timelapse';
+
+aws.config.update({
+  accessKeyId: 'DO0098U9A8D6HJZNNT6R',
+  secretAccessKey: '83GJZKHnCH57T3obii3FW6qFcGTKS2a3FgumIM7GcZs',
+});
+
+const spacesEndpoint = new aws.Endpoint('sfo3.digitaloceanspaces.com');
+
+const s3 = new aws.S3({
+  endpoint: spacesEndpoint,
+});
 
 export class MediaTimelapseRepository {
   async createMediaTimelapse(req) {
@@ -43,8 +55,17 @@ export class MediaTimelapseRepository {
     });
 
     if (media_timelapse.nm_file) {
-      const path = resolve(folder, media_timelapse.nm_file);
-      fs.existsSync(path) && fs.unlink(path, e => e);
+      s3.deleteObject(
+        {
+          Bucket: 'gerobras-development',
+          Key: `media_timelapses/${media_timelapse.nm_file}`,
+        },
+        (err, data) => {
+          if (err) return console.log(err);
+
+          console.log(data);
+        }
+      );
     }
 
     await Media_timelapse.destroy({
@@ -97,8 +118,17 @@ export class MediaTimelapseRepository {
 
     if (req.file) {
       if (media_timelapse.nm_file) {
-        const path = resolve(folder, media_timelapse.nm_file);
-        fs.existsSync(path) && fs.unlink(path, e => e);
+        s3.deleteObject(
+          {
+            Bucket: 'gerobras-development',
+            Key: `media_timelapses/${media_timelapse.nm_file}`,
+          },
+          (err, data) => {
+            if (err) return console.log(err);
+
+            console.log(data);
+          }
+        );
       }
       await media_timelapse.update({
         nm_original_file: utf8.decode(req.file.originalname),
