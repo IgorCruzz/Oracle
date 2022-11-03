@@ -179,9 +179,17 @@ export class InspectionDocumentRepository {
       });
     } else if (!req.same_document && req.key) {
       if (inspection_document.nm_file) {
-        const path = resolve(folder, inspection_document.nm_file);
-        // eslint-disable-next-line no-unused-expressions
-        fs.existsSync(path) && fs.unlink(path, e => e);
+        s3.deleteObject(
+          {
+            Bucket: 'gerobras-development',
+            Key: `inspection_documents/${inspection_document.nm_file}`,
+          },
+          (err, data) => {
+            if (err) return console.log(err);
+
+            console.log(data);
+          }
+        );
       }
       await inspection_document.update({
         nm_original_file: req.originalname,
