@@ -6,11 +6,9 @@ export class DownloadInspectionDocumentController {
       const { nm_file } = req.params;
       const service = new DownloadInspectionDocumentService();
 
-      const response = await service.execute({ nm_file });
+      const response = await service.execute({ nm_file, req, res });
 
-      const { file, nm_original_file } = response;
-
-      return res.download(file, nm_original_file);
+      return response;
     } catch (err) {
       console.log(err);
       return res.status(500).json({
