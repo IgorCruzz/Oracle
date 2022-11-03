@@ -1,8 +1,15 @@
 import { Op } from 'sequelize';
 import { resolve } from 'path';
 import fs from 'fs';
+import aws from 'aws-sdk';
 import { Inspection, Inspection_document } from '../../models';
 import { folder } from '../../../../config/multer_inspection_documents';
+
+const spacesEndpoint = new aws.Endpoint('sfo3.digitaloceanspaces.com');
+
+const s3 = new aws.S3({
+  endpoint: spacesEndpoint,
+});
 
 export class InspectionDocumentRepository {
   async createInspectionDocument(req) {
@@ -10,7 +17,7 @@ export class InspectionDocumentRepository {
       id_inspection: req.id_inspection,
       nm_document: req.nm_document,
       nm_original_file: req ? req.originalname : '',
-      nm_file: req ? req.filename : '',
+      nm_file: req ? req.key : '',
       dt_created_at: new Date(Date.now()).toISOString(),
       dt_updated_at: new Date(Date.now()).toISOString(),
     });
@@ -96,9 +103,17 @@ export class InspectionDocumentRepository {
     });
 
     if (inspection_document.nm_file) {
-      const path = resolve(folder, inspection_document.nm_file);
-      // eslint-disable-next-line no-unused-expressions
-      fs.existsSync(path) && fs.unlink(path, e => e);
+      s3.deleteObject(
+        {
+          Bucket: 'gerobras-development',
+          Key: `inspection_documents/${inspection_document.nm_file}`,
+        },
+        (err, data) => {
+          if (err) return console.log(err);
+
+          console.log(data);
+        }
+      );
     }
 
     await Inspection_document.destroy({
@@ -142,11 +157,19 @@ export class InspectionDocumentRepository {
       },
     });
 
-    if (!req.same_document && !req.filename) {
+    if (!req.same_document && !req.key) {
       if (inspection_document.nm_file) {
-        const path = resolve(folder, inspection_document.nm_file);
-        // eslint-disable-next-line no-unused-expressions
-        fs.existsSync(path) && fs.unlink(path, e => e);
+        s3.deleteObject(
+          {
+            Bucket: 'gerobras-development',
+            Key: `inspection_documents/${inspection_document.nm_file}`,
+          },
+          (err, data) => {
+            if (err) return console.log(err);
+
+            console.log(data);
+          }
+        );
       }
 
       await inspection_document.update({
@@ -154,7 +177,7 @@ export class InspectionDocumentRepository {
         nm_file: null,
         nm_document: req.nm_document.trim(),
       });
-    } else if (!req.same_document && req.filename) {
+    } else if (!req.same_document && req.key) {
       if (inspection_document.nm_file) {
         const path = resolve(folder, inspection_document.nm_file);
         // eslint-disable-next-line no-unused-expressions
@@ -162,7 +185,7 @@ export class InspectionDocumentRepository {
       }
       await inspection_document.update({
         nm_original_file: req.originalname,
-        nm_file: req.filename,
+        nm_file: req.key,
         nm_document: req.nm_document.trim(),
       });
     } else {

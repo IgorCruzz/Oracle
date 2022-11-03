@@ -1,4 +1,4 @@
-import multer from 'multer';
+// import multer from 'multer';
 import { Router } from 'express';
 import { storage } from '../../config/multer_inspection_documents';
 import {
@@ -21,12 +21,12 @@ import authenticator from '../../data/authenticator/jwt.authenticator';
 
 // const profiles = [0, 1, 2];
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 const routes = Router();
 routes.post(
   '/inspection_documents',
   authenticator,
-  upload.single('file'),
+  storage.single('file'),
   createInspectionDocumentValidator,
   new CreateInspectionDocumentController().handle
 );
@@ -44,7 +44,7 @@ routes.delete(
 routes.patch(
   '/inspection_documents/:id_inspection_document',
   authenticator,
-  upload.single('file'),
+  storage.single('file'),
   updateInspectionDocumentValidator,
   new UpdateInspectionDocumentController().handle
 );

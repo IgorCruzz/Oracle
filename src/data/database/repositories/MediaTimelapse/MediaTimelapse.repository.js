@@ -1,9 +1,6 @@
-import { resolve } from 'path';
-import fs from 'fs';
 import utf8 from 'utf8';
 import aws from 'aws-sdk';
 import { Timelapse_Coordinates, Media_timelapse } from '../../models';
-import { folder } from '../../../../config/multer_media_timelapse';
 
 aws.config.update({
   accessKeyId: 'DO0098U9A8D6HJZNNT6R',
