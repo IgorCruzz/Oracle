@@ -29,10 +29,6 @@ export class FindDeliveriesService {
     userId,
     id_city,
   }) {
-    console.log({
-      id_city,
-    });
-
     if (
       !id_professional &&
       !id_project &&

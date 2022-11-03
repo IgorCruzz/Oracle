@@ -6,7 +6,7 @@ import { Product_history } from '../../database/models';
 
 export class CorrectionService {
   async execute(data, userId) {
-    const { filename, originalname } = data;
+    const { key, originalname } = data;
 
     const analysis = JSON.parse(data.analysis);
 
@@ -91,7 +91,7 @@ export class CorrectionService {
                 id_analyst_user: userId,
                 transaction: t,
                 nm_original_file: originalname || null,
-                nm_file: filename || null,
+                nm_file: key || null,
               });
             }
           }

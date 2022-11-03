@@ -5,7 +5,7 @@ import { Product_history } from '../../database/models';
 
 export class UndoDeliveryService {
   async execute(data) {
-    const { filename, originalname } = data;
+    const { key, originalname } = data;
 
     const deliveries = JSON.parse(data.deliveries);
 
@@ -91,7 +91,7 @@ export class UndoDeliveryService {
                   id_analyst_user: null,
                   transaction: t,
                   nm_original_file: originalname || null,
-                  nm_file: filename || null,
+                  nm_file: key || null,
                 });
               }
             }
@@ -125,7 +125,7 @@ export class UndoDeliveryService {
                 id_analyst_user: null,
                 transaction: t,
                 nm_original_file: originalname || null,
-                nm_file: filename || null,
+                nm_file: key || null,
               });
             }
           }
