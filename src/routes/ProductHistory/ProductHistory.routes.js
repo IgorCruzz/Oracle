@@ -1,36 +1,33 @@
-import { Op } from 'sequelize';
 import { Router } from 'express';
-import { resolve } from 'path';
-import { Product_history } from '../../data/database/models';
+import aws from 'aws-sdk';
 
 const routes = Router();
 
-routes.get('/product_history/download', async (req, res) => {
-  const { nm_file } = req.query;
+const spacesEndpoint = new aws.Endpoint('sfo3.digitaloceanspaces.com');
 
-  const getFilename = await Product_history.findOne({
-    where: {
-      [Op.and]: [{ nm_file }],
+aws.config.update({
+  accessKeyId: 'DO0098U9A8D6HJZNNT6R',
+  secretAccessKey: '83GJZKHnCH57T3obii3FW6qFcGTKS2a3FgumIM7GcZs',
+});
+
+const s3 = new aws.S3({
+  endpoint: spacesEndpoint,
+});
+
+routes.get('/product_history/download/:nm_file', async (req, res) => {
+  const { nm_file } = req.params;
+
+  s3.getObject(
+    {
+      Bucket: 'gerobras-development',
+      Key: `product_history/${nm_file}`,
     },
-  });
+    (err, data) => {
+      if (err) return console.log(err);
 
-  if (!getFilename) {
-    return res.status(400).json({ error: 'Não há arquivo com este nome!' });
-  }
-
-  const { nm_original_file } = getFilename;
-
-  const file = resolve(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    'tmp',
-    'product_history',
-    nm_file
+      res.end(data.Body);
+    }
   );
-
-  return res.download(file, nm_original_file);
 });
 
 export default routes;

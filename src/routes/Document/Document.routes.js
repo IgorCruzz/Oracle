@@ -1,6 +1,4 @@
 import { Router } from 'express';
-import { resolve } from 'path';
-
 import aws from 'aws-sdk';
 import {
   FindDocumentController,
@@ -22,7 +20,6 @@ import {
 import authenticator from '../../data/authenticator/jwt.authenticator';
 // import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 import { storage } from '../../config/multer';
-import { Document } from '../../data/database/models';
 
 const path = require('path');
 const fs = require('fs').promises;

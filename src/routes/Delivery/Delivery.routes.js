@@ -1,6 +1,4 @@
 import { Router } from 'express';
-
-import multer from 'multer';
 import {
   FindDeliveryController,
   CreateDeliveryController,
@@ -15,11 +13,9 @@ import { storage } from '../../config/multer_product_history';
 
 const routes = Router();
 
-const upload = multer({ storage });
-
 routes.post(
   '/undoDeliveries',
-  upload.single('file'),
+  storage.single('file'),
   authenticator,
   // roleAuthenticator({
   //  profiles,
@@ -29,7 +25,7 @@ routes.post(
 
 routes.post(
   '/deliveries',
-  upload.single('file'),
+  storage.single('file'),
   authenticator,
   // roleAuthenticator({
   //  profiles,
