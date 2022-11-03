@@ -20,6 +20,10 @@ export class RemoveUploadDocumentService {
       id_document,
     });
 
+    console.log({
+      id_document,
+    });
+
     if (!findDocument) {
       return {
         error: `Não há um Documento com este ID -> ${id_document}`,

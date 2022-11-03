@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { resolve } from 'path';
 
-// import aws from 'aws-sdk';
+import aws from 'aws-sdk';
 import {
   FindDocumentController,
   FindDocumentsController,
@@ -33,16 +33,16 @@ libre.convertAsync = require('util').promisify(libre.convert);
 
 const routes = Router();
 
-// const spacesEndpoint = new aws.Endpoint('sfo3.digitaloceanspaces.com');
+const spacesEndpoint = new aws.Endpoint('sfo3.digitaloceanspaces.com');
 
-// aws.config.update({
-//   accessKeyId: 'DO0098U9A8D6HJZNNT6R',
-//   secretAccessKey: '83GJZKHnCH57T3obii3FW6qFcGTKS2a3FgumIM7GcZs',
-// });
+aws.config.update({
+  accessKeyId: 'DO0098U9A8D6HJZNNT6R',
+  secretAccessKey: '83GJZKHnCH57T3obii3FW6qFcGTKS2a3FgumIM7GcZs',
+});
 
-// const s3 = new aws.S3({
-//   endpoint: spacesEndpoint,
-// });
+const s3 = new aws.S3({
+  endpoint: spacesEndpoint,
+});
 
 routes.get('/visualizer/:filename', async (req, res) => {
   const { filename } = req.params;
@@ -200,25 +200,20 @@ routes.get('/visualizer/:filename', async (req, res) => {
     );
 });
 
-routes.get('/documents/download/:filename', async (req, res) => {
-  const { filename } = req.params;
-  const file = resolve(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    'tmp',
-    'documents',
-    filename
+routes.get('/documents/download/:nm_file', async (req, res) => {
+  const { nm_file } = req.params;
+
+  s3.getObject(
+    {
+      Bucket: 'gerobras-development',
+      Key: `documents/${nm_file}`,
+    },
+    (err, data) => {
+      if (err) return console.log(err);
+
+      res.end(data.Body);
+    }
   );
-
-  const getFilename = await Document.findOne({
-    where: { nm_file: filename },
-  });
-
-  const { nm_original_file } = getFilename;
-
-  return res.download(file, nm_original_file);
 });
 
 routes.delete(

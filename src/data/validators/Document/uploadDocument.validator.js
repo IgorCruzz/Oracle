@@ -4,7 +4,7 @@ import { ValidationError } from '../../../utils/validationError';
 export const uploadDocumentValidator = async (req, res, next) => {
   try {
     const request = {
-      filename: req.file ? req.file.filename : '',
+      filename: req.file ? req.file.key : '',
       id_document: req.body.id_document,
     };
 

@@ -1,4 +1,16 @@
+import aws from 'aws-sdk';
 import { Document, Product, Project_phase, Project } from '../../models';
+
+const spacesEndpoint = new aws.Endpoint('sfo3.digitaloceanspaces.com');
+
+aws.config.update({
+  accessKeyId: 'DO0098U9A8D6HJZNNT6R',
+  secretAccessKey: '83GJZKHnCH57T3obii3FW6qFcGTKS2a3FgumIM7GcZs',
+});
+
+const s3 = new aws.S3({
+  endpoint: spacesEndpoint,
+});
 
 export class DocumentRepository {
   async createManyDocuments(data) {
@@ -176,6 +188,28 @@ export class DocumentRepository {
   }
 
   async deleteDocument({ id_document }) {
+    const verifyIfDocumentHasFile = await Document.findOne({
+      where: {
+        id_document,
+      },
+    });
+
+    const { nm_file } = verifyIfDocumentHasFile;
+
+    if (nm_file) {
+      s3.deleteObject(
+        {
+          Bucket: 'gerobras-development',
+          Key: `documents/${nm_file}`,
+        },
+        (err, data) => {
+          if (err) return console.log(err);
+
+          console.log(data);
+        }
+      );
+    }
+
     await Document.destroy({
       where: { id_document },
     });
