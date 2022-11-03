@@ -1,17 +1,6 @@
 import utf8 from 'utf8';
-import aws from 'aws-sdk';
+import { s3 } from '../../../../config/s3';
 import { Timelapse_Coordinates, Media_timelapse } from '../../models';
-
-aws.config.update({
-  accessKeyId: 'DO0098U9A8D6HJZNNT6R',
-  secretAccessKey: '83GJZKHnCH57T3obii3FW6qFcGTKS2a3FgumIM7GcZs',
-});
-
-const spacesEndpoint = new aws.Endpoint('sfo3.digitaloceanspaces.com');
-
-const s3 = new aws.S3({
-  endpoint: spacesEndpoint,
-});
 
 export class MediaTimelapseRepository {
   async createMediaTimelapse(req) {
@@ -54,7 +43,7 @@ export class MediaTimelapseRepository {
     if (media_timelapse.nm_file) {
       s3.deleteObject(
         {
-          Bucket: 'gerobras-development',
+          Bucket: process.env.BUCKET,
           Key: `media_timelapses/${media_timelapse.nm_file}`,
         },
         (err, data) => {
@@ -117,7 +106,7 @@ export class MediaTimelapseRepository {
       if (media_timelapse.nm_file) {
         s3.deleteObject(
           {
-            Bucket: 'gerobras-development',
+            Bucket: process.env.BUCKET,
             Key: `media_timelapses/${media_timelapse.nm_file}`,
           },
           (err, data) => {

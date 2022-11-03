@@ -1,15 +1,6 @@
 import { Op } from 'sequelize';
-import { resolve } from 'path';
-import fs from 'fs';
-import aws from 'aws-sdk';
+import { s3 } from '../../../../config/s3';
 import { Inspection, Inspection_document } from '../../models';
-import { folder } from '../../../../config/multer_inspection_documents';
-
-const spacesEndpoint = new aws.Endpoint('sfo3.digitaloceanspaces.com');
-
-const s3 = new aws.S3({
-  endpoint: spacesEndpoint,
-});
 
 export class InspectionDocumentRepository {
   async createInspectionDocument(req) {
@@ -105,7 +96,7 @@ export class InspectionDocumentRepository {
     if (inspection_document.nm_file) {
       s3.deleteObject(
         {
-          Bucket: 'gerobras-development',
+          Bucket: process.env.BUCKET,
           Key: `inspection_documents/${inspection_document.nm_file}`,
         },
         (err, data) => {
@@ -161,7 +152,7 @@ export class InspectionDocumentRepository {
       if (inspection_document.nm_file) {
         s3.deleteObject(
           {
-            Bucket: 'gerobras-development',
+            Bucket: process.env.BUCKET,
             Key: `inspection_documents/${inspection_document.nm_file}`,
           },
           (err, data) => {
@@ -181,7 +172,7 @@ export class InspectionDocumentRepository {
       if (inspection_document.nm_file) {
         s3.deleteObject(
           {
-            Bucket: 'gerobras-development',
+            Bucket: process.env.BUCKET,
             Key: `inspection_documents/${inspection_document.nm_file}`,
           },
           (err, data) => {

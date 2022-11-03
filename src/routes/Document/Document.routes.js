@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import aws from 'aws-sdk';
+import { s3 } from '../../config/s3';
 import {
   FindDocumentController,
   FindDocumentsController,
@@ -21,25 +21,10 @@ import authenticator from '../../data/authenticator/jwt.authenticator';
 // import { roleAuthenticator } from '../../data/authenticator/role.authenticator';
 import { storage } from '../../config/multer';
 
-const path = require('path');
-const fs = require('fs').promises;
 const libre = require('libreoffice-convert');
 libre.convertAsync = require('util').promisify(libre.convert);
 
-// const upload = multer({ storage });
-
 const routes = Router();
-
-const spacesEndpoint = new aws.Endpoint('sfo3.digitaloceanspaces.com');
-
-aws.config.update({
-  accessKeyId: 'DO0098U9A8D6HJZNNT6R',
-  secretAccessKey: '83GJZKHnCH57T3obii3FW6qFcGTKS2a3FgumIM7GcZs',
-});
-
-const s3 = new aws.S3({
-  endpoint: spacesEndpoint,
-});
 
 routes.get('/visualizer/:filename', async (req, res) => {
   const { filename } = req.params;
@@ -48,7 +33,7 @@ routes.get('/visualizer/:filename', async (req, res) => {
 
   s3.getObject(
     {
-      Bucket: 'gerobras-development',
+      Bucket:  process.env.BUCKET,
       Key: `documents/${filename}`,
     },
     async (err, data) => {
@@ -68,7 +53,7 @@ routes.get('/documents/download/:nm_file', async (req, res) => {
 
   s3.getObject(
     {
-      Bucket: 'gerobras-development',
+      Bucket:  process.env.BUCKET,
       Key: `documents/${nm_file}`,
     },
     (err, data) => {
